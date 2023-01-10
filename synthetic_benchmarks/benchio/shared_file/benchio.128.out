@@ -1,0 +1,96 @@
+Running SLURM prolog script on red001.cluster.local
+===============================================================================
+Job started on Wed Oct 19 16:00:51 BST 2022
+Job ID          : 1914030
+Job name        : benchio.slurm
+WorkDir         : /mainfs/home/hpc/benchmarks-2022/benchio/benchio-master/shared-file/source
+Command         : /mainfs/home/hpc/benchmarks-2022/benchio/benchio-master/shared-file/source/benchio.slurm
+Partition       : batch
+Num hosts       : 8
+Num cores       : 320
+Num of tasks    : 128
+Hosts allocated : red[001-004,013-015,018]
+Job Output Follows ...
+===============================================================================
+Removing compiler version 2021.2.0
+Removing mpi version 2021.7.0
+Use `module list` to view any remaining dependent modules.
+Loading mpi version 2021.7.0
+Loading compiler version 2021.2.0
+ 
+ Simple Parallel IO benchmark
+ ----------------------------
+ 
+ Running on          128  process(es)
+ Process grid is (           4 ,            4 ,            8 )
+ Array size is   (         256 ,          256 ,          256 )
+ Global size is  (        1024 ,         1024 ,         2048 )
+ 
+ Total amount of data =    16384.0000000000       MiB
+ 
+ Clock resolution is    1.00000000000000      , usecs
+ 
+ ------
+ Serial                                                          
+ ------
+ 
+ Writing to benchio_files/serial.dat                                        
+ time =    17.3768949508667      , rate =    942.861198524010       MiB/s
+ time =    14.4651579856873      , rate =    1132.65268282665       MiB/s
+ time =    14.4533510208130      , rate =    1133.57794856064       MiB/s
+ time =    14.4499580860138      , rate =    1133.84411930289       MiB/s
+ time =    14.4509398937225      , rate =    1133.76708508193       MiB/s
+ time =    14.4409379959106      , rate =    1134.55234034241       MiB/s
+ time =    14.4462139606476      , rate =    1134.13798553940       MiB/s
+ time =    14.4592330455780      , rate =    1133.11680836423       MiB/s
+ time =    14.4520409107208      , rate =    1133.68070995744       MiB/s
+ time =    14.4607100486755      , rate =    1133.00107289687       MiB/s
+ mintime =    14.4409379959106      , maxrate =    1134.55234034241       MiB/s
+ avgtime =    14.7455437898636      , avgrate =    1114.51919513965       MiB/s
+ Deleting: benchio_files/serial.dat                                        
+ 
+ 
+ ------
+ MPI-IO                                                          
+ ------
+ 
+ Writing to benchio_files/mpiio.dat                                         
+ time =    1.82186198234558      , rate =    8992.99736136225       MiB/s
+ time =    1.60628700256348      , rate =    10199.9206703738       MiB/s
+ time =    1.62728285789490      , rate =    10068.3172077378       MiB/s
+ time =    1.43166112899780      , rate =    11444.0489220163       MiB/s
+ time =    1.60215520858765      , rate =    10226.2252197420       MiB/s
+ time =    1.60151100158691      , rate =    10230.3387137306       MiB/s
+ time =    1.58404898643494      , rate =    10343.1144745554       MiB/s
+ time =    1.64485907554626      , rate =    9960.73173901467       MiB/s
+ time =    1.62627983093262      , rate =    10074.5269592407       MiB/s
+ time =    1.63111114501953      , rate =    10044.6864396870       MiB/s
+ mintime =    1.43166112899780      , maxrate =    11444.0489220163       MiB/s
+ avgtime =    1.61770582199097      , avgrate =    10158.4907707461       MiB/s
+ Deleting: benchio_files/mpiio.dat                                         
+ 
+ 
+ --------
+ Finished
+ --------
+ 
+==============================================================================
+Running epilogue script on red001.
+
+Submit time  : 2022-10-19T16:00:49
+Start time   : 2022-10-19T16:00:50
+End time     : 2022-10-19T16:03:42
+Elapsed time : 00:02:52 (Timelimit=00:10:00)
+
+Job ID: 1914030
+Cluster: i5
+User/Group: hpc/jf
+State: COMPLETED (exit code 0)
+Nodes: 8
+Cores per node: 40
+CPU Utilized: 05:57:12
+CPU Efficiency: 38.94% of 15:17:20 core-walltime
+Job Wall-clock time: 00:02:52
+Memory Utilized: 36.59 GB (estimated maximum)
+Memory Efficiency: 2.93% of 1.22 TB (3.91 GB/core)
+
