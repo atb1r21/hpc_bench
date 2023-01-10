@@ -1,0 +1,96 @@
+Running SLURM prolog script on red321.cluster.local
+===============================================================================
+Job started on Mon Dec 19 14:26:05 GMT 2022
+Job ID          : 2325646
+Job name        : coll-imb
+WorkDir         : /home/hpc/benchmarks-2022/IMB/mpi-benchmarks-IMB-v2021.3/16n
+Command         : /mainfs/home/hpc/benchmarks-2022/IMB/mpi-benchmarks-IMB-v2021.3/16n/coll.slurm
+Partition       : batch
+Num hosts       : 16
+Num cores       : 640
+Num of tasks    : 640
+Hosts allocated : red[321-336]
+Job Output Follows ...
+===============================================================================
+#----------------------------------------------------------------
+#    Intel(R) MPI Benchmarks 2021.3, MPI-1 part
+#----------------------------------------------------------------
+# Date                  : Mon Dec 19 14:26:08 2022
+# Machine               : x86_64
+# System                : Linux
+# Release               : 3.10.0-1160.36.2.el7.x86_64
+# Version               : #1 SMP Thu Jul 8 02:53:40 UTC 2021
+# MPI Version           : 3.1
+# MPI Thread Environment: 
+
+
+# Calling sequence was: 
+
+# /home/hpc/benchmarks-2022/IMB/mpi-benchmarks-IMB-v2021.3/IMB-MPI1 -npmin 640 -msglen length.txt -mem 4 Allreduce Allgather Scatter Alltoall 
+
+# Message lengths were user defined
+#
+# MPI_Datatype                   :   MPI_BYTE 
+# MPI_Datatype for reductions    :   MPI_FLOAT 
+# MPI_Op                         :   MPI_SUM  
+# 
+# 
+
+# List of Benchmarks to run:
+
+# Allreduce
+# Allgather
+# Scatter
+# Alltoall
+
+#----------------------------------------------------------------
+# Benchmarking Allreduce 
+# #processes = 640 
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+      2097152           20      3311.37      3757.20      3443.12
+
+#----------------------------------------------------------------
+# Benchmarking Allgather 
+# #processes = 640 
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+      2097152            8   7764994.45   8659511.26   8197430.52
+
+#----------------------------------------------------------------
+# Benchmarking Scatter 
+# #processes = 640 
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+      2097152           20      6526.37    102223.35     94266.52
+
+#----------------------------------------------------------------
+# Benchmarking Alltoall 
+# #processes = 640 
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+      2097152            2   5040821.11   5040863.67   5040843.21
+
+
+# All processes entering MPI_Finalize
+
+==============================================================================
+Running epilogue script on red321.
+
+Submit time  : 2022-12-19T14:26:04
+Start time   : 2022-12-19T14:26:05
+End time     : 2022-12-19T14:28:03
+Elapsed time : 00:01:58 (Timelimit=2-12:00:00)
+
+Job ID: 2325646
+Cluster: i5
+User/Group: hpc/jf
+State: COMPLETED (exit code 0)
+Nodes: 16
+Cores per node: 40
+CPU Utilized: 20:18:13
+CPU Efficiency: 96.79% of 20:58:40 core-walltime
+Job Wall-clock time: 00:01:58
+Memory Utilized: 877.07 GB (estimated maximum)
+Memory Efficiency: 35.08% of 2.44 TB (3.91 GB/core)
+
