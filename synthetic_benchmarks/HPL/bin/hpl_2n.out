@@ -1,0 +1,77 @@
+Running SLURM prolog script on red179.cluster.local
+===============================================================================
+Job started on Thu Oct 20 19:19:33 BST 2022
+Job ID          : 1919976
+Job name        : hpl_2n
+WorkDir         : /mainfs/home/hpc/benchmarks-2022/HPL/hpl-2.3/bin
+Command         : /mainfs/home/hpc/benchmarks-2022/HPL/hpl-2.3/bin/2n/hpl.slurm
+Partition       : batch
+Num hosts       : 2
+Num cores       : 80
+Num of tasks    : 80
+Hosts allocated : red[179,191]
+Job Output Follows ...
+===============================================================================
+================================================================================
+HPLinpack 2.3  --  High-Performance Linpack benchmark  --   December 2, 2018
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N      :  100000 
+NB     :       1        2        3        4 
+PMAP   : Row-major process mapping
+P      :       8 
+Q      :      10 
+PFACT  :    Left    Crout    Right 
+NBMIN  :       2        4 
+NDIV   :       2 
+RFACT  :    Left    Crout    Right 
+BCAST  :   1ring 
+DEPTH  :       0 
+SWAP   : Mix (threshold = 64)
+L1     : transposed form
+U      : transposed form
+EQUIL  : yes
+ALIGN  : 8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               2.220446e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+==============================================================================
+Running epilogue script on red179.
+
+Submit time  : 2022-10-20T19:18:52
+Start time   : 2022-10-20T19:19:33
+End time     : 2022-10-20T21:19:58
+Elapsed time : 02:00:25 (Timelimit=02:00:00)
+
+Job ID: 1919976
+Cluster: i5
+User/Group: hpc/jf
+State: TIMEOUT (exit code 0)
+Nodes: 2
+Cores per node: 40
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 6-16:33:20 core-walltime
+Job Wall-clock time: 02:00:25
+Memory Utilized: 90.85 GB (estimated maximum)
+Memory Efficiency: 29.07% of 312.50 GB (3.91 GB/core)
+
