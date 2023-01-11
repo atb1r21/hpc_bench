@@ -1,1 +1,26 @@
+This benchmark uses the HPC_motorbike example repository that is available on the web at the follwing location:
+https://develop.openfoam.com/committees/hpc/-/tree/develop/HPC_motorbike
+The repository provides the input data for three cases, small, medium and large. I have run the medium and large cases. 
 
+For example, to run the Medium case with OF v10 I use the run scripts AllmeshM and Allrun in the following v8 location/directory:
+https://develop.openfoam.com/committees/hpc/-/tree/develop/HPC_motorbike/Medium/v8
+
+To run this case, a Slurm job script is added to the case directory (the following example is for 40 processors on one compute node)
+
+#!/bin/bash
+
+#SBATCH --job-name=motorbike
+#SBATCH --partition=scavenger
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=40
+#SBATCH --time=2:00:00
+
+source /home/hpc/benchmarks-2022/OpenFOAM/10/source/OpenFOAM-10/etc/bashrc
+cd /home/hpc/benchmarks-2022/hpc-develop/HPC_motorbike/Medium/v8
+time ./AllmeshM
+time ./Allrun
+
+
+As you can see, both scripts were run & timed:
+AllmeshM -- Pre-processing
+Allrun -- Computation
