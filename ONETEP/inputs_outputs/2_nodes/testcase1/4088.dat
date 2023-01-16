@@ -1,0 +1,45 @@
+
+task : singlepoint
+      
+timings_level 3
+
+output_detail VERBOSE
+
+xc_functional OPTPBE
+cutoff_energy 830 eV
+paw T
+
+MAXIT_NGWF_CG 2
+minit_lnv 8
+maxit_lnv 8
+
+write_tightbox_ngwfs F
+write_denskern F
+
+%BLOCK SPECIES
+C1 C 6 4 9.0
+H1 H 1 1 9.0
+%ENDBLOCK SPECIES
+  
+%BLOCK SPECIES_POT  
+C1 "c_pbe_abinit.paw"
+H1 "h_pbe_abinit.paw"
+%ENDBLOCK SPECIES_POT
+
+%BLOCK SPECIES_ATOMIC_SET
+C1 "SOLVE conf=2s2 2p2"
+H1 "SOLVE conf=1s1"
+%ENDBLOCK SPECIES_ATOMIC_SET
+
+%BLOCK SPECIES_LDOS_GROUPS
+C1
+H1
+%ENDBLOCK SPECIES_LDOS_GROUPS
+
+%BLOCK LATTICE_CART
+113.383578780000     0.000000000000       0.000000000000       
+0.000000000000       113.383578780000     0.000000000000       
+0.000000000000       0.000000000000       143.8123051
+%ENDBLOCK LATTICE_CART
+
+positions_xyz_file 4088.xyz
