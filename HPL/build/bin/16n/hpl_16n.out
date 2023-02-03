@@ -1,0 +1,107 @@
+Running SLURM prolog script on red258.cluster.local
+===============================================================================
+Job started on Fri Oct 21 02:17:01 BST 2022
+Job ID          : 1919988
+Job name        : hpl_16n
+WorkDir         : /mainfs/home/hpc/benchmarks-2022/HPL/hpl-2.3/bin/16n
+Command         : /mainfs/home/hpc/benchmarks-2022/HPL/hpl-2.3/bin/16n/hpl.slurm
+Partition       : batch
+Num hosts       : 16
+Num cores       : 640
+Num of tasks    : 640
+Hosts allocated : red[258,260,263-267,269-277]
+Job Output Follows ...
+===============================================================================
+================================================================================
+HPLinpack 2.3  --  High-Performance Linpack benchmark  --   December 2, 2018
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N      :  100000 
+NB     :       1        2        3        4 
+PMAP   : Row-major process mapping
+P      :      16 
+Q      :      40 
+PFACT  :    Left    Crout    Right 
+NBMIN  :       2        4 
+NDIV   :       2 
+RFACT  :    Left    Crout    Right 
+BCAST  :   1ring 
+DEPTH  :       0 
+SWAP   : Mix (threshold = 64)
+L1     : transposed form
+U      : transposed form
+EQUIL  : yes
+ALIGN  : 8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               2.220446e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2L2      100000     1    16    40            1896.97             3.5145e+02
+HPL_pdgesv() start time Fri Oct 21 02:17:04 2022
+
+HPL_pdgesv() end time   Fri Oct 21 02:48:41 2022
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   4.80318367e-04 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2L4      100000     1    16    40            1896.22             3.5159e+02
+HPL_pdgesv() start time Fri Oct 21 02:48:43 2022
+
+HPL_pdgesv() end time   Fri Oct 21 03:20:19 2022
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   4.80318367e-04 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR00L2C2      100000     1    16    40            1896.02             3.5162e+02
+HPL_pdgesv() start time Fri Oct 21 03:20:21 2022
+
+HPL_pdgesv() end time   Fri Oct 21 03:51:57 2022
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   4.80318367e-04 ...... PASSED
+==============================================================================
+Running epilogue script on red258.
+
+Submit time  : 2022-10-20T19:26:34
+Start time   : 2022-10-21T02:17:00
+End time     : 2022-10-21T04:17:01
+Elapsed time : 02:00:01 (Timelimit=02:00:00)
+
+Job ID: 1919988
+Cluster: i5
+User/Group: hpc/jf
+State: TIMEOUT (exit code 0)
+Nodes: 16
+Cores per node: 40
+CPU Utilized: 00:00:01
+CPU Efficiency: 0.00% of 53-08:10:40 core-walltime
+Job Wall-clock time: 02:00:01
+Memory Utilized: 158.87 GB (estimated maximum)
+Memory Efficiency: 6.35% of 2.44 TB (3.91 GB/core)
+
