@@ -1,0 +1,20 @@
+The mdtest benchmark requires an MPI implementation, e.g. Open MPI or Intel
+MPI.
+
+To build mdtest, use the following instructions:
+
+1. Load the MPI module file, e.g.
+
+module load openmpi
+
+2. export MPICC=mpicc
+3. ./configure --prefix=$(pwd)
+4. make
+5. make install
+
+The last command should install the executables in the bin/ directory. In
+the bin/ directory, there are job scripts for 1 node, 2 nodes, ..., 32 nodes.
+The job submission script allocates entire nodes so that other jobs are not
+interfering with the benchmark.
+
+The mdtest flags are shown in the job submission scripts.

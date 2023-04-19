@@ -1,0 +1,58 @@
+Running SLURM prolog script on red369.cluster.local
+===============================================================================
+Job started on Tue Jan 10 16:49:45 GMT 2023
+Job ID          : 2385304
+Job name        : mdtest.slurm
+WorkDir         : /home/hpc/benchmarks-2022/mdtest/ior-3.3.0/bin/32n
+Command         : /mainfs/home/hpc/benchmarks-2022/mdtest/ior-3.3.0/bin/32n/mdtest.slurm
+Partition       : batch
+Num hosts       : 32
+Num cores       : 1280
+Num of tasks    : 512
+Hosts allocated : red[369-400]
+Job Output Follows ...
+===============================================================================
+-- started at 01/10/2023 16:49:47 --
+
+mdtest-3.3.0 was launched with 512 total task(s) on 32 node(s)
+Command line used: /home/hpc/benchmarks-2022/mdtest/ior-3.3.0/bin/mdtest '-d' '/scratch/hpc' '-i' '10' '-z' '10' '-I' '100'
+Path: /mainfs/scratch
+FS: 2182.2 TiB   Used FS: 52.7%   Inodes: 1622.9 Mi   Used Inodes: 17.4%
+
+Nodemap: 11111111111111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+512 tasks, 563200 files/directories
+
+SUMMARY rate: (of 10 iterations)
+   Operation                      Max            Min           Mean        Std Dev
+   ---------                      ---            ---           ----        -------
+   Directory creation        :        336.953        312.244        322.433          6.525
+   Directory stat            :      31230.390      21316.768      27808.571       2801.952
+   Directory removal         :        448.367        337.275        398.702         28.763
+   File creation             :      21083.370      17678.414      19781.592       1044.919
+   File stat                 :      96156.054      59971.553      74984.424      10617.390
+   File read                 :     106600.833     101474.988     104618.585       1591.161
+   File removal              :      40657.823      33876.992      36741.583       2058.749
+   Tree creation             :      16773.261       9226.851      13030.376       2369.803
+   Tree removal              :         11.999         10.340         11.014          0.478
+-- finished at 01/11/2023 01:50:49 --
+
+==============================================================================
+Running epilogue script on red369.
+
+Submit time  : 2023-01-10T10:35:24
+Start time   : 2023-01-10T16:49:45
+End time     : 2023-01-11T01:50:50
+Elapsed time : 09:01:05 (Timelimit=2-12:00:00)
+
+Job ID: 2385304
+Cluster: i5
+User/Group: hpc/jf
+State: COMPLETED (exit code 0)
+Nodes: 32
+Cores per node: 40
+CPU Utilized: 49-20:29:51
+CPU Efficiency: 10.37% of 480-23:06:40 core-walltime
+Job Wall-clock time: 09:01:05
+Memory Utilized: 1.65 GB
+Memory Efficiency: 0.03% of 4.88 TB
+
