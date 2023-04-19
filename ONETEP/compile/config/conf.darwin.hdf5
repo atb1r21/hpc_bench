@@ -1,0 +1,21 @@
+# Configuration file for the Darwin supercomputer, HPC Service,
+# University of Cambridge.
+#
+# This file enables the use of HDF5 storage files.
+#
+# Tested for the following environment:
+#   $ module purge
+#   $ module load default-impi
+#   $ module swap intel/impi/4.1.3.045 intel/impi/5.0.2.044
+#   $ module swap intel/cce/12.1.10.319 intel/cce/15.0.5.223
+#   $ module swap intel/fce/12.1.10.319 intel/fce/15.0.5.223
+#   $ module swap intel/mkl/10.3.10.319 intel/mkl/11.2.4.223
+#   $ module load sandybridge/fftw/intel/64/3.3.3
+#   $ module load hdf5/impi/1.8.16
+
+F90 = mpiifort -openmp -mt_mpi -qopt-report=0 -qopt-report-phase=vec -diag-disable 8290,8291
+FFLAGS = -DFFTW3 -DMPI -DSCALAPACK -DHDF5
+LIBS = -lfftw3_omp -lfftw3 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -lhdf5hl_fortran -lhdf5_fortran -lhdf5_hl -lhdf5
+OPTFLAGS = -xHOST -O3 -ip -no-prec-div -traceback
+DEBUGFLAGS = -ftrapuv -g -CB -debug full -check all -traceback -DDEBUG_ARRAYS
+COMPILER = INTEL-ifort-on-LINUX

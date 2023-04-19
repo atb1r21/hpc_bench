@@ -1,0 +1,500 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Energy Decomposition Analysis (EDA) &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Electron Localisation Descriptors" href="eld.html" />
+    <link rel="prev" title="Properties" href="index_properties.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="energy-decomposition-analysis-eda">
+<h1>Energy Decomposition Analysis (EDA)<a class="headerlink" href="#energy-decomposition-analysis-eda" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Max Phipps, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">July 2016</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Energy decomposition analysis (EDA) decomposes the interaction energy
+(<span class="math">\(\Delta E\)</span>) of an arbitrary number of non-bonded fragments into
+its chemical components [Phipps2015]. In the case of
+the ONETEP EDA [Phipps2016], based on the
+ALMO [Kaliullin2007] and LMO [Su2009] EDA
+approaches, these components are combined into a frozen density
+component (<span class="math">\(\Delta E_\mathrm{FRZ}\)</span>) term, polarisation
+(<span class="math">\(\Delta E_\mathrm{POL}\)</span>), and charge transfer
+(<span class="math">\(\Delta E_\mathrm{CT}\)</span>) (as per the original ALMO EDA), as,</p>
+<div class="math">
+\[\begin{aligned}
+ \Delta E =&amp; \Delta E_\mathrm{FRZ} + \Delta E_\mathrm{POL} + \Delta E_\mathrm{CT} \quad .\end{aligned}\]</div>
+<p>The frozen density component, representing the interaction of the frozen
+densities of the fragments and subsequent antisymmetrization, is further
+decomposed into its electrostatics (<span class="math">\(\Delta E_\mathrm{ES}\)</span>),
+exchange (<span class="math">\(\Delta E_\mathrm{EX}\)</span>), correlation
+(<span class="math">\(\Delta E_\mathrm{CORR}\)</span>), and Pauli repulsion
+(<span class="math">\(\Delta E_\mathrm{REP}\)</span>) terms as,</p>
+<div class="math">
+\[\begin{aligned}
+ \Delta E_\mathrm{FRZ} =&amp; \Delta E_\mathrm{ES} + \Delta E_\mathrm{EX} + \Delta E_\mathrm{CORR} + \Delta E_\mathrm{REP} \quad .\end{aligned}\]</div>
+<p>In the ONETEP implementation, the correlation term is further
+partitioned into its frozen (<span class="math">\(\Delta E_\mathrm{FRZ-CORR}\)</span>) and
+Pauli repulsion (<span class="math">\(\Delta E_\mathrm{REP-CORR}\)</span>) terms as,</p>
+<div class="math">
+\[\begin{aligned}
+ \Delta E_\mathrm{CORR} = \Delta E_\mathrm{FRZ-CORR} + \Delta E_\mathrm{REP-CORR}
+\quad .\end{aligned}\]</div>
+<p>These terms may be recombined to obtain the full correlation energy
+term.</p>
+<p>The total interaction energy is expressed in its decomposed form as,</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+ \Delta E =&amp; \Delta E_\mathrm{ES} + \Delta E_\mathrm{EX} + \Delta E_\mathrm{CORR} \nonumber \\
+       &amp;+ \Delta E_\mathrm{REP} + \Delta E_\mathrm{POL} + \Delta E_\mathrm{CT} \quad .\end{aligned}\end{split}\]</div>
+</div>
+<div class="section" id="performing-eda-calculations-in-onetep">
+<h2>Performing EDA calculations in ONETEP<a class="headerlink" href="#performing-eda-calculations-in-onetep" title="Permalink to this headline">¶</a></h2>
+<p>There are two approaches to performing energy decomposition analysis
+(EDA) calculations in ONETEP:</p>
+<ol class="arabic simple">
+<li>All-In-One (1S) This approach involves creating a single input file
+with all the necessary information to complete an EDA calculation
+(<code class="docutils literal"><span class="pre">TASK</span> <span class="pre">EDA</span></code>).<ul>
+<li>Designed for smaller systems.</li>
+</ul>
+</li>
+<li>Three-Stage Fragment-to-Supermolecule (3S) This approach involves
+three stages. Firstly NGWF tightboxes and density kernels for the
+fragments are optimised and written to disk. Next the fragment states
+are superposed to the supermolecule to prepare the supermolecule data
+(<code class="docutils literal"><span class="pre">TASK</span> <span class="pre">EDA_PREP</span></code>). Finally the EDA calculation is ran using this
+supermolecule-prepared data (<code class="docutils literal"><span class="pre">TASK</span> <span class="pre">EDA</span></code>).<ul>
+<li>Designed for larger protein-ligand type EDA calculations.</li>
+</ul>
+</li>
+</ol>
+<p>Both approaches are equivalent and produce identical results. The choice
+of whether to use the 1S or 3S approach is usually determined by system
+size and parallelisation requirements (please see
+section&nbsp;[sect:ParallelisationReq]). Further details of calculations
+using these two approaches and a list of the EDA-specific keywords and
+descriptions are provided below:</p>
+<div class="section" id="all-in-one">
+<h3>All-in-One<a class="headerlink" href="#all-in-one" title="Permalink to this headline">¶</a></h3>
+<p>The all-in-one (1S) approach is the default EDA calculation
+configuration, and is ran by simply setting the <code class="docutils literal"><span class="pre">TASK</span></code> keyword to
+<code class="docutils literal"><span class="pre">EDA</span></code>. In addition to the standard input keywords and blocks, the
+<code class="docutils literal"><span class="pre">EDA_IATM</span></code> block is necessary to perform ONETEP EDA calculations. This
+block defines the fragment atoms (referenced to the atom definitions in
+<code class="docutils literal"><span class="pre">POSITIONS_ABS</span></code>), and the fragment charges. Atoms of the supermolecule
+are arranged in the <code class="docutils literal"><span class="pre">POSITIONS_ABS</span></code> block by concatenation of the
+fragment atoms, using their nuclear coordinates found in the
+supermolecule. For example, if a supermolecule system comprising the
+fragments <span class="math">\(H_2O\)</span> (atoms 1 to 3), <span class="math">\(OH^-\)</span> (atoms 4 to 5), and
+<span class="math">\(Na^+\)</span> (atom 6) is defined in the <code class="docutils literal"><span class="pre">POSITIONS_ABS</span></code> block,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">POSITIONS_ABS</span>
+  <span class="n">O</span>      <span class="mf">17.16973430</span>    <span class="mf">19.79077059</span>    <span class="mf">17.26422010</span>
+  <span class="n">H</span>      <span class="mf">16.00000000</span>    <span class="mf">19.22196603</span>    <span class="mf">16.00000000</span>
+  <span class="n">H</span>      <span class="mf">18.57568311</span>    <span class="mf">18.64371289</span>    <span class="mf">17.26799954</span>
+  <span class="n">O</span>      <span class="mf">21.16270452</span>    <span class="mf">17.46075058</span>    <span class="mf">18.04467287</span>
+  <span class="n">H</span>      <span class="mf">22.06598884</span>    <span class="mf">16.00000000</span>    <span class="mf">17.45886087</span>
+  <span class="n">Na</span>     <span class="mf">20.73940810</span>    <span class="mf">20.59012052</span>    <span class="mf">20.33500884</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">POSITIONS_ABS</span>
+</pre></div>
+</div>
+<p>then the fragment data necessary for the EDA calculation is input as,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>%block EDA_IATM
+  !N_at  Charge
+   3     +0
+   2     -1
+   1     +1
+%endblock EDA_IATM
+</pre></div>
+</div>
+</div>
+<div class="section" id="three-stage">
+<h3>Three-Stage<a class="headerlink" href="#three-stage" title="Permalink to this headline">¶</a></h3>
+<p>The 3S EDA has been developed to work easily with EDA directory
+structures, with fragment calculations being performed in separate
+folders. These data directories are specified in the input file using
+the <code class="docutils literal"><span class="pre">EDA_FRAG</span></code> and <code class="docutils literal"><span class="pre">EDA_SUPER</span></code> blocks as will be discussed below. In
+our EDA calculation example of a supermolecule comprising three
+fragments provided below, the following directory structure is used:</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+    &amp;\left.
+    \begin{array}{ll}
+      \mathrm{./STAGE1/FRAG01/} \\
+      \mathrm{./STAGE1/FRAG02/} \\
+      \mathrm{./STAGE1/FRAG03/}
+    \end{array}
+    \right\} \mathrm{Fragment\ calculations} \nonumber \\
+    &amp;\left. \mathrm{./STAGE2} \right\} \mathrm{Supermolecule\ preparation\ calculation} \nonumber \\
+    &amp;\left. \mathrm{./STAGE3} \right\} \mathrm{Supermolecule\ EDA\ calculation} \nonumber\end{aligned}\end{split}\]</div>
+<p>It is noted that the user is not limited to three fragments , and that
+the folder names given above are for example purposes only and any
+folder and input file names may be used.</p>
+<p>In all three stages, it is necessary to ensure that the system
+parameters are kept at constant values. For example, it is unwise to
+modify the NGWF radii or box sizes between the calculation stages. It is
+also important to ensure atomic orderings in the input file are
+consistent, <em>i.e.</em> that the orderings of atoms within each of the
+fragments do not change between the different calculation stages.</p>
+<div class="section" id="stage-1">
+<h4>Stage 1<a class="headerlink" href="#stage-1" title="Permalink to this headline">¶</a></h4>
+<p>The first stage simply involves the user writing converged fragment data
+to disk. For each fragment comprising the supermolecule, a separate
+input file is constructed with the following parameters set:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">write_denskern</span> <span class="n">T</span>
+<span class="n">write_tightbox_ngwfs</span> <span class="n">T</span>
+<span class="n">TASK</span> <span class="n">SINGLEPOINT</span>
+</pre></div>
+</div>
+<p>Running these calculations will result in fragment ‘.dkn’ and
+‘.tightbox_ngwfs’ files being written to disk. In our example, the
+three fragment calculation are ran in the directories
+<code class="docutils literal"><span class="pre">STAGE1/FRAG01/</span></code>, <code class="docutils literal"><span class="pre">STAGE1/FRAG02/</span></code>, and <code class="docutils literal"><span class="pre">STAGE1/FRAG03/</span></code> using the
+input filenames ‘frag01.dat’, ‘frag02.dat’, and ‘frag03.dat’ for the
+respective fragments 1, 2, and 3.</p>
+</div>
+<div class="section" id="stage-2">
+<h4>Stage 2<a class="headerlink" href="#stage-2" title="Permalink to this headline">¶</a></h4>
+<p>The input file for the second stage is prepared by including the
+parameters <code class="docutils literal"><span class="pre">EDA_READ_FRAGS</span> <span class="pre">T</span></code> and <code class="docutils literal"><span class="pre">TASK</span> <span class="pre">EDA_PREP</span></code>. Running ONETEP
+with this input file will result in the converged fragment data being
+loaded in and combined to produce the supermolecule complex data
+(‘.eda’, ‘.dkn’ and ‘.tightbox_ngwfs’ files) necessary for stage three.
+These fragment files’ names are set via the <code class="docutils literal"><span class="pre">EDA_FRAG</span></code> block, e.g. for
+a three fragment system:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">EDA_FRAG</span>
+  <span class="n">frag1prefix</span>
+  <span class="n">frag2prefix</span>
+  <span class="n">frag3prefix</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">EDA_FRAG</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">frag1prefix</span></code>, <code class="docutils literal"><span class="pre">frag2prefix</span></code> and <code class="docutils literal"><span class="pre">frag3prefix</span></code> are the
+filename prefixes that will result in loading of the ‘.dkn’ and
+‘.tightbox_ngwfs’ files for the three fragments that were converged in
+stage one. In our example, we assume the second stage calculation is
+performed in the directory <code class="docutils literal"><span class="pre">STAGE2/</span></code> with the input filename
+‘stage2.dat’. In this case the block would appear in the input file as,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">EDA_FRAG</span>
+  <span class="o">../</span><span class="n">STAGE1</span><span class="o">/</span><span class="n">FRAG01</span><span class="o">/</span><span class="n">frag01</span>
+  <span class="o">../</span><span class="n">STAGE1</span><span class="o">/</span><span class="n">FRAG02</span><span class="o">/</span><span class="n">frag02</span>
+  <span class="o">../</span><span class="n">STAGE1</span><span class="o">/</span><span class="n">FRAG03</span><span class="o">/</span><span class="n">frag03</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">EDA_FRAG</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stage-3">
+<h4>Stage 3<a class="headerlink" href="#stage-3" title="Permalink to this headline">¶</a></h4>
+<p>The third stage is performed by including the parameters
+<code class="docutils literal"><span class="pre">EDA_READ_SUPER</span> <span class="pre">T</span></code> and <code class="docutils literal"><span class="pre">TASK</span> <span class="pre">EDA</span></code> in the input file. As described
+earlier for the 1S approach, it is necessary for the user to define the
+fragment atoms and charges using the <code class="docutils literal"><span class="pre">EDA_IATM</span></code> block. On running
+ONETEP with this input file, the ‘.dkn’, ‘.tightbox_ngwfs’ and ‘.eda’
+files for the supermolecule prepared from stage two will be loaded.
+These files’ names are set via the <code class="docutils literal"><span class="pre">EDA_SUPER</span></code> block, e.g.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">EDA_SUPER</span>
+  <span class="n">supermoleculeprefix</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">EDA_SUPER</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">supermoleculeprefix</span></code> is the filename prefix that will result in
+loading of the ‘supermoleculeprefix.dkn’,
+‘supermoleculeprefix.tightbox_ngwfs’, and ‘supermoleculeprefix.eda’
+files. In our example, where the third stage calculation is performed in
+the directory <code class="docutils literal"><span class="pre">STAGE3/</span></code> with the input filename ‘stage3.dat’, the
+block would appear as,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">EDA_SUPER</span>
+  <span class="o">../</span><span class="n">STAGE2</span><span class="o">/</span><span class="n">stage2</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">EDA_SUPER</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="continuation">
+<h2>Continuation<a class="headerlink" href="#continuation" title="Permalink to this headline">¶</a></h2>
+<p>Continuation of supermolecule-stage EDA calculations (stage three of the
+3S EDA) is controlled using the <code class="docutils literal"><span class="pre">EDA_CONTINUATION</span></code> keyword.
+Continuation files are written to disk within the current working
+directory when the value of the <code class="docutils literal"><span class="pre">EDA_WRITE</span></code> logical keyword is set to
+true, and continuation files are read by setting the
+<code class="docutils literal"><span class="pre">EDA_CONTINUATION</span></code> logical keyword to true.</p>
+<p>It is recommended that the storage of continuation data should be kept
+separate to the <code class="docutils literal"><span class="pre">TASK</span> <span class="pre">EDA_PREP</span></code> task calculation data of stage two.
+This is achieved by performing the stage three calculation in a separate
+directory to the stage two calculation. This is because the EDA data
+produced from the <code class="docutils literal"><span class="pre">TASK</span> <span class="pre">EDA_PREP</span></code> calculation produces a reference to
+the frozen state which the NGWFs and density kernel will be reset to in
+a large proportion of EDA calculation cases.</p>
+</div>
+<div class="section" id="eda-schematic">
+<h2>EDA schematic<a class="headerlink" href="#eda-schematic" title="Permalink to this headline">¶</a></h2>
+<p>An example EDA calculation and directory structure is provided in <code class="xref std std-numref docutils literal"><span class="pre">exampleEDA</span></code>.</p>
+</div>
+<div class="section" id="additional-functionality">
+<h2>Additional functionality<a class="headerlink" href="#additional-functionality" title="Permalink to this headline">¶</a></h2>
+<p>Further details of the EDA functionalities is given below:</p>
+<div class="section" id="fragment-wise-polarisations">
+<h3>Fragment-wise polarisations<a class="headerlink" href="#fragment-wise-polarisations" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line"><em>Please note that the following functionality is developmental and is
+subject to change.</em></div>
+<div class="line">It is possible to obtain polarisation energies for each of the
+fragments by ‘freezing’ the electronic density during the SCF-MI
+optimisation. The number of additional polarisation calculations
+required to perform this is equal to the number of fragments in the
+system. This functionality is activated using the
+<code class="docutils literal"><span class="pre">EDA_FRAG_ISOL_POL</span></code> logical keyword. Also computed is a ‘higher
+order’ polarisation contribution that quantifies the difference
+between the individual fragment polarisation total and the full
+polarisation energy, i.e.</div>
+</div>
+<blockquote>
+<div><div class="math">
+\[\begin{aligned}
+ \Delta E_\textrm{POL,HO} = \sum_{A\in \textrm{X}}^{N_\textrm{frag}} \Delta E_\textrm{POL(\textit{A})} - \Delta E_\textrm{POL}\end{aligned}\]</div>
+</div></blockquote>
+<div class="line-block">
+<div class="line">where <span class="math">\(\Delta E_\textrm{POL,HO}\)</span> is the higher order
+polarisation contribution, <span class="math">\(N_\textrm{frag}\)</span> is the number of
+fragments, <span class="math">\(\Delta E_\textrm{POL(\textit{A})}\)</span> is the
+polarisation energy for fragment <span class="math">\(A\)</span> that constitutes the
+supermolecule <span class="math">\(\textrm{X}\)</span>, and <span class="math">\(\Delta E_\textrm{POL}\)</span> is
+the polarisation energy on polarising all fragments simultaneously.</div>
+</div>
+</div>
+<div class="section" id="fragment-pair-wise-delocalisations">
+<h3>Fragment pair-wise delocalisations<a class="headerlink" href="#fragment-pair-wise-delocalisations" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line"><em>Please note that the following functionality is developmental and is
+subject to change.</em></div>
+<div class="line">This functionality is activated using the <code class="docutils literal"><span class="pre">EDA_FRAG_ISOL_CT</span></code> logical
+keyword.</div>
+</div>
+<p>It is possible to calculate fragment pair delocalisation energies by
+combining fragments within the SCF-MI optimisation. For example, if we
+consider a system of interacting <span class="math">\((H_2O)_3\)</span>, the delocalisation
+between any two water molecules is calculated by subtracting the SCF-MI
+energy of a combined <span class="math">\((H_2O)_2\)</span> ‘fragment’ interacting with
+<span class="math">\(H_2O\)</span> from the SCF-MI energy of the system with the
+<span class="math">\((H_2O)_2\)</span> ‘fragment’ partitioned into its two <span class="math">\(H_2O\)</span>
+constitutents.</p>
+</div>
+<div class="section" id="density-visualisation">
+<h3>Density visualisation<a class="headerlink" href="#density-visualisation" title="Permalink to this headline">¶</a></h3>
+<p>Obtaining electron density (ED) files for visualisation of the EDA
+frozen, polarisation and fully electronically relaxed states can be done
+using the <code class="docutils literal"><span class="pre">WRITE_DENSITY_PLOT</span></code> logical keyword. The output densities
+are identified by the ‘_ed_’ filename string.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Filename String</th>
+<th class="head">Summary</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><em>xxx</em>_eda_frzidem_ed_density.cube</td>
+<td>The ED of the frozen state.</td>
+</tr>
+<tr class="row-odd"><td><em>xxx</em>_eda_pol_<em>iii</em>_ed_density.cube</td>
+<td>The ED of fragment <em>iii</em> electronically polarised in the field of all other fragments.</td>
+</tr>
+<tr class="row-even"><td><em>xxx</em>_eda_pol_ed_density.cube</td>
+<td>The ED of the fully electronically polarised state.</td>
+</tr>
+<tr class="row-odd"><td><em>xxx</em>_eda_relaxed_ed_density.cube</td>
+<td>The ED of the fully electronically relaxed state.</td>
+</tr>
+</tbody>
+</table>
+<p>Table: The EDA electron density (ED) filename extension descriptions
+(filename root is denoted by <em>xxx</em>).</p>
+<p>Visualisation of the density changes during the EDA polarisation and
+charge transfer processes via electron density difference (EDD)
+calculations are obtained using the <code class="docutils literal"><span class="pre">EDA_DELTADENS</span></code> logical keyword.
+The output densities are identified by the ‘_edd_’ filename string.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Filename String</th>
+<th class="head">Summary</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><em>xxx</em>_pol_<em>iii</em>_edd_density.cube</td>
+<td>The electronic polarisation EDD of fragment <em>iii</em> in the field of all other fragments.</td>
+</tr>
+<tr class="row-odd"><td><em>xxx</em>_eda_pol_higher_order_edd_density.cube</td>
+<td>The higher order electronic polarisation EDD (of the individual fragment-polarised states to the fully polarised state).</td>
+</tr>
+<tr class="row-even"><td><em>xxx</em>_eda_pol_edd_density.cube</td>
+<td>The fully electronically polarised EDD state.</td>
+</tr>
+<tr class="row-odd"><td><em>xxx</em>_eda_ct_edd_density.cube</td>
+<td>The charge transfer EDD.</td>
+</tr>
+</tbody>
+</table>
+<p>Table: The EDA electron density difference filename extension
+descriptions (filename root is denoted by <em>xxx</em>).</p>
+<p>Both ED and EDD functionalities are compatible with fragment-specific
+(see previous section) EDA calculations.
+Note: electron density differences are currently not computable when the
+<code class="docutils literal"><span class="pre">EDA_CONTINUATION</span></code> keyword is set to true. In this case, the edd_cube
+utility may be used along with the ED cube files produced using the
+<code class="docutils literal"><span class="pre">WRITE_DENSITY_PLOT</span></code> logical keyword to calculate EDD files
+independently of ONETEP (see ‘Additional utilities’ section).</p>
+</div>
+</div>
+<div class="section" id="parallelisation">
+<h2>Parallelisation<a class="headerlink" href="#parallelisation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="parallelisation-requirements">
+<h3>Parallelisation requirements<a class="headerlink" href="#parallelisation-requirements" title="Permalink to this headline">¶</a></h3>
+<p>The 1S calculation has a parallelisation strategy with restricted
+maximum possible number of MPI processes, <span class="math">\({N_\mathrm{proc,max}}\)</span>,</p>
+<div class="math">
+\[\begin{aligned}
+  {N_\mathrm{proc,max}}= \mathrm{min}\left[ {N_\mathrm{at}(\mathrm{A})}, {N_\mathrm{at}(\mathrm{B})} \right]\end{aligned}\]</div>
+<p>where <span class="math">\(A\)</span> and <span class="math">\(B\)</span> are fragments comprising a supermolecule
+<span class="math">\(AB\)</span>. For example in the case of a water dimer
+<span class="math">\({N_\mathrm{proc,max}}= 3\)</span>.</p>
+<p>The 3S EDA allows the user to take full advantage of the parallelisation
+strategy during the supermolecule stage three, i.e.</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+ {N_\mathrm{proc,max}}= \mathrm{min}\left[ {N_\mathrm{at}(\mathrm{A})}, {N_\mathrm{at}(\mathrm{B})} \right] &amp;|_{{\mathrm{S}}=1,2} \\
+ {N_\mathrm{proc,max}}= {N_\mathrm{at}(\mathrm{AB})} &amp;|_{{\mathrm{S}}=3}\end{aligned}\end{split}\]</div>
+<p>where <span class="math">\({\mathrm{S}}\)</span> is the stage number. For example in the case
+of a water dimer <span class="math">\({N_\mathrm{proc,max}}= 6\)</span> during the
+supermolecule stage three (<span class="math">\({\mathrm{S}}\)</span>=3).</p>
+</div>
+<div class="section" id="scalapack">
+<h3>ScaLAPACK<a class="headerlink" href="#scalapack" title="Permalink to this headline">¶</a></h3>
+<p>The current EDA implementation requires explicit calculation and
+manipulation of the fragment MO eigenvectors. The ONETEP EDA
+implementation is compatible with the LAPACK [Anderson1999]
+and ScaLAPACK [Blackford1997] packages, and has been
+interfaced to the DSYGVX and PDSYGVX eigensolvers. Compilation with the
+ScaLAPACK solver is enabled at compilation time using the -DSCALAPACK
+flag. Use of this package provides significant speed-ups by parallelised
+computation of the eigenvectors required.</p>
+<p>The threshold tolerance to which the eigenvectors are orthogonalised is
+specified by the <code class="docutils literal"><span class="pre">eigensolver_abstol</span></code> keyword. It has been observed
+that the eigensolver may require tighter than the default thresholds.
+This parameter can be modified in the input, e.g.
+<code class="docutils literal"><span class="pre">eigensolver_abstol</span> <span class="pre">=</span> <span class="pre">1.0E-12</span></code>.</p>
+</div>
+</div>
+<div class="section" id="additional-utilities">
+<h2>Additional utilities<a class="headerlink" href="#additional-utilities" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>utils/edd_cube.F90</dt>
+<dd>This utility calculates the electron density difference between two
+‘.cube’ volumetric data files Usage: ./edd_cube cubein1 cubein2
+cubeout, where <em>n</em>(cubeout) = <em>n</em>(cubein1) - <em>n</em>(cubein2)</dd>
+</dl>
+<p>[Phipps2015] Maximillian J. S. Phipps, Thomas Fox, Christofer S. Tautermann, and Chris-Kriton Skylaris. Energy decomposition analysis approaches and their evaluation on prototypical protein-drug interaction patterns. <em>Chem. Soc. Rev.</em>, 44:3177–3211, 2015.</p>
+<p>[Phipps2016] Maximillian J. S. Phipps, Thomas Fox, Christofer S. Tautermann, and Chris-Kriton Skylaris. Energy decomposition analysis based on absolutely localised molecular orbitals for large-scale density functional theory calculations in drug design. <em>(Submitted)</em>, 2016.</p>
+<p>[Khaliullin2007] R. Z. Khaliullin, E. A. Cobar, R. C. Lochan, A. T. Bell, and M. Head-Gordon. <em>J. Phys. Chem. A</em>, 111:8753–8765, 2007.</p>
+<p>[Su2009] Peifeng Su and Hui Li. Energy decomposition analysis of covalent bonds and intermolecular interactions. <em>J. Chem. Phys.</em>, 131(1):014102, 2009.</p>
+<p>[Anderson1999] E. Anderson, Z. Bai, C. Bischof, S. Blackford, J. Demmel, J. Dongarra, J. Du Croz, A. Greenbaum, S. Hammarling, A. McKenney, and D. Sorensen. <em>LAPACK Users’ Guide</em>. Society for Industrial and Applied Mathematics, Philadelphia, PA, third edition, 1999.</p>
+<p>[Blackford1997] L. S. Blackford, J. Choi, A. Cleary, E. D’Azevedo, J. Demmel, I. Dhillon, J. Dongarra, S. Hammarling, G. Henry, A. Petitet, K. Stanley, D. Walker, and R. C. Whaley. <em>ScaLAPACK Users’ Guide</em>. Society for Industrial and Applied Mathematics, Philadelphia, PA, 1997.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_properties.html">Properties</a><ul>
+      <li>Previous: <a href="index_properties.html" title="previous chapter">Properties</a></li>
+      <li>Next: <a href="eld.html" title="next chapter">Electron Localisation Descriptors</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/EDA.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

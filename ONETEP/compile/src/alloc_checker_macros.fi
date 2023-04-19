@@ -1,0 +1,83 @@
+!
+! Do not worry about the contents of this file.
+!
+! ------------------------------------------------------------------
+! Macros for automatic memory allocation/deallocation checks,
+! and (optionally) memory use tracking and reporting.
+! Written for ONETEP in 2015.08-09 
+! by Jacek Dziedzic, University of Southampton
+! ------------------------------------------------------------------
+
+
+! Handle the gfortran cpp-style preprocessor corner case.
+#ifdef __GNUC__
+#define CPP_PREPROCESSING 1
+#endif
+
+! Come up with a suitable stringify macro, depending on preprocessor style.
+#ifdef CPP_PREPROCESSING
+#define STRINGIFY(EXPR) "EXPR"
+#else
+#define STRINGIFY(EXPR) #EXPR
+#endif
+
+! Basic macros for allocation/deallocation and checks.
+#define alloc_array(x,e) ax_=x;allocate(e,stat=ai_)
+#define alloc_check(y) ay_=STRINGIFY(y);if(ai_>0)call alloc_fail
+#define dealloc_array(x,y) ax_=x;deallocate(y,stat=ai_)
+#define dealloc_check(y) ay_=STRINGIFY(y);call alloc_out
+
+! Two-line allocation macro for extremely long indentifiers.
+#define alloc_array1(x) ax_=x
+#define alloc_array2(a) allocate(a,stat=ai_)
+
+! ****************
+#ifdef ALLOC_COUNT
+! ****************
+! -----------------------------------------------------------------
+! This is in effect iff allocation counting is compiled in.
+! -----------------------------------------------------------------
+
+! Allocation/deallocation count macros for arrays.
+#define alloc_count(y) if(ai_==0)call alloc_in(size(transfer(y,[' '])))
+#define dealloc_count(y) aa_=1;if(allocated(y))as_=size(transfer(y,[' ']))
+
+! Allocation/deallocation count macros for pointers.
+#define alloc_count_ptr(y) if(ai_==0)call alloc_in(size(transfer(y,[' '])))
+#define dealloc_count_ptr(y) aa_=1;if(associated(y))as_=size(transfer(y,[' ']))
+
+! ****************
+#else
+! ****************
+! -----------------------------------------------------------------
+! This is in effect iff allocation counting is NOT compiled in,
+! essentially turning the macros into no-ops.
+! -----------------------------------------------------------------
+
+#define alloc_count(y) continue
+#define dealloc_count(y) aa_=0
+#define alloc_count_ptr(y) continue
+#define dealloc_count_ptr(y) aa_=0
+
+! ****************
+#endif
+! ****************
+
+! --------------------------------------------
+! What comes below is in effect all the time
+! --------------------------------------------
+
+use alloc_checker
+
+! Reminders:
+! Allocation/deallocation
+! x: subroutine name (Fortran string)
+! y: allocated array (Fortran array, no bounds), e.g. first_elem_on_atom
+
+! Allocation:
+! e: allocated entity (Fortran array, with bounds), e.g. first_elem_on_atom(par%nat,num_elem_types)
+! i: allocation status (formerly ierr)
+
+! Deallocation:
+! s: size just before deallocation
+! a: 1 if size has been acquired before deallocation

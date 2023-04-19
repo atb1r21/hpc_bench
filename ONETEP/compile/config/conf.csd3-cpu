@@ -1,0 +1,45 @@
+# Configuration file for the Skylake CPU system (Peta4-CPU), CSD3,
+# HPC Service, University of Cambridge.
+#
+# Created by Jose M Escartin, 24th January 2017.
+#
+# Compiler:  Intel Fortran Compiler v17.0.4.
+# MPI:       Intel MPI Library 2017 Update 3.
+# OpenMP:    Enabled.
+# FFTW3:     FFTW 3.3.6-pl2.
+# ScaLAPACK: Yes.
+#
+# Tested for the following environment:
+#   $ module purge
+#   $ module load rhel7/default-peta4
+#   $ export MODULEPATH=/usr/local/software/spack/develop-290617/spack/share/spack/tcl/linux-rhel7-x86_64:$MODULEPATH
+#   $ module load fftw-3.3.6-pl2-intel-17.0.4-gtkahx5
+#
+# which results in the following list of loaded modulefiles:
+#
+#   Currently Loaded Modulefiles:
+#     1) dot                                  10) intel/impi/2017.4/intel
+#     2) slurm                                11) intel/libs/idb/2017.4
+#     3) java/jdk1.8.0_45                     12) intel/libs/tbb/2017.4
+#     4) turbovnc/2.0.1                       13) intel/libs/ipp/2017.4
+#     5) vgl/2.5.1/64                         14) intel/libs/daal/2017.4
+#     6) singularity/current                  15) intel/bundles/complib/2017.4
+#     7) rhel7/global                         16) rhel7/default-peta4
+#     8) intel/compilers/2017.4               17) fftw-3.3.6-pl2-intel-17.0.4-gtkahx5
+#     9) intel/mkl/2017.4
+#
+# WARNING: When running Intel MPI 2017 over more than one node, ensure that
+# the environment variable I_MPI_OFA_TRANSLATION_CACHE is set to 0 (zero) -
+# this might reduce performance, but unfortunately we have observed data
+# corruption when this memory registration cache is enabled.
+# This is now set as part of the intel/impi/2017.4/intel module, but if
+# you run this binary elsewhere you may need to explicitly
+#   $ export I_MPI_OFA_TRANSLATION_CACHE=0
+# in your slurm/PBS script.
+
+F90 = mpiifort -qopenmp -mt_mpi -qopt-report=0 -qopt-report-phase=vec -diag-disable 8290,8291
+FFLAGS = -DFFTW3 -DMPI -DSCALAPACK
+LIBS = -lfftw3_omp -lfftw3 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64
+OPTFLAGS = -xHOST -O3 -ip -no-prec-div -traceback
+DEBUGFLAGS = -g -traceback -ftrapuv -CB -debug full -check all -warn all -DDEBUG_ARRAYS -fpe3
+COMPILER = INTEL-ifort-on-LINUX

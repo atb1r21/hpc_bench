@@ -1,0 +1,622 @@
+#!/bin/bash
+################################################################################
+# A part of ONETEP's utilities.                                                #
+# Jacek Dziedzic, University of Southampton, September 2016.                   #
+# jd12g09@soton.ac.uk, jaca@kdm.task.gda.pl                                    #
+################################################################################
+
+################################################################################
+# *** onetep_launcher *** v1.16
+#
+# Sets the environment on a node it is run on, taking care of:
+# - OMP_STACKSIZE (-o),
+# - OMP_NUM_THREADS (-t),
+# - per-process stack size (-s),
+# - maximum allowed core file size (-c).
+# - ifort environment variables to produce core files on RTL's sever errors (-d).
+# - Intel MPI OFA, DAPL and DAPL_UD translation caches (-m).
+#
+# Then runs ONETEP.
+#
+# Syntax:
+#   onetep_launcher [-s <per_process_stacksize>] [-t <omp_num_threads>] [-o <omp_stacksize>]
+#                   [-c <core_filesize>] [-e <onetep_executable] [-d] [-m] <onetep_input.dat>
+#
+#   In practice you'd want to put a suitable 'mpirun' command in front of onetep_launcher.
+#
+# Details of options:
+#   -s <per_process_stacksize> -- sets global (per-process) stack size. The value is passed
+#                                 to ulimit -s. Default: unlimited. Numerical values are
+#                                 in KiB, do not supply a unit.
+#   -t <omp_num_threads>       -- sets OMP_NUM_THREADS. Default: 4.
+#   -o <omp_stacksize>         -- sets OMP_STACKSIZE, i.e. the per-thread stack size.
+#                                 Default: 64M. Specify a value in MiB, followed by 'M'.
+#   -c <core_filesize>         -- sets maximum size of core files generated should your
+#                                 ONETEP run terminate ungracefully. The value is passed
+#                                 to ulimit -c. Default: 2048000 (2 GiB). Numerical values
+#                                 are in KiB, do not supply a unit.
+#   -e <onetep_executable>     -- qualified or unqualified filename of the ONETEP executable.
+#                                 Default: the executable matching ../bin/onetep.*, relative
+#                                 to where the launcher is. If you keep the launcher in
+#                                 ONETEP's utils/ directory and the binary in bin/, it should
+#                                 work out of the box.
+#   -d                         -- if present, Intel's Fortran RTL is asked to produce stack
+#                                 traces on error. Useful for debugging, but incompatible
+#                                 with ifort{17,18} (leads to spurious aborts when mere
+#                                 warnings are issued).
+#   -m                         -- if present, MPI translation caches are *not* turned off.
+#                                 Otherwise (by default), they are turned off, which prevents
+#                                 data corruption on some systems but may impact performance.
+#   <onetep_input.dat>         -- Obligatory. Specifies input filename to be passed to ONETEP.
+#
+# Examples:
+#   --------------------------------------------------------------------------------------
+#   mpirun -np 3 ./onetep_launcher molecule.dat >molecule.out 2>molecule.err
+#
+#   Runs a best-guess ONETEP executable, via onetep_launcher, on 3 MPI ranks, with the 
+#   default settings [*], using input.dat as ONETEP input. Output goes to molecule.out,
+#   errors go to molecule.err.
+#   --------------------------------------------------------------------------------------
+#   mpirun somepath/utils/onetep_launcher -t 6 -o 90M -e somepath/bin/onetep.exe input.dat
+#
+#   Runs somepath/bin/onetep.exe, via somepath/utils/onetep_launcher on 6 OMP
+#   threads, with a 90MiB per-omp-thread stack, on the number of MPI ranks of
+#   the batch system's choosing, with the remaining options at default settings [*].
+#   ONETEP input is read from input.dat. Output goes to stdout, errors go to stderr.
+#   --------------------------------------------------------------------------------------
+#   ./onetep_launcher -t 12 -s 32768 -c 0 -e ../bin/onetep.exe caffeine.dat
+#
+#   Runs ../bin/onetep.exe via onetep_launcher in the current directory, with
+#   no MPI, on 12 OMP threads, limiting per-process stack size to 32 MiB,
+#   disabling core files entirely, using caffeine.dat as ONETEP input. Remaining
+#   options use default settings [*]. Output goes to stdout, errors go to stderr.
+#   --------------------------------------------------------------------------------------
+#
+# Best-guess for ONETEP executable:
+#   If -e is provided, only its argument is searched for.
+#   If -e is omitted,  onetep.$ARCH is searched for if ARCH has been set, and
+#                      onetep.* is searched for, but it must resolve to a single file
+#                      to be used.
+#   "Searching" involves a) using the filename directly, b) prepending with current
+#   directory, c) prepending with current directory/../bin, d) prepending with
+#   launcher executable directory, e) prepending with launcher executable directory/../bin.
+#
+# Defaults [*]:
+#   -s unlimited -t 4 -o 64M -c 2048000
+#                   ^ Four is the default, but if OMP_NUM_THREADS has been defined
+#                     it will be used as the default instead.
+################################################################################
+# Revision history:
+# v1.00 2016.09.05 -- Initial version.
+# v1.01 2016.09.06 -- Better default for -e.
+# v1.02 2016.09.06 -- Better default for -t.
+# v1.03 2016.09.06 -- Fixes to handling of qualified paths.
+# v1.05 2016.09.07 -- Improvements to the heuristic for choosing the ONETEP
+#                     executable.
+# v1.06 2016.09.07 -- More verbose help.
+# v1.07 2016.09.07 -- Fixed extra copies of output.
+# v1.08 2016.09.08 -- Minor fix to cleanup
+# v1.09 2016.09.14 -- Executable prepended with "./" if unqualified.
+# v1.10 2016.09.16 -- Improvements to user feedback.
+# v1.11 2016.10.27 -- Ifort's environment variables to produce core files on
+#                     RTL's severe errors.
+# v1.12 2017.08.23 -- The above is only triggered when -d is specified,
+#                     in response to bug in ifort{17,18} (cf. bug #1777).
+# v1.13 2017.08.23 -- Fixed typos in traps.
+# v1.14 2017.08.23 -- Sets I_MPI_OFA_TRANSLATION_CACHE (-m).
+# v1.15 2017.08.23 -- Improved invocation syntax check.
+# v1.16 2018.05.16 -- -m also affects I_MPI_DAPL_TRANSLATION_CACHE and
+#                     I_MPI_DAPL_UD_TRANSLATION_CACHE.
+################################################################################
+
+################################################################################
+# Key assumptions:
+# - The launcher is started by mpirun/aprun and as many copies as
+#   ONETEP MPI ranks will execute simultaneously, some of them on the same node.
+# - In spite of that we strive to provide a single stream of output
+#   through a spokesman process. This is not easy.
+# - Not so for errors, we complain to stderr from any process that notices
+#   something is wrong, we then abort immediately. Once we abort, we expect
+#   MPI to be able to SIGTERM the remaining launchers like it would SIGTERM
+#   ONETEP processes. We use traps to have each launcher take down its ONETEP
+#   process with it.
+# - All onetep_launcher*.log files in the working directory should be removed
+#   before this script is run, or else output from the launcher might not appear.
+#   The launcher does its best to remove the log files once it knows it's safe
+#   to do so.
+################################################################################
+# Possible facilities to provide (TODO):
+# - since we're already running a process on each compute node, it should be easy
+#   to leverage e.g. 'top' to monitor memory use, CPU use, thread use, ONETEP
+#   process state. Possibly more advanced metrics from /proc (wchan, status,
+#   stack, sched, etc). Or even combinations (/proc/stack when single-threaded).
+################################################################################
+
+myname="onetep_launcher"
+padding=`echo $myname | tr "a-z_" " "`
+default_omp_stacksize="64M"
+default_omp_num_threads=4
+default_process_stacksize="unlimited"
+default_core_filesize="2048000"
+banner="************************************************"
+################################################################################################
+
+#-------------------------------------------------------------------------------
+# Aborts, printing a message and returning an error code.
+#-------------------------------------------------------------------------------
+function error() {
+  echo -e "!!!\n!!! $myname: ERROR #$2 on node $node (launcher PID $mypid).\n!!! $padding  $1.\n!!! $padding  Aborting!\n!!!" >&2
+  exit $2
+}
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+# Displays help
+#-------------------------------------------------------------------------------
+function help() {
+  cat $0 | grep -B1 -A78 "\*\*\* onetep_launcher" | tr "#" " " >&2
+}
+
+#-------------------------------------------------------------------------------
+# Tries to resolve the wildcard passed as argument, to see if there are matches.
+# Returns the number of matches. Sets 'resolved_wildcard' to the resolved
+# wildcard iff there was 1 match, and to the argument otherwise.
+# Provides user feedback (on the node spokesman only) on the attempt.
+#-------------------------------------------------------------------------------
+function resolve_wildcard() {
+  wildcard=$1
+  if [ $i_am_node_spokesman == 1 ]; then
+    echo -n "      ... resolving $wildcard" >>$outfile
+  fi
+  n_matches=`ls $wildcard 2>/dev/null | wc -l`
+  if [ $n_matches == 0 ]; then
+    if [ $i_am_node_spokesman == 1 ]; then
+      resolved_wildcard="$wildcard"
+      echo " -> no matches" >>$outfile
+    fi
+  fi
+  if [ $n_matches == 1 ]; then
+    resolved_wildcard=`ls $wildcard`
+    if [ $i_am_node_spokesman == 1 ]; then
+      echo " -> $resolved_wildcard" >>$outfile
+    fi
+  fi
+  if [ $n_matches -gt 1 ]; then
+    if [ $i_am_node_spokesman == 1 ]; then
+      resolved_wildcard="$wildcard"
+      echo " -> multiple matches, I can't decide" >>$outfile
+    fi
+  fi
+  return $n_matches
+}
+
+#-------------------------------------------------------------------------------
+# Checks whether an argument looks like a valid ONETEP executable.
+# Returns 0 if OK, non-0 otherwise. If the argument contains an asterisk,
+# no checking is performed, and 4 is returned.
+# Provides user feedback (on the node spokesman only) on the attempt.
+#-------------------------------------------------------------------------------
+function try_executable() {
+  onetep_executable=$1
+  if [ `echo $onetep_executable | grep -cE "\*"` -gt 0 ]; then
+    return 4
+  fi
+  if [ $i_am_node_spokesman == 1 ]; then
+    echo "      ... trying $onetep_executable" >>$outfile
+  fi
+  if [ ! -r $onetep_executable ]; then
+    [ $i_am_node_spokesman == 1 ] && echo "          -> does not exist or is unreadable" >>$outfile
+    return 1
+  fi
+  if [ ! -x $onetep_executable ]; then
+    [ $i_am_node_spokesman == 1 ] && echo "          -> is not executable" >>$outfile
+    return 2
+  fi
+  if [ -d $onetep_executable ]; then
+    [ $i_am_node_spokesman == 1 ] && echo "          -> is a directory, not a regular file" >>$outfile
+    return 3
+  fi
+  [ $i_am_node_spokesman == 1 ] && echo "          -> looks OK" >>$outfile
+  return 0
+}
+#-------------------------------------------------------------------------------
+
+################################################################################
+# Error codes
+################################################################################
+err_improper_invocation=101
+err_log_not_writable=102
+err_os_command_failed=103
+err_onetep_executable_not_established=104
+
+################################################################################
+# main()
+################################################################################
+
+# Reality check -- where and who am I?
+node=`hostname`
+mypid=$$
+cmdline=$@
+
+# Sanity check for no arguments.
+if [ $# == 0 ]; then
+  help
+  error "Improper invocation. See help above.\n!!! $padding  You invoked the launcher with no options -- the name of the ONETEP input file is required at minimum" $err_improper_invocation
+fi
+
+# Real and sane, but better start off mute
+i_am_node_spokesman=0
+i_am_global_spokesman=0
+
+# Start with defaults and let options override them later on
+process_stacksize=$default_process_stacksize
+omp_stacksize=$default_omp_stacksize
+core_filesize=$default_core_filesize
+stack_trace=0
+impi_translation_cache=0
+
+# The default for the number of threads is only used if OMP_NUM_THREADS
+# has not been set earlier on (e.g. by the submission script).
+if [ -z "$OMP_NUM_THREADS" ]; then
+  omp_num_threads=$default_omp_num_threads
+else
+  omp_num_threads=$OMP_NUM_THREADS
+fi
+
+# Parse options
+noptargs=0
+onetep_executable_specified=0
+while getopts "d m s: t: o: c: e:" flag; do
+  if [ "$flag" == "?" ]; then
+    help
+    error "Illegal option or legal option missing a necessary argument. See help above.\\n!!! $padding  You invoked the launcher with the following options: "\""$cmdline"\""" $err_improper_invocation
+  fi
+  if [ "$flag" == "d" ]; then
+    stack_trace=1
+    let "noptargs++"
+  fi
+  if [ "$flag" == "m" ]; then
+    impi_translation_cache=1
+    let "noptargs++"
+  fi
+  if [ "$flag" == "s" ]; then process_stacksize=$OPTARG; let "noptargs+=2"; fi
+  if [ "$flag" == "t" ]; then omp_num_threads=$OPTARG; let "noptargs+=2"; fi
+  if [ "$flag" == "o" ]; then omp_stacksize=$OPTARG; let "noptargs+=2"; fi
+  if [ "$flag" == "c" ]; then core_filesize=$OPTARG; let "noptargs+=2";  fi
+  if [ "$flag" == "e" ]; then
+    onetep_executable_specified=1
+    onetep_executable=$OPTARG;
+    let "noptargs+=2"
+  fi
+done
+
+# Once we counted optional arguments, we should have exactly one arg left -- the input file
+let "noptargs++"
+
+if [ $noptargs -lt $# ]; then
+  help
+  error "Improper invocation -- unexpected extra arguments. See help above.\n!!! $padding  You invoked the launcher with the following options: "\""$cmdline"\""" $err_improper_invocation
+fi
+
+if [ $noptargs -gt $# ]; then
+  help
+  error "Improper invocation -- missing ONETEP input file (should be specified as last argument). See help above.\n!!! $padding  You invoked the launcher with the following options: "\""$cmdline"\""" $err_improper_invocation
+fi
+
+# Figure out current directory, as that's what we use for output.
+pwd=$PWD
+
+# Figure out the PIDs of sibling processes (including self).
+# cf. http://stackoverflow.com/questions/38252219/bash-getting-pids-of-siblings
+# Postprocessed by converting newlines to spaces and dropping the trailing space.
+siblingPIDs=`ps --ppid $(ps -p $$ -o ppid --no-heading) -o "pid" --no-heading | sort -g | tr "\n" " " | sed -r "s/ $//"`
+
+# Refine this by eliminating all processes whose command name does not match that of the launcher.
+# This is needed to eliminate extra processes spawned by mpirun that are not launchers (e.g. 'srun').
+# Unfortunately 'ps' does not provide means for combining selection criteria, so this is slightly verbose.
+for PID in $siblingPIDs; do
+  if [ `ps --pid $PID --no-heading | awk '{print $NF}'` == $myname ]; then
+    siblinglauncherPIDs="$siblinglauncherPIDs $PID"
+  fi
+done
+
+# Choose lowest PID as node spokesman for this node.
+node_spokesmanPID=`echo $siblinglauncherPIDs | awk '{print $1}'`
+if [ $$ == "$node_spokesmanPID" ]; then
+  i_am_node_spokesman=1
+else
+  i_am_node_spokesman=0
+fi
+
+# Minimise the likelihood of the scenario where an error is discovered
+# by a non-spokesman, because then we bail out with not much info in
+# the log files. Have everyone but node spokesmen delay by a second.
+let "time_to_sleep=1-i_am_node_spokesman"
+sleep $time_to_sleep
+
+# Figure output filename in each of the running processes.
+outroot=$pwd/$myname
+outfile=$outroot.$node.log
+outfile_summary=$outroot"_summary.log"
+
+# Ensure outfile is writable, at least for the node_spokesman, abort otherwise.
+if [ $i_am_node_spokesman == 1 ]; then
+  echo >$outfile || error "Could not write to $outfile. Ensure you have write permissions in "\""$pwd"\"" on "\""$node"\""" $err_log_not_writable
+  echo "==================================================================================" >$outfile
+  echo "It's "`date`"." >>$outfile
+  echo "*** Starting $myname (node $node, PIDs$siblinglauncherPIDs)..." >>$outfile
+fi
+
+# Figure out the directory the launcher lives in.
+pwd=$PWD
+mydir=`dirname $0` || error "The OS command "\""dirname $0"\"" failed" $err_os_command_failed
+mydir_resolved=`readlink -f $mydir` || error "The OS command "\""readlink -f $mydir"\"" failed" $err_os_command_failed
+exedir=$mydir_resolved
+
+# Root directory is a corner case, avoid '//' later on.
+if [ $exedir == "/" ]; then
+  exedir=""
+fi
+# Root directory is a corner case, avoid '//' later on.
+if [ $pwd == "/" ]; then
+  pwd=""
+fi
+
+onetep_datfile=${!#} # Magic incantation for "last parameter"
+onetep_errmsgfile=`echo $onetep_datfile | sed -r "s/\.dat$/.out/"`
+
+# User feedback, per node, to log files.
+if [ $i_am_node_spokesman == 1 ]; then
+  echo "    - ONETEP arguments: $onetep_datfile" >>$outfile
+  echo "    - Current directory: $pwd" >>$outfile
+  echo "    - Launcher executable directory: $exedir" >>$outfile
+  if [ $onetep_executable_specified == 1 ]; then
+    echo "    - (-e) ONETEP executable specified through command-line: $onetep_executable" >>$outfile
+  else
+    echo "    - (-e) ONETEP executable has NOT been specified through command-line" >>$outfile
+  fi
+fi
+
+onetep_candidates=""
+if [ $onetep_executable_specified == 1 ]; then
+  # Candidate #1 -- what the user asked for
+  onetep_candidates="$onetep_candidates $onetep_executable"
+  # Candidate #2 -- same, prepended with $exedir
+  onetep_candidates="$onetep_candidates $exedir/$onetep_executable"
+  # Candidate #3 -- same, prepended with $exedir/../bin
+  onetep_candidates="$onetep_candidates $exedir/../bin/$onetep_executable"
+  # Candidate #4 -- same, prepended with $pwd
+  onetep_candidates="$onetep_candidates $pwd/$onetep_executable"
+  # Candidate #5 -- same, prepended with $pwd/../bin
+  onetep_candidates="$onetep_candidates $pwd/../bin/$onetep_executable"
+else
+  if [ ! -z "$ARCH" ]; then
+    # Candidate #6 -- onetep.$ARCH
+    onetep_candidates="$onetep_candidates onetep.$ARCH"
+    # Candidate #7 -- same, prepended with $exedir
+    onetep_candidates="$onetep_candidates $exedir/onetep.$ARCH"
+    # Candidate #8 -- same, prepended with $exedir/../bin
+    onetep_candidates="$onetep_candidates $exedir/../bin/onetep.$ARCH"
+    # Candidate #9 -- same, prepended with $pwd
+    onetep_candidates="$onetep_candidates $pwd/onetep.$ARCH"
+    # Candidate #10 -- same, prepended with $pwd/../bin
+    onetep_candidates="$onetep_candidates $pwd/../bin/onetep.$ARCH"
+  else
+    if [ $i_am_node_spokesman == 1 ]; then
+      echo "      ... ARCH environment variable has not been set either" >>$outfile
+    fi
+  fi
+  # Candidate #11 -- onetep.*
+  resolve_wildcard onetep.*; n_matches=$?
+  onetep_candidates="$onetep_candidates $resolved_wildcard"
+  # Candidate #12 -- same, prepended with $exedir
+  resolve_wildcard $exedir/onetep.*; n_matches=$?
+  onetep_candidates="$onetep_candidates $resolved_wildcard"
+  # Candidate #13 -- same, prepended with $exedir/../bin
+  resolve_wildcard $exedir/../bin/onetep.*; n_matches=$?
+  onetep_candidates="$onetep_candidates $resolved_wildcard"
+  # Candidate #14 -- same, prepended with $pwd
+  resolve_wildcard $pwd/onetep.*; n_matches=$?
+  onetep_candidates="$onetep_candidates $resolved_wildcard"
+  # Candidate #15 -- same, prepended with $pwd/../bin
+  resolve_wildcard $pwd/../bin/onetep.*; n_matches=$?
+  onetep_candidates="$onetep_candidates $resolved_wildcard"
+fi
+
+# Drop leading space, for cosmetic purposes.
+onetep_candidates=`echo $onetep_candidates | sed -r "s/^ //"`
+
+# Remove duplicates, but do not sort (=> can't use uniq).
+onetep_candidates=`echo $onetep_candidates | awk '{for(i=1;i<=NF;++i) {present[$i]++; if(present[$i]==1) printf("%s ",$i)}}' | sed -r "s/ $//"`
+
+# Check the candidates in sequence.
+failed=1
+for onetep_executable in $onetep_candidates; do
+  try_executable $onetep_executable; failed=$?
+  if [ $failed == 0 ]; then
+    break
+  fi
+done
+
+if [ $failed != 0 ]; then
+  error "Could not establish a suitable ONETEP executable despite best efforts. Tried: "\""$onetep_candidates"\""" $err_onetep_executable_not_established
+fi
+
+# If the chosen executable does not have any slashes in the name,
+# assume it's an unqualified filename in the current directory,
+# and prepend with ./ (needed for some mpiruns).
+if [ `echo $onetep_executable | grep -c "/"` == 0 ]; then
+  onetep_executable="./$onetep_executable"
+  if [ $i_am_node_spokesman == 1 ]; then
+    echo "      ... adjusting ONETEP executable to $onetep_executable" >>$outfile
+  fi
+fi
+
+# More user feedback, per node, to log files.
+if [ $i_am_node_spokesman == 1 ]; then
+  echo "*** Setting up environment..." >>$outfile
+  echo "    - (-s) Process stack size: $process_stacksize" >>$outfile
+  echo "    - (-t) OMP_NUM_THREADS: $omp_num_threads" >>$outfile
+  echo "    - (-o) OMP_STACKSIZE: $omp_stacksize" >>$outfile
+  echo "    - (-c) Maximum core file size: $core_filesize" >>$outfile
+fi
+
+# Actually set up the environment.
+export OMP_STACKSIZE=$omp_stacksize
+export OMP_NUM_THREADS=$omp_num_threads
+ulimit -s $process_stacksize; result=$?;
+if [ $result -ne 0 ]; then
+  echo "! $myname: WARNING: Could not set process stack size to "\""$process_stacksize"\" on $node, launcher PID $mypid."" >&2
+  if [ $i_am_node_spokesman == 1 ]; then
+    echo "! $myname: WARNING: Could not set process stack size to "\""$process_stacksize"\" on $node, launcher PID $mypid."" >>$outfile
+  fi
+fi
+
+ulimit -c $core_filesize
+if [ $result -ne 0 ]; then
+  echo "! $myname: WARNING: Could not set max core file size to "\""$core_filesize"\" on $node, launcher PID $mypid."" >&2
+  if [ $i_am_node_spokesman == 1 ]; then
+    echo "! $myname: WARNING: Could not set max core file size to "\""$core_filesize"\" on $node, launcher PID $mypid."" >>$outfile
+  fi
+fi
+
+if [ $stack_trace == 1 ]; then
+  # Asks for core dumps on ifort's RTL severe errors.
+  export decfort_dump_flag=y # lowercase (!)
+else
+  export decfort_dump_flag=n # lowercase (!)
+fi
+
+if [ $impi_translation_cache == 1 ]; then
+  export I_MPI_OFA_TRANSLATION_CACHE=1
+  export I_MPI_DAPL_TRANSLATION_CACHE=1
+  export I_MPI_DAPL_UD_TRANSLATION_CACHE=1
+else
+  export I_MPI_OFA_TRANSLATION_CACHE=0
+  export I_MPI_DAPL_TRANSLATION_CACHE=0
+  export I_MPI_DAPL_UD_TRANSLATION_CACHE=0
+fi
+
+# More user feedback, per node, to log files.
+if [ $i_am_node_spokesman == 1 ]; then
+  echo "    - (-d) decfort_dump_flag: $decfort_dump_flag" >>$outfile
+  echo "    - (-m) I_MPI_OFA_TRANSLATION_CACHE: $I_MPI_OFA_TRANSLATION_CACHE" >>$outfile
+  echo "    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: $I_MPI_DAPL_TRANSLATION_CACHE" >>$outfile
+  echo "    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: $I_MPI_DAPL_UD_TRANSLATION_CACHE" >>$outfile
+fi
+
+# Let the user know we're now starting ONETEP.
+if [ $i_am_node_spokesman == 1 ]; then
+  echo "*** Starting ONETEP..." >>$outfile
+  echo "    - $onetep_executable $onetep_datfile" >>$outfile
+  echo "=================================================================================" >>$outfile
+  echo "_________________________________________________________________________________" >>$outfile
+fi
+
+# User feedback to stdout. We want a single stream of output here.
+# Have all node spokesmen race to a lock, and the first one there
+# is going claim the lock and become global spokesman. Not fool-proof
+# (ln probably may not be atomic on shared filesystems, but should be
+# good enough). It's hard to do a proper barrier in bash.
+if [ $i_am_node_spokesman == 1 ]; then
+  ln $outfile $outfile_summary 2>/dev/null; result=$?
+  if [ $result != 0 ]; then
+    # Lock file exists, I don't get a chance to speak.
+    i_am_global_spokesman=0
+  else
+    # No lockfile, I get a chance to speak.
+    i_am_global_spokesman=1
+  fi
+fi
+
+# Output as global spokesman. From now one we output to stdout.
+# Sometimes the shared filesystem is not fully POSIX-compliant 
+# re consistency semantics, and a truncated *out is shown when cat'ing it.
+# Hedge against that by looping briefly until the expected final line is
+# found. Give up after 10s if this is not the case.
+counter=1; max_counter=10
+if [ $i_am_global_spokesman == 1 ]; then
+  sleep 1
+  while [ `cat $outfile | grep -c "__________________"` -eq 0 ] && [ $counter -lt $max_counter ]; do
+    echo "Waiting for the filesystem on $node to catch up..."
+    sleep 1
+    let "counter++"
+  done
+  if [ $counter -eq $max_counter ]; then
+    echo "Lost patience. Some output from $myname may be truncated."
+  fi
+  cat $outfile
+fi
+
+# Before we start ONETEP, ensure children processes kick the bucket if mpirun kills us.
+# Otherwise we'll orphan them and they'll keep waiting on a barrier and only die when
+# the batch system kills them once the walltime window expires.
+trap "trap - SIGTERM; if [ $i_am_global_spokesman == 1 ]; then echo; if [ -r $onetep_errmsgfile ]; then echo -e $myname: \!\!\! ONETEP finished with an error\\\n; fi; echo \"$banner\"; echo \"***\" $myname 'terminated               '\"***\"; echo \"$banner\"; fi; kill -- -$$ 2>/dev/null; exit 0" SIGTERM
+trap "trap - SIGINT; if [ $i_am_global_spokesman == 1 ]; then echo; if [ -r $onetep_errmsgfile ]; then echo -e $myname: \!\!\! ONETEP finished with an error\\\n; fi; echo \"$banner\"; echo \"***\" $myname 'interrupted              '\"***\"; echo \"$banner\"; fi; kill -- -$$ 2>/dev/null; exit 0" SIGINT
+# don't trap EXIT -- this is handled at the end of the script, differently.
+
+# Remove per-node logs on node spokesmen
+if [ $i_am_node_spokesman == 1 ]; then
+  rm -f $outfile
+fi
+
+# Cannot remove the summary log here, as it acts as a lock,
+# and could potentially lead to other nodes believe they are
+# global spokesmen (race condition).
+
+# Executing in the background, with a subsequent 'wait' is crucial
+# -- traps are suspended if a script waits for a child running in
+# the foreground to finish (man bash). Traps are crucial (see above),
+# so our only option is to run ONETEP in the background.
+
+# ******************************************************************************
+$onetep_executable $onetep_datfile &
+# ******************************************************************************
+
+oneteppid=$!
+wait $oneteppid; onetep_result=$?
+
+if [ $onetep_result == 0 ]; then
+  if [ $i_am_global_spokesman == 1 ]; then
+    echo "$myname: ONETEP seems to have finished correctly (zero exit code)."
+  fi
+else
+  echo "$myname: ONETEP seems to have finished with an error code: $result." >&2
+  if [ $i_am_global_spokesman == 1 ]; then
+    echo "$myname: ONETEP seems to have finished with an error code: $result."
+  fi
+fi
+
+# Since ONETEP itself contains plenty of barriers, the assumption
+# is that, even it failed, we can safely delete the summary outfile,
+# since there are no more spokesman candidates now, and the contents
+# of the file have been copied to stdout for posterity.
+rm -f $outfile_summary 2>/dev/null
+
+# Just in case, we attempt to get rid of 'our' ONETEP process.
+# This prevents hang-ups following MPI_Abort, when some ONETEP processes
+# are stuck on a barrier.
+ps --pid $oneteppid >/dev/null 2>/dev/null; result=$?
+if [ $result == 0 ]; then
+  echo "$myname: ONETEP process somehow remains alive (node $node, launcher PID $mypid, ONETEP PID $oneteppid). Giving mpirun 3 seconds to kill it." >&2
+  sleep 3
+  ps --pid $oneteppid >/dev/null 2>/dev/null; result=$?
+  if [ $result == 0 ]; then
+    echo "$myname: ONETEP process still alive (node $node, launcher PID $mypid, ONETEP PID $oneteppid). Will attempt to kill it now." >&2
+    kill $oneteppid 2>/dev/null
+    sleep 2
+    kill -9 $oneteppid 2>/dev/null
+    sleep 1
+    ps --pid $oneteppid >/dev/null 2>/dev/null; result=$?
+    if [ $result == 0 ]; then
+      echo "$myname: ONETEP process unkillable (node $node, launcher PID $mypid, ONETEP PID $oneteppid)." >&2
+    else
+      echo "$myname: Killed successfully (node $node, launcher PID $mypid, ONETEP PID $oneteppid)." >&2
+    fi
+  fi
+fi
+
+# This is absolutely crucial, or else mpirun examines the return code of kill
+# and thinks things went wrong. We want to propagate ONETEP's return code
+# so that e.g. testcode knows if everything went OK or not.
+exit $onetep_result

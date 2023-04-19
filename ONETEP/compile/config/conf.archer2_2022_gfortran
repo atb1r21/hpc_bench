@@ -1,0 +1,47 @@
+# ------------------------------------------------------------------
+# A ONETEP configuration file for ARCHER2 (full 23-cabinet system).
+# GNU Fortran compiler version.
+#
+# 2021.11.28 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+#                            University of Southampton
+# ------------------------------------------------------------------
+# v1.30, 2022.05.04 Jacek Dziedzic
+
+# ------------------------------------------------------------------
+# Compiler: 	GNU Fortran 9.3.0
+# MPI: 		Cray mpich 8.1.4
+# OMP:          Yes
+# FFTW3:	From /opt/cray/pe/lib64/
+# ScaLAPACK:	From /opt/cray/pe/lib64/libsci_gnu_82_mpi_mp.so.5
+# ------------------------------------------------------------------
+
+# ------------------------------------------------------------------
+# Make sure you issue the following commands prior to compiling 
+# your executable (without the leading '#'). This ensures the
+# correct modules are loaded and the issue "Default FFTW library 
+# points to Intel Haswell version rather than AMD Rome at runtime"
+# described at https://docs.archer2.ac.uk/known-issues/ is worked around.
+# 
+# module load PrgEnv-gnu
+# module load gcc/9.3.0
+# module load cray-fftw/3.3.8.11
+# module load cray-mpich/8.1.4
+# export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+#
+# This can be achieved automatically by adding the following
+# lines to the end of ~/.bash_profile (drop the leading '#'):
+#
+#    module load PrgEnv-gnu         >/dev/null 2>/dev/null
+#    module load gcc/9.3.0          >/dev/null 2>/dev/null
+#    module load cray-fftw/3.3.8.11 >/dev/null 2>/dev/null
+#    module load cray-mpich/8.1.4   >/dev/null 2>/dev/null
+#    export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+# ... and then logging out and logging back in for the changes to take effect.
+# ------------------------------------------------------------------
+
+F90 = ftn
+FFLAGS = -DMPI -DFFTW3 -DParallelFFT -DSCALAPACK -DNO_OMP_IN_DGESV -DNO_OMP_IN_SCALAPACK_DIAG -fopenmp -ffree-line-length-0 -Wno-unused -Wno-missing-include-dirs
+OPTFLAGS = -O2
+DEBUGFLAGS = -Wall -g -fcheck=all -finit-integer=-999999999 -finit-real=snan -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core
+COMPILER = GNU-gfortran-on-LINUX
+LIBS = -L.

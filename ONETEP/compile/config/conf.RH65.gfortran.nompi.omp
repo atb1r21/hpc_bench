@@ -1,0 +1,74 @@
+#
+# ONETEP configuration file
+# for Red Hat Linux 6.5 PCs in Southampton.
+# Created by Jacek Dziedzic, 11/05/2016.
+# Modified by J. C. Womack to compile without MPI or ScaLAPACK, 20/09/2016
+# v1.04 modified by Jacek Dziedzic, 30/09/2016 to break on a number of warnings,
+#       including broken string continuations.
+#
+# Compiler: 	GNU fortran v4.9.1.
+# MPI: 	      No.	
+# OMP:        Yes.
+# FFTW3:	    MKL interface, provided with Intel Parallel Studio XE 2016.
+# ScaLAPACK:	No.
+#
+# This config file instructs gfortran to default-initialise variables with garbage,
+# which could be useful for detecting uninitialised data.
+#
+# You must install gcc 4.9.1 using Add/Remove Software first.
+#
+# It is crucial that you have the right set of modules loaded. Preferably
+# add the following lines to ~/.bashrc (without the #):
+#
+# module purge
+# module load gcc/4.9.1
+# module load intel/parallel_studio_xe_2016
+#
+# followed by any additional modules you might want. Subsequently ensure that the additional
+# modules did not pull in anything Intel-related (apart from parallel_studio_xe_2016),
+# and if so, unload them.
+#
+# The parallel studio module is needed to set up paths for MKL and Intel MPI.
+#
+# The following lines added to ~/.bashrc (without the #) will ensure other environment details
+# are set up correctly:
+# ulimit -s unlimited
+# ulimit -c unlimited
+# export OMP_STACKSIZE=64M
+#
+# One last thing. The MKL bundled with Intel Parallel Studio does not provide an mkl_service.mod
+# that would be ABI-compatible with gfortran, so we need to compile one on our own. This only
+# needs to be done once. Remove the '#' from the lines below and issue them as bash commands.
+#
+# cd your_onetep_directory/devel
+# mkdir lib/mkl_mod_gfortran_491
+# cd lib/mkl_mod_gfortran_491
+# cp /local/software/intel/parallel_studio_xe_2016/compilers_and_libraries_2016.0.109/linux/mkl/include/mkl_service.f90 .
+# gfortran -c mkl_service.f90
+# stat mkl_service.mod >/dev/null && echo "SUCCESS" || echo "It did not work."
+# cd -
+#
+
+F90 = gfortran -fopenmp -m64 -I${MKLROOT}/include -Wl,--no-as-needed
+MKLMODPATH = ${ROOTDIR}/lib/mkl_mod_gfortran_491
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DGFORTRAN -I$(MKLROOT)/include/fftw -I$(MKLMODPATH) -Werror -Wall -Wno-unused -Wno-unused-dummy-argument -Wno-maybe-uninitialized -Wno-character-truncation -Wno-conversion -Wno-conversion-extra -Wno-target-lifetime
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -fcheck=all -finit-integer=-999999999 -finit-real=snan -ffpe-trap=invalid,zero,overflow
+COMPILER = GNU-gfortran-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_gf_lp64 -lmkl_core -lmkl_gnu_thread -lpthread -lm -ldl
+# NB. Link line generated using the link line advisor (below) with the dynamic option.
+# https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
+# Options:
+#     Intel product:              Intel(R) Parallel Studio XE 2016
+#     OS:                         Linux*
+#     Xeon Phi Coprocessor:       None
+#     Compiler:                   GNU Fortran
+#     Architecture:               Intel(R) 64
+#     Dynamic or static linking:  Dynamic
+#     Interface layer:            LP64 (32-bit integer)
+#     Threading layer:            OpenMP threading
+#     OpenMP library:             GNU (libgomp)
+#     Cluster library:            [None selected]
+#     MPI library:                [None selected]
+#     F95 interfaces:             [None selected]
+#     Link with Intel(R) MKL libraries explicitly: Yes

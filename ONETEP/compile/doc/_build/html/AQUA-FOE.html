@@ -1,0 +1,564 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Running linear-scaling DFT calculations for metallic systems with the AQUA-FOE method &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Density mixing (Kernel-DIIS)" href="onetep_kernel_diis_documentation.html" />
+    <link rel="prev" title="Finite-temperature DFT calculations using the Ensemble-DFT method" href="onetep_edft_documentation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="running-linear-scaling-dft-calculations-for-metallic-systems-with-the-aqua-foe-method">
+<h1>Running linear-scaling DFT calculations for metallic systems with the AQUA-FOE method<a class="headerlink" href="#running-linear-scaling-dft-calculations-for-metallic-systems-with-the-aqua-foe-method" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Jolyon Aarons, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Chris-Kriton Skylaris, University of Southampton</td>
+</tr>
+</tbody>
+</table>
+<p>This is a guide to performing FOE calculations on metals in ONETEP using
+the EDFT functionality. The methodology will be explained briefly, but
+for detailed information about how these methods work and are
+implemented, appropriate references are presented. We provide a example
+calculation, walk through and input files at the end of this document.
+Finally, to perform these calculations, a recent (as of 2018) version of
+ONETEP is required, for instance version 4.5.4.4, or the upcoming
+version 5.0.</p>
+<div class="section" id="metals-in-onetep">
+<h2>Metals in ONETEP<a class="headerlink" href="#metals-in-onetep" title="Permalink to this headline">¶</a></h2>
+<p>Calculations on conductors have been possible in ONETEP with EDFT since
+2013. In its default mode, EDFT will perform a diagonalisation of the
+Hamiltonian matrix and form the density kernel matrix from the
+eigenvectors and a Fermi-Dirac occupancy function of the eigenvalues. If
+your calculations have fewer than 1000 atoms, this mode is probably your
+best option. The method scales cubically with system size, however, and
+when you have a few thousand atoms calculations are impractically slow
+on current supercomputers.</p>
+<p>On larger systems, it is possible that you will have sufficient sparsity
+in the Hamiltonian matrix that a Fermi-Operator-Expansion based approach
+to constructing the density kernel will be faster. The idea behind this
+approach is that a power series expansion of the Fermi-Dirac
+distribution function can be applied directly to the Hamiltonian matrix,
+as matrix multiplications are linear operations. Hence, the density
+kernel matrix can be constructed from matrix powers of the Hamiltonian
+matrix, without diagonalisation. The main caveat with this is that
+sparsity must be exploited, or such a method is likely to be slower than
+the diagonalisation based alternative, due to the many matrix
+multiplications that are required. Since sufficient sparsity is only
+obtained for metals with more than about 1000 atoms, we recommend the
+use of this method only for larger systems.</p>
+<p>The way that we apply the matrix analogue of the Fermi-Dirac
+distribution function,</p>
+<div class="math">
+\[K=[I+\mathrm{exp}((H-\mu I)\,\beta)\,]^{-1},\]</div>
+<p>without diagonalisation or the poor conditioning of applying the above
+operations directly is to firstly compute an expansion of a system of
+electrons at an integer multiple (<span class="math">\(2^n\)</span>) of the electronic
+temperature, so that:</p>
+<div class="math" id="equation-khot">
+<span class="eqno">(1)<a class="headerlink" href="#equation-khot" title="Permalink to this equation">¶</a></span>\[K^\mathrm{HOT}=[I+\mathrm{exp}((H-\mu I)\beta/2^{n})\, ] \,^{-1}.\]</div>
+<p>The advantage of applying an expansion to hotter electrons is that the
+argument of the exponential function is reduced in magnitude, so fewer
+terms in expansion of the Fermi-Dirac distribution function are needed
+for a good approximation. In practice, we use a low order Chebyshev
+approximation to equation <a class="reference internal" href="#equation-khot">(1)</a>. To recover <span class="math">\(K\)</span>, the density
+kernel matrix at the target temperature, we need to anneal
+<span class="math">\(K^\mathrm{HOT}\)</span> by halving the temperature, <span class="math">\(n-1\)</span> times.
+This can be achieved by applying the matrix analogue of the hyperbolic
+tangent double angle formula after noting that</p>
+<div class="math">
+\[K^\mathrm{HOT}=\frac{1}{2}\left (I+\mathrm{tanh}\left((H-\mu I) \frac{\beta}{2^{n+1}}\right) \right ).\]</div>
+<p>The annealing formula is given as:</p>
+<div class="math" id="equation-anneal">
+<span class="eqno">(2)<a class="headerlink" href="#equation-anneal" title="Permalink to this equation">¶</a></span>\[K^\mathrm{HOT/2}=\frac{1}{2}\left( \frac{4K^\mathrm{HOT}-2I}{I + (2K^{\mathrm{HOT}}-I)^2}+I \right),\]</div>
+<p>which we do not apply directly in practice (this would cost 1 matrix
+product and 1 matrix solve / inversion), but expand equation
+<a class="reference internal" href="#equation-anneal">(2)</a> as another Chebyshev polynomial expansion, which is cheaper
+due to equation <a class="reference internal" href="#equation-anneal">(2)</a> being very well conditioned (we know that
+the eigenvalues of the denominator are necessarily between 1.0 and 2.0).</p>
+<p>The application of equation <a class="reference internal" href="#equation-khot">(1)</a> assumes that we know the chemical
+potential, <span class="math">\(\mu\)</span>. In practice, we do not. We instead start with a
+trial chemical potential and improve <span class="math">\(K\)</span> in the sense that we
+drive it towards the electron conserving chemical potential. We achieve
+this by knowing how wrong we were at a given <span class="math">\(\mu_i\)</span>,</p>
+<div class="math">
+\[\Delta N_e=N_e - \mathrm{trace}\left(K(\mu_i)\right),\]</div>
+<p>and by using hyperbolic trigonometry to correct by this by a change in
+chemical potential, <span class="math">\(\Delta\mu\)</span> without recalculating the
+expansion:</p>
+<div class="math">
+\[\left[I+\exp\left \{ (H-\mu I)\beta\pm\beta\Delta\mu I\right \}\right ]^{-1}=\frac{1}{2}\left(I+\frac{2K\pm\tanh\left(\frac{\beta\Delta\mu}{2}\right)I -I}
+{I\pm \tanh\left(\frac{\beta\Delta\mu}{2}\right)\times\left(2K-I\right)}\right).\]</div>
+<p>Likewise with this equation, we do not apply it directly but expand it
+as a Chebyshev polynomial to avoid an inversion. Once again, this works
+well because we know that this is a well conditioned problem. To know
+how much to adjust the chemical potential we can use the derivative:</p>
+<div class="math">
+\[\frac{\partial{N_e}}{\partial{\mu}}=-\frac{\beta}{4}\left(1-\mathrm{trace}(K^2)\right),\]</div>
+<p>and the electron residual <span class="math">\(\Delta N_e\)</span>.</p>
+<p>The final piece in this puzzle is to construct the electronic entropy,
+which we find as a matrix, taking its trace to find the scalar
+electronic entropy. We avoid calculating the Entropy as</p>
+<div class="math" id="equation-entropymatrix">
+<span class="eqno">(3)<a class="headerlink" href="#equation-entropymatrix" title="Permalink to this equation">¶</a></span>\[\mathbf{\mathcal{S}}=
+\mathrm{tr}[
+\mathbf{K}\ \mathrm{ln}(\mathbf{K})+[\mathbf{I}-\mathbf{K}]\
+\mathrm{ln}(\mathbf{I}-\mathbf{K})] \,\,,\]</div>
+<p>because this involves calculating two expensive matrix logarithms.
+Instead we use a further expansion for this quantity, this time taking
+that of the Fermi-Dirac entropy expression. When expanding this
+expression as a Chebyshev expansion, many terms are required to reach a
+good approximation at zero and one occupancy. To avoid this problem, we
+expand a form which maintains the property that the single particle
+entropy is zero at zero and one occupancy with fewer terms. This is:</p>
+<div class="math" id="equation-entapp">
+<span class="eqno">(4)<a class="headerlink" href="#equation-entapp" title="Permalink to this equation">¶</a></span>\[s(x) \simeq ax^2 + \frac{b}{c + dx -dx^2} - e -ax =y(x),\]</div>
+<p>where <span class="math">\(a=1.96056\)</span>, <span class="math">\(b=0.0286723\)</span>, <span class="math">\(c=0.114753\)</span>,
+<span class="math">\(d=1.98880\)</span> and <span class="math">\(e=0.249860\)</span>. We then refine this with
+further expansions.</p>
+<p>In practice, because sparsity is imposed on the density kernel and
+entropy matrices, we do not have perfectly accurate implicit
+eigenvalues. Some of these may be above one, so when taking large powers
+of the matrix, as we do in the power expansion of equation <a class="reference internal" href="#equation-entapp">(4)</a>,
+the (implicit)&nbsp;eigenvalues of the entropy may explode, causing a
+problem. To detect and avoid this problem, we use a very simple
+quadratic approximation to the entropy.</p>
+<p>The quadratic</p>
+<div class="math">
+\[f(x) = 3x^2 - 3x,\]</div>
+<p>the coefficients of 3 minimise the integral of
+<span class="math">\(x*Ln(x) + (1-x)*Ln(1-x) - cx^2 - cx\)</span> over [0:1]. The maximum
+error of this approximation is at <span class="math">\(x=0.5\)</span>, where the error is
+0.05685 or 8.2% of the correct value at 0.5. This indicates that in the
+very worst case where every eigenvalue of <span class="math">\(\mathbf{KS}\)</span> is 0.5,
+then the error on the entropy from this approximation is 8.2%. The value
+of this is that <span class="math">\(\mathbf{KSKS}\)</span> is easy to calculate reliably,
+compared with a high order series expansion… i.e. if there is an
+eigenvalue of K which is a little above 1 because of noise due to
+truncation, the corresponding eigenvalues in the entropy matrix can be
+very large. This can accumulate in the entropy value, if there are many
+of these greater than 1 eigenvalues, to give a completely wrong value.
+We can, therefore, check the value of entropy we have calculated by
+comparing it with this quadratic approximation. If the absolute
+difference between the two values is less than 8.2 the high order value,
+then we assume that things have gone well and do nothing. If this is not
+the case, then there was a high amount of error accumulated and so we’ll
+print a warning and a refined quadratic approximation (a quartic).</p>
+<p>In practice, when we take all of these power expansions, we need to
+consider the tensorial transformation properties of the quantities we
+are considering, for instance: the Hamiltonian matrix,
+<span class="math">\(H_{\alpha\beta}\)</span> is covariant, so taking a power requires that we
+raise the appropriate indices using the metric
+:&nbsp;<span class="math">\((H_{\alpha\beta})^n=(H_{\alpha\gamma}S^{\gamma\delta})^{n} S_{\delta\beta}\)</span>.
+In practice we can do this in one of two ways, either invert the metric
+/ overlap matrix <span class="math">\(S^{\alpha\beta}=(S_{\alpha\beta})^{-1}\)</span> and
+multiply by the Hamiltonian to give a Hamiltonian matrix in the natural
+representation (contra-covariant) or solve an approximate problem in the
+style of Haydock <em>et al</em> [Gibson1993]. We then need
+to store the mixed contra-covariant Hamiltonian matrix, which we choose
+to represent in the sparsity pattern suggested by Haydock <em>et al</em>. This
+is the covariant Hamiltonian matrix sparsity pattern by default, but the
+user may specify an optional argument to effectively increase the
+interaction regions of this sparsity pattern with respect to the
+covariant case.</p>
+<p>More information on our method may be found in
+[Aarons2018].</p>
+</div>
+<div class="section" id="setting-up-a-calculation">
+<h2>Setting up a Calculation<a class="headerlink" href="#setting-up-a-calculation" title="Permalink to this headline">¶</a></h2>
+<p>The most important thing to understand firstly is that this method is
+probably only sensible for large metallic systems. If your system has a
+band-gap, it would be wise to explore standard insulating ONETEP (LNV)
+first. This method should still work, but LNV ought to be much faster.</p>
+<p>The calculation should perform EDFT&nbsp;as the electronic minimiser. Please
+set</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">EDFT</span> <span class="p">:</span> <span class="n">T</span>
+</pre></div>
+</div>
+<p>in your input file. As you will be performing a finite electronic
+temperature calculation with the Fermi-Dirac occupancy distribution
+function, it would also be wise to choose an electronic smearing
+(temperature). The default value is 0.1 eV, which may well be sufficient
+in your case. Please bear in mind that with FOE&nbsp;enabled, unlike with
+EDFT&nbsp;with diagonalisation the calculation is likely to be faster with
+higher electronic temperature. Depending on the property you wish to
+probe, you may get away with a higher temperature, but it is very
+unlikely that the smearing should be above 1.0 eV. Set the smearing as</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">EDFT_SMEARING_WIDTH</span> <span class="p">:</span> <span class="mf">0.25</span> <span class="n">eV</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>You may also at this point wish to set some EDFT&nbsp;stopping criteria, as
+the defaults are likely to be too tight for EDFT&nbsp;with FOE. It is
+possible to tweak the FOE&nbsp;options to get under tight thresholds, but at
+the expense of reduced performance.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">EDFT_FREE_ENERGY_THRES</span> <span class="p">:</span> <span class="mf">1e-5</span> <span class="n">Ha</span>
+<span class="n">EDFT_COMMUTATOR_THRES</span> <span class="p">:</span> <span class="mf">1e-4</span>
+</pre></div>
+</div>
+<p>should be quite realistic in most cases and will certainly serve as an
+adequate starting point.</p>
+<p>The number of extra bands parameter in EDFT&nbsp;should always be set to the
+maximum, which is done by setting:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">EDFT_EXTRA_BANDS</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>This should be sufficient for the EDFT&nbsp;part of the calculation, next we
+will need to configure the FOE. Firstly, please enable it in your
+calculation with</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">FOE</span> <span class="p">:</span> <span class="n">T</span>
+</pre></div>
+</div>
+<p>This alone will perform a FOE&nbsp;calculation as we have described in this
+document, but unless you have already set a kernel truncation, then your
+density kernel matrix will be dense and you might as well just run a
+normal EDFT&nbsp;calculation with diagonalisation. One possible exception to
+this is if you do not have access to Scalapack or a ONETEP&nbsp;binary
+compiled against Scalapack, or your Scalapack distribution is poorly
+optimised or broken. In this case it may still be preferable to avoid
+the diagonalisation.</p>
+<p>To achieve some sparsity in the density kernel matrix, we have various
+options and strategies.</p>
+<ol class="arabic">
+<li><div class="first line-block">
+<div class="line">Just to use a geometric kernel truncation:</div>
+<div class="line">Here we enforce a simple sparsity pattern on the density kernel
+matrix by ensuring that matrix elements resulting from NGWFs on
+atoms separated by a large enough distance are zero.</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">kernel_cutoff</span> <span class="p">:</span> <span class="mi">20</span> <span class="n">Ang</span>
+</pre></div>
+</div>
+<p>a larger value will result in a more accurate answer, but also give a
+less sparse matrix which will have performance implications. This
+parameter is material-dependent and you are encouraged to play with
+it to find a happy medium.</p>
+</li>
+<li><p class="first">Use a sparsity pattern inspired by the power series expansions which
+we use extensively in the FOE methods. The FOE method is based on the
+idea that we only need a finite number of terms in the power
+expansion to get sufficient accuracy. In the same spirit, we can
+truncate the expansion to give a sparsity pattern of the density
+kernel matrix as a low order power of the Hamiltonian matrix. In
+ONETEP, this can currently be set to be the squared power by using:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">H2DENSKERN_SPARSITY</span> <span class="p">:</span> <span class="n">T</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>If you opt for the second option, then the quadratic order term in the
+expansion may not be a sufficiently accurate sparsity pattern to achieve
+the accuracy you were hoping for, but higher order powers are likely to
+be too dense to be useful and are not exposed to the user. Instead to
+reach your desired tolerances, we recommend you consider using the
+radius multiplier option.</p>
+<p>This option extends the effective range of the Hamiltonian matrix (when
+represented in contra-covarient, mixed form (as described above) and the
+density kernel matrix is formed from the square of this increased range
+matrix. The option is given in terms of a multiplier, which multiplies
+the NGWF radius to produce the resulting sparsity patterns. This option
+increases accuracy at the expense of performance and it is up to you as
+a user to find an appropriate value. A starting point may be around 1.2
+to 1.5 times:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">CONTRACOHAM_RADMULT</span> <span class="p">:</span> <span class="mf">1.2</span>
+</pre></div>
+</div>
+<p>It is worth pointing out here that you must also ensure your calculation
+is converged with respect to plane wave kinetic energy cutoff and NGWF
+radius, as well as number of NGWFs per atom. If you do opt for
+Hamiltonian matrix squared sparsity in the density kernel matrix,
+however, you will find that NGWF radius plays a particularly big role in
+the accuracy of your calculation. This is because it is effectively the
+parameter which controls the sparsity of your density kernel in this
+mode. Increasing the radius multiplier will be cheaper (to an extent)
+than increasing the NGWF radii, but you should make sure that your NGWF
+radii are sufficient first!</p>
+<p>The final parameter which is important to achieve your tolerances is the
+<span class="math">\(\mu\)</span>-tolerance in the chemical potential search. In practice this
+should be <em>at least</em> an order of magnitude smaller than your EDFT energy
+tolerances. You may find that you can improve the performance of your
+calculations by adjusting this, but you will find that the gains will be
+minor, because the number of extra matrix multiplications near to
+convergence is minimal compared with the number far from the correct
+chemical potential. This is set as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">FOE_MU_TOL</span> <span class="p">:</span> <span class="mf">1e-6</span> <span class="n">eV</span>
+</pre></div>
+</div>
+<p>Beyond this, there is little else to know, from a user perspective about
+performing FOE&nbsp;calculations in ONETEP. A general point is that these
+calculations tend to be expensive. If you are running a metallic system
+which is big enough to exhibit exploitable sparsity in its density
+kernel matrix, then you are probably looking at a system with thousands
+of atoms. In this case you will need to be running on a supercomputer
+and using a parallel version of ONETEP&nbsp;with as many cores as you can
+use.</p>
+<p>If you are looking for ways to speed up your calculations, look at
+OpenMP / MPI parallelism rather than just MPI, also try to optimise your
+convergence criteria to have the lowest values you can get away with
+while maintaining your desired level of accuracy. You may also want to
+look at the option of using fixed NGWFs and only optimising the density
+kernel. If you go down this route, please ensure that you use a multiple
+<span class="math">\(\zeta\)</span> set of NGWFs and probably polarisation functions. All of
+these extra points are really general ONETEP&nbsp;comments and information on
+them can be found in the other tutorials on the ONETEP&nbsp;website.</p>
+</div>
+<div class="section" id="an-example">
+<h2>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h2>
+<p>As an example we will set up a single-point energy calculation on bulk
+Magnesium, using PAW. We’ll opt for a decent cut-off energy of 700 eV
+and the PBE exchange-correlation functional.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">task</span> <span class="n">singlepoint</span>
+<span class="n">cutoff_energy</span> <span class="mi">700</span> <span class="n">eV</span>
+<span class="n">charge</span> <span class="mi">0</span>
+<span class="n">xc_functional</span> <span class="n">PBE</span>
+<span class="n">paw</span> <span class="p">:</span> <span class="n">T</span>
+</pre></div>
+</div>
+<p>We need to enable EDFT and set it up as we have described:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>!EDFT
+edft : T
+edft_smearing_width: 0.5 eV
+edft_maxit: 10
+</pre></div>
+</div>
+<p>10 EDFT&nbsp;iterations may be too few, and 0.5 eV smearing may be too hot
+for production calculations, but for the sake of a demonstration, they
+speed things up a bit.</p>
+<p>We also should opt for as much threading as we can get away with because
+this will be made use of in every matrix product:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>!THEADING
+threadsmax 8
+threadsperfftbox 1
+threadsnumfftboxes 8
+threadspercellfft 8
+threadsnummkl 8
+</pre></div>
+</div>
+<p>For instance, if your supercomputer has two 8 core processors per node,
+you could opt for 8-way OpenMP maximally, although in practice, you
+might want to reduce this to 4-way, if you need the MPI ranks.</p>
+<p>Now lets save some matrices and information:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>! properties
+ do_properties F
+
+! I/O
+ output_detail VERBOSE
+ timings_level 1
+ write_xyz T
+ write_denskern T
+ read_denskern F
+ write_tightbox_ngwfs T
+ read_tightbox_ngwfs F
+ write_hamiltonian T
+ read_hamiltonian F
+</pre></div>
+</div>
+<p>In practice it is a good idea to write everything, in case you need to
+continue this calculation, but in the extreme case where your NGWFs and
+matrices are too big to write to disk (not enough space or it’s taking
+too long) then you can disable this.</p>
+<p>Now we can set up NGWF optimisation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>! NGWF optimization
+ k_zero 2.5
+ maxit_ngwf_cg 25
+</pre></div>
+</div>
+<p>and FOE:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">foe</span> <span class="p">:</span> <span class="n">T</span>
+<span class="n">dense_foe</span> <span class="p">:</span> <span class="n">F</span>
+<span class="n">H2DENSKERN_SPARSITY</span> <span class="p">:</span> <span class="n">T</span>
+</pre></div>
+</div>
+<p>Before setting up the Mg:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species</span>
+ <span class="n">Mg</span> <span class="n">Mg</span> <span class="mi">12</span> <span class="mi">4</span> <span class="mf">8.0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_atomic_set</span>
+<span class="n">Mg</span> <span class="s2">&quot;SOLVE&quot;</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_atomic_set</span>
+</pre></div>
+</div>
+<p>for instance. Or, if you wanted to set maxit_ngwf_cg to be zero and
+run a fixed NGWF calculation, you could run a multiple <span class="math">\(\zeta\)</span> +
+polarisation calculation with:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species</span>
+ <span class="n">Mg</span> <span class="n">Mg</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mf">8.0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species</span>
+
+ <span class="o">%</span><span class="n">block</span> <span class="n">species_atomic_set</span>
+<span class="n">Mg</span> <span class="s2">&quot;SOLVE conf=2s2 2p6 3s2 3p0|P&quot;</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_atomic_set</span>
+</pre></div>
+</div>
+<p>For more info on this, please see the pseudoatomic solver tutorial. Add
+the PAW data:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_pot</span>
+<span class="n">Mg</span> <span class="s2">&quot;mg_pbe_v1_abinit.paw&quot;</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pot</span>
+</pre></div>
+</div>
+<p>Finally lets add a simulation cell and some atoms:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">BLOCK</span> <span class="n">lattice_cart</span>
+<span class="n">ang</span>
+ <span class="mf">13.2119999999999997</span>   <span class="mf">0.0000000000000213</span>   <span class="mf">0.0000000000000213</span>
+  <span class="mf">0.0000000000000000</span>  <span class="mf">10.8379999999999992</span>   <span class="mf">0.0000000000000175</span>
+  <span class="mf">0.0000000000000000</span>   <span class="mf">0.0000000000000000</span>  <span class="mf">10.4299999999999997</span>
+<span class="o">%</span><span class="n">ENDBLOCK</span> <span class="n">lattice_cart</span>
+
+<span class="o">%</span><span class="n">BLOCK</span> <span class="n">positions_abs</span>
+<span class="n">ang</span>
+<span class="n">Mg</span>         <span class="mf">3.30300</span>        <span class="mf">1.99300</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">1.65100</span>        <span class="mf">4.70200</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">3.30300</span>        <span class="mf">0.11500</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">1.65100</span>        <span class="mf">2.82500</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">0.00000</span>        <span class="mf">1.99300</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">4.95400</span>        <span class="mf">4.70200</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">0.00000</span>        <span class="mf">0.11500</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">4.95400</span>        <span class="mf">2.82500</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">3.30300</span>        <span class="mf">1.99300</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">1.65100</span>        <span class="mf">4.70200</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">3.30300</span>        <span class="mf">0.11500</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">1.65100</span>        <span class="mf">2.82500</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">0.00000</span>        <span class="mf">1.99300</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">4.95400</span>        <span class="mf">4.70200</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">0.00000</span>        <span class="mf">0.11500</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">4.95400</span>        <span class="mf">2.82500</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">3.30300</span>        <span class="mf">7.41200</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">1.65100</span>       <span class="mf">10.12100</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">3.30300</span>        <span class="mf">5.53400</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">1.65100</span>        <span class="mf">8.24400</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">0.00000</span>        <span class="mf">7.41200</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">4.95400</span>       <span class="mf">10.12100</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">0.00000</span>        <span class="mf">5.53400</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">4.95400</span>        <span class="mf">8.24400</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">3.30300</span>        <span class="mf">7.41200</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">1.65100</span>       <span class="mf">10.12100</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">3.30300</span>        <span class="mf">5.53400</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">1.65100</span>        <span class="mf">8.24400</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">0.00000</span>        <span class="mf">7.41200</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">4.95400</span>       <span class="mf">10.12100</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">0.00000</span>        <span class="mf">5.53400</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">4.95400</span>        <span class="mf">8.24400</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">9.90900</span>        <span class="mf">1.99300</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">8.25700</span>        <span class="mf">4.70200</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">9.90900</span>        <span class="mf">0.11500</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">8.25700</span>        <span class="mf">2.82500</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">6.60600</span>        <span class="mf">1.99300</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>        <span class="mf">11.56000</span>        <span class="mf">4.70200</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">6.60600</span>        <span class="mf">0.11500</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>        <span class="mf">11.56000</span>        <span class="mf">2.82500</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">9.90900</span>        <span class="mf">1.99300</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">8.25700</span>        <span class="mf">4.70200</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">9.90900</span>        <span class="mf">0.11500</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">8.25700</span>        <span class="mf">2.82500</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">6.60600</span>        <span class="mf">1.99300</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>        <span class="mf">11.56000</span>        <span class="mf">4.70200</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">6.60600</span>        <span class="mf">0.11500</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>        <span class="mf">11.56000</span>        <span class="mf">2.82500</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">9.90900</span>        <span class="mf">7.41200</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">8.25700</span>       <span class="mf">10.12100</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">9.90900</span>        <span class="mf">5.53400</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">8.25700</span>        <span class="mf">8.24400</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">6.60600</span>        <span class="mf">7.41200</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>        <span class="mf">11.56000</span>       <span class="mf">10.12100</span>        <span class="mf">0.00000</span>
+<span class="n">Mg</span>         <span class="mf">6.60600</span>        <span class="mf">5.53400</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>        <span class="mf">11.56000</span>        <span class="mf">8.24400</span>        <span class="mf">2.60800</span>
+<span class="n">Mg</span>         <span class="mf">9.90900</span>        <span class="mf">7.41200</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">8.25700</span>       <span class="mf">10.12100</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">9.90900</span>        <span class="mf">5.53400</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">8.25700</span>        <span class="mf">8.24400</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>         <span class="mf">6.60600</span>        <span class="mf">7.41200</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>        <span class="mf">11.56000</span>       <span class="mf">10.12100</span>        <span class="mf">5.21500</span>
+<span class="n">Mg</span>         <span class="mf">6.60600</span>        <span class="mf">5.53400</span>        <span class="mf">7.82300</span>
+<span class="n">Mg</span>        <span class="mf">11.56000</span>        <span class="mf">8.24400</span>        <span class="mf">7.82300</span>
+<span class="o">%</span><span class="n">ENDBLOCK</span> <span class="n">positions_abs</span>
+</pre></div>
+</div>
+<p>[Gibson1993] A. Gibson, R. Haydock and J. P. LaFemina. <em>Ab initio electronic-structure computations with the recursive method</em>, Phys. Rev. B. <strong>47</strong>, 9229 (1993)</p>
+<p>[Aarons2018] J. Aarons and C.-K. Skylaris. <em>Electronic annealing Fermi operator expansion for DFT calculations on metallic systems</em>, J. Chem. Phys. <strong>148</strong>, 074107 (2018)</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="onetep_edft_documentation.html" title="previous chapter">Finite-temperature DFT calculations using the Ensemble-DFT method</a></li>
+      <li>Next: <a href="onetep_kernel_diis_documentation.html" title="next chapter">Density mixing (Kernel-DIIS)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/AQUA-FOE.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

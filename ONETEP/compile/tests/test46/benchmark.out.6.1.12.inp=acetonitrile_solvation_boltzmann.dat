@@ -1,0 +1,1058 @@
+==================================================================================
+It's Wed Sep 21 10:46:53 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 8919 8920 8921 8922)...
+    - ONETEP arguments: acetonitrile_solvation_boltzmann.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test46
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test46/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test46/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack acetonitrile_solvation_boltzmann.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:46 (+0100)
+ 
+Reading parameters from file "acetonitrile_solvation_boltzmann.dat" ...
+WARNING: the method used to calculate the nonpolar term in implicit 
+         solvent was changed in version 6.1.3. Therefore the total 
+         energy values for implicit solvent may not be compatible with 
+         earlier versions. 
+
+         For backwards compatibility, set is_apolar_sasa_definition to 
+         'isodensity'. 
+
+         To use the new definition and suppress this warning, 
+         set is_apolar_sasa_definition to 'density'.
+
+
+WARNING: "cutoff_energy" not specified, but "psinc_spacing" specified.
+         Using the latter to set the KE cutoff energy to  826.82697eV,
+         thus *overriding* the default.
+
+... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+   Determining the default number of threads...
+      No default threads set at compilation time: defaulting to 1.
+      OpenMP library call suggests 10 threads.
+      Hybrid MPI-OpenMP compilation detected.
+      Number of MPI processes > 1.
+      OMP_NUM_THREADS environment variable present and
+      its value matches the one obtained from the OpenMP library call.
+      Using this value as default.
+      Default threads: 10
+      Default applies to threads_max and threads_num_fftboxes.
+      Settings in the input file override this default.
+   ... done
+
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     O  O  O     |
+BC: | Local pseudopotential | pspot_bc [3]    |     O  O  O     |
+BC: | Multigrid solver      | multigrid_bc    |     O  O  O     |
+BC: | Smeared ions          | smeared_ion_bc  |     O  O  O     |
+BC: | Van der Waals         | vdw_bc          |     O  O  O     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "acetonitrile_solvation_boltzmann.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+IS: Dielectric excluded regions:
+    - NONE.
+    
+  PSINC grid spacing along a1 set to   0.500000000000a0 from input file.
+  PSINC grid spacing along a2 set to   0.500000000000a0 from input file.
+  PSINC grid spacing along a3 set to   0.500000000000a0 from input file.
+  Number of PPD points along a3 set to 1.  This is 
+  the default value, it may have been provided also in the input file.
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+is_core_width 0.0                                                               
+write_forces F                                                                  
+is_pbe                    full                                                  
+is_pbe_temperature        300.0                                                 
+is_pbe_bc_debye_screening F                                                     
+is_steric_pot_type M                                                            
+is_hc_steric_dens_isovalue 0.002                                                
+%block species_solvent_radius                                                   
+H 2.42                                                                          
+C 2.42                                                                          
+N 2.42                                                                          
+%endblock species_solvent_radius                                                
+is_hc_steric_smearing              0.4 bohr                                     
+%block sol_ions                                                                 
+Mg +2 0.1                                                                       
+Cl -1 0.2                                                                       
+%endblock sol_ions                                                              
+print_qc T                                                                      
+output_detail VERBOSE                                                           
+timings_level 0                                                                 
+write_denskern F                                                                
+write_tightbox_ngwfs F                                                          
+do_properties F                                                                 
+charge 0                                                                        
+ngwf_threshold_orig : 0.000002                                                  
+kernel_cutoff : 1000                                                            
+elec_cg_max 0                                                                   
+occ_mix 1.0                                                                     
+xc_functional PBE                                                               
+fine_grid_scale 3.0                                                             
+is_implicit_solvent T                                                           
+is_include_apolar T                                                             
+is_smeared_ion_rep T                                                            
+is_solvent_surf_tension 0.07415 N/m                                             
+is_apolar_scaling_factor 0.281075                                               
+is_solvation_beta 1.3                                                           
+is_density_threshold 0.00035                                                    
+is_bulk_permittivity 78.54                                                      
+is_dielectric_model self_consistent                                             
+mg_granularity_power 5                                                          
+mg_defco_fd_order 2                                                             
+is_smeared_ion_width 0.8                                                        
+is_bc_coarseness 0                                                              
+maxit_pen 0                                                                     
+maxit_ngwf_cg 1                                                                 
+minit_lnv 1                                                                     
+maxit_lnv 1                                                                     
+psinc_spacing 0.5 0.5 0.5                                                       
+%block lattice_cart                                                             
+27.5000000   0.0000000   0.0000000                                              
+0.0000000  27.5000000   0.0000000                                               
+0.0000000   0.0000000  27.5000000                                               
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =  -000002845094739623709189
+%endblock positions_abs                                                         
+%block species                                                                  
+H   H   1 1 7.0                                                                 
+C   C   6 4 7.0                                                                 
+N   N   7 4 7.0                                                                 
+%endblock species                                                               
+%block species_pot                                                              
+H   "../../pseudo/hydrogen.recpot"                                              
+C   "../../pseudo/carbon.recpot"                                                
+N   "../../pseudo/nitrogen.recpot"                                              
+%endblock species_pot                                                           
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+ ESDF WARNING(1): "kernelcutoff" (esdf_physical) has no units. Assume "bohr".
+ ESDF WARNING(2
+ ): "issmearedionwidth" (esdf_physical) has no units. Assume "bohr".
+ ESDF WARNING(3): "iscorewidth" (esdf_physical) has no units. Assume "bohr".
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+File: ../../pseudo/nitrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  7;  ionic charge:  5.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C          2         8         2
+  H          3         3         0
+  N          1         4         1
+.......   ......    ......    ......
+Totals:      6        15         3
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   55 x  55 x  55
+                              FFT-box:   55 x  55 x  55
+                                  PPD:    5 x   5 x   1
+Grid space d1=  0.500000000000a0 (KE cutoff=  30.38533Eh = 826.82697eV)
+Grid space d2=  0.500000000000a0 (KE cutoff=  30.38533Eh = 826.82697eV)
+Grid space d3=  0.500000000000a0 (KE cutoff=  30.38533Eh = 826.82697eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     55    55    55
+          Real-space ('12') slabs/proc (min max mean):     13    14    13
+         Recip-space ('23') slabs/proc (min max mean):      7     7     7
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    110   110   110
+          Real-space ('12') slabs/proc (min max mean):     27    28    27
+         Recip-space ('23') slabs/proc (min max mean):     14    14    14
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+         Fine grid (whole simulation cell) dimensions:    166   166   166
+          Real-space ('12') slabs/proc (min max mean):     41    42    41
+         Recip-space ('23') slabs/proc (min max mean):     21    21    21
+********************************************************************************
+ONETEP fine grid is 166 x 166 x 166 gridpoints, 27.5000 x 27.5000 x 27.5000 bohr.
+FD multigrid is     161 x 161 x 161 gridpoints, 26.6717 x 26.6717 x 26.6717 bohr.
+
+
+Calculating local pseudopotential in open BC on a radial grid ...
+Discrepancy between calculated realspace psloc and -Z/x on [5a0,47.631a0]:
+max |rel. diff| # avg |rel. diff| #  avg rel. diff #  f # pseudopotential file
+ 0.000143128542    0.000022119464   0.000000629961   11  '../../pseudo/carbon.recpot'
+ 0.000283055213    0.000045686960   0.000000025191   11  '../../pseudo/hydrogen.recpot'
+ 0.000152836385    0.000013310112   0.000001131079   11  '../../pseudo/nitrogen.recpot'
+... done
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Real-space Grid (nr,dr,rmax): 1069    0.0065543071    7.0000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   42    0  182.3119948938
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+  1          0.4612756347   -0.2365535373    0.2820952968   -0.2424203210
+  2         -0.0802882711   -0.2312237541    0.2927869315   -0.2507188943
+  3         -0.2592546219   -0.2279096229    0.2972191598   -0.2549834577
+  4         -0.3528503111   -0.2260877282    0.2995270747   -0.2573584189
+  5         -0.4015012657   -0.2251857943    0.3006438377   -0.2585746004
+  6         -0.4267358564   -0.2247592082    0.3011635629   -0.2591750779
+  7         -0.4398204012   -0.2245621222    0.3013999451   -0.2594669220
+  8         -0.4466084028   -0.2244722780    0.3015058377   -0.2596080184
+  9         -0.4501329613   -0.2244316650    0.3015527266   -0.2596762685
+ 10         -0.4519648716   -0.2244134158    0.3015732705   -0.2597094093
+ 11         -0.4529179924   -0.2244052564    0.3015821703   -0.2597255955
+ 12         -0.4534143796   -0.2244016263    0.3015859732   -0.2597335559
+ 13         -0.4536731395   -0.2244000204    0.3015875688   -0.2597375002
+ 14         -0.4538081445   -0.2243993151    0.3015882213   -0.2597394695
+ 15         -0.4538786385   -0.2243990083    0.3015884779   -0.2597404603
+ 16         -0.4539154751   -0.2243988766    0.3015885724   -0.2597409623
+ 17         -0.4539347375   -0.2243988212    0.3015886031   -0.2597412185
+ 18         -0.4539448168   -0.2243987985    0.3015886102   -0.2597413500
+ 19         -0.4539500941   -0.2243987897    0.3015886097   -0.2597414180
+ 20         -0.4539528589   -0.2243987865    0.3015886073   -0.2597414533
+ 21         -0.4539543082   -0.2243987855    0.3015886051   -0.2597414717
+ 22         -0.4539550683   -0.2243987853    0.3015886034   -0.2597414813
+ 23         -0.4539554672   -0.2243987854    0.3015886022   -0.2597414864
+ 24         -0.4539556766   -0.2243987855    0.3015886015   -0.2597414890
+ 25         -0.4539557867   -0.2243987856    0.3015886011   -0.2597414904
+ 26         -0.4539558445   -0.2243987857    0.3015886008   -0.2597414912
+Atom SCF converged after  26 iterations to a total energy of     -0.45395584
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax): 1069    0.0065543071    7.0000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   42    1  182.3119948938
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -2.1384993958   -1.2976405643    4.5135247483   -1.4493313820
+  2         -4.1377883190   -1.2905684757    4.5213391799   -1.4500066983
+  3         -4.8878745344   -1.3009787050    4.5096687789   -1.4469760150
+  4         -5.1882351157   -1.3048507990    4.5052671584   -1.4461048446
+  5         -5.3079165211   -1.3064215566    4.5034634344   -1.4458131073
+  6         -5.3555360494   -1.3070652776    4.5027199358   -1.4457115396
+  7         -5.3744803657   -1.3073254831    4.5024182187   -1.4456775105
+  8         -5.3820155201   -1.3074295705    4.5022971426   -1.4456669534
+  9         -5.3850115487   -1.3074709511    4.5022488660   -1.4456641220
+ 10         -5.3862021731   -1.3074873403    4.5022296879   -1.4456636151
+ 11         -5.3866750243   -1.3074938143    4.5022220879   -1.4456636921
+ 12         -5.3868626726   -1.3074963657    4.5022190819   -1.4456638477
+ 13         -5.3869370743   -1.3074973690    4.5022178951   -1.4456639656
+ 14         -5.3869665444   -1.3074977624    4.5022174276   -1.4456640377
+ 15         -5.3869782039   -1.3074979163    4.5022172438   -1.4456640776
+ 16         -5.3869828106   -1.3074979762    4.5022171718   -1.4456640986
+ 17         -5.3869846279   -1.3074979994    4.5022171437   -1.4456641092
+ 18         -5.3869853436   -1.3074980083    4.5022171328   -1.4456641144
+ 19         -5.3869856249   -1.3074980118    4.5022171286   -1.4456641170
+ 20         -5.3869857351   -1.3074980131    4.5022171270   -1.4456641182
+ 21         -5.3869857782   -1.3074980135    4.5022171263   -1.4456641188
+Atom SCF converged after  21 iterations to a total energy of     -5.38698578
+
+Atom SCF Calculation for N  : Z (AE atom) =   7 : Z (PS atom) =   5
+Config String:
+Orbitals (num,occ):  2     2.00 3.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax): 1069    0.0065543071    7.0000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   42    1  182.3119948938
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -0.8942203449   -3.4145421971    7.0523824192   -1.9351020949
+  2         -8.1318538138   -2.0405603237    8.3040734940   -2.2513233387
+  3         -9.0622217250   -2.0627993269    8.2801684097   -2.2485876773
+  4         -9.4334461648   -2.0712948622    8.2709192262   -2.2479705160
+  5         -9.5827615845   -2.0741761866    8.2677682455   -2.2479589519
+  6         -9.6421335867   -2.0753219973    8.2665132145   -2.2479832918
+  7         -9.6657849603   -2.0757637074    8.2660288733   -2.2480073018
+  8         -9.6752005949   -2.0759354419    8.2658404598   -2.2480220681
+  9         -9.6789492394   -2.0760020503    8.2657673556   -2.2480301202
+ 10         -9.6804414969   -2.0760279071    8.2657389696   -2.2480342225
+ 11         -9.6810354696   -2.0760379480    8.2657279441   -2.2480362309
+ 12         -9.6812718579   -2.0760418496    8.2657236589   -2.2480371881
+ 13         -9.6813659192   -2.0760433665    8.2657219924   -2.2480376357
+ 14         -9.6814033397   -2.0760439566    8.2657213439   -2.2480378421
+ 15         -9.6814182232   -2.0760441863    8.2657210915   -2.2480379362
+ 16         -9.6814241414   -2.0760442757    8.2657209931   -2.2480379788
+ 17         -9.6814264939   -2.0760443105    8.2657209548   -2.2480379979
+ 18         -9.6814274288   -2.0760443240    8.2657209399   -2.2480380065
+ 19         -9.6814278001   -2.0760443293    8.2657209341   -2.2480380103
+ 20         -9.6814279476   -2.0760443313    8.2657209318   -2.2480380120
+ 21         -9.6814280061   -2.0760443321    8.2657209310   -2.2480380127
+Atom SCF converged after  21 iterations to a total energy of     -9.68142801
+
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     O  O  O     |
+BC: | Local pseudopotential | pspot_bc [3]    |     O  O  O     |
+BC: | Multigrid solver      | multigrid_bc    |     O  O  O     |
+BC: | Smeared ions          | smeared_ion_bc  |     O  O  O     |
+BC: | Van der Waals         | vdw_bc          |     O  O  O     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...
+... using space-filling curve
+... NGWF load balancing: max      5;  min      1;  average      4
+... Projector load balancing: max      1;  min      0;  average      1
+... done
+Calculating direct Ion-Ion energy ...
+Ion-Ion Energy        :        31.19388932693186
+Basis initialisation ...... NGWF spheres initialised
+... Projector spheres initialised
+... NGWF tight boxes initialised
+... Tight-boxes gathered
+... NGWF basis size (local,global):         28719        87597
+... Nonlocal pseudopotential projector initialisation
+... done
+
+========================== Sparse matrix information ===========================
+                        Overlap matrix filling: 100.00%
+                        Density kernel filling: 100.00%
+              NGWF-Proj overlap matrix filling: 100.00%
+                    Hamiltonian matrix filling: 100.00%
+                  NGWF diagonal matrix filling:  22.67%
+                             KS matrix filling: 100.00% 
+                           KSKS matrix filling: 100.00% 
+================================================================================
+
+Sparse matrix initialisation ... done
+
+Generating smeared ion density ... done
+Smeared ion self correction:     -29.920671
+Smeared ion non-self correction: -31.077329
+IS: Initialising Boltzmann terms in implicit solvation...
+----------------------------------------------------------
+|           Boltzmann ions in implicit solvent:          |
++--------------------------------------------------------+
+|       Name | Charge |  Conc. (mol/L)  |  Conc. (a.u.)  |
+|         Mg |  2.000 |    0.10000E+00  |   0.89239E-05  |
+|         Cl | -1.000 |    0.20000E+00  |   0.17848E-04  |
+----------------------------------------------------------
+
+IS: Generating smoothed hard-core steric potential ...
+IS: - smearing:        0.40000E+00 bohr.
+---------------------------------------------------------------
+|      Atomic hard-core steric potential radial cut-offs      |
++-------------------------------------------------------------+
+|   Species |   Symbol |            Radial cut-off (bohr)     |
+|           |          |     solute      solvent        total |
+|         1 |        H |   2.595506 +   2.420000 =   5.015506 |
+|         2 |        C |   3.270599 +   2.420000 =   5.690599 |
+|         3 |        N |   3.113296 +   2.420000 =   5.533296 |
+---------------------------------------------------------------
+
+IS: Debye length is   10.53 bohr. PB equation variant: FULL. Use_fas: F.
+IS: Exp_cap:   50.00. Steric pot: SMOOTHED SPHERES.
+NGWF initialisation ...... done
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.34767881E+01     0.91699988E+00
+               2       0.32308952E+01     0.84413636E+00
+               3       0.29281059E+01     0.72303431E+00
+               4       0.26205654E+01     0.65854225E+00
+               5       0.23508960E+01     0.64404554E+00
+               6       0.20948918E+01     0.61904278E+00
+               7       0.18083060E+01     0.57357220E+00
+               8       0.14581016E+01     0.49371943E+00
+               9       0.10334578E+01     0.36764999E+00
+              10       0.62852935E+00     0.20783715E+00
+              11       0.30878037E+00     0.96231252E-01
+              12       0.89660120E-01     0.28181703E-01
+              13       0.80061562E-02     0.25046078E-02
+              14       0.64097459E-04     0.20042844E-04
+              15       0.41084840E-08     0.12846932E-08
+              16       0.23351999E-14     0.88817842E-15
+================================================================================
+Calculating local pseudopotential in open BC on the fine real space grid ...
+... done
+
+
+Generating solute cavity for implicit solvation ... done
+MG DL_MG: Calling solver with defect correction order = 2
+MG DL_MG: Solver finished
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.670452
+MG Mobile charge (1/2 \int rho_m phi dr) energy term:                 -0.000000
+MG Osmotic pressure (-kT \int dr \sum_i c_i(r)) energy term:          -0.000445
+MG Mobile ion acc. corr. (\int dr \sum_i c_i(r) * V_steric(r)):        0.000004
+MG Ion atmosph. rearr. (kT \int dr \sum_i c_i(r)*ln(c_i(r)/c^0):      -0.000822
+MG Chemical potential (-\sum_i \mu_i \int dr c_i(r)) energy term:      0.000818
+MG                                                               --------------
+MG Mean-field contribution to grand potential                          3.670008
+
+MG Check from alternate expression:
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.670452
+MG Minus mobile charge (-1/2 \int rho_m phi dr) energy term:           0.000000
+MG -kT \int \sum_i c_i(r) dr (osmotic pressure) energy term:          -0.000445
+MG                                                               --------------
+MG Mean-field contribution to grand potential:                         3.670008
+
+IS: MG box volume:      18973.674 a0^3. Accessible fraction: 0.921259. OBC.
+
++--------------------------- Chemical potential --------------------------+
+|   # | Name | Bulk conc. |    mu_ideal   |   mu_excess   |    mu_total   |
+|-------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |  -0.002187556 |   0.000000000 |  -0.002187556 |
+|   2 |   Cl |  0.2000000 |  -0.001529036 |   0.000000000 |  -0.001529036 |
+|-------------------------------------------------------------------------|
+
++----------------- Boltzmann ion concentration and charge -----------------+
+|   # | Name | Bulk conc. | Average conc. | Neutr. ratio |    Total charge |
+|--------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |   0.100007155 | ------------ |     0.311995641 | 
+|   2 |   Cl |  0.2000000 |   0.199992944 | ------------ |    -0.311962311 | 
++--------------------------------------------------------------------------+
+                                                    total:     0.000033330 
+
++---- Concentration difference from bulk value on simcell faces (mol/L) ---+
+|   # | Name | Face | Bulk conc. | Actual conc. |  Difference |  RMS diff. |
+|--------------------------------------------------------------------------|
+|   1 |   Mg | Xmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_1]:         0.000000000000
+|   1 |   Mg | Xmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_1]:         0.000000000000
+|   1 |   Mg | Ymin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_1]:         0.000000000000
+|   1 |   Mg | Ymax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_1]:         0.000000000000
+|   1 |   Mg | Zmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_1]:         0.000000000000
+|   1 |   Mg | Zmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_1]:         0.000000000000
++..........................................................................+
+|   1 |   Mg |  AVG |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+|   2 |   Cl | Xmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_2]:         0.000000000000
+|   2 |   Cl | Xmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_2]:         0.000000000000
+|   2 |   Cl | Ymin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_2]:         0.000000000000
+|   2 |   Cl | Ymax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_2]:         0.000000000000
+|   2 |   Cl | Zmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_2]:         0.000000000000
+|   2 |   Cl | Zmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_2]:         0.000000000000
++..........................................................................+
+|   2 |   Cl |  AVG |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
++--------------------------------------------------------------------------+
+|      OVERALL      |  0.1500000 |    0.1500000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+Up spin density kernel initialisation ... 
+======= Optimisation of K by Palser-Manolopoulos canonical purification ======== 
+         Iteration  |  Band structure energy |    c_n   
+               1          -3.23347718366240    0.5405934
+               2          -3.51778122270929    0.5282939
+               3          -3.82331555021606    0.5286428
+               4          -4.10188318942727    0.5522081
+               5          -4.28706464979549    0.5694656
+               6          -4.38240087857274    0.5400372
+               7          -4.43523179571250    0.5096185
+               8          -4.45321422372778    0.5005737
+               9          -4.45483346437481    0.5000021
+              10          -4.45484540588478    0.5000001
+              11          -4.45484540654691    0.5000001
+Termination criterion satisfied: band energy change below threshold.
+Final occupancy bounds: [    0.00000000000000:    1.00000000000000]
+Closest occupancy to 0.5:     1.00000000000000
+================================================================================
+... done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:      16.00000000
+     Final electron number for spin 1:      16.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=     16.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     16.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+Generating solute cavity for implicit solvation ... done
+MG DL_MG: Calling solver with defect correction order = 2
+MG DL_MG: Solver finished
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.890500
+MG Mobile charge (1/2 \int rho_m phi dr) energy term:                 -0.000007
+MG Osmotic pressure (-kT \int dr \sum_i c_i(r)) energy term:          -0.000452
+MG Mobile ion acc. corr. (\int dr \sum_i c_i(r) * V_steric(r)):        0.000005
+MG Ion atmosph. rearr. (kT \int dr \sum_i c_i(r)*ln(c_i(r)/c^0):      -0.000821
+MG Chemical potential (-\sum_i \mu_i \int dr c_i(r)) energy term:      0.000831
+MG                                                               --------------
+MG Mean-field contribution to grand potential                          3.890056
+
+MG Check from alternate expression:
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.890500
+MG Minus mobile charge (-1/2 \int rho_m phi dr) energy term:           0.000007
+MG -kT \int \sum_i c_i(r) dr (osmotic pressure) energy term:          -0.000452
+MG                                                               --------------
+MG Mean-field contribution to grand potential:                         3.890056
+
+IS: MG box volume:      18973.674 a0^3. Accessible fraction: 0.921259. OBC.
+
++--------------------------- Chemical potential --------------------------+
+|   # | Name | Bulk conc. |    mu_ideal   |   mu_excess   |    mu_total   |
+|-------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |  -0.002187556 |   0.000000000 |  -0.002187556 |
+|   2 |   Cl |  0.2000000 |  -0.001529036 |   0.000000000 |  -0.001529036 |
+|-------------------------------------------------------------------------|
+
++----------------- Boltzmann ion concentration and charge -----------------+
+|   # | Name | Bulk conc. | Average conc. | Neutr. ratio |    Total charge |
+|--------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |   0.101855385 | ------------ |     0.317761625 | 
+|   2 |   Cl |  0.2000000 |   0.202833654 | ------------ |    -0.316393439 | 
++--------------------------------------------------------------------------+
+                                                    total:     0.001368185 
+
++---- Concentration difference from bulk value on simcell faces (mol/L) ---+
+|   # | Name | Face | Bulk conc. | Actual conc. |  Difference |  RMS diff. |
+|--------------------------------------------------------------------------|
+|   1 |   Mg | Xmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_1]:         0.000000000000
+|   1 |   Mg | Xmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_1]:         0.000000000000
+|   1 |   Mg | Ymin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_1]:         0.000000000000
+|   1 |   Mg | Ymax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_1]:         0.000000000000
+|   1 |   Mg | Zmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_1]:         0.000000000000
+|   1 |   Mg | Zmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_1]:         0.000000000000
++..........................................................................+
+|   1 |   Mg |  AVG |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+|   2 |   Cl | Xmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_2]:         0.000000000000
+|   2 |   Cl | Xmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_2]:         0.000000000000
+|   2 |   Cl | Ymin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_2]:         0.000000000000
+|   2 |   Cl | Ymax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_2]:         0.000000000000
+|   2 |   Cl | Zmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_2]:         0.000000000000
+|   2 |   Cl | Zmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_2]:         0.000000000000
++..........................................................................+
+|   2 |   Cl |  AVG |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
++--------------------------------------------------------------------------+
+|      OVERALL      |  0.1500000 |    0.1500000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+      ideal mu1:      -0.542533354097
+    1        -2.279095716146E+01     3.8852E-02     3.6424E-02
+Finished density kernel iterations (   1)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -2.27909571614619E+01  Eh
+     Estimated bandgap           =   1.5582E-01  Eh
+     RMS occupancy error         =   8.3691E-17
+     [H,K] commutator            =   3.6424E-02
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.9495E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.13285714E-01     0.53993031E-02
+               2       0.94295781E-04     0.41165843E-04
+               3       0.67416138E-08     0.30947032E-08
+               4       0.20783593E-14     0.77715612E-15
+================================================================================
+
+Generating solute cavity for implicit solvation ... done
+MG DL_MG: Calling solver with defect correction order = 2
+MG DL_MG: Solver finished
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.787405
+MG Mobile charge (1/2 \int rho_m phi dr) energy term:                 -0.000007
+MG Osmotic pressure (-kT \int dr \sum_i c_i(r)) energy term:          -0.000452
+MG Mobile ion acc. corr. (\int dr \sum_i c_i(r) * V_steric(r)):        0.000005
+MG Ion atmosph. rearr. (kT \int dr \sum_i c_i(r)*ln(c_i(r)/c^0):      -0.000821
+MG Chemical potential (-\sum_i \mu_i \int dr c_i(r)) energy term:      0.000831
+MG                                                               --------------
+MG Mean-field contribution to grand potential                          3.786961
+
+MG Check from alternate expression:
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.787405
+MG Minus mobile charge (-1/2 \int rho_m phi dr) energy term:           0.000007
+MG -kT \int \sum_i c_i(r) dr (osmotic pressure) energy term:          -0.000452
+MG                                                               --------------
+MG Mean-field contribution to grand potential:                         3.786961
+
+IS: MG box volume:      18973.674 a0^3. Accessible fraction: 0.921259. OBC.
+
++--------------------------- Chemical potential --------------------------+
+|   # | Name | Bulk conc. |    mu_ideal   |   mu_excess   |    mu_total   |
+|-------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |  -0.002187556 |   0.000000000 |  -0.002187556 |
+|   2 |   Cl |  0.2000000 |  -0.001529036 |   0.000000000 |  -0.001529036 |
+|-------------------------------------------------------------------------|
+
++----------------- Boltzmann ion concentration and charge -----------------+
+|   # | Name | Bulk conc. | Average conc. | Neutr. ratio |    Total charge |
+|--------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |   0.101853026 | ------------ |     0.317754263 | 
+|   2 |   Cl |  0.2000000 |   0.202821874 | ------------ |    -0.316375065 | 
++--------------------------------------------------------------------------+
+                                                    total:     0.001379198 
+
++---- Concentration difference from bulk value on simcell faces (mol/L) ---+
+|   # | Name | Face | Bulk conc. | Actual conc. |  Difference |  RMS diff. |
+|--------------------------------------------------------------------------|
+|   1 |   Mg | Xmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_1]:         0.000000000000
+|   1 |   Mg | Xmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_1]:         0.000000000000
+|   1 |   Mg | Ymin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_1]:         0.000000000000
+|   1 |   Mg | Ymax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_1]:         0.000000000000
+|   1 |   Mg | Zmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_1]:         0.000000000000
+|   1 |   Mg | Zmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_1]:         0.000000000000
++..........................................................................+
+|   1 |   Mg |  AVG |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+|   2 |   Cl | Xmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_2]:         0.000000000000
+|   2 |   Cl | Xmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_2]:         0.000000000000
+|   2 |   Cl | Ymin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_2]:         0.000000000000
+|   2 |   Cl | Ymax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_2]:         0.000000000000
+|   2 |   Cl | Zmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_2]:         0.000000000000
+|   2 |   Cl | Zmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_2]:         0.000000000000
++..........................................................................+
+|   2 |   Cl |  AVG |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
++--------------------------------------------------------------------------+
+|      OVERALL      |  0.1500000 |    0.1500000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.15308588E+00     0.50725457E-01
+               2       0.11950915E-01     0.49362761E-02
+               3       0.98476780E-04     0.44053693E-04
+               4       0.76947638E-08     0.34639820E-08
+               5       0.21348619E-14     0.88817842E-15
+================================================================================
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00194947279050
+Trial step length           =               0.122474
+Gradient along search dir.  =         -0.65523837822
+Functional at step 0        =     -22.79095716146189
+Functional at step 1        =     -22.86647325446197
+Functional predicted        =     -23.13106108127151
+Selected quadratic step     =               1.038107
+--------------------------- NGWF line search finished --------------------------
+                                               
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:      16.08203128
+     Final electron number for spin 1:      16.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.004301 (step -0.4876 Ne1=     16.0000)
+ RMS occupancy error at iteration   2:  0.000041 (step -0.5000 Ne1=     16.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     16.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+Generating solute cavity for implicit solvation ... done
+MG DL_MG: Calling solver with defect correction order = 2
+MG DL_MG: Solver finished
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.137619
+MG Mobile charge (1/2 \int rho_m phi dr) energy term:                 -0.000007
+MG Osmotic pressure (-kT \int dr \sum_i c_i(r)) energy term:          -0.000451
+MG Mobile ion acc. corr. (\int dr \sum_i c_i(r) * V_steric(r)):        0.000005
+MG Ion atmosph. rearr. (kT \int dr \sum_i c_i(r)*ln(c_i(r)/c^0):      -0.000822
+MG Chemical potential (-\sum_i \mu_i \int dr c_i(r)) energy term:      0.000831
+MG                                                               --------------
+MG Mean-field contribution to grand potential                          3.137175
+
+MG Check from alternate expression:
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.137619
+MG Minus mobile charge (-1/2 \int rho_m phi dr) energy term:           0.000007
+MG -kT \int \sum_i c_i(r) dr (osmotic pressure) energy term:          -0.000451
+MG                                                               --------------
+MG Mean-field contribution to grand potential:                         3.137175
+
+IS: MG box volume:      18973.674 a0^3. Accessible fraction: 0.921259. OBC.
+
++--------------------------- Chemical potential --------------------------+
+|   # | Name | Bulk conc. |    mu_ideal   |   mu_excess   |    mu_total   |
+|-------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |  -0.002187556 |   0.000000000 |  -0.002187556 |
+|   2 |   Cl |  0.2000000 |  -0.001529036 |   0.000000000 |  -0.001529036 |
+|-------------------------------------------------------------------------|
+
++----------------- Boltzmann ion concentration and charge -----------------+
+|   # | Name | Bulk conc. | Average conc. | Neutr. ratio |    Total charge |
+|--------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |   0.101806472 | ------------ |     0.317609027 | 
+|   2 |   Cl |  0.2000000 |   0.202701053 | ------------ |    -0.316186599 | 
++--------------------------------------------------------------------------+
+                                                    total:     0.001422428 
+
++---- Concentration difference from bulk value on simcell faces (mol/L) ---+
+|   # | Name | Face | Bulk conc. | Actual conc. |  Difference |  RMS diff. |
+|--------------------------------------------------------------------------|
+|   1 |   Mg | Xmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_1]:         0.000000000000
+|   1 |   Mg | Xmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_1]:         0.000000000000
+|   1 |   Mg | Ymin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_1]:         0.000000000000
+|   1 |   Mg | Ymax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_1]:         0.000000000000
+|   1 |   Mg | Zmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_1]:         0.000000000000
+|   1 |   Mg | Zmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_1]:         0.000000000000
++..........................................................................+
+|   1 |   Mg |  AVG |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+|   2 |   Cl | Xmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_2]:         0.000000000000
+|   2 |   Cl | Xmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_2]:         0.000000000000
+|   2 |   Cl | Ymin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_2]:         0.000000000000
+|   2 |   Cl | Ymax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_2]:         0.000000000000
+|   2 |   Cl | Zmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_2]:         0.000000000000
+|   2 |   Cl | Zmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_2]:         0.000000000000
++..........................................................................+
+|   2 |   Cl |  AVG |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
++--------------------------------------------------------------------------+
+|      OVERALL      |  0.1500000 |    0.1500000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+      ideal mu1:      -0.460075353731
+    1        -2.312704341445E+01     2.9941E-02     2.8070E-02
+Finished density kernel iterations (   1)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -2.31270434144516E+01  Eh
+     Estimated bandgap           =   2.4561E-01  Eh
+     RMS occupancy error         =   7.9281E-09
+     [H,K] commutator            =   2.8070E-02
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Generating solute cavity for implicit solvation ... done
+MG DL_MG: Calling solver with defect correction order = 2
+MG DL_MG: Solver finished
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.137619
+MG Mobile charge (1/2 \int rho_m phi dr) energy term:                 -0.000007
+MG Osmotic pressure (-kT \int dr \sum_i c_i(r)) energy term:          -0.000451
+MG Mobile ion acc. corr. (\int dr \sum_i c_i(r) * V_steric(r)):        0.000005
+MG Ion atmosph. rearr. (kT \int dr \sum_i c_i(r)*ln(c_i(r)/c^0):      -0.000822
+MG Chemical potential (-\sum_i \mu_i \int dr c_i(r)) energy term:      0.000831
+MG                                                               --------------
+MG Mean-field contribution to grand potential                          3.137175
+
+MG Check from alternate expression:
+MG Fixed charge (1/2 \int rho_f phi dr) energy term:                   3.137619
+MG Minus mobile charge (-1/2 \int rho_m phi dr) energy term:           0.000007
+MG -kT \int \sum_i c_i(r) dr (osmotic pressure) energy term:          -0.000451
+MG                                                               --------------
+MG Mean-field contribution to grand potential:                         3.137175
+
+IS: MG box volume:      18973.674 a0^3. Accessible fraction: 0.921259. OBC.
+
++--------------------------- Chemical potential --------------------------+
+|   # | Name | Bulk conc. |    mu_ideal   |   mu_excess   |    mu_total   |
+|-------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |  -0.002187556 |   0.000000000 |  -0.002187556 |
+|   2 |   Cl |  0.2000000 |  -0.001529036 |   0.000000000 |  -0.001529036 |
+|-------------------------------------------------------------------------|
+
++----------------- Boltzmann ion concentration and charge -----------------+
+|   # | Name | Bulk conc. | Average conc. | Neutr. ratio |    Total charge |
+|--------------------------------------------------------------------------|
+|   1 |   Mg |  0.1000000 |   0.101806472 | ------------ |     0.317609027 | 
+|   2 |   Cl |  0.2000000 |   0.202701053 | ------------ |    -0.316186599 | 
++--------------------------------------------------------------------------+
+                                                    total:     0.001422428 
+
++---- Concentration difference from bulk value on simcell faces (mol/L) ---+
+|   # | Name | Face | Bulk conc. | Actual conc. |  Difference |  RMS diff. |
+|--------------------------------------------------------------------------|
+|   1 |   Mg | Xmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_1]:         0.000000000000
+|   1 |   Mg | Xmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_1]:         0.000000000000
+|   1 |   Mg | Ymin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_1]:         0.000000000000
+|   1 |   Mg | Ymax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_1]:         0.000000000000
+|   1 |   Mg | Zmin |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_1]:         0.000000000000
+|   1 |   Mg | Zmax |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_1]:         0.000000000000
++..........................................................................+
+|   1 |   Mg |  AVG |  0.1000000 |    0.1000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+|   2 |   Cl | Xmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_1_bion_2]:         0.000000000000
+|   2 |   Cl | Xmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_2_bion_2]:         0.000000000000
+|   2 |   Cl | Ymin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_3_bion_2]:         0.000000000000
+|   2 |   Cl | Ymax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_4_bion_2]:         0.000000000000
+|   2 |   Cl | Zmin |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_5_bion_2]:         0.000000000000
+|   2 |   Cl | Zmax |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
+<QC>   [conc_d_face_6_bion_2]:         0.000000000000
++..........................................................................+
+|   2 |   Cl |  AVG |  0.2000000 |    0.2000000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
++--------------------------------------------------------------------------+
+|      OVERALL      |  0.1500000 |    0.1500000 |   0.0000000 |  0.0000000 | 
++--------------------------------------------------------------------------+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       16.55433572268583 |
+           | Pseudo. (local,OBC,corr'd) :       -9.12976511579169 |
+           | Pseudopotential (non-local):        3.10507868574475 |
+           | Hartree (molecular)        :        3.13761890190262 |
+           | Exchange-correlation       :       -6.99489226377298 |
+           | Ion-ion (open BC)          :       31.19388932693186 |
+           | Smeared ion non-self corr. :      -31.07732875617827 |
+           | Smeared ion self corr.     :      -29.92067103010746 |
+           | Solvent cavitation energy  :        0.01827011742177 |
+           | Solute-solvent dis-rep en. :       -0.01313484416745 |
+           | Elect. mobile ion energy   :       -0.00000710308532 |
+           | Osmotic pressure energy    :       -0.00045126220586 |
+           | Acc. corr. (steric) energy :        0.00000489635700 |
+           | Ionic atmo. rearrang. en.  :       -0.00082154462983 |
+           | Chemical pot. contribution :        0.00083085444347 |
+           | Total                      :      -23.12704341445158 |
+           --------------------------------------------------------
+           ------ LOCAL ENERGY COMPONENTS FROM MATRIX TRACES ------
+           | Pseudopotential (local)    :       -9.12976511579174 |
+           | Hartree                    :       -4.40737923421602 |
+           --------------------------------------------------------
+           Integrated density           :       15.99999999999909
+           Integrated density tr(KS)    :       16.00000000000000
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   1) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00194947279050    -23.12704341445157  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      1
+<QC>           [total_energy]:       -23.127043414452
+<QC>           [rms_gradient]:         0.001949472790
+
+                                                      hartree           kcal/mol
+IS: NB: Energy of pure electrolyte:         -0.00048258128208          -0.302824
+<QC>     [E_pure_electrolyte]:        -0.302824319941
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      15.905s on      4 proc(s)                                    
+TOTAL TIME:        15.905s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 10:47 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

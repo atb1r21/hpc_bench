@@ -1,0 +1,66 @@
+Steps to follow in order to create docker images for ONETEP bitbucket pipelines:
+
+1) If you are going to create a new repository, make a directory for it and cd to it.
+
+      $ mkdir <repository_name> && cd <repository_name>
+
+   If you are going to update an image, just cd to directory.  E.g.,
+
+      $ cd gfortran_mpi_scalapack_fftw
+
+2) Create or update the Dockerfile.
+
+3) Create a docker image by running
+
+      $ docker build . -t <user>/<repository_name>:v<date>
+
+where <user> is your Docker Hub username and <date> is of the form YYYY-MM-DD.  E.g.,
+
+      $ docker build . -t jme52/gfortran_mpi_scalapack_fftw:v2018-09-12
+
+4) Add an additional version tag with the versions of the main packages:
+
+      $ docker tag <user>/<repository_name>:v<date> <user>/<repository_name>:<versions>
+
+   E.g.,
+
+      $ docker tag jme52/gfortran_mpi_scalapack_fftw:v2018-09-12 jme52/gfortran_mpi_scalapack_fftw:gfortran-6.3_OpenMPI-2.0.2_FFTW-3.3.5
+
+5) You can remove an image or a tag by running
+
+      $ docker rmi <image>
+      $ docker rmi <image>:<tag>
+
+6) Login to Docker Hub using your username and password.
+
+      $ docker login
+
+7) Check the images that you will be pushing.
+
+      $ docker ls <user>/<repository_name>
+
+8) If you are happy pushing all these images and tags, run
+
+      $ docker push <user>/<repository_name>
+
+   If you want to only push a certain version, also specify the tag.
+
+      $ docker push <user>/<repository_name>:<tag>
+
+9) Check that the web has correctly been updated by browsing
+
+      https://hub.docker.com/r/<user>/<repository_name>/tags/
+
+   E.g.,
+
+      https://hub.docker.com/r/jme52/gfortran_mpi_scalapack_fftw/tags/
+
+   If this is a new repository, remember to add at least a Short Description in the Repo Info section.
+
+10) Update the ONETEP repository:
+       * add the new/updated Dockerfile;
+       * update the bitbucket-pipelines.yml file as needed (e.g., update the relevant image tag);
+       * commit these changes in a single commit,
+       * push the changes to your fork, and
+       * raise a pull request with the changes.
+

@@ -1,0 +1,930 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Born-Oppenheimer Molecular Dynamics &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Phonon calculations" href="phonons.html" />
+    <link rel="prev" title="Dynamics" href="index_dynamics.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="born-oppenheimer-molecular-dynamics">
+<h1>Born-Oppenheimer Molecular Dynamics<a class="headerlink" href="#born-oppenheimer-molecular-dynamics" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Simon M.-M. Dubois, University of Cambridge</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Valerio Vitale, University of Southampton</td>
+</tr>
+</tbody>
+</table>
+<p>This document is intended as a guide to the molecular dynamics (MD)
+functionality in ONETEP (v4.4) [Skylaris2005]. Though
+some theoretical concepts are reviewed, it is not meant to be a
+stand-alone introduction to Born-Oppenheimer Molecular Dynamics (BOMD)
+simulations. The reader is referred to the textbook of Frenkel and
+Smit [Frenkel2001] for a review of the field.</p>
+<div class="section" id="integrating-the-equations-of-motion">
+<h2>Integrating the equations of motion<a class="headerlink" href="#integrating-the-equations-of-motion" title="Permalink to this headline">¶</a></h2>
+<p>The MD functionality implemented in ONETEP is founded on the
+Born-Oppenheimer approximation which states that the electrons are much
+lighter than nuclei, the dynamics of electrons is much faster compared
+to the dynamics of the nuclei. As a consequence, the former can be
+considered to react instantaneously to the motion of the latter. The
+forces acting on the nuclei are derived from the ground state electronic
+configuration by means of the Hellmann-Feynamn theorem. The motion of
+the nuclei is described by the laws of classical mechanics</p>
+<div class="math">
+\[\frac{\partial H}{\partial \mathbf{r}} = -\dot{\mathbf{p}} \ \ \ \mbox{   and   } \ \ \ \frac{\partial H}{\partial \mathbf{p}} = \dot{\mathbf{r}}\]</div>
+<p>where <span class="math">\(H\)</span> is the Hamiltonian (or the total energy) of the system
+and <span class="math">\(\mathbf{r}\)</span>, <span class="math">\(\mathbf{p}\)</span> are the nuclei positions and
+conjugate momenta. At each MD steps, the forces on the particles are
+computed, and the particles positions and momenta are updated according
+to Newton’s equations of motion. Though this is an excellent
+approximation for many materials, it is important to keep in mind that
+classical dynamics does not account for quantum phenomena such as zero
+point motion, tunneling, or quantum fluctuations which may play a
+significant role in the dynamics of some systems.</p>
+<p>In a BOMD simulation, the classical laws of motion are integrated using
+a finite difference scheme (that usually preserves the symplectic
+structure of phase space, e.g. the Velocity-Verlet
+algorithm [Verlet1967], [Swope1982]). For small enough time
+steps, the particle trajectory becomes independent of the discretization
+and the total energy of the system is conserved. At room temperature and
+in situation close to equilibrium, a time step <span class="math">\(\Delta t\)</span> of a
+fraction of a femtosecond is usually adopted.</p>
+<p>The Velocity-Verlet algorithm corresponds to the following set of four
+operations:</p>
+<div class="math" id="equation-verlet1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-verlet1" title="Permalink to this equation">¶</a></span>\[1: \mathbf{v}_{n+1/2} = \mathbf{v}_n + \frac{\Delta t}{2m}*\mathbf{F}_n\]</div>
+<div class="math" id="equation-verlet2">
+<span class="eqno">(2)<a class="headerlink" href="#equation-verlet2" title="Permalink to this equation">¶</a></span>\[2: \mathbf{r}_{n+1} = \mathbf{r}_n + \Delta t * \mathbf{v}_{n+1/2}\]</div>
+<div class="math" id="equation-verlet3">
+<span class="eqno">(3)<a class="headerlink" href="#equation-verlet3" title="Permalink to this equation">¶</a></span>\[3: \mbox{Compute ionic forces } \mathbf{F}_{n+1}\]</div>
+<div class="math" id="equation-verlet4">
+<span class="eqno">(4)<a class="headerlink" href="#equation-verlet4" title="Permalink to this equation">¶</a></span>\[4: \mathbf{v}_{n+1} = \mathbf{v}_{n+1/2} + \frac{\Delta t}{2m}*\mathbf{F}_{n+1}\]</div>
+<p>where subscripts are used to label the MD time steps. This approach
+yields a reversible integrator that weights correctly the phase space
+and conserves the phase space volume.</p>
+<p>The velocities in eqs. <a class="reference internal" href="#equation-verlet1">(1)</a>-<a class="reference internal" href="#equation-verlet4">(4)</a>, are the internal (or
+peculiar) velocities and not the atomic velocities. Internal velocities
+are used to properly take into account the internal motion of the
+system, for which the total linear momentum must vanish. When using open
+boundary conditions, the use of internal velocities ensures that also
+the total internal angular momentum vanishes. By setting the total
+linear (angular) momentum to zero at the beginning of a simulation while
+employing atomic velocities in eqs. <a class="reference internal" href="#equation-verlet1">(1)</a>-<a class="reference internal" href="#equation-verlet4">(4)</a>, does not
+guarantee to keep the linear (angular) momentum conserved. This is due
+to numerical errors that unavoidably modify the initial values. One of
+the possible drawback is the well-known “flying ice cube effect”. The
+interested reader is referred to Ref. [Hunenberger2005]
+for a comprehensive description. However, before printing out the
+trajectory info to the <code class="docutils literal"><span class="pre">rootname.md</span></code> file, the internal velocities are
+transformed back to the atomic velocities for visualization and
+post-processing. In the limit of very long time, the ergodic hypothesis
+is invoked which allows us to derive ensemble averages from the
+molecular trajectories.</p>
+</div>
+<div class="section" id="basic-input-parameters">
+<h2>Basic input parameters<a class="headerlink" href="#basic-input-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The Molecular Dynamics functionality is activated by setting the input
+parameter <code class="docutils literal"><span class="pre">TASK</span></code> to <code class="docutils literal"><span class="pre">MOLECULARDYNAMICS</span></code>. If a fresh calculation is
+started, the initial nuclear positions are read from the
+<code class="docutils literal"><span class="pre">POSITIONS_ABS</span></code> block while the nuclear velocities are obtained from
+the <code class="docutils literal"><span class="pre">VELOCITIES</span></code> block. If the latter is not specified, the velocities
+are drawn from a maxwell-boltzmann distribution at a (user defined)
+temperature set in the <code class="docutils literal"><span class="pre">THERMOSTAT</span></code> block (see Thermostats section).
+The values of <span class="math">\(\Delta t\)</span> is determined by the parameter
+<code class="docutils literal"><span class="pre">MD_DELTA_T</span></code>. The number of integration steps is fixed by
+<code class="docutils literal"><span class="pre">MD_NUM_ITER</span></code>.</p>
+<p>For example, the following set of input parameters instructs the code to
+run a 4 ps long BOMD calculation with <span class="math">\(\Delta t = 0.8\)</span> fs.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">TASK</span>          <span class="p">:</span>  <span class="n">MOLECULARDYNAMICS</span>
+<span class="n">MD_DELTA_T</span>    <span class="p">:</span>  <span class="mf">0.8</span> <span class="n">fs</span>
+<span class="n">MD_NUM_ITER</span>   <span class="p">:</span>  <span class="mi">5000</span>
+<span class="n">MD_PROPERTIES</span> <span class="p">:</span>  <span class="n">T</span>
+<span class="n">MD_RESTART</span>    <span class="p">:</span>  <span class="n">F</span>
+</pre></div>
+</div>
+<p>The flag <code class="docutils literal"><span class="pre">MD_PROPERTIES</span></code> instructs the code to enter the properties
+module at each MD steps. During the calculation a file <code class="docutils literal"><span class="pre">rootname.md</span></code>
+is generated that contains a summary of the trajectory, such as
+temperature, energies, nuclear positions, velocities and forces at each
+MD steps. Additionally, the latest phase space coordinates are stored in
+the unformatted file <code class="docutils literal"><span class="pre">rootname.md.restart</span></code>. The flag <code class="docutils literal"><span class="pre">MD_RESTART</span></code>
+enables to restart an MD calculation from the phase space coordinates
+stored in <code class="docutils literal"><span class="pre">rootname.md.restart</span></code>. It is important to stress here that
+<code class="docutils literal"><span class="pre">MD_NUM_ITER</span></code> is an incremental counter. This means that the when
+starting a fresh calculation the number of MD steps corresponds to
+<code class="docutils literal"><span class="pre">MD_NUM_ITER</span></code>, while for a restart calculation the actual number of MD
+steps is calculated as the difference between <code class="docutils literal"><span class="pre">MD_NUM_ITER</span></code> and the
+total number of MD steps completed up to that point. Therefore, if we
+want to continue the 4 ps long calculation of the previous example for
+other 4 ps, we would have to set</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">TASK</span>          <span class="p">:</span>  <span class="n">MOLECULARDYNAMICS</span>
+<span class="n">MD_DELTA_T</span>    <span class="p">:</span>  <span class="mf">0.8</span> <span class="n">fs</span>
+<span class="n">MD_NUM_ITER</span>   <span class="p">:</span>  <span class="mi">10000</span>
+<span class="n">MD_PROPERTIES</span> <span class="p">:</span>  <span class="n">T</span>
+<span class="n">MD_RESTART</span>    <span class="p">:</span>  <span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="thermostats">
+<h2>Thermostats<a class="headerlink" href="#thermostats" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">THERMOSTAT</span></code> block must be defined for any MD calculation, even
+when performing microcanonical runs. For equilibration purposes or to
+extract thermodynamical averages, it is often desirable to sample the
+canonical ensemble (constant-NVT) rather than the microcanonical one
+(constant-NVE). In order to achieve this, there needs to be a mechanism
+(i.e. a thermostat) by which the system can exchange energy with the
+rest of the universe. Several thermostats, Andersen, Langevin,
+Nose-Hoover chains, Berendsen and Bussi, are available in ONETEP.</p>
+<div class="section" id="andersen-thermostat">
+<h3>Andersen thermostat<a class="headerlink" href="#andersen-thermostat" title="Permalink to this headline">¶</a></h3>
+<p>One of the simplest constant temperature algorithm has been proposed by
+Andersen [Andersen1980]. The system is thermally coupled
+with a bath of fictitious particles at temperature <span class="math">\(T\)</span>.
+Practically this coupling acts by replacing the momentum of a number of
+atoms by a new momentum derived from the appropriate Boltzmann
+distribution. The strength of the coupling can be adjusted by fixing the
+characteristic time (<span class="math">\(\tau\)</span>) at which the momentum rescaling
+occurs and the amplitude (<span class="math">\(\gamma\)</span>) of the rescaling. Eventually,
+the probability that collision occurs during a time step
+<span class="math">\(\Delta t\)</span> is given by,</p>
+<div class="math" id="equation-ander1">
+<span class="eqno">(5)<a class="headerlink" href="#equation-ander1" title="Permalink to this equation">¶</a></span>\[q_{col} = 1 - e^{- \Delta t / \tau}\]</div>
+<p>and the collision on atom <span class="math">\(i\)</span> acts as,</p>
+<div class="math" id="equation-ander2">
+<span class="eqno">(6)<a class="headerlink" href="#equation-ander2" title="Permalink to this equation">¶</a></span>\[p^{new} = \sqrt{(1-\gamma^2)}\  p + \gamma \  p^{boltzmann},\]</div>
+<p>where <span class="math">\(p^{new}\)</span> is the momentum rescaled by Andersen thermostat,
+and <span class="math">\(p^{boltzmann}\)</span> is a random variable with appropriate
+Boltzmann distribution.</p>
+</div>
+<div class="section" id="langevin-thermostat">
+<h3>Langevin thermostat<a class="headerlink" href="#langevin-thermostat" title="Permalink to this headline">¶</a></h3>
+<p>The Langevin thermostat accounts for the motion of the atoms in the
+presence of a fictitious viscous solvent [Grest1986]. As
+they have to be pushed away, the solvent particles create a friction
+force damping the momentum of the atoms. Besides random perturbations of
+the ionic forces arise from the collisions between the atoms and the
+solvent particles. Langevin dynamic corresponds to the modified equation
+of motion,</p>
+<div class="math" id="equation-langevin1">
+<span class="eqno">(7)<a class="headerlink" href="#equation-langevin1" title="Permalink to this equation">¶</a></span>\[\dot{p_{\alpha}} = F_{\alpha} - \gamma \frac{p_{\alpha}}{m_{\alpha}} + f_{\alpha}\]</div>
+<p>where greek superscripts label the nuclei, <span class="math">\(F_{\alpha}\)</span> are the
+conservative forces acting on the nuclei, <span class="math">\(\gamma\)</span> is the damping
+factor associated with the solvent viscosity and <span class="math">\(f_{\alpha}\)</span> are
+the random forces accounting for the collisions. In order to guarantee
+NVT statistics, the random forces and the damping factor are chosen so
+as to fulfill the fluctuation-dissipation theorem. Eventually, the
+update of the nuclei momenta <span class="math">\(p_{\alpha}\)</span> and forces
+<span class="math">\(F_{\alpha}\)</span> is given by,</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+p_{\alpha}^{new} &amp;= p_{\alpha} \ * \ e^{-\gamma \Delta t} \\
+F_{\alpha}^{new} &amp;= F_{\alpha} \ * \ \frac{1}{\gamma}(1-e^{-\gamma \Delta t}) + f_{\alpha}\\
+f_{\alpha} &amp;= \sqrt{ \frac{m_{\alpha} k_B T (1-e^{-2 \gamma \Delta t})}{\Delta t^2}}*\xi_{\alpha}\end{aligned}\end{split}\]</div>
+<p>where <span class="math">\(\{\xi_\alpha\}\)</span> is a set of mutually uncorrelated random
+Gaussian variables with a zero mean and unit variance.</p>
+</div>
+<div class="section" id="nose-hoover-thermostat-and-nose-hoover-chains">
+<h3>Nosé-Hoover thermostat and Nose-Hoover chains<a class="headerlink" href="#nose-hoover-thermostat-and-nose-hoover-chains" title="Permalink to this headline">¶</a></h3>
+<p>In the Andersen and Langevin approaches, the constant temperature is
+achieved by stochastic collisions with fictitious particles. The
+approach of Nosé is different and allows to perform deterministic MD at
+constant temperature [Nose1984], [Hoover1985]. To achieve
+isothermal MD, an additional coordinate associated with an effective
+mass is introduced in the Lagrangian ruling the dynamics of the nuclei.
+For a derivation of the equations of motion, the reader is referred to
+the textbook of Berend and Smith. Provided the center of mass of the
+system remains fixed, the Nosé-Hoover thermostat leads to a canonical
+distribution of positions and momenta. To alleviate this restriction on
+the center of mass, the nuclei are coupled to a Nosé-Hoover thermostat
+whose fluctuations are determined by another thermostat (i.e. the so
+called Nosé-Hoover chains). In ONETEP, the effective masse of the
+thermostats (<span class="math">\(Q_{th_i}\)</span>) is chosen, following the prescription of
+Martyna and Tuckerman [Martyna1996], as</p>
+<div class="math" id="equation-nose1">
+<span class="eqno">(8)<a class="headerlink" href="#equation-nose1" title="Permalink to this equation">¶</a></span>\[Q_{th_1} &amp;= 3N  \frac{k_B T}{\omega^2}\]</div>
+<div class="math" id="equation-nose2">
+<span class="eqno">(9)<a class="headerlink" href="#equation-nose2" title="Permalink to this equation">¶</a></span>\[Q_{th_i} &amp;= \frac{k_B T}{\omega^2},\]</div>
+<p>where N is the number of nuclei and <span class="math">\(\omega= 2 \pi / \tau\)</span> is the
+characteristic frequency of the thermostats. That parameter <span class="math">\(\tau\)</span>
+has to be chosen so as to guarantee a good coupling with the atomic
+system. E.g. when water is used as solvent in the system, a value of
+<span class="math">\(9.4\)</span> fs is appropriate as it corresponds to the first asymmetric
+stretching mode of water molecules.</p>
+</div>
+<div class="section" id="berendsen-thermostat">
+<h3>Berendsen thermostat<a class="headerlink" href="#berendsen-thermostat" title="Permalink to this headline">¶</a></h3>
+<p>In the Berendsen thermostat, the ionic equation of motions are
+supplemented by a first order equation for the kinetic energy,</p>
+<div class="math" id="equation-berendsen1">
+<span class="eqno">(10)<a class="headerlink" href="#equation-berendsen1" title="Permalink to this equation">¶</a></span>\[dK = \frac{K_{t}-K}{\tau} dt\, ,\]</div>
+<p>where <span class="math">\(K_{t}\)</span> stands for the target kinetic energy. The weak
+coupling of the system with the heat bath is determined by the time
+constant <span class="math">\(\tau\)</span>. This thermostat does not generate a canonical
+ensemble but is vary efficient for thermalization of large systems.</p>
+</div>
+<div class="section" id="canonical-velocity-scaling">
+<h3>Canonical velocity scaling<a class="headerlink" href="#canonical-velocity-scaling" title="Permalink to this headline">¶</a></h3>
+<p>An extension of the Berendsen thermostat allows to recover the canonical
+distribution of the kinetic energy. In this approach, the instantaneous
+kinetic energy is propagated using an auxiliary stochastic dynamics. The
+equation of motion for the kinetic energy is defined as,</p>
+<div class="math" id="equation-bussi1">
+<span class="eqno">(11)<a class="headerlink" href="#equation-bussi1" title="Permalink to this equation">¶</a></span>\[dK = \frac{K_{t}-K}{\tau}\, dt\, +2 \sqrt{\frac{KK_t}{3N \tau}}\, dW\, ,\]</div>
+<p>where <span class="math">\(K_{t}\)</span> stands for the target kinetic energy and
+<span class="math">\(dW\)</span> is a Wiener noise. For a complete derivation of the equations
+of motion, the reader is referred to G. Bussi et
+al. [Bussi2007]. In the same way as for the Berendsen
+thermostat, the coupling of the system with the heat bath is determined
+by the characteristic time <span class="math">\(\tau\)</span>.</p>
+</div>
+</div>
+<div class="section" id="thermostat-definition">
+<h2>Thermostat definition<a class="headerlink" href="#thermostat-definition" title="Permalink to this headline">¶</a></h2>
+<p>The parameters related to constant-NVE or
+constant-NVT sampling are determined by means of the <code class="docutils literal"><span class="pre">THERMOSTAT</span></code>
+block. For a constant-NVE calculation, the thermostat block is needed to
+specify the initial temperature for the maxwell-boltzmann distribution,
+from which initial velocities are drawn. For constant-NVT sampling,
+different thermostats can be associated with different groups of atoms.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>%block thermostat
+  start_iter &amp; end_iter &amp; thermo_name &amp; temp &amp; ! First thermostat definition
+      option_1 = value ! Optional parameter 1
+      option_2 = value ! Optional parameter 2
+  start_iter &amp; stop_iter &amp; thermo_name &amp; temp &amp; ! Second thermostat definition
+      option_1 = value ! Optional parameter 1
+      option_2 = value! Optional parameter 2
+%endblock thermostat
+</pre></div>
+</div>
+<p>A thermostat definition contains four mandatory parameters and several
+optional parameters. The mandatory parameters are : the starting and
+stopping MD steps (these must be set bearing in mind the global counter
+logic), the type of thermostat (i.e. <code class="docutils literal"><span class="pre">none</span></code>, <code class="docutils literal"><span class="pre">andersen</span></code>,
+<code class="docutils literal"><span class="pre">langevin</span></code>, <code class="docutils literal"><span class="pre">nosehoover</span></code>, <code class="docutils literal"><span class="pre">berendsen</span></code>, or <code class="docutils literal"><span class="pre">bussi</span></code>,) and the
+temperature. The line containing the mandatory parameters may be
+followed by one or more of optional parameter definition (one per line).</p>
+<p>Let us set an NVT calculation at 300K with Langevin thermostat for the
+equilibration (3000 steps) and Nosé-Hoover thermostat for the
+thermodynamical sampling (10000 steps). The input parameters could look
+like</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">thermostat</span>
+<span class="mi">0</span>  <span class="mi">3000</span>  <span class="n">langevin</span>  <span class="mf">300.0</span> <span class="n">K</span>
+   <span class="n">damp</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="mi">3001</span>  <span class="mi">13000</span>  <span class="n">nosehoover</span>  <span class="mf">300.0</span> <span class="n">K</span>
+   <span class="n">nchain</span> <span class="o">=</span> <span class="mi">4</span>
+   <span class="n">nsteps</span> <span class="o">=</span> <span class="mi">10</span>
+   <span class="n">tau</span> <span class="o">=</span> <span class="mi">100</span><span class="n">fs</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">thermostat</span>
+</pre></div>
+</div>
+<p>If both <code class="docutils literal"><span class="pre">MD_RESTART</span></code> and <code class="docutils literal"><span class="pre">MD_RESTART_THERMO</span></code> flags are set to true,
+the thermostat internal parameters are initialized from the values found
+in the unformatted file named<code class="docutils literal"><span class="pre">rootname.thermo.restart</span></code>
+(<code class="docutils literal"><span class="pre">rootname.thermo.global.restart</span></code> if <code class="docutils literal"><span class="pre">MD_GLOBAL_RESTART</span> <span class="pre">=</span> <span class="pre">.true.</span></code>,
+see section on MD history). This is particularly useful when using
+Nosé-Hoover thermostat as it avoids any disruption in the trajectories
+of the thermostat coordinates. A formatted report on the thermostat
+trajectories is outputted in the file <code class="docutils literal"><span class="pre">rootname.thermo</span></code>.</p>
+<div class="section" id="thermostat-optional-parameters">
+<h3>Thermostat optional parameters<a class="headerlink" href="#thermostat-optional-parameters" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>tgrad</dt>
+<dd><div class="first last line-block">
+<div class="line">(Physical) (default = 0K)</div>
+<div class="line">Discrete variation of temperature T per MD step.</div>
+</div>
+</dd>
+<dt>group</dt>
+<dd><div class="first last line-block">
+<div class="line">(Integer) (default = 0)</div>
+<div class="line">Index of the group of atoms (as defined in <code class="docutils literal"><span class="pre">positions_abs</span></code>) to
+wich the thermostat is coupled. If no group of atoms is specified
+the thermostat is applied to the full system (i.e. group index 0).</div>
+</div>
+</dd>
+<dt>tau</dt>
+<dd><div class="first last line-block">
+<div class="line">(Physical) (default = 10*<code class="docutils literal"><span class="pre">MD_DELTA_T</span></code>)</div>
+<div class="line">Characteristic time scale of the thermostat. Depending on the type
+of thermostat, it may relate either to the average collision
+frequency (see Eq. <a class="reference internal" href="#equation-ander1">(5)</a>) or the thermostat fluctuation
+frequency (see Eqs. <a class="reference internal" href="#equation-nose1">(8)</a> and <a class="reference internal" href="#equation-nose2">(9)</a>) or to the coupling with
+the heat bath (see Eqs. <a class="reference internal" href="#equation-berendsen1">(10)</a> and <a class="reference internal" href="#equation-bussi1">(11)</a>).</div>
+</div>
+</dd>
+<dt>mix</dt>
+<dd><div class="first last line-block">
+<div class="line">(real) (default = 1.0)</div>
+<div class="line">Collision amplitude of the Andersen thermostat (see Eq. <a class="reference internal" href="#equation-ander2">(6)</a>).</div>
+</div>
+</dd>
+<dt>damp</dt>
+<dd><div class="first last line-block">
+<div class="line">(real) (default = 0.2)</div>
+<div class="line">Damping factor in the Langevin equation of motion (see Eq.
+<a class="reference internal" href="#equation-langevin1">(7)</a>).</div>
+</div>
+</dd>
+<dt>nchain</dt>
+<dd><div class="first last line-block">
+<div class="line">(integer) (default = 0)</div>
+<div class="line">Number of thermostats in the Nosé Hoover chain.</div>
+</div>
+</dd>
+<dt>nsteps</dt>
+<dd><div class="first last line-block">
+<div class="line">(integer) (default = 20)</div>
+<div class="line">Number of substep used to integrate the equation of motion of the
+Nosé-Hoover coordinates.</div>
+</div>
+</dd>
+<dt>update</dt>
+<dd><div class="first last line-block">
+<div class="line">(logical) (default = .false.)</div>
+<div class="line">Impose to update the effective masses of the Nosé-Hoover
+coordinates when the temperature is modified.</div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="using-md-history">
+<h2>Using MD history<a class="headerlink" href="#using-md-history" title="Permalink to this headline">¶</a></h2>
+<p>In order to predict sensible trajectories and ensemble averages, BOMD
+requires to solve the self-consistent field (SCF) equations that
+determines the ground-state electronic structure at each MD steps.
+Solving the SCF equations therefore dominates the computational effort.
+The number of SCF cycles required to reach a given level of
+self-consistency can be substantially reduced by using a good initial
+guess for the electronic degrees of freedom. Various schemes have been
+proposed that enable to make a good use of the MD history in order to
+build efficient initial guesses.</p>
+<div class="section" id="extrapolation-of-ngwfs-and-density-kernel">
+<h3>Extrapolation of NGWFs and density kernel<a class="headerlink" href="#extrapolation-of-ngwfs-and-density-kernel" title="Permalink to this headline">¶</a></h3>
+<p>In ONETEP [Skylaris2005], the Kohn-Sham SCF equations
+are formulated in terms of the single-particle density matrix
+<span class="math">\(\rho(\mathbf{x},\mathbf{x'})\)</span>,</p>
+<div class="math" id="equation-dkn">
+<span class="eqno">(12)<a class="headerlink" href="#equation-dkn" title="Permalink to this equation">¶</a></span>\[\rho(\mathbf{x},\mathbf{x'}) = \phi_{\alpha}(\mathbf{x}) \ K^{\alpha \beta} \ \phi^*_{\beta}(\mathbf{x'}) \ ,\]</div>
+<p>where Einstein’s notation for repeated indices has been used.
+<span class="math">\(\{\phi_{\alpha}(\mathbf{x})\}\)</span> is a set of localised support
+functions, hereafter named Non-orthogonal Generalized Wannier Functions
+(NGWFs), and <span class="math">\(\mathbf{K}\)</span> is the kernel representing the density
+operator. At each MD step, the total energy is minimized with respect to
+both the density kernel and the support functions. Here below, we
+briefly review various algorithms that allows to initialise the density
+kernel and NGWFs by extrapolation from previous time steps.</p>
+<p>Hereafter, <span class="math">\(\chi{^{\mbox{\tiny{init}}}}_i\)</span> and
+<span class="math">\(\chi{^{\mbox{\tiny{scf}}}}_i\)</span> are used to represent respectively
+the initial guess and SCF solution for either the density kernel or a
+given NGWF at time <span class="math">\(t=i\Delta t\)</span>.</p>
+<p>One-dimensional linear extrapolation</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">The simplest attempt at a trial configuration for the electronic
+degrees of freedom is the linear extrapolation,</div>
+</div>
+<blockquote>
+<div><div class="math" id="equation-linxtpol1">
+<span class="eqno">(13)<a class="headerlink" href="#equation-linxtpol1" title="Permalink to this equation">¶</a></span>\[\chi{^{\mbox{\tiny{init}}}}_{(i+1)} = 2\chi{^{\mbox{\tiny{scf}}}}_{i}-\chi{^{\mbox{\tiny{scf}}}}_{(i-1)}.\]</div>
+</div></blockquote>
+</div></blockquote>
+<p>Multi-dimensional linear extrapolation</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">The idea of multi-dimensional linear extrapolation was first
+proposed by Arias, Payne and Joannopoulos for the generation of
+trial wavefunctions [Arias92]. The
+one-dimensional linear extrapolation scheme creates an acceptable
+initial configuration for the ionic coordinates
+<span class="math">\(\mathbf{r'}=2\mathbf{r}_i-\mathbf{r_{(i-1)}}\)</span>. However, the
+actual coordinates <span class="math">\(\mathbf{r}_{i+1}\)</span> are in general
+different. In order to account for the non-linear propagation of
+the coordinates, the extrapolation can be generalized as follow,</div>
+</div>
+<blockquote>
+<div><div class="math" id="equation-multixtpol1">
+<span class="eqno">(14)<a class="headerlink" href="#equation-multixtpol1" title="Permalink to this equation">¶</a></span>\[\chi{^{\mbox{\tiny{init}}}}_{(i+1)} = \chi{^{\mbox{\tiny{scf}}}}_{i} + \sum_{n=0}^{N} c_n \left(\chi{^{\mbox{\tiny{scf}}}}_{(i-n)}  - \chi{^{\mbox{\tiny{scf}}}}_{(i-(n+1))} \right)\]</div>
+<p>where the <span class="math">\(N+1\)</span> coefficients <span class="math">\(\{c_n\}\)</span> are chosen by
+minimizing the norm,</p>
+<div class="math" id="equation-multixtpol2">
+<span class="eqno">(15)<a class="headerlink" href="#equation-multixtpol2" title="Permalink to this equation">¶</a></span>\[\left\| \left(\mathbf{r}_{i} - \mathbf{r}_{i+1} \right) + \sum_{n=0}^{N} c_n \left(\mathbf{r}_{(i-n)}  - \mathbf{r}_{(i-(n+1))} \right) \right\|.\]</div>
+<p>This insures that the extrapolated degrees of freedom are in
+close correspondence to the BOMD trajectory.</p>
+</div></blockquote>
+</div></blockquote>
+<p>Generalized multi-dimensional linear extrapolation</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">The multi-dimensional extrapolation of NGWFs can be further
+generalized in order to account for the local characteristics of
+the ionic trajectories. By introducing a localization function
+<span class="math">\(F(r-r_{cut})\)</span> within Eq.[multixtpol2], the coefficients
+<span class="math">\(\{c_n\}\)</span> can be further optimized with respect to the local
+environment. In practice, a set of coefficients
+<span class="math">\(\{c_{n}\}_{\alpha}\)</span> is derived for each ion
+(<span class="math">\(\alpha\)</span>) by minimizing the modified norm,</div>
+</div>
+<blockquote>
+<div><div class="math" id="equation-genxtpol1">
+<span class="eqno">(16)<a class="headerlink" href="#equation-genxtpol1" title="Permalink to this equation">¶</a></span>\[\left\| \left(\mathbf{r'}(\alpha)_i - \mathbf{r'}(\alpha)_{(i+1)} \right) + \sum_{n=0}^{m} c(\alpha)_n \left(\mathbf{r'}(\alpha)_{(i-n)}  - \mathbf{r'}(\alpha)_{(i-(n+1))} \right) \right\|,\]</div>
+<p>where <span class="math">\(\mathbf{r'}(\alpha)_i\)</span> refers to a local projection
+of the ionic coordinates at time <span class="math">\(t_i\)</span>,</p>
+<div class="math" id="equation-genxtpol2">
+<span class="eqno">(17)<a class="headerlink" href="#equation-genxtpol2" title="Permalink to this equation">¶</a></span>\[r'(\alpha)_{\beta,i} = F(r_{\alpha,i}-r_{\beta,i}  -r_{cut}) \ r_{\beta,i}\]</div>
+<p>This way, the extrapolated NGWFs associated with a given ion are
+in better correspondence to the BOMD trajectory of its local
+environment.</p>
+</div></blockquote>
+</div></blockquote>
+<p>One-dimensional polynomial extrapolation</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Another way to extrapolate the density kernel and NGWFs is to
+assume that each element of the density kernel
+(<span class="math">\(K^{\alpha\beta}\)</span>) and component of the NGWFs on the grid
+(<span class="math">\(\phi_{\alpha}(\mathbf{x})\)</span>) can be represented as a
+polynomial in the time <span class="math">\(t\)</span>. Applied to the density kernel,
+this gives,</div>
+</div>
+<blockquote>
+<div><div class="math" id="equation-polyxtpol1">
+<span class="eqno">(18)<a class="headerlink" href="#equation-polyxtpol1" title="Permalink to this equation">¶</a></span>\[K^{\alpha\beta}(t) = \sum_{m=0}^N c^{\alpha \beta}_m \ t^{m}\]</div>
+<p>where the <span class="math">\(N+1\)</span> extrapolation coefficients
+<span class="math">\(c^{\alpha \beta}_m\)</span> are dertemined by fitting the
+polynomial expression to the last <span class="math">\(N+1\)</span> values of
+<span class="math">\(K^{\alpha\beta}\)</span>.</p>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="density-kernel-transformations">
+<h3>Density kernel transformations<a class="headerlink" href="#density-kernel-transformations" title="Permalink to this headline">¶</a></h3>
+<p>The extrapolation schemes, as described above, illustrates a point of
+view in which the density kernel and the support functions are
+considered on the same footing, either as a functional of the ionic
+coordinates or as an oscillatory function in time. This is ignoring the
+close link between the support functions and the density kernel (see
+Eq.[dkn]). There is a broader point of view, where the density kernel
+(<span class="math">\(K^{\alpha \beta}\)</span>) is considered as the representation of the
+density operator in the time-dependent basis formed by the NGWFs. If one
+assume that the BOMD propagation of the electronic degrees of freedom is
+more or less adiabatic, it is tempting to rely on the schemes described
+above for the extrapolation of the support functions and to transform
+the latest density kernel in order to account for the modification of
+the basis set. In ONETEP, this can be done in two ways.</p>
+<p>Projection of the density kernel</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">The simplest attempt at transforming the density kernel in order
+to adapt it to the new support functions is to project the density
+kernel onto the extrapolated NGWFs. This transformation reads,</div>
+</div>
+<blockquote>
+<div><div class="math">
+\[\mathbf{K}{^{\mbox{\tiny{init}}}}_{(i+1)} = \left(\mathbf{S}{^{\mbox{\tiny{init}}}}_{i+1}\right)^{-1} \mathbf{T}_{(i+1),i} \ \mathbf{K}{^{\mbox{\tiny{scf}}}}_{i} \ \mathbf{T}_{i,(i+1)} \left(\mathbf{S}{^{\mbox{\tiny{init}}}}_{i+1}\right)^{-1} \ ,\]</div>
+<p>where <span class="math">\(\mathbf{K}_i\)</span> and <span class="math">\(\mathbf{S}_i\)</span> stand for the
+density kernel and overlap matrix at MD step <span class="math">\(i\)</span>; and
+<span class="math">\(\mathbf{T}_{i,(i+1)}\)</span> is the overlap between the NGWFs at
+MD step <span class="math">\(i\)</span> and the <em>extrapolated</em> NGWFs at step
+<span class="math">\((i+1)\)</span>.</p>
+</div></blockquote>
+</div></blockquote>
+<p>Christoffel correction to the density kernel</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">While projecting the density kernel onto the extrapolated support
+functions is appealing because of its conceptual simplicity, it
+does not fully account for the tensorial character of the density
+operator. As the support functions are extrapolated, the metric of
+the representation manifold changes giving rise to non-vanishing
+Christoffel symbols. In order to preserve tensorial integrity and
+idempotency to first order, contributions from the Christoffel
+symbols should be accounted for in the transformation of the
+density kernel. The correction to the density kernel then reads,</div>
+</div>
+<blockquote>
+<div><div class="math">
+\[\Delta \mathbf{K}{^{\mbox{\tiny{init}}}}_{(i+1)} = -\left(\mathbf{S}{^{\mbox{\tiny{scf}}}}_{i} \right)^{-1}\  \mathbf{D}_{(i+1),i}\ \mathbf{K}_{i} \ - \mathbf{K}_{i}\ \mathbf{D}_{i,(i+1)}\ \left(\mathbf{S}{^{\mbox{\tiny{scf}}}}_{i} \right)^{-1}\]</div>
+<p>with</p>
+<div class="math">
+\[\left(\mathbf{D}_{(i+1),i}\right)_{\alpha \beta} = \left \langle (\phi{^{\mbox{\tiny{init}}}}_{(i+1)})_{\alpha} - (\phi{^{\mbox{\tiny{scf}}}}_{i})_{\alpha} \ \bigg| \  (\phi{^{\mbox{\tiny{scf}}}}_{i})_{\beta} \right \rangle \ .\]</div>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="extended-lagrangian-propagation-of-density-kernel-schemes">
+<h3>Extended Lagrangian propagation of density kernel schemes<a class="headerlink" href="#extended-lagrangian-propagation-of-density-kernel-schemes" title="Permalink to this headline">¶</a></h3>
+<p>Extended Lagrangian naïve approach</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">The number of SCF iterations needed to reach a given threshold at
+each step of the BOMD calculation can be significantly reduced by
+the extrapolation schemes presented in sections [xtpol] and [dkn].
+However, those methods come with a caveat that has to be kept in
+mind. While, with a perfect SCF optimization, the SCF ground-state
+electronic structure is independent from the initial guess, in
+practice, self-consistence is only achieve up to a given
+threshold. The consequence of this <em>incomplete</em> convergence is
+that the extrapolation schemes introduce a <em>memory</em> effect in the
+simulation and break the time-reversibility of the BOMD algorithm.
+As a consequence, the resulting trajectories suffers from
+systematic error and a significant energy drift may appear on time
+scales of a few picoseconds. A simple way to restore energy
+conservation is to impose tighter SCF convergence thresholds.
+However, this may results in a considerable increase of the
+computational cost. Another solution has been proposed by
+Niklasson et al. (see Ref. [Niklasson2006]). This
+scheme restores the time-reversibility of BOMD by extending the BO
+Lagrangian with auxilliary degrees of freedom directly associated
+with <span class="math">\(\chi^0\)</span>, the initial guess of the electronic degrees
+of freedom. The user is referred to
+Refs. [Niklasson2006], [Niklasson2009] for a complete
+introduction to this formalism.</div>
+</div>
+</div></blockquote>
+<p>Extended Lagrangian with dissipation, dEL/SCF</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">A more stable propagation scheme for the density kernel has also
+been proposed by Niklasson [Niklasson2009]. In
+this scheme, the numerical errors arising from an incomplete
+convergence are averaged out via a dissipative term in the
+extended BO Lagrangian. Following
+Bowler [Arita2014], we propagate the orthogonal
+representation <strong>P</strong> of the auxiliary density kernel, i.e. <strong>P</strong>
+has the sparsity pattern of <strong>KS</strong> rather than of <strong>K</strong>, to avoid
+the extra intricacies of propagating tensors in a space with
+non-unitary metric. The dissipative term is defined in terms of a
+linear combination of previous density kernels, which using the
+symplectic Verlet algorithm, yields the following equation of
+motion</div>
+</div>
+<blockquote>
+<div><div class="math">
+\[\begin{split}\begin{aligned}
+\mathbf{P}_{i+1} &amp;= 2\mathbf{P}_{i} - \mathbf{P}_{i - 1} + \kappa[(\mathbf{KS}{^{\mbox{\tiny{scf}}}})_i - \mathbf{P}_{i}] \nonumber \\
+ &amp;&amp;+ \,\alpha\sum_{m=0}^M c_m \mathbf{P}_{i-m}. \end{aligned}\end{split}\]</div>
+<p>where <span class="math">\(\kappa\)</span>, <span class="math">\(\alpha\)</span> and <span class="math">\(c_m\)</span>’s are
+optimized coefficients obtained from
+Ref. [Niklasson2009]. The initial guess for the
+density kernel is given by</p>
+<div class="math">
+\[\mathbf{K}{^{\mbox{\tiny{init}}}}_{i+1} = \mbox{sym}(\mathbf{PS}^{-1}_{i+1}) = \frac{1}{2}[(\mathbf{PS}^{-1})_{i+1} + (\mathbf{S}^{-1}\mathbf{P})_{i+1}]\]</div>
+<p>The problem with the above mentioned scheme lays in the use of a
+dissipative term that unavoidably breaks the time-reversibility,
+which in turn will generate, over long simulation time, a drift in
+the energy. However, for simulation time accessible at the moment
+in AIMD, this issue is of little concern.</p>
+</div></blockquote>
+</div></blockquote>
+<p>Extended Lagrangian with thermostat, inertial iEL/SCF</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Recently, a similar scheme that overcomes the issue of the time
+breaking symmetry has been proposed [Albaugh2015].
+The idea is to control the dynamics of the auxiliary degrees of
+freedom through a thermostat. One of the simplest yet efficient
+thermostats around is the Berendsen thermostat. Here, we also
+propagate the orthogonal representation of the auxiliary density
+kernel for the same reasons listed in the previous section. The
+equation of motion for the auxiliary density kernel, using a
+velocity-Verlet integrator, reads</div>
+</div>
+<blockquote>
+<div><div class="math">
+\[\begin{split}\begin{aligned}
+\mathbf{P}_{i + 1} &amp;= \mathbf{P}_{i} + \dot{\mathbf{P}}_{i}\Delta t + \omega^2{\Delta t}^2[(\mathbf{KS}){^{\mbox{\tiny{scf}}}}_i - \mathbf{P}_{i}]  \\
+\dot{\mathbf{P}}_{i + 1} &amp;= \gamma_i\dot{\widetilde{\mathbf{P}}}_{i + 1} \nonumber \\
+ &amp;= \gamma_i \{ \dot{\mathbf{P}}_{i} + \omega^2{\Delta t}/2[((\mathbf{KS}){^{\mbox{\tiny{scf}}}}_{i+1} - \mathbf{P}_{i + 1}) +  \nonumber \\
+ &amp;  ((\mathbf{KS}){^{\mbox{\tiny{scf}}}}_i - \mathbf{P}_i)] \}
+ \end{aligned}\end{split}\]</div>
+<p>with <span class="math">\(\gamma_i\)</span> given by</p>
+<div class="math">
+\[\gamma_i = \sqrt{1+\frac{\tau}{\Delta t}\left(\frac{T{_{\mbox{\tiny{K}}}}}{ \langle\dot{\mathbf{P}_{i}}^2}\rangle - 1\right)}\]</div>
+<p>where <span class="math">\(T{_{\mbox{\tiny{K}}}}\)</span> is the target temperature,
+<span class="math">\(\tau\)</span> is the characteristic time of the thermostat, and
+<span class="math">\(\langle\dot{\mathbf{P}_{i}}^2\rangle\)</span> is the instantaneous
+temperature of the auxiliary degrees of freedom. The key parameter
+is the target temperature and much care must be done in assigning
+a value for it.</p>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="extrapolation-and-propagation-of-ngwfs">
+<h2>Extrapolation and propagation of NGWFs<a class="headerlink" href="#extrapolation-and-propagation-of-ngwfs" title="Permalink to this headline">¶</a></h2>
+<p>The main input parameters that
+determine the extrapolation and propagation of NGWFs are
+<code class="docutils literal"><span class="pre">mix_ngwfs_type</span></code> and <code class="docutils literal"><span class="pre">mix_ngwfs_num</span></code>. The localization function
+<span class="math">\(F(r-r_{cut})\)</span> used in the generalized version of the
+multi-dimensional linear extrapolation (see Eq. [genxtpol2].) is
+characterized by the input parameters <code class="docutils literal"><span class="pre">mix_local_length</span></code> and
+<code class="docutils literal"><span class="pre">mix_local_smear</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">mix_ngwfs_type</span></code> (String) (default = <code class="docutils literal"><span class="pre">none</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">none</span></code> : No use of MD history. Initial NGWFs are built according to <code class="docutils literal"><span class="pre">species_atomic_set</span></code> block.</div>
+<div class="line"><code class="docutils literal"><span class="pre">reuse</span></code> : No mixing of NGWFs. NGWFs at previous MD step are used as initial guess.</div>
+<div class="line"><code class="docutils literal"><span class="pre">linear</span></code> : One dimensional linear extrapolation from NGWFs at two previous MD steps (see Eq. <a class="reference internal" href="#equation-linxtpol1">(13)</a>).</div>
+<div class="line"><code class="docutils literal"><span class="pre">multid</span></code> : Multi-dimensional linear extrapolation from NGWFs at previous MD steps (see Eqs. <a class="reference internal" href="#equation-multixtpol1">(14)</a> and <a class="reference internal" href="#equation-multixtpol2">(15)</a>). The dimension of the extrapolation space is determined by input parameter <code class="docutils literal"><span class="pre">mix_ngwfs_num</span></code>.</div>
+<div class="line"><code class="docutils literal"><span class="pre">poly</span></code> : One-dimensional polynomial extrapolation from NGWFs at previous steps (see Eqs. <a class="reference internal" href="#equation-genxtpol1">(16)</a>). The degree of the extrapolation   polynom is determined by input parameter <code class="docutils literal"><span class="pre">mix_ngwfs_num</span></code>.</div>
+<div class="line"><code class="docutils literal"><span class="pre">local</span></code> : Generalized multi-dimensional linear extrapolation from NGWFs at previous steps (see Eqs. <a class="reference internal" href="#equation-genxtpol1">(16)</a>). The dimension of the extrapolation space is determined by input parameter <code class="docutils literal"><span class="pre">mix_ngwfs_num</span></code>. The localization radius is determine by input parameter <code class="docutils literal"><span class="pre">mix_local_length</span></code>. Optionnally, the localization radius can be smeared out by using non-zero values for <code class="docutils literal"><span class="pre">mix_local_smear</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">trprop</span></code> : Time-reversible propagation of auxiliary NGWFs. See section on extended Lagrangian and references therein.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_ngwfs_num</span></code> (Integer) (default depends on <code class="docutils literal"><span class="pre">mix_ngwfs_type</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Number of previous MD steps required to build the initial guess for the density kernel</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_loc_length</span></code> (Physical) (default = <code class="docutils literal"><span class="pre">10.0</span> <span class="pre">bohr</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Cutoff radius of the localization function <span class="math">\(F(r-r_{cut})\)</span>, see Eq. <a class="reference internal" href="#equation-genxtpol2">(17)</a></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_loc_smear</span></code> (Physical) (default = <code class="docutils literal"><span class="pre">5.0</span> <span class="pre">bohr</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">When <code class="docutils literal"><span class="pre">mix_loc_smear</span></code> is non-vanishing, the localization function <span class="math">\(F(r-r_{cut})\)</span> is assumed to be Fermi-Dirac like with a characteristic smearing of <code class="docutils literal"><span class="pre">mix_loc_smear</span></code>.</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="extrapolation-and-transformation-of-density-kernel">
+<h2>Extrapolation and transformation of density kernel<a class="headerlink" href="#extrapolation-and-transformation-of-density-kernel" title="Permalink to this headline">¶</a></h2>
+<p>The main input
+parameters that determine the extrapolation, transformation and
+propagation schemes for the density kernel and NGWFs are respectively
+<code class="docutils literal"><span class="pre">mix_dkn_type</span></code> and <code class="docutils literal"><span class="pre">mix_dkn_num</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">mix_dkn_type</span></code> (String) (default = <code class="docutils literal"><span class="pre">none</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">none</span></code> : No use of MD history. Initial density kernel is built according to <code class="docutils literal"><span class="pre">coreham_denskern_guess</span></code> parameter.</div>
+<div class="line"><code class="docutils literal"><span class="pre">reuse</span></code> : No kernel mixing. SCF density kernel at previous MD step is used as initial guess.</div>
+<div class="line"><code class="docutils literal"><span class="pre">linear</span></code> : One dimensional linear extrapolation from density kernel at two previous MD steps (see Eq. <a class="reference internal" href="#equation-linxtpol1">(13)</a>).</div>
+<div class="line"><code class="docutils literal"><span class="pre">multid</span></code> : Multi-dimensional linear extrapolation from density kernel at previous MD steps (see Eqs. <a class="reference internal" href="#equation-multixtpol1">(14)</a> and <a class="reference internal" href="#equation-multixtpol2">(15)</a>). The dimension of the extrapolation space is determined by <code class="docutils literal"><span class="pre">mix_dkn_num</span></code>.</div>
+<div class="line"><code class="docutils literal"><span class="pre">poly</span></code> : One-dimensional polynomial extrapolation from density kernel at previous steps (see Eqs. <a class="reference internal" href="#equation-genxtpol1">(16)</a>). The degree of the extrapolation polynom is determined by <code class="docutils literal"><span class="pre">mix_dkn_num</span></code>.</div>
+<div class="line"><code class="docutils literal"><span class="pre">proj</span></code> : Projection of the previous SCF density kernel onto the set of extrapolated NGWFs. This option requires <code class="docutils literal"><span class="pre">mix_ngwfs_type</span></code> <span class="math">\(\neq\)</span> none.</div>
+<div class="line"><code class="docutils literal"><span class="pre">tensor</span></code> : Correction of the previous SCF density kernel in order to preserve tensorial integrity. This option requires <code class="docutils literal"><span class="pre">mix_ngwfs_type</span></code> <span class="math">\(\neq\)</span> none.</div>
+<div class="line"><code class="docutils literal"><span class="pre">trprop</span></code> : Naïve time-reversible propagation of auxiliary density kernel. See section on extended Lagrangian and references therein.</div>
+<div class="line"><code class="docutils literal"><span class="pre">dissip</span></code> : Dissipative propagation of auxiliary density kernel. See section on extended Lagrangian and references therein. The number of previous MD steps used for the derivation of the dissipative force is determined by <code class="docutils literal"><span class="pre">mix_dkn_num</span></code>.</div>
+<div class="line"><code class="docutils literal"><span class="pre">berendsen</span></code> : Thermostatted propagation of auxiliary density kernel with Berendsen thermostat. See section on extended Lagrangian and references therein. The target temperature for the thermostat is set by <code class="docutils literal"><span class="pre">md_aux_dkn_t</span></code> and the characteristic time constant <span class="math">\(\tau\)</span> by <code class="docutils literal"><span class="pre">md_aux_beren_tc</span></code>.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_dkn_num</span></code> (Integer) (default depends on <code class="docutils literal"><span class="pre">mix_dkn_type</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Number of previous MD steps required to build the initial guess for the density kernel.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_aux_dkn_t</span></code> (Physical) (default = <code class="docutils literal"><span class="pre">1e-8</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Target temperature of the auxiliary degrees of freedom to use in the Berendsen propagation of the density kernel.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_aux_beren_tc</span></code> (Physical) (default = <code class="docutils literal"><span class="pre">0.1</span> <span class="pre">ps</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Characteristic time constant for the Berendsen thermostat to use in the Berensen propagation of the density kernel.</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="additional-notes-on-extrapolation-and-propagation">
+<h2>Additional notes on extrapolation and propagation<a class="headerlink" href="#additional-notes-on-extrapolation-and-propagation" title="Permalink to this headline">¶</a></h2>
+<p>Most of the
+extrapolation and propagation schemes suffer from restricted stability
+under incomplete SCF convergence. Depending on the convergence
+parameters, significant discrepancies between the MD trajectories and
+the Born-Oppenheimer surface may arise during the first few MD
+iterations. In this case, it is recommended not to use the extrapolation
+and propagation schemes until a good level of SCF convergence is
+reached. The input parameters <code class="docutils literal"><span class="pre">mix_ngwfs_init_type</span></code> and
+<code class="docutils literal"><span class="pre">mix_ngwfs_init_num</span></code> allows to set up a smooth initialization phase.
+It is also possible to have a different (usually tighter) thresholds
+during this initialization phase. In fact, the usual
+<code class="docutils literal"><span class="pre">lnv_threshold_orig</span></code> and <code class="docutils literal"><span class="pre">ngwf_threshold_orig</span></code> are used to set the
+LNV and NGWFs gradient thresholds during the intialization phase, while
+the two keywords <code class="docutils literal"><span class="pre">md_lnv_threshold</span></code> and <code class="docutils literal"><span class="pre">md_ngwf_threshold</span></code>
+determine the LNV threshold and NGWFs gradient threshold for the
+remaining MD calculation.</p>
+<p>It is also possible to periodically reset the MD history using
+<code class="docutils literal"><span class="pre">mix_ngwfs_reset</span></code>, <code class="docutils literal"><span class="pre">mix_dkn_reset</span></code> and <code class="docutils literal"><span class="pre">md_reset_history</span></code>,
+although this is not recommended if one wants to avoid jumps into the
+energy profile, i.e. avoid discontinuities in energy plots.</p>
+<p><code class="docutils literal"><span class="pre">md_reset_history</span></code> (Integer) (default = <code class="docutils literal"><span class="pre">100</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Every n MD steps, new initial guesses for the electronic degrees of freedom are built according to <code class="docutils literal"><span class="pre">coreham_denskern_guess</span></code> and <code class="docutils literal"><span class="pre">species_atomic_set</span></code>.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_ngwfs_reset</span></code> (Integer) (default = <code class="docutils literal"><span class="pre">50</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Every n MD steps, the NGWFs mixing/extrapolation scheme is reset and a new initial guess for the NGWFs is built according to <code class="docutils literal"><span class="pre">species_atomic_set</span></code>.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_dkn_reset</span></code> (Integer) (default = <code class="docutils literal"><span class="pre">50</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Every n MD steps, the density kernel mixing/extrapolation scheme is reset and a new initial guess for the kernel is built according to <code class="docutils literal"><span class="pre">coreham_denskern_guess</span></code>.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_ngwfs_init_num</span></code> (Integer) (default = <code class="docutils literal"><span class="pre">0</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Length of the initialization phase. Number of MD steps before the activation of the extrapolation/propagation scheme for building NGWF initial guesses.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_ngwfs_init_type</span></code> (String) (default = <code class="docutils literal"><span class="pre">none</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">none</span></code> : During the initialization phase, initial NGWFs are built according to <code class="docutils literal"><span class="pre">species_atomic_set</span></code> block.</div>
+<div class="line"><code class="docutils literal"><span class="pre">reuse</span></code> : During the initialization phase, NGWFs at last MD step is used as initial guess.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_dkn_init_num</span></code> (Integer) (default = 0)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Length of the initialization phase. Number of MD steps before the activation of the extrapolation/propagation scheme for building density kernel initial guesses.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">mix_dkn_init_type</span></code> (String) (default = <code class="docutils literal"><span class="pre">none</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">none</span></code> : During the initialization phase, initial density kernels are built according to <code class="docutils literal"><span class="pre">coreham_denskern_guess</span></code>.</div>
+<div class="line"><code class="docutils literal"><span class="pre">reuse</span></code> : During the initialization phase, density kernel at last MD step is used as initial guess.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">md_lnv_threshold</span></code> (Double) (default = <code class="docutils literal"><span class="pre">lnv_threshold_orig</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">LNV threshold for the MD calculation. This can be set to be different from the initial LNV threshold <code class="docutils literal"><span class="pre">lnv_threshold_orig</span></code> of the first n steps (set by <code class="docutils literal"><span class="pre">mix_ngwfs_init_num</span></code> / <code class="docutils literal"><span class="pre">mix_dkn_init_num</span></code>).</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">md_ngwf_threshold</span></code> (Double) (default = <code class="docutils literal"><span class="pre">ngwf_threshold_orig</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">NGWF gradient threshold for the MD calculation. This can be set to be different from the initial NGWF gradient threshold <code class="docutils literal"><span class="pre">ngwf_threshold_orig</span></code> of the first n steps (set by <code class="docutils literal"><span class="pre">mix_ngwfs_init_num</span></code> / <code class="docutils literal"><span class="pre">mix_dkn_init_num</span></code>).</div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="additional-notes-on-restart-when-using-a-propagation-scheme">
+<h2>Additional notes on restart when using a propagation scheme<a class="headerlink" href="#additional-notes-on-restart-when-using-a-propagation-scheme" title="Permalink to this headline">¶</a></h2>
+<p>If a
+“history” of NGWFs/density kernels is generated during a MD calculation
+it can be periodically saved into external files through the keyword
+<code class="docutils literal"><span class="pre">md_write_history</span></code>. More precisely, when using
+<code class="docutils literal"><span class="pre">md_write_history</span> <span class="pre">=</span> <span class="pre">T</span></code> all the information about the dynamical state
+(positions, velocities and accelerations), the thermostat state, and the
+propagation scheme is saved to external files as well. To restart a MD
+calculation by reading in the history from the last save the
+<code class="docutils literal"><span class="pre">md_global_restart</span></code> keyword must be set to true in the restart input
+file. On a restart, one can either use the thermostat state stored in
+<code class="docutils literal"><span class="pre">rootname.thermo.global.restart</span></code> or start with a new thermostat block.
+This is achieved by setting the <code class="docutils literal"><span class="pre">md_restart_thermo</span></code> keyword.</p>
+<p><code class="docutils literal"><span class="pre">md_write_history</span></code> (Integer) (default = <code class="docutils literal"><span class="pre">-1</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Every n MD steps the history of auxiliary density kernels is written into external files <code class="docutils literal"><span class="pre">rootname.history.dkn#.scf/init/vel</span></code> (one of each kind for any element in the history). The info on the dynamical state, the thermostat, the propagation scheme and the composition method are saved into <code class="docutils literal"><span class="pre">rootname.md.global.restart</span></code>, <code class="docutils literal"><span class="pre">rootname.md.thermo.restart</span></code>, <code class="docutils literal"><span class="pre">rootname.history.info</span></code> and <code class="docutils literal"><span class="pre">rootname.history.var</span></code> respectively.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">md_global_restart</span></code> (Logical) (default = <code class="docutils literal"><span class="pre">F</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">MD global restart. This allows to restart a calculation by reading in a history of density kernels if present. <code class="docutils literal"><span class="pre">md_restart</span></code> is set to false.</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal"><span class="pre">md_restart_thermo</span></code> (Logical) (default = <code class="docutils literal"><span class="pre">T</span></code>)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Read thermostat info from file. If set to false, the thermostat is set according to the thermostat block in the input file.</div>
+</div>
+</div></blockquote>
+<p>WARNING: Restarting a calculation with <code class="docutils literal"><span class="pre">md_global_restart</span> <span class="pre">=</span> <span class="pre">T</span></code> comes
+with a caveat: depending on the value of <code class="docutils literal"><span class="pre">md_write_history</span></code> the last
+batch of NGWFs/density kernels saved to files may not correspond to the
+NGWFs/density kernels history of the last MD step completed. However,
+the calculation restarts using the information stored in the
+<code class="docutils literal"><span class="pre">rootname.history.info</span></code> and <code class="docutils literal"><span class="pre">rootname.history.var</span></code>. As a result,
+there might be duplicated entries in the <code class="docutils literal"><span class="pre">rootname.md</span></code> file which has
+to be deleted manually by the user.</p>
+<p>For example, let’s consider the following scenario</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">MD_NUM_ITER</span>      <span class="p">:</span> <span class="mi">124</span>
+<span class="n">MD_WRITE_HISTORY</span> <span class="p">:</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<p>where we save a history of density kernels every 10 MD steps and the
+simulation stops after 124 steps. The last batch of density kernels
+(together with all the other MD info) is saved at step 120, but the
+summary of the trajectory from step 121-124 is still appended to
+<code class="docutils literal"><span class="pre">rootname.md</span></code>. When restarting with <code class="docutils literal"><span class="pre">md_global_restart</span> <span class="pre">=</span> <span class="pre">T</span></code>, the
+code reads in the files <code class="docutils literal"><span class="pre">rootname.history.info</span></code> and
+<code class="docutils literal"><span class="pre">rootname.history.var</span></code> containing the info corresponding to step 120
+and starts to append the trajectory info to <code class="docutils literal"><span class="pre">rootname.md</span></code>. As a
+result, the summary of the trajectory from step 121-124 in the
+<code class="docutils literal"><span class="pre">rootname.md</span></code> is duplicated.</p>
+<p>[Skylaris2005] C.-K. Skylaris et al., J. Chem. Phys. <strong>122</strong>, 084119 (2005).</p>
+<p>[Frenkel2001] <em>Understanding Molecular Simulation</em>, 2nd Ed. D. Frenkel and B. Smit,Academic Press (2001)</p>
+<p>[Verlet1967] L. Verlet, Phys. Rev. <strong>159</strong>, 98 (1967).</p>
+<p>[Swope1982] W. C. Swope et al., J. Chem. Phys. <strong>76</strong>, 637 (1982).</p>
+<p>[Andersen1980] H. C. Andersen, J. Chem. Phys. <strong>72</strong>, 2384 (1980).</p>
+<p>[Grest1986] G. S. Grest and K. Kremer, Phys. Rev. A, <strong>33</strong> 3628 (1986).</p>
+<p>[Nose1984] S. Nose, J. Chem. Phys., <strong>81</strong> 511 (1984).</p>
+<p>[Hoover1985] W. G. Hoover, Phys. Rev. A, <strong>31</strong> 1695 (1985).</p>
+<p>[Bussi2007] G. Bussi et al., J. Chem. Phys., <strong>126</strong> 014101 (2007).</p>
+<p>[Martyna1996] G. J. Martyna, M.E. Tuckerman, et al., Molecular Physics <strong>87</strong>, 1117 (1996).</p>
+<p>[Arias1992] T. A. Arias et al., Phys. Rev. B, <strong>45</strong>, 1538 (1992).</p>
+<p>[Niklasson2006] A. M. N. Niklasson et al., Phys. Rev. Lett. <strong>97</strong>, 123001 (2006).</p>
+<p>[Niklasson2009] A. M. N. Niklasson et al., J. Chem. Phys. <strong>130</strong>, 214109 (2009).</p>
+<p>[Hunenberger2005] P. H. Hünenberger, Advanced Computer Simulation <strong>173</strong>, 105-109 (2005).</p>
+<p>[Arita2014] M Arita et al., J. Chem. Theory Comput., <strong>10</strong>, 5419-5425 (2014)</p>
+<p>[Albaugh2015] A. Albaugh et al, J. Chem. Phys., <strong>143</strong>, 174104 (2015)</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_dynamics.html">Dynamics</a><ul>
+      <li>Previous: <a href="index_dynamics.html" title="previous chapter">Dynamics</a></li>
+      <li>Next: <a href="phonons.html" title="next chapter">Phonon calculations</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/BOMD.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

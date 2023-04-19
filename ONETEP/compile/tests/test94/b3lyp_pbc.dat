@@ -1,0 +1,100 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Hartree-Fock exchange in periodic boundary         !
+! conditions.                                        !
+!                                                    !
+! Test system is a small graphene sheet.             !
+!                                                    !
+! Created by Jacek Dziedzic in September 2022.       !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+ print_qc T
+
+! jd: Use a crude expansion for speed, but also because we are using very, very
+!     small NGWFs which cannot acommodate high-q spherical waves.
+%block swri
+  for_hfx 3 7 V 12 12 E2
+%endblock swri
+
+%block species_swri-for_hfx
+C
+%endblock species_swri-for_hfx
+
+ xc_functional B3LYP
+ hfx_use_ri for_hfx
+ hfx_max_l 3
+ hfx_max_q 7
+
+ write_forces T
+ write_xyz T
+
+ output_detail VERBOSE
+ hfx_output_detail VERBOSE
+ timings_level 3
+ write_denskern F
+ write_tightbox_ngwfs F
+ do_properties F
+
+ charge 0
+
+ cutoff_energy 950 eV
+
+ maxit_ngwf_cg 1
+ minit_lnv 4
+ maxit_lnv 4
+
+! jd: The NGWF radius is ridiculously low to satisfy the rNGWF < L/4 
+!     requirement of PBC HFx. In real-life calculations we would be
+!     use NGWFs at least twice as large, forcing us to use a larger
+!     graphene sheet.
+%BLOCK SPECIES
+C  C  6 4 3.5
+%ENDBLOCK SPECIES
+  
+%BLOCK SPECIES_POT  
+C  "../../pseudo/carbon.recpot"
+%ENDBLOCK SPECIES_POT
+
+%BLOCK LATTICE_CART
+ang
+ 7.440000  0.000000  0.000000
+ 0.000000  8.592000  0.000000
+ 0.000000  0.000000  7.500000
+%ENDBLOCK LATTICE_CART
+
+%block positions_abs
+ang
+C   0.000000  0.000000  0.000000
+C   0.000000  1.432000  0.000000
+C   1.240000  2.148000  0.000000
+C   1.240000  3.580000  0.000000
+C   0.000000  4.296000  0.000000
+C   0.000000  5.728000  0.000000
+C   1.240000  6.444000  0.000000
+C   1.240000  7.876000  0.000000
+C   2.480000  0.000000  0.000000
+C   2.480000  1.432000  0.000000
+C   3.720000  2.148000  0.000000
+C   3.720000  3.580000  0.000000
+C   2.480000  4.296000  0.000000
+C   2.480000  5.728000  0.000000
+C   3.720000  6.444000  0.000000
+C   3.720000  7.876000  0.000000
+C   4.960000  0.000000  0.000000
+C   4.960000  1.432000  0.000000
+C   6.200000  2.148000  0.000000
+C   6.200000  3.580000  0.000000
+C   4.960000  4.296000  0.000000
+C   4.960000  5.728000  0.000000
+C   6.200000  6.444000  0.000000
+C   6.200000  7.876000  0.000000
+%endblock positions_abs

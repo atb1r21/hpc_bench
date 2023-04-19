@@ -1,0 +1,316 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Empirical Dispersion Correction &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using van der Waals Density Functionals" href="VDW-DF.html" />
+    <link rel="prev" title="Density mixing (Kernel-DIIS)" href="onetep_kernel_diis_documentation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="empirical-dispersion-correction">
+<h1>Empirical Dispersion Correction<a class="headerlink" href="#empirical-dispersion-correction" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Max Phipps, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Arihant Bhandari, University of Southampton</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">November 2020</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="energy">
+<h3>Energy<a class="headerlink" href="#energy" title="Permalink to this headline">¶</a></h3>
+<p>The modification to the total DFT energy when correcting for
+dispersion is given by,</p>
+<blockquote>
+<div><div class="math" id="equation-disp-corr">
+<span class="eqno">(1)<a class="headerlink" href="#equation-disp-corr" title="Permalink to this equation">¶</a></span>\[  E_{DFT-D} = E_{KS-DFT} + E_{disp}\]</div>
+</div></blockquote>
+<p>where the dispersion energy correction is given by
+raw-latex:[Vasp], [Hill2009]:</p>
+<blockquote>
+<div><div class="math" id="equation-e-disp">
+<span class="eqno">(2)<a class="headerlink" href="#equation-e-disp" title="Permalink to this equation">¶</a></span>\[  E_{disp} = -\frac{1}{2}\cdot s_6\cdot \sum^{N_{at}}_{i=1} \sum^{N_{at}}_{j=1}
+\sum_{L}^* \dfrac{C_{6,ij}}{R^6_{ij}} f_{damp}( R_{ij} ) g_{smooth}(R_{ij})\]</div>
+</div></blockquote>
+<p>where:</p>
+<ul class="simple">
+<li><span class="math">\(s_6\)</span> is a DF-dependent global scaling factor,</li>
+<li><span class="math">\(C_{6,ij}\)</span> is a dispersion coefficient for the atom pair
+<span class="math">\(ij\)</span>,</li>
+<li><span class="math">\(L\)</span> denotes all translations of the unit cell within the van
+der Waals radial cutoff <span class="math">\(R_{cut}\)</span>,</li>
+<li><span class="math">\(*\)</span> denotes <span class="math">\(i\ne j\)</span> in <span class="math">\(L=0\)</span></li>
+<li><span class="math">\(R_{ij}\)</span> is the distance <span class="math">\(| \overrightarrow{R^{0}_{i}} -
+\overrightarrow{R^L_{j}} |\)</span> between atom i in the parent cell
+<span class="math">\(L=0\)</span> and the atom j in all possible translations <span class="math">\(L\)</span>,</li>
+<li><span class="math">\(f_{damp}(R_{ij})\)</span> is a damping function that is unity at large
+distances and zero at small
+distances [Hill2009], [Grimme2006],</li>
+<li><span class="math">\(g_{smooth}(R_{ij})\)</span> is smoothening function for truncating the
+interactions beyond van der Waals radial cutoff.</li>
+<li>The dispersion coefficients and the form of the damping function are
+dependent upon the empirical vdW correction model adopted. The
+damping functions for the different models are given below:</li>
+</ul>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="8%" />
+<col width="40%" />
+<col width="32%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Index</th>
+<th class="head">Description</th>
+<th class="head">Damping function <span class="math">\(f_{damp}( R_{ij} )\)</span></th>
+<th class="head">vdW radii (<span class="math">\(R_{0,ij}\)</span>)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>Damping function of Elstner [Elstner2001].</td>
+<td><span class="math">\((1-\exp(-c_{damp}(R_{ij}/R_{0,ij})^7))^4\)</span></td>
+<td><span class="math">\(\frac{{R_{0,i}}^3+{R_{0,j}}^3}{{R_{0,i}}^2+{R_{0,j}}^2}\)</span></td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>First damping function of Wu and Yang [Wu2002].</td>
+<td><span class="math">\((1-\exp(-c_{damp}(R_{ij}/R_{0,ij})^3))^2\)</span></td>
+<td><span class="math">\(\frac{{R_{0,i}}^3+{R_{0,j}}^3}{{R_{0,i}}^2+{R_{0,j}}^2}\)</span></td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>Second damping function of Wu and Yang [Wu2002].</td>
+<td><span class="math">\(\frac{1}{1+\exp(-c_{damp}(R_{ij}/R_{0,ij}-1))}\)</span></td>
+<td><span class="math">\(\frac{{R_{0,i}}^3+{R_{0,j}}^3}{{R_{0,i}}^2+{R_{0,j}}^2}\)</span></td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>Damping function of D2 correction of Grimme [Grimme2006].</td>
+<td><span class="math">\(\frac{1}{1+\exp(-c_{damp}(R_{ij}/R_{0,ij}-1))}\)</span></td>
+<td><span class="math">\({R_{0,i}}+{R_{0,j}}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>where <span class="math">\(c_{damp}\)</span> is a damping constant (referred to as <span class="math">\(d\)</span>
+within the literature of Grimme [Grimme2006] and
+<span class="math">\(c_{damp}\)</span> by Hill [Hill2009]) and
+<span class="math">\(R_{0,ij}\)</span> is determined by the vdW radii of the atomic pair
+<span class="math">\(i\)</span> and <span class="math">\(j\)</span>.</p>
+<ul>
+<li><p class="first">The smoothening function has the following form for all dispersion
+models:</p>
+<div class="math">
+\[g_{smooth}(R_{ij})=1-e^{-\left(R_{ij}-R_{cut}\right)^2}\]</div>
+</li>
+<li><div class="first line-block">
+<div class="line">where, <span class="math">\(R_{cut}\)</span> is the radial cutoff for van der Waals
+interactions, and can be set by the following keyword in the input
+file:</div>
+<div class="line"><code class="docutils literal"><span class="pre">vdw_radial_cutoff:</span> <span class="pre">x</span> <span class="pre">units</span></code> [Real physical, default
+<code class="docutils literal"><span class="pre">vdw_radial_cutoff:</span> <span class="pre">100</span> <span class="pre">bohr</span></code>].</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="forces">
+<h3>Forces<a class="headerlink" href="#forces" title="Permalink to this headline">¶</a></h3>
+<p>During geometry optimization, the van der Waals forces are calculated
+from the derivative of the dispersion energy with respect to the ionic
+coordinates <span class="math">\(\{s_i\}\)</span>:</p>
+<div class="math">
+\[\frac{\partial E_{disp}}{\partial s_i}  = -\frac{1}{2}\cdot s_6\cdot
+\sum^{N_{at}}_{j=1} \sum_{L}^* \dfrac{C_{6,ij}}{R^6_{ij}} \left[f( R_{ij} )
+g'(R_{ij})+g(R_{ij})\left(f'(R_{ij})-\frac{6f(R_{ij})}{R_{ij}}\right)\right]\frac{\partial
+R_{ij}}{\partial s_i}\]</div>
+</div>
+</div>
+<div class="section" id="activating-the-dispersion-corrections">
+<h2>Activating the dispersion corrections<a class="headerlink" href="#activating-the-dispersion-corrections" title="Permalink to this headline">¶</a></h2>
+<p>Four vdW correction options have been implemented within ONETEP.
+Activation of the vdW corrections within ONETEP is achieved using the</p>
+<p><code class="docutils literal"><span class="pre">DISPERSION</span></code></p>
+<p>keyword followed by the dispersion index. eg. For the D2 correction of
+Grimme [Grimme2006],</p>
+<p><code class="docutils literal"><span class="pre">DISPERSION</span> <span class="pre">4</span></code></p>
+<p>The exchange-correlation functionals available with optimized parameters
+for the dispersion models are given below:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="10%" />
+<col width="20%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Index</th>
+<th class="head">Keyword</th>
+<th class="head">Available XC functionals</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>ELSTNER</td>
+<td>BLYP, PBE, PW91, REVPBE, RPBE, XLYP.</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>WUYANG1</td>
+<td>BLYP, PBE, PW91, REVPBE, RPBE, XLYP.</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>WUYANG2</td>
+<td>BLYP, PBE, PW91, REVPBE, RPBE, XLYP.</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>GRIMMED2</td>
+<td>BLYP, PBE, B3LYP.</td>
+</tr>
+</tbody>
+</table>
+<p>The <span class="math">\(C_{6,ij}\)</span> coefficients and the coefficients of the damping
+function of dispersion corrections 1–3 are optimized for each xc
+functional to minimize the root mean square difference of the
+interaction energy from the literature values for a selection of
+dispersion-dominant biological complexes from the JSCH-2005 and S22
+sets [Jurecka2006]_` and the database of
+Morgado [Morgado2007]. For the D2 correction of
+Grimme the parameters are optimized as described in the
+literature [Grimme2006].</p>
+<p>The <span class="math">\(s_6\)</span> parameters are unity for dispersion corrections 1–3 and
+are fitted by least squares optimization of interaction energy error for
+40 noncovalently bound complexes for the D2 correction of Grimme.</p>
+<p>In the case of using an unoptimized functional not given within the
+list, default unoptimized <span class="math">\(c_{damp}\)</span>, <span class="math">\(C_{6,ij}\)</span>) and
+<span class="math">\(R_{0,i}\)</span> values are adopted for the damping functions of Elstner
+or Wu and Yang as described by Hill [Hill2009] and a
+default <span class="math">\(s_6\)</span> value of 1.00 is adopted for Grimme’s D2 correction
+model.</p>
+</div>
+<div class="section" id="overriding-dispersion-correction-parameters">
+<h2>Overriding dispersion correction parameters<a class="headerlink" href="#overriding-dispersion-correction-parameters" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to override the default parameters of the dispersion
+damping functions. This option allows the user to specify parameters for
+elements and functionals for which values are not given. The
+atom-dependent variables <span class="math">\(C_{6,i}\)</span> (used to calculate
+<span class="math">\(C_{6,ij}\)</span>), <span class="math">\(R_{0,i}\)</span> (related to the atomic vdW radius of
+an atom <span class="math">\(i\)</span>), and <span class="math">\(n_{eff}\)</span> (used in the calculation of
+<span class="math">\(C_{6,ij}\)</span> for all damping functions excluding the D2 correction
+of Grimme) are modified using the</p>
+<p><code class="docutils literal"><span class="pre">vdw_params</span></code></p>
+<p>block. This override block applies the parameter changes to atoms by
+their atomic number (nzatom). eg. To override the dispersion parameters
+associated with nitrogen,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>%block vdw_params
+! nzatom, c6coeff, radzero, neff
+  7       21.1200  2.6200   2.5100
+%endblock vdw_params
+</pre></div>
+</div>
+<p>To override the damping constant <span class="math">\(c_{damp}\)</span> associated with a
+damping function, the keyword</p>
+<p><code class="docutils literal"><span class="pre">vdw_dcoeff</span></code></p>
+<p>followed by the modified damping constant parameter is used. eg.</p>
+<p><code class="docutils literal"><span class="pre">vdw_dcoeff</span> <span class="pre">11.0</span></code></p>
+</div>
+<div class="section" id="boundary-conditions">
+<h2>Boundary Conditions<a class="headerlink" href="#boundary-conditions" title="Permalink to this headline">¶</a></h2>
+<p>The boundary conditions are set by the following keyword:</p>
+<p><code class="docutils literal"><span class="pre">vdw_bc</span> <span class="pre">P/O</span> <span class="pre">P/O</span> <span class="pre">P/O</span></code></p>
+<p>which accepts a string which should contain three characters (which may
+be separated by spaces), specifying the BCs along the <span class="math">\(x\)</span>,
+<span class="math">\(y\)</span> and <span class="math">\(z\)</span> directions of the simulation cell. ‘P’ for
+periodic and ‘O’ for open. In case, the keyword is not specified, BCs
+set same as</p>
+<p><code class="docutils literal"><span class="pre">ion_ion_bc</span></code>.</p>
+<p>[Vasp] <a class="reference external" href="https://www.vasp.at/wiki/index.php/DFT-D2">https://www.vasp.at/wiki/index.php/DFT-D2</a></p>
+<p>[Hill2009] Q. Hill and C-K Skylaris, <em>Proc. R. Soc. A</em> 465(2103):669-683, 2009</p>
+<p>[Grimme2006] S. Grimme, <em>J. Comput. Chem.</em> 27(15):1787-1799, 2006</p>
+<p>[Elstner2001] M. Elstner, P. Hobza, T. Frauenheim, S. Suhai and E. Kaxiras, <em>J. Chem. Phys.</em> 114(12):5149-5155, 2001</p>
+<p>[Wu2002] Q. Wu and W. Yang, <em>J. Chem. Phys.</em>, 116(2):515-524, 2002</p>
+<p>[Jurecka2006] P. Jurečka, J. Šponer, J. Černýa and P. Hobza, <em>Phys. Chem. Chem. Phys.</em> 8:1985-1993, 2006</p>
+<p>[Morgado2007] C. A. Morgado, J. P. McNamara, I. H. Hillier, N. A. Burton and M. A. Vincent <em>J. Chem. Theory Comput.</em> 3(5):1656-1664, 2007</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="onetep_kernel_diis_documentation.html" title="previous chapter">Density mixing (Kernel-DIIS)</a></li>
+      <li>Next: <a href="VDW-DF.html" title="next chapter">Using van der Waals Density Functionals</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/VDW-correction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

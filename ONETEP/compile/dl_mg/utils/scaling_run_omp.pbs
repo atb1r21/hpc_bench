@@ -1,0 +1,62 @@
+#!/bin/bash --login
+#PBS -N My_job
+#PBS -l mppwidth=512
+#PBS -l mppnppn=32
+#PBS -l walltime=2:00:00
+#PBS -A c01-hec
+
+# Make sure any symbolic links are resolved to absolute path
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+
+# Change to the direcotry that the job was submitted from
+cd $PBS_O_WORKDIR
+
+# Set the number of threads to 1
+#   This prevents any system libraries from automatically
+#   using threading.
+export OMP_NUM_THREADS=1
+
+[ -z "$exedir" ] && exedir="./" #"/nfs02/c01/c01/lanton/ONETEP/dl_mg"
+
+[ -z "$exename" ] && exename=test_onetep_ls.exe
+
+[ -z "$agg_level" ] && agg_level=0
+
+#for exename in test_onetep_ls_release1.exe test_onetep_ls_3d.exe test_onetep_ls_omp.exe
+for exename in test_onetep_ls_coll2.exe test_onetep_ls_nocoll.exe
+do
+
+exe="$exedir"/"$exename"
+
+if [ ! -x $exe ]; then
+  echo "Somehow $exe does not exist or is not executable. Aborting!">&2
+  exit 1
+else
+  echo "using $exe"
+fi
+
+[ -z "$nth" ] && nth=1
+export OMP_NUM_THREADS=$nth
+echo "using $nth OpenMP threads"
+
+#export PAT_RT_SUMMARY=0
+
+#for nproc  in  4 8 16; do
+#  depth=$(( 32/nproc ))
+for nth in  1 2 4 ; do
+  export OMP_NUM_THREADS=$nth
+for i  in  16 32 64 128 256 512 ; do
+  nproc=$((i/nth))
+  depth=$(( 32/(nproc < 16 ? 1 : nproc/16) ))
+  (( depth == 0 )) && depth=1
+  #rm -f *.out
+  #rm -f *.err
+  echo "using $exe on $nproc cores, threads, $nth, depth $depth"
+  echo "Please wait."
+  aprun -n $nproc -d $depth $exe "data_onetep_ls/solvent" "$agg_level"
+  echo "Done. "
+  echo
+  echo "======================================================================="
+done
+done
+done

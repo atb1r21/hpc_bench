@@ -1,0 +1,451 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Calculating the Local/Partial Density of States and Angular Momentum Projected Density of States &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Linear response time-dependent density-functional theory (LR-TDDFT)" href="lr_tddft.html" />
+    <link rel="prev" title="Spectroscopy and Transport" href="index_spectroscopy.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="calculating-the-local-partial-density-of-states-and-angular-momentum-projected-density-of-states">
+<h1>Calculating the Local/Partial Density of States and Angular Momentum Projected Density of States<a class="headerlink" href="#calculating-the-local-partial-density-of-states-and-angular-momentum-projected-density-of-states" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Nicholas D.M. Hine, University of Warwick (originally Imperial College London)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Jolyon Aarons, University of Warwick</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">June 2019 (Updated by Jolyon Aarons to add angular momentum PDOS information).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">Originally written by Nicholas D.M. Hine April 2012.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="what-is-being-calculated">
+<h2>What is being calculated?<a class="headerlink" href="#what-is-being-calculated" title="Permalink to this headline">¶</a></h2>
+<p>The local density of states (LDOS) provides a description encompassing
+both the spatial and energetic distribution of the single-particle
+eigenstates simultaneously. The angular momentum projected density of
+states (PDOS) decomposes the density of states energetic distribution
+into angular momentum components. Both decompositions may be combined
+into an LPDOS. The LDOS and PDOS can thus be two valuable sources of
+information for understanding and interpreting electronic structure
+calculations.</p>
+<p>In the local-orbital framework of ONETEP
+[Skylaris2005], both decompositions are
+achieved by first performing a diagonalisation of the Hamiltonian matrix
+in the NGWF basis. This is a post-processing step performed at the end
+of the calculation, once NGWF and density kernel convergence have been
+achieved. While this comes with a <span class="math">\(O(N^{3})\)</span> computational cost,
+the prefactor is low because the NGWF basis is generally quite small.
+Therefore, such a diagonalisation remains fast up to quite large system
+sizes, particularly if a parallel eigensolver such as ScaLAPACK is used.</p>
+<p>The generalised eigenproblem that needs to be solved to provide the
+eigenvalues and eigenvectors is:</p>
+<div class="math" id="equation-gen-eig-prob">
+<span class="eqno">(1)<a class="headerlink" href="#equation-gen-eig-prob" title="Permalink to this equation">¶</a></span>\[\sum_{\beta}H_{\alpha\beta}M_{\phantom{\beta}n}^{\beta}=\epsilon_{n}\sum_{\beta}S_{\alpha\beta}M_{\phantom{\beta}n}^{\beta}\]</div>
+<p>The matrix <span class="math">\(M_{\phantom{\beta}n}^{\beta}\)</span> describes the
+eigenvectors, which take the form
+<span class="math">\(|\psi_{n}\rangle=\sum_{\beta}|\phi_{\beta}\rangle
+M_{\phantom{\beta}n}^{\beta}\)</span>. In ONETEP, Eq. <a class="reference internal" href="#equation-gen-eig-prob">(1)</a> can be
+solved using either the LAPACK routine DSYGVX or (preferably) the
+ScaLAPACK routine PDSYGVX, depending on whether -DSCALAPACK has been
+specified at compile time, and ScaLAPACK libraries have been provided.</p>
+<p>The result is the eigenvalues <span class="math">\(\{\epsilon_{n}\}\)</span> and eigenvectors
+<span class="math">\(M_{\phantom{\beta}n}^{\beta}\)</span>. From these, the total density of
+states can be obtained as</p>
+<div class="math" id="equation-dos">
+<span class="eqno">(2)<a class="headerlink" href="#equation-dos" title="Permalink to this equation">¶</a></span>\[D(\epsilon)=\sum_{n}\delta(\epsilon-\epsilon_{n})\;.\]</div>
+<p>In practice the delta function is replaced with a Gaussian with
+broadening <span class="math">\(\sigma\)</span>, typically of the order of
+<span class="math">\(0.1\,\mathrm{eV}\)</span>:</p>
+<div class="math">
+\[\delta(\epsilon-\epsilon_{n})\approx\sqrt{\frac{\log(2)}{\pi\sigma^2}}*\exp{\left(\frac{-\log(2)(\epsilon-\epsilon_n)^2}{\pi\sigma^2}\right)}.\]</div>
+<div class="section" id="local-density-of-states">
+<h3>Local Density of States<a class="headerlink" href="#local-density-of-states" title="Permalink to this headline">¶</a></h3>
+<p>The local density of states in a given region <span class="math">\(I\)</span> is calculated by
+projecting each eigenstate onto the local orbitals of region <span class="math">\(I\)</span>,
+as</p>
+<div class="math" id="equation-ldos">
+<span class="eqno">(3)<a class="headerlink" href="#equation-ldos" title="Permalink to this equation">¶</a></span>\[D_{I}(\epsilon)=\sum_{n}\delta(\epsilon-\epsilon_{n})\;\langle\psi_{n}|\sum_{\alpha\in I}\left(|\phi^{\alpha}\rangle\langle\phi_{\alpha}|\right)|\psi_{n}\rangle.\]</div>
+<p>Here, the non-orthogonality of the NGWFs when used as projectors means
+that the ket must be contravariant. We are therefore implicitly using
+the contravariant dual of the NGWF (as in DFT+U
+[O-Regan2011], [O-Regan2012]).
+Fortunately, the functions <span class="math">\(|\phi^{\alpha}\rangle\)</span> need not be
+explicitly constructed in real space: the relationship
+<span class="math">\(\langle\phi_{\alpha}|\phi^{\beta}\rangle=\delta_{\alpha\beta}\)</span>
+implies that we can re-write Eq. <a class="reference internal" href="#equation-ldos">(3)</a> as:</p>
+<div class="math" id="equation-ldos2">
+<span class="eqno">(4)<a class="headerlink" href="#equation-ldos2" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{aligned}
+D_{I}(\epsilon) &amp; = &amp; \sum_{n}\!\delta(\epsilon-\epsilon_{n})\!\!\!\!\!\!\sum_{\beta,\gamma,\alpha\in I}\!\!\!\!(M^{\dagger})_{n}^{\phantom{n}\gamma}\langle\phi_{\gamma}|\left(|\phi^{\alpha}\rangle\langle\phi_{\alpha}|\right)|\phi_{\beta}\rangle M_{\phantom{\beta}n}^{\beta}\nonumber \\
+ &amp; = &amp; \sum_{n}\delta(\epsilon-\epsilon_{n})\sum_{\alpha\in I}(M^{\dagger})_{n}^{\phantom{n}\alpha}(\sum_{\beta}S_{\alpha\beta}M_{\phantom{\beta}n}^{\beta})\end{aligned}\end{split}\]</div>
+<p>What is therefore obtained is a series of functions
+<span class="math">\(D_{I}(\epsilon)\)</span> for each of the chosen regions <span class="math">\(I\)</span>, which
+may be the NGWFs of a single atom, or those of a group of atom types.</p>
+</div>
+<div class="section" id="angular-momentum-projected-density-of-states">
+<h3>Angular Momentum Projected Density of States<a class="headerlink" href="#angular-momentum-projected-density-of-states" title="Permalink to this headline">¶</a></h3>
+<p>To calculate the PDOS, we need to insert an additional resolution of the
+identity into equation <a class="reference internal" href="#equation-ldos2">(4)</a> using a basis of angular momentum
+resolved functions on which to project our NGWFS,
+<span class="math">\(| \chi_{l,m}\rangle\)</span>:</p>
+<div class="math" id="equation-dos-identity-operator">
+<span class="eqno">(5)<a class="headerlink" href="#equation-dos-identity-operator" title="Permalink to this equation">¶</a></span>\[D_{l,I}(\epsilon) \approx \sum_n  \delta(\epsilon-\epsilon_n) \sum_{\alpha,l\in I}(M^{\dagger})_n^{\,\,\,\,\alpha} \sum_{m \in l}\langle{\phi_\alpha
+| \chi'_{\alpha l m}}\rangle \sum_{l'm'} \Lambda^{ l m, l'm'} \sum_\beta \left(\langle{ \chi'_{
+l' m'} |\phi_\beta}\rangle M^\beta_{\ \, n}   \, \right),\]</div>
+<p>where we need to include the overlap matrix of angular momentum
+resolved functions, <span class="math">\(\Lambda\)</span>, since this basis is also
+non-orthogonal.</p>
+<p>We have considerable scope in which basis we choose for the angular
+momentum resolved functions. Effectively, this is a set of spherical
+harmonics multiplied by some radial term. In ONETEP, we currently have
+two options implemented for the radial term: either spherical waves, or
+pseudo-atomic functions, as used to initialise the NGWFs, before
+optimisation in the NGWF SCF loop. More details about the theory behind
+these options as well as tests and comparisons can be found in our paper
+[Aarons2019].</p>
+</div>
+</div>
+<div class="section" id="performing-an-ldos-calculation">
+<h2>Performing an LDOS Calculation<a class="headerlink" href="#performing-an-ldos-calculation" title="Permalink to this headline">¶</a></h2>
+<p>An LDOS calculation is performed as part of the optional post-processing
+activated using <code class="docutils literal"><span class="pre">do_properties:</span> <span class="pre">T</span></code> or using <code class="docutils literal"><span class="pre">task:</span> <span class="pre">PROPERTIES</span></code>.
+To activate LDOS we then need to specify the Gaussian broadening, such
+as <code class="docutils literal"><span class="pre">dos_smear</span> <span class="pre">:</span> <span class="pre">0.1</span> <span class="pre">eV</span></code>. The default value of
+<code class="docutils literal"><span class="pre">dos_smear</span> <span class="pre">:</span> <span class="pre">-0.1</span> <span class="pre">eV</span></code> disables LDOS.</p>
+<p>Then, we need to specify the groups of atom types. This is done via a
+block, with each line listing a group of atoms. For example, in a
+benzene ring, we might use the following to find the contributions of
+the carbon and hydrogen atoms respectively:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_ldos_groups</span>
+  <span class="n">C</span>
+  <span class="n">H</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_ldos_groups</span>
+</pre></div>
+</div>
+<p>A more complex example would be for a GaAs nanorod with hydrogen
+termination on the faces. If we wished to see the LDOS varying over 5
+layers, labelled 1-5, we could use:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_ldos_groups</span>
+  <span class="n">Ga1</span> <span class="n">As1</span> <span class="n">H1</span>
+  <span class="n">Ga2</span> <span class="n">As2</span> <span class="n">H2</span>
+  <span class="n">Ga3</span> <span class="n">As3</span> <span class="n">H3</span>
+  <span class="n">Ga4</span> <span class="n">As4</span> <span class="n">H4</span>
+  <span class="n">Ga5</span> <span class="n">As5</span> <span class="n">H5</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_ldos_groups</span>
+</pre></div>
+</div>
+<p>Examples of the use of LDOS analysis, including example plots, can be
+found in several recent papers employing ONETEP
+[Avraam2011], [Avraam2012], [Hine2012].</p>
+</div>
+<div class="section" id="performing-a-pdos-calculation">
+<h2>Performing a PDOS&nbsp;Calculation<a class="headerlink" href="#performing-a-pdos-calculation" title="Permalink to this headline">¶</a></h2>
+<p>The default settings in ONETEP&nbsp;for PDOS calculations are to use the
+pseudo-atomic states as the angular momentum resolved projection basis
+with a Löwdin orthogonalisation. For most applications, the spilling
+parameter associated with this basis will be sufficiently small.
+PDOS&nbsp;calculations are enabled as part of the optional post-processing by
+writing <code class="docutils literal"><span class="pre">do_properties</span> <span class="pre">:&nbsp;T</span></code> into the ONETEP&nbsp;input file, along with a
+Gaussian smearing width, such as <code class="docutils literal"><span class="pre">dos_smear</span> <span class="pre">:</span> <span class="pre">0.1</span> <span class="pre">eV</span></code> and a maximum
+angular momentum in the angular momentum resolved projection basis, such
+as <code class="docutils literal"><span class="pre">pdos_max_l</span> <span class="pre">:&nbsp;2</span></code> to include up to d-states (when using the
+default pseudo-atomic basis, this will also be limited by the maximum
+angular momentum state in each species, as calculated by the
+pseudo-atomic solver).</p>
+<div class="section" id="local-pdos-lpdos-calculations">
+<h3>Local PDOS&nbsp;(LPDOS) Calculations<a class="headerlink" href="#local-pdos-lpdos-calculations" title="Permalink to this headline">¶</a></h3>
+<p>If you intend to calculate an angular momentum projected DOS on a subset
+of atoms, this can be achieved by specifying a block in the input file,
+in the same way as for LDOS. The block can be set up by using the
+<code class="docutils literal"><span class="pre">species_pdos_groups</span></code> keyword. For example, in a benzene ring
+calculation, if you want to find the contributions to the PDOS&nbsp;coming
+from solely carbon atoms and solely hydrogen atoms, you could write:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_pdos_groups</span>
+  <span class="n">C</span>
+  <span class="n">H</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pdos_groups</span>
+</pre></div>
+</div>
+<p>If you also want the combined contribution from carbon and hydrogen to
+each angular momentum channel, you should add a line for this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_pdos_groups</span>
+  <span class="n">C</span>
+  <span class="n">H</span>
+  <span class="n">C</span> <span class="n">H</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pdos_groups</span>
+</pre></div>
+</div>
+<p>This will calculate PDOS histogram data up to <code class="docutils literal"><span class="pre">pdos_max_l</span></code> for each
+line. As many or as few combinations of species as you require can be
+calculated by adding extra lines.</p>
+<p>If you instead want a specific subset of atoms of a particular species,
+this can be achieved easily by labelling this subset differently to the
+others in its species. For example, if you have the following species
+specification:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species</span>
+  <span class="n">Pt</span> <span class="n">Pt</span> <span class="mi">78</span> <span class="mi">9</span> <span class="mf">9.0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_atomic_set</span>
+  <span class="n">Pt</span> <span class="n">SOLVE</span> <span class="n">conf</span><span class="o">=</span><span class="mi">5</span><span class="n">d9</span> <span class="mi">6</span><span class="n">s1</span> <span class="mi">6</span><span class="n">p0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_atomic_set</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_pot</span>
+  <span class="n">Pt</span> <span class="n">platinum</span><span class="o">.</span><span class="n">paw</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pot</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_pdos_groups</span>
+  <span class="n">Pt</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pdos_groups</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">positions_abs</span>
+  <span class="n">Pt</span> <span class="mf">8.8292</span> <span class="mf">12.2847</span> <span class="mf">8.7330</span>
+  <span class="n">Pt</span> <span class="mf">9.2819</span> <span class="mf">11.1839</span> <span class="mf">11.1325</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">positions_abs</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">Then you may wish to duplicate the platinum species definitions to
+label a subset of the atoms in the <code class="docutils literal"><span class="pre">positions_abs</span></code> block, as shown
+here for example:</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species</span>
+  <span class="n">Pt</span> <span class="n">Pt</span> <span class="mi">78</span> <span class="mi">9</span> <span class="mf">9.0</span>
+  <span class="n">Pt1</span> <span class="n">Pt</span> <span class="mi">78</span> <span class="mi">9</span> <span class="mf">9.0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_atomic_set</span>
+  <span class="n">Pt</span> <span class="n">SOLVE</span> <span class="n">conf</span><span class="o">=</span><span class="mi">5</span><span class="n">d9</span> <span class="mi">6</span><span class="n">s1</span> <span class="mi">6</span><span class="n">p0</span>
+  <span class="n">Pt1</span> <span class="n">SOLVE</span> <span class="n">conf</span><span class="o">=</span><span class="mi">5</span><span class="n">d9</span> <span class="mi">6</span><span class="n">s1</span> <span class="mi">6</span><span class="n">p0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_atomic_set</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_pot</span>
+  <span class="n">Pt</span> <span class="n">platinum</span><span class="o">.</span><span class="n">paw</span>
+  <span class="n">Pt1</span> <span class="n">platinum</span><span class="o">.</span><span class="n">paw</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pot</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_pdos_groups</span>
+  <span class="n">Pt</span>
+  <span class="n">Pt1</span>
+  <span class="n">Pt</span> <span class="n">Pt1</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pdos_groups</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">positions_abs</span>
+  <span class="n">Pt</span>  <span class="mf">8.8292</span> <span class="mf">12.2847</span> <span class="mf">8.7330</span>
+  <span class="n">Pt1</span> <span class="mf">9.2819</span> <span class="mf">11.1839</span> <span class="mf">11.1325</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">positions_abs</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">and hence calculate PDOS&nbsp;contributions for subsets of atoms of a
+single species.</div>
+</div>
+</div>
+<div class="section" id="expert-pdos-options">
+<h3>Expert PDOS&nbsp;Options<a class="headerlink" href="#expert-pdos-options" title="Permalink to this headline">¶</a></h3>
+<p>Further options are available in the ONETEP&nbsp;PDOS&nbsp;functionality to
+control the quality of the projection. These will be unneeded in most
+cases, but if, for instance, you are observing larger spilling
+parameters than your requirements permit, you may wish to enable some of
+these options.</p>
+<p>The most reliable way we have found to reduce the spilling parameter is
+to use a spherical-wave basis rather than the pseudo-atomic basis as the
+angular momentum resolved projection basis. To do this in ONETEP, add
+<code class="docutils literal"><span class="pre">pdos_pseudoatomic</span> <span class="pre">:&nbsp;F</span></code> to your input file. By default, this will
+create a set of contracted spherical waves by fitting spherical waves to
+your converged NGWFs, via the contraction coefficients.</p>
+<p>The spherical wave basis is contracted by default to reduce the memory
+requirements of the code. You may, however, not see an improvement in
+the spilling parameter by using this set. To be certain of reducing the
+spilling parameter, you should also opt to use the full, non-contracted
+spherical wave basis, by setting <code class="docutils literal"><span class="pre">pdos_reduce_sws</span></code> :&nbsp;T in your input
+file, along with an adequately large <code class="docutils literal"><span class="pre">pdos_max_l</span></code>. For <code class="docutils literal"><span class="pre">pdos_max_l</span></code>
+you can start by running with 2 and increase to 3 if required. If you
+choose to take this approach, beware of the memory requirements, which
+can be <em>up to</em> 10 times greater.</p>
+<p>If you choose to use a contracted set, then you almost certainly want to
+use the default fitting coefficients (fitted to NGWFs). These can be
+changed to unity by setting <code class="docutils literal"><span class="pre">pdos_construct_basis</span> <span class="pre">:&nbsp;F</span></code>, however this
+is not likely to improve your results, and is likely to be removed in a
+future version of ONETEP&nbsp;due to it being mainly of use for debugging
+purposes. To reduce the spilling parameter with the contracted set, we
+recommend increasing the <code class="docutils literal"><span class="pre">pdos_max_l</span></code> parameter.</p>
+<p>In specialised cases, you may also wish to <em>not</em> sum over the magnetic
+quantum number. This can be achieved by setting <code class="docutils literal"><span class="pre">pdos_sum_mag</span> <span class="pre">:</span> <span class="pre">F</span></code>.
+This will give histogram data for every magnetic quantum number of every
+angular momentum channel of each atom group.</p>
+</div>
+<div class="section" id="interpreting-outputs">
+<h3>Interpreting Outputs<a class="headerlink" href="#interpreting-outputs" title="Permalink to this headline">¶</a></h3>
+<p>ONETEPs PDOS&nbsp;outputs are written to several files as well as to stdout,
+which is itself usually redirected to the main log/output file. The
+PDOS&nbsp;output to stdout will look something like the following (for an
+input file with 3 <code class="docutils literal"><span class="pre">pdos_groups</span></code> and <code class="docutils literal"><span class="pre">pdos_max_l=2</span></code>):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">================</span> <span class="n">Projected</span> <span class="n">Density</span> <span class="n">of</span> <span class="n">States</span> <span class="p">(</span><span class="n">pDOS</span><span class="p">)</span> <span class="n">calculation</span> <span class="o">================</span>
+
+<span class="n">Constructing</span> <span class="n">AM</span> <span class="n">resolved</span> <span class="n">functions</span>  <span class="o">......</span> <span class="n">done</span>
+
+<span class="n">Performing</span> <span class="n">overlap</span> <span class="n">integrals</span> <span class="o">...</span>  <span class="n">done</span>
+
+<span class="n">Computing</span> <span class="n">pDOS</span> <span class="n">weights</span> <span class="o">...</span>  <span class="n">done</span>
+
+<span class="n">All</span> <span class="n">bands</span> <span class="n">spilling</span> <span class="n">parameter</span> <span class="o">=</span>   <span class="mf">2.16</span> <span class="o">%</span>
+<span class="n">Occupancy</span><span class="o">-</span><span class="n">weighted</span> <span class="n">spilling</span> <span class="n">parameter</span> <span class="o">=</span>   <span class="mf">0.30</span> <span class="o">%</span>
+
+ <span class="o">=&gt;</span> <span class="n">Outputting</span> <span class="n">data</span> <span class="k">for</span> <span class="n">OptaDOS</span> <span class="o">&lt;=</span>
+
+<span class="n">Writing</span> <span class="n">pDOS</span> <span class="n">weights</span> <span class="n">to</span> <span class="n">file</span> <span class="s2">&quot;Pt3O.val_pdos_bin&quot;</span> <span class="o">...</span> <span class="n">done</span>
+
+<span class="n">Writing</span> <span class="n">band</span> <span class="n">gradients</span> <span class="n">to</span> <span class="n">file</span> <span class="s2">&quot;Pt3O.val_dome_bin&quot;</span> <span class="o">...</span> <span class="n">done</span>
+
+<span class="n">Writing</span> <span class="n">Castep</span> <span class="n">output</span> <span class="n">cell</span> <span class="n">file</span> <span class="n">to</span> <span class="s2">&quot;Pt3O-out.cell&quot;</span> <span class="o">...</span> <span class="n">done</span>
+
+ <span class="o">=&gt;</span> <span class="n">Computing</span> <span class="n">Gaussian</span> <span class="n">smeared</span> <span class="n">pDOS</span> <span class="o">&lt;=</span>
+<span class="n">Writing</span> <span class="s2">&quot;Pt3O_PDOS.txt&quot;</span> <span class="o">...</span>  <span class="n">done</span>
+
+ <span class="o">=&gt;</span> <span class="n">Computing</span> <span class="n">Occupancy</span><span class="o">-</span><span class="n">weighted</span> <span class="n">Gaussian</span> <span class="n">smeared</span> <span class="n">pDOS</span> <span class="o">&lt;=</span>
+<span class="n">Writing</span> <span class="s2">&quot;Pt3O_occ_PDOS.txt&quot;</span> <span class="o">...</span>  <span class="n">done</span>
+  <span class="o">=&gt;</span> <span class="n">Band</span> <span class="n">centres</span><span class="p">:</span>
+ <span class="n">S</span> <span class="n">band</span> <span class="n">centre</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">1</span><span class="p">:</span>  <span class="o">-</span><span class="mf">10.784858</span> <span class="n">eV</span>
+ <span class="n">P</span> <span class="n">band</span> <span class="n">centre</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">1</span><span class="p">:</span>   <span class="o">-</span><span class="mf">6.380333</span> <span class="n">eV</span>
+ <span class="n">D</span> <span class="n">band</span> <span class="n">centre</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">1</span><span class="p">:</span>   <span class="o">-</span><span class="mf">1.992269</span> <span class="n">eV</span>
+ <span class="n">S</span> <span class="n">band</span> <span class="n">centre</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">2</span><span class="p">:</span>   <span class="o">-</span><span class="mf">3.492084</span> <span class="n">eV</span>
+ <span class="n">P</span> <span class="n">band</span> <span class="n">centre</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">2</span><span class="p">:</span>   <span class="o">-</span><span class="mf">5.494629</span> <span class="n">eV</span>
+ <span class="n">D</span> <span class="n">band</span> <span class="n">centre</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">2</span><span class="p">:</span>   <span class="o">-</span><span class="mf">1.992269</span> <span class="n">eV</span>
+ <span class="n">S</span> <span class="n">band</span> <span class="n">centre</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">3</span><span class="p">:</span>  <span class="o">-</span><span class="mf">20.033217</span> <span class="n">eV</span>
+ <span class="n">P</span> <span class="n">band</span> <span class="n">centre</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">3</span><span class="p">:</span>   <span class="o">-</span><span class="mf">6.607254</span> <span class="n">eV</span>
+  <span class="n">Band</span> <span class="n">centres</span> <span class="n">done</span><span class="o">.</span> <span class="o">&lt;=</span>
+  <span class="o">=&gt;</span> <span class="n">Integrated</span> <span class="n">number</span> <span class="n">of</span> <span class="n">electrons</span> <span class="ow">in</span> <span class="n">each</span> <span class="n">AM</span> <span class="n">band</span><span class="p">:</span>
+ <span class="n">S</span> <span class="n">num</span> <span class="n">electrons</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">1</span><span class="p">:</span>    <span class="mf">3.769061</span>
+ <span class="n">P</span> <span class="n">num</span> <span class="n">electrons</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">1</span><span class="p">:</span>    <span class="mf">5.624284</span>
+ <span class="n">D</span> <span class="n">num</span> <span class="n">electrons</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">1</span><span class="p">:</span>   <span class="mf">26.497454</span>
+ <span class="n">S</span> <span class="n">num</span> <span class="n">electrons</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">2</span><span class="p">:</span>    <span class="mf">2.107330</span>
+ <span class="n">P</span> <span class="n">num</span> <span class="n">electrons</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">2</span><span class="p">:</span>    <span class="mf">1.147080</span>
+ <span class="n">D</span> <span class="n">num</span> <span class="n">electrons</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">2</span><span class="p">:</span>   <span class="mf">26.497454</span>
+ <span class="n">S</span> <span class="n">num</span> <span class="n">electrons</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">3</span><span class="p">:</span>    <span class="mf">1.661731</span>
+ <span class="n">P</span> <span class="n">num</span> <span class="n">electrons</span> <span class="n">of</span> <span class="n">group</span> <span class="mi">3</span><span class="p">:</span>    <span class="mf">4.477204</span>
+  <span class="n">Integrated</span> <span class="n">number</span> <span class="n">of</span> <span class="n">electrons</span> <span class="n">done</span><span class="o">.</span> <span class="o">&lt;=</span>
+<span class="o">================================================================================</span>
+</pre></div>
+</div>
+<p>First, we can see the spilling parameters – effectively how well the
+angular momentum resolved basis is able to represent the NGWFs. A lower
+value is better; if you are running production calculations, you should
+want a value lower than a few percent. If not, consider making some of
+the changes suggested in the expert options section above. The all-bands
+value includes un-occupied bands as well as valence states, which will
+be the same as the occupancy-weighted version unless you are using
+EDFT&nbsp;with a finite electronic temperature.</p>
+<p>Following this are the files for use with <strong>OptaDOS</strong>. OptaDOS is a
+freely available piece of software for plotting various DOS projections.
+If you intend to use it, then please follow the CASTEP section of the
+OptaDOS manual with these files, as they are compatible.</p>
+<p>The histogram files are then written, “*_PDOS.txt”. These also come in
+all-bands and occupancy weighted flavours (the occupancy weighted
+variant is more reliable for a usual ground state calculation with
+ONETEP as the conduction states are not well described. Only if you are
+doing LPDOS on the output of a ONETEP conduction calculation the
+occupancy un-weighted LPDOS outputs will be meaningful). The order of
+columns is firstly the energy column, followed by the angular momentum
+component columns (i.e. s,p,d…) for each pdos group. This can be
+plotted trivially with xmgrace, or any other plotting tool.</p>
+<p>Finally ONETEP&nbsp;reports the energy and occupancy weighted averages of the
+PDOS, so called-band centres, useful in catalysis (e.g. the value
+“d-band centre” is a very useful decsriptor about the ability of a metal
+surface to bind atomic oxygen and other types of adsorbates) and the
+integrated number of electrons in each component.</p>
+<p>[Skylaris2005] C.-K. Skylaris, P. D. Haynes, A. A. Mostofi, and M. C. Payne, J. Chem. Phys. <strong>122</strong>, 084119 (2005).</p>
+<p>[O-Regan2011] D. D. O’Regan, M. C. Payne and A. A. Mostofi, Phys. Rev. B <strong>83</strong>, 245124 (2011).</p>
+<p>[O-Regan2012] D. D. O’Regan, N. D. M. Hine, M. C. Payne and A. A. Mostofi, Phys. Rev. B <strong>85</strong>, 085107 (2012).</p>
+<p>[Avraam2011] P. W. Avraam, N. D. M. Hine, P. Tangney, and P. D. Haynes, Phys. Rev. B <strong>83</strong>, 241402(R) (2011).</p>
+<p>[Avraam2012] P. W. Avraam, N. D. M. Hine, P. Tangney, and P. D. Haynes, Phys. Rev. B <strong>85</strong>, 115404 (2012).</p>
+<p>[Hine2012] N. D. M. Hine, P. W. Avraam, P. Tangney, and P. D. Haynes, J. Phys. Conf. Ser. (2012).</p>
+<p>[Aarons2019] J. A. Aarons, L. G. Verga, N. D. M. Hine, and C.-K. Skylaris, Submitted (2019).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_spectroscopy.html">Spectroscopy and Transport</a><ul>
+      <li>Previous: <a href="index_spectroscopy.html" title="previous chapter">Spectroscopy and Transport</a></li>
+      <li>Next: <a href="lr_tddft.html" title="next chapter">Linear response time-dependent density-functional theory (LR-TDDFT)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/ldos_calculations.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

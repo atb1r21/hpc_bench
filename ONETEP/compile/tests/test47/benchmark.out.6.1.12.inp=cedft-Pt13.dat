@@ -1,0 +1,1337 @@
+==================================================================================
+It's Wed Sep 21 10:47:11 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 9315 9316 9317 9318)...
+    - ONETEP arguments: cedft-Pt13.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test47
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test47/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test47/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack cedft-Pt13.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:47 (+0100)
+ 
+Reading parameters from file "cedft-Pt13.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+Resetting ngwf_cg_rotate to TRUE for EDFT calculations
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "cedft-Pt13.dat" ...WARNING in internal_cdft: turning spin-polarisation on for constrained-DFT run
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+print_qc T                                                                      
+read_denskern F                                                                 
+read_tightbox_ngwfs F                                                           
+write_denskern F                                                                
+write_tightbox_ngwfs F                                                          
+write_hamiltonian T                                                             
+write_xyz F                                                                     
+output_detail NORMAL                                                            
+timings_level 0                                                                 
+task singlepoint                                                                
+charge 0                                                                        
+cutoff_energy 300 eV                                                            
+kernel_cutoff 1000                                                              
+xc_functional RPBE                                                              
+maxit_palser_mano 100                                                           
+maxit_pen 0                                                                     
+edft T                                                                          
+edft_smearing_width 0.1 eV                                                      
+edft_maxit 2                                                                    
+edft_free_energy_thres 1.0e-3                                                   
+edft_rms_gradient_thres 1.0e-3                                                  
+edft_commutator_thres 1.0e-3                                                    
+maxit_ngwf_cg 2                                                                 
+occ_mix 1.0                                                                     
+elec_cg_max 0                                                                   
+k_zero 3.0                                                                      
+%block constrained_dft                                                          
+cPt 2   -10   3.0    0.00 -0.15       0.10       0.0   3.00  2.10      0.       
+Pt  2   -10  -3.0    0.00  0.00       0.00       0.0   3.00  2.10      0.       
+%endblock constrained_dft                                                       
+cdft_guru         : T                                                           
+maxit_cdft_u_cg        : 2                                                      
+cdft_hubbard           : T                                                      
+cdft_atom_charge       : T                                                      
+%block species                                                                  
+Pt  Pt 78 6 6.0                                                                 
+cPt Pt 78 6 6.0                                                                 
+%endblock species                                                               
+%block species_atomic_set                                                       
+Pt "SOLVE"                                                                      
+cPt "SOLVE"                                                                     
+%endblock species_atomic_set                                                    
+%block species_pot                                                              
+Pt "../../pseudo/platinum.recpot"                                               
+cPt "../../pseudo/platinum.recpot"                                              
+%endblock species_pot                                                           
+%block lattice_cart                                                             
+35.034   0.000   0.000                                                          
+0.000  35.032   0.000                                                           
+0.000   0.000  35.032                                                           
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =   000003754600541351442159
+%endblock positions_abs                                                         
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+ ESDF WARNING(1): "kernelcutoff" (esdf_physical) has no units. Assume "bohr".
+ ESDF WARNING(2
+ ): "edftfreeenergythres" (esdf_physical) has no units. Assume "hartree".
+ ESDF WARNING(3
+ ): "edftcommutatorthres" (esdf_physical) has no units. Assume "hartree".
+ ESDF WARNING(4): "kzero" (esdf_physical) has no units. Assume "1/bohr".
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/platinum.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 78;  ionic charge: 10.000000
+    Shell 1: l = 1; rc = 2.26 bohr
+    Shell 2: l = 2; rc = 1.96 bohr
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  Pt        13        78       104
+.......   ......    ......    ......
+Totals:     13        78       104
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   45 x  45 x  45
+                              FFT-box:   45 x  45 x  45
+                                  PPD:    5 x   5 x   1
+Grid space d1=  0.778533333333a0 (KE cutoff=  12.53284Eh = 341.03599eV)
+Grid space d2=  0.778488888889a0 (KE cutoff=  12.53427Eh = 341.07494eV)
+Grid space d3=  0.778488888889a0 (KE cutoff=  12.53427Eh = 341.07494eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     45    45    45
+          Real-space ('12') slabs/proc (min max mean):     11    12    11
+         Recip-space ('23') slabs/proc (min max mean):      5     6     5
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:     90    90    90
+          Real-space ('12') slabs/proc (min max mean):     22    23    22
+         Recip-space ('23') slabs/proc (min max mean):     11    12    11
+********************************************************************************
+
+Atom SCF Calculation for Pt : Z (AE atom) =  78 : Z (PS atom) =  10
+Config String:
+Orbitals (num,occ):  2     9.00 1.00
+Orbitals   (num,l):  2        2    0
+Atom SCF converged after  39 iterations to a total energy of    -26.14902418
+
+Atom SCF Calculation for Pt : Z (AE atom) =  78 : Z (PS atom) =  10
+Config String:
+Orbitals (num,occ):  2     9.00 1.00
+Orbitals   (num,l):  2        2    0
+Atom SCF converged after  39 iterations to a total energy of    -26.14902418
+
+Atom SCF Calculation for Pt : Z (AE atom) =  78 : Z (PS atom) =  10
+Config String:
+Orbitals (num,occ):  2     9.00 1.00
+Orbitals   (num,l):  2        2    0
+Atom SCF converged after  39 iterations to a total energy of    -26.14902418
+
+Atom SCF Calculation for Pt : Z (AE atom) =  78 : Z (PS atom) =  10
+Config String:
+Orbitals (num,occ):  2     9.00 1.00
+Orbitals   (num,l):  2        2    0
+Atom SCF converged after  39 iterations to a total energy of    -26.14902418
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              567.877612 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+... done
+Up spin density kernel initialisation ...... done
+Down spin density kernel initialisation ...... done
+
+>>> Optimising kernel for current NGWFs:
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooooooooo cDFT CG iteration  001 ooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.039627060498      0.014133372172    -314.26104592836180  -3.14E+02
+#    1      0.019057735715      0.004990653535    -314.63671304856257  -3.76E-01
+#    2      0.017209442325      0.003963055268    -314.72138407291084  -8.47E-02
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.003963055268
+<QC>           [rms_gradient]:         0.017209442325
+<QC>       [delta_lagrangian]:        -0.084671024348
+<QC>           [delta_energy]:        -0.085276975087
+<QC>          [delta_entropy]:         0.000605950764
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -314.721384072911
+<QC>            [edft%energy]:      -314.691901937551
+<QC>           [edft%entropy]:        -0.029482135352
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.231128627892
+<QC>       [integrated_ne(1)]:        65.000000000042
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.231845114742
+<QC>       [integrated_ne(2)]:        64.999999999991
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.14721384072911E+02  Eh
+     [H,K] commutator            =   3.9631E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ooooooooooooooooooooooooooooooo cDFT line search ooooooooooooooooooooooooooooooo
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.016014844168      0.004193863635    -314.10510639279539   6.16E-01
+#    1      0.014540963309      0.003086823255    -314.20422125829083  -9.91E-02
+#    2      0.013335743147      0.002255176445    -314.24677606582708  -4.26E-02
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.002255176445
+<QC>           [rms_gradient]:         0.013335743147
+<QC>       [delta_lagrangian]:        -0.042554807536
+<QC>           [delta_energy]:        -0.042973214358
+<QC>          [delta_entropy]:         0.000418406804
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -314.246776065827
+<QC>            [edft%energy]:      -314.219220694317
+<QC>           [edft%entropy]:        -0.027555371523
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.210328485982
+<QC>       [integrated_ne(1)]:        64.999999999987
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.211307488729
+<QC>       [integrated_ne(2)]:        64.999999999952
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.14246776065827E+02  Eh
+     [H,K] commutator            =   2.2552E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  001       Energy (Ha):      -314.72138407291084
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    1.586172467
+MAX cDFT-GRADIENT(UP+DOWN):          1.871893050
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+cDFT:RMS gradient                =       1.58617246653127
+cDFT MAX gradient                =       1.87189304989235
+cDFT:Trial step length           =               0.122474
+cDFT:Gradient along search dir.  =          5.03188618716
+cDFT:Functional at step 0        =    -314.72138407291084
+cDFT:Functional at step 1        =    -314.24677606582708
+cDFT:Functional predicted        =    -314.05116621526912
+cDFT:Selected quadratic step     =               0.266388
+cDFT:Conjugate gradients coeff.  =               0.000000
+oLooooooooooooooooooooooooo cDFT line search finished oooooooooooooooooooooooooo
+                                               
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooooooooo cDFT CG iteration  002 ooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.013291452383      0.004098392592    -313.61597868600876   6.31E-01
+#    1      0.011538411148      0.003100252642    -313.69832475294140  -8.23E-02
+#    2      0.010119249348      0.002425197518    -313.73837993973302  -4.01E-02
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.002425197518
+<QC>           [rms_gradient]:         0.010119249348
+<QC>       [delta_lagrangian]:        -0.040055186792
+<QC>           [delta_energy]:        -0.040136383467
+<QC>          [delta_entropy]:         0.000081196670
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -313.738379939733
+<QC>            [edft%energy]:      -313.712633858348
+<QC>           [edft%entropy]:        -0.025746081380
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.192497766230
+<QC>       [integrated_ne(1)]:        65.000000000043
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.192524000739
+<QC>       [integrated_ne(2)]:        64.999999999984
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.13738379939733E+02  Eh
+     [H,K] commutator            =   2.4252E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ooooooooooooooooooooooooooooooo cDFT line search ooooooooooooooooooooooooooooooo
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.014216642881      0.006053741230    -312.90106363857092   8.37E-01
+#    1      0.009538904054      0.003716077496    -313.05478341705822  -1.54E-01
+#    2      0.008046993804      0.002902669166    -313.09687908455464  -4.21E-02
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.002902669166
+<QC>           [rms_gradient]:         0.008046993804
+<QC>       [delta_lagrangian]:        -0.042095667496
+<QC>           [delta_energy]:        -0.042871295950
+<QC>          [delta_entropy]:         0.000775628465
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -313.096879084555
+<QC>            [edft%energy]:      -313.073648571630
+<QC>           [edft%entropy]:        -0.023230512914
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.182269034378
+<QC>       [integrated_ne(1)]:        65.000000000061
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.180613982688
+<QC>       [integrated_ne(2)]:        65.000000000000
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.13096879084555E+02  Eh
+     [H,K] commutator            =   2.9027E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  002       Energy (Ha):      -313.73837993973302
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    1.160380145
+MAX cDFT-GRADIENT(UP+DOWN):          1.200083310
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+cDFT:RMS gradient                =       1.16038014470255
+cDFT MAX gradient                =       1.20008330980700
+cDFT:Trial step length           =               0.180626
+cDFT:Gradient along search dir.  =          4.63563401400
+cDFT:Functional at step 0        =    -313.73837993973302
+cDFT:Functional at step 1        =    -313.09687908455464
+cDFT:Functional predicted        =    -312.84327870720603
+cDFT:Selected quadratic step     =               0.386183
+cDFT:Conjugate gradients coeff.  =               0.535180
+oLooooooooooooooooooooooooo cDFT line search finished oooooooooooooooooooooooooo
+                                               
+WARNING: maximum number of cDFT CG iterations (   2) exceeded!
+
+                    ooooo CDFT OPTIMISATION SUMMARY ooooo
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted      
+   1     1.58617246653127   -314.72138407291084   0.266388   -314.05116621526912
+   2     1.16038014470255   -313.09687908455464  <-- CG                         
+ 
+<QC>        [cDFT iterations]:                      2
+<QC>      [cDFT total_energy]:      -313.738379939733
+<QC>      [cDFT rms_gradient]:         1.160380144703
+
+################################################################################
+cDFT information on atom      1 of constrained species cPt 
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      1 is 
+  0.99240382 -0.00221765  0.00251509  0.00057497  0.00119195
+ -0.00221766  0.99214037  0.00031432  0.00059582  0.00251242
+  0.00243023  0.00041880  0.33137758 -0.01114398  0.01485108
+  0.00060567  0.00062763 -0.01158009  0.98520575 -0.01703406
+  0.00131391  0.00252618  0.01460721 -0.01667282  0.35333591
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      2 is 
+  0.95890456 -0.02913130  0.00285818  0.00204374  0.00237875
+ -0.02913148  0.95852004  0.00084669  0.00213311  0.00361530
+  0.00281069  0.00097470  0.06543854 -0.01680390  0.02259286
+  0.00215260  0.00224671 -0.01727685  0.95875104 -0.02929743
+  0.00251693  0.00365384  0.02252032 -0.02856051  0.09296735
+################################################################################
+Total occupancy of cDFT site            1 is   6.68904495 e
+UP occupancy of cDFT site               1 is   3.65446342 e
+DOWN occupancy of cDFT site             1 is   3.03458153 e
+Local magnetic moment of cDFT site      1 is   0.61988189 mu_B
+cDFT energy of cDFT site                1 is   1.30424134 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species Pt  
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      1 is 
+  0.98835097  0.00101240  0.01111790 -0.00526623  0.00062695
+  0.00106641  0.98328779 -0.00726872  0.00066291  0.01435961
+  0.01046185 -0.00716347  0.71013822  0.00331749  0.01453462
+ -0.00526619  0.00062944  0.00374012  0.98860748  0.00443875
+  0.00009245  0.01394586  0.01204577  0.00425499  0.64436992
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      2 is 
+  0.99299129  0.00096226  0.00696157 -0.00192241 -0.00146507
+  0.00101360  0.98390111 -0.00179429  0.00079876  0.01457024
+  0.00663980 -0.00226757  0.70439152 -0.00057726  0.02040330
+ -0.00192240  0.00075841 -0.00057208  0.99101202  0.00079523
+ -0.00179828  0.01389693  0.02010950  0.00082161  0.67505203
+################################################################################
+Total occupancy of cDFT site            2 is   8.66210235 e
+UP occupancy of cDFT site               2 is   4.31475438 e
+DOWN occupancy of cDFT site             2 is   4.34734797 e
+Local magnetic moment of cDFT site      2 is  -0.03259359 mu_B
+cDFT energy of cDFT site                2 is   0.05131729 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species Pt  
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      1 is 
+  0.99104662  0.00186844 -0.00170977  0.00062807 -0.00139034
+  0.00186835  0.98881363 -0.00007661 -0.00071051  0.00278370
+ -0.00168130  0.00006244  0.56664568  0.00998432 -0.03635932
+  0.00066156 -0.00074845  0.00999930  0.98286987  0.02261242
+ -0.00147107  0.00277793 -0.03968489  0.02189591  0.59015522
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      2 is 
+  0.98751911  0.00405650 -0.00119760  0.00038721 -0.00101992
+  0.00405629  0.98803769 -0.00000346 -0.00047747  0.00211587
+ -0.00117970  0.00009905  0.74560261 -0.00152465 -0.11040276
+  0.00040783 -0.00050294 -0.00253388  0.98613326  0.01646364
+ -0.00107666  0.00211436 -0.11298409  0.01549364  0.66911960
+################################################################################
+Total occupancy of cDFT site            3 is   8.49594330 e
+UP occupancy of cDFT site               3 is   4.11953102 e
+DOWN occupancy of cDFT site             3 is   4.37641228 e
+Local magnetic moment of cDFT site      3 is  -0.25688126 mu_B
+cDFT energy of cDFT site                3 is   0.05200812 Ha
+################################################################################
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  002       Energy (Ha):      -313.73837993973302
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    1.160380145
+MAX cDFT-GRADIENT(UP+DOWN):          1.200083310
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.0925E-01 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -3.19005998943808E+02 Eh
+   Predicted gain in energy  =      -5.90911985925374E+00 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooooooooo cDFT CG iteration  001 ooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.018992871801      0.009122552925    -314.84486949057032  -1.75E+00
+#    1      0.033134405310      0.010910353918    -315.15070834511050  -3.06E-01
+#    2      0.014958351629      0.005286953032    -315.86582153779864  -7.15E-01
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.005286953032
+<QC>           [rms_gradient]:         0.014958351629
+<QC>       [delta_lagrangian]:        -0.715113192688
+<QC>           [delta_energy]:        -0.707719493468
+<QC>          [delta_entropy]:        -0.007393699218
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -315.865821537799
+<QC>            [edft%energy]:      -315.835805104776
+<QC>           [edft%entropy]:        -0.030016433021
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.170261613116
+<QC>       [integrated_ne(1)]:        64.999999999997
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.173960033288
+<QC>       [integrated_ne(2)]:        65.000000000013
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.15865821537799E+02  Eh
+     [H,K] commutator            =   5.2870E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ooooooooooooooooooooooooooooooo cDFT line search ooooooooooooooooooooooooooooooo
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.015009061715      0.005292605147    -315.76605766899138   9.98E-02
+#    1      0.013843594096      0.006086651763    -316.05647263636678  -2.90E-01
+#    2      0.009774481959      0.003975119850    -316.23664401185187  -1.80E-01
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.003975119850
+<QC>           [rms_gradient]:         0.009774481959
+<QC>       [delta_lagrangian]:        -0.180171375485
+<QC>           [delta_energy]:        -0.182345346174
+<QC>          [delta_entropy]:         0.002173970707
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -316.236644011852
+<QC>            [edft%energy]:      -316.212042104748
+<QC>           [edft%entropy]:        -0.024601907096
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.172700834154
+<QC>       [integrated_ne(1)]:        65.000000000006
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.171340705320
+<QC>       [integrated_ne(2)]:        65.000000000038
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.16236644011852E+02  Eh
+     [H,K] commutator            =   3.9751E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  001       Energy (Ha):      -315.86582153779864
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    0.638188286
+MAX cDFT-GRADIENT(UP+DOWN):          0.861743158
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+cDFT:RMS gradient                =       0.63818828640642
+cDFT MAX gradient                =       0.86174315799960
+cDFT:Trial step length           =               0.122474
+cDFT:Gradient along search dir.  =          0.81456857781
+cDFT:Functional at step 0        =    -315.86582153779864
+cDFT:Functional at step 1        =    -316.23664401185187
+cDFT:Functional predicted        =    -315.86053407585337
+cDFT:Selected quadratic step     =               0.012982
+cDFT:Conjugate gradients coeff.  =               0.000000
+oLooooooooooooooooooooooooo cDFT line search finished oooooooooooooooooooooooooo
+                                               
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooooooooo cDFT CG iteration  002 ooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.010163056509      0.004141487013    -316.25905841657209  -2.24E-02
+#    1      0.009814207217      0.003977334589    -316.34655453103545  -8.75E-02
+#    2      0.009061215918      0.003383032563    -316.41274577723846  -6.62E-02
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.003383032563
+<QC>           [rms_gradient]:         0.009061215918
+<QC>       [delta_lagrangian]:        -0.066191246203
+<QC>           [delta_energy]:        -0.065199222513
+<QC>          [delta_entropy]:        -0.000992023703
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -316.412745777238
+<QC>            [edft%energy]:      -316.388776504080
+<QC>           [edft%entropy]:        -0.023969273172
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.175005694897
+<QC>       [integrated_ne(1)]:        64.999999999964
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.175934793064
+<QC>       [integrated_ne(2)]:        64.999999999960
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.16412745777238E+02  Eh
+     [H,K] commutator            =   3.3830E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ooooooooooooooooooooooooooooooo cDFT line search ooooooooooooooooooooooooooooooo
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.008815198138      0.003316280410    -316.38301648043534   2.97E-02
+#    1      0.007036285661      0.002946811024    -316.43433998022471  -5.13E-02
+#    2      0.008896680660      0.002607091152    -316.67891059903604  -2.45E-01
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.002607091152
+<QC>           [rms_gradient]:         0.008896680660
+<QC>       [delta_lagrangian]:        -0.244570618811
+<QC>           [delta_energy]:        -0.248469219270
+<QC>          [delta_entropy]:         0.003898600456
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -316.678910599036
+<QC>            [edft%energy]:      -316.659482781660
+<QC>           [edft%entropy]:        -0.019427817385
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.179098073254
+<QC>       [integrated_ne(1)]:        64.999999999940
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.185063194056
+<QC>       [integrated_ne(2)]:        65.000000000012
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.16678910599036E+02  Eh
+     [H,K] commutator            =   2.6071E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  002       Energy (Ha):      -316.41274577723846
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    0.474555138
+MAX cDFT-GRADIENT(UP+DOWN):          0.478621972
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+cDFT:RMS gradient                =       0.47455513825816
+cDFT MAX gradient                =       0.47862197191964
+cDFT:Trial step length           =               0.039875
+cDFT:Gradient along search dir.  =          0.74556759432
+cDFT:Functional at step 0        =    -316.41274577723846
+cDFT:Functional at step 1        =    -316.67891059903604
+cDFT:Functional predicted        =    -316.41199903116205
+cDFT:Selected quadratic step     =               0.002003
+cDFT:Conjugate gradients coeff.  =               0.552937
+oLooooooooooooooooooooooooo cDFT line search finished oooooooooooooooooooooooooo
+                                               
+WARNING: maximum number of cDFT CG iterations (   2) exceeded!
+
+                    ooooo CDFT OPTIMISATION SUMMARY ooooo
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted      
+   1     0.63818828640642   -315.86582153779864   0.012982   -315.86053407585337
+   2     0.47455513825816   -316.67891059903604  <-- CG                         
+ 
+<QC>        [cDFT iterations]:                      2
+<QC>      [cDFT total_energy]:      -316.412745777238
+<QC>      [cDFT rms_gradient]:         0.474555138258
+
+################################################################################
+cDFT information on atom      1 of constrained species cPt 
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      1 is 
+  0.99935754  0.00013673  0.00080852 -0.00001919  0.00133383
+  0.00013673  0.99932124  0.00071785 -0.00001905  0.00134624
+  0.00082830  0.00074325  0.75646305  0.00443842 -0.38381489
+ -0.00002020 -0.00002005  0.00454023  0.99959499  0.00789801
+  0.00137388  0.00138158 -0.38303191  0.00771775  0.29763850
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      2 is 
+  0.27876096  0.17062450  0.00048848  0.00381591  0.00060631
+  0.17062560  0.28715841  0.00033187  0.00395394  0.00073480
+  0.00049040  0.00034910  0.00881135  0.00158883  0.00299061
+  0.00401933  0.00416471  0.00163546  0.01143383  0.00271199
+  0.00063057  0.00075122  0.00298876  0.00264702  0.01230283
+################################################################################
+Total occupancy of cDFT site            1 is   4.65084270 e
+UP occupancy of cDFT site               1 is   4.05237532 e
+DOWN occupancy of cDFT site             1 is   0.59846738 e
+Local magnetic moment of cDFT site      1 is   3.45390795 mu_B
+cDFT energy of cDFT site                1 is  -0.83664862 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species Pt  
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      1 is 
+  0.99144007  0.00201887  0.02073473  0.00236462 -0.01244140
+  0.00212687  0.98169207 -0.02772978 -0.00053065  0.04601685
+  0.02016422 -0.02693767  0.83511645 -0.00694457  0.13289849
+  0.00236471 -0.00050367 -0.00678192  0.99359012  0.01136739
+ -0.01342471  0.04490672  0.13220426  0.01168132  0.66799575
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      2 is 
+  0.99430167  0.00144839  0.01778203  0.00367739 -0.02005111
+  0.00152612  0.98509675 -0.02033064 -0.00000691  0.03024941
+  0.01774259 -0.01959031  0.85048336 -0.00353573  0.12108595
+  0.00367747 -0.00000641 -0.00321432  0.99449894  0.01048854
+ -0.02088551  0.02961466  0.12373538  0.01063229  0.76281289
+################################################################################
+Total occupancy of cDFT site            2 is   9.05702806 e
+UP occupancy of cDFT site               2 is   4.46983446 e
+DOWN occupancy of cDFT site             2 is   4.58719360 e
+Local magnetic moment of cDFT site      2 is  -0.11735914 mu_B
+cDFT energy of cDFT site                2 is   0.03580828 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species Pt  
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      1 is 
+  0.99494609 -0.00362982 -0.00181414  0.00022153 -0.00085617
+ -0.00362964  0.99410884  0.00022057 -0.00026424  0.00189149
+ -0.00175456  0.00030035  0.44256007  0.02272073  0.02284474
+  0.00023343 -0.00027848  0.02302881  0.98694777  0.04594199
+ -0.00094235  0.00190090  0.02134971  0.04461593  0.49830680
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      2 is 
+  0.99546984 -0.00392763 -0.00096759  0.00024050 -0.00160948
+ -0.00392743  0.99456726  0.00095692 -0.00020680  0.00132619
+ -0.00099073  0.00096736  0.85531591  0.02362555 -0.20044428
+  0.00025341 -0.00021798  0.02455846  0.98838721  0.03570943
+ -0.00165484  0.00137181 -0.20330277  0.03498104  0.68048385
+################################################################################
+Total occupancy of cDFT site            3 is   8.43109364 e
+UP occupancy of cDFT site               3 is   3.91686957 e
+DOWN occupancy of cDFT site             3 is   4.51422408 e
+Local magnetic moment of cDFT site      3 is  -0.59735451 mu_B
+cDFT energy of cDFT site                3 is   0.04363967 Ha
+################################################################################
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  002       Energy (Ha):      -316.41274577723846
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    0.474555138
+MAX cDFT-GRADIENT(UP+DOWN):          0.478621972
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.0497E-02 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -3.18575603600449E+02 Eh
+   Predicted gain in energy  =      -1.89669300141333E+00 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooooooooo cDFT CG iteration  001 ooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.009471642998      0.002700749279    -318.63631717103470  -1.96E+00
+#    1      0.007178907549      0.002189829363    -318.68742282964246  -5.11E-02
+#    2      0.006491116836      0.001951401094    -318.71125925993107  -2.38E-02
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.001951401094
+<QC>           [rms_gradient]:         0.006491116836
+<QC>       [delta_lagrangian]:        -0.023836430289
+<QC>           [delta_energy]:        -0.024425272592
+<QC>          [delta_entropy]:         0.000588842328
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -318.711259259931
+<QC>            [edft%energy]:      -318.693030784377
+<QC>           [edft%entropy]:        -0.018228475546
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.177492426171
+<QC>       [integrated_ne(1)]:        64.999999999981
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.182068835533
+<QC>       [integrated_ne(2)]:        65.000000000064
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.18711259259931E+02  Eh
+     [H,K] commutator            =   1.9514E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ooooooooooooooooooooooooooooooo cDFT line search ooooooooooooooooooooooooooooooo
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.006029140307      0.001936397898    -318.36280979329075   3.48E-01
+#    1      0.005886861083      0.002066623682    -318.40093490427080  -3.81E-02
+#    2      0.004174250054      0.001400922154    -318.42190362361015  -2.10E-02
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.001400922154
+<QC>           [rms_gradient]:         0.004174250054
+<QC>       [delta_lagrangian]:        -0.020968719339
+<QC>           [delta_energy]:        -0.021036749959
+<QC>          [delta_entropy]:         0.000068030615
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -318.421903623610
+<QC>            [edft%energy]:      -318.405273951630
+<QC>           [edft%entropy]:        -0.016629671985
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.175943681738
+<QC>       [integrated_ne(1)]:        64.999999999973
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.178008610444
+<QC>       [integrated_ne(2)]:        65.000000000001
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.18421903623610E+02  Eh
+     [H,K] commutator            =   1.4009E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  001       Energy (Ha):      -318.71125925993107
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    1.192702390
+MAX cDFT-GRADIENT(UP+DOWN):          1.278591652
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+cDFT:RMS gradient                =       1.19270238982317
+cDFT MAX gradient                =       1.27859165185687
+cDFT:Trial step length           =               0.122474
+cDFT:Gradient along search dir.  =          2.84507798138
+cDFT:Functional at step 0        =    -318.71125925993107
+cDFT:Functional at step 1        =    -318.42190362361015
+cDFT:Functional predicted        =    -318.19759721540987
+cDFT:Selected quadratic step     =               0.361088
+cDFT:Conjugate gradients coeff.  =               0.000000
+oLooooooooooooooooooooooooo cDFT line search finished oooooooooooooooooooooooooo
+                                               
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+ooooooooooooooooooooooooooo cDFT CG iteration  002 ooooooooooooooooooooooooooooo
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.010502598967      0.002233402785    -317.81478656553162   6.07E-01
+#    1      0.015268181298      0.004060633931    -318.55272147302401  -7.38E-01
+#    2      0.015936819604      0.005049832738    -318.86746976630786  -3.15E-01
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.005049832738
+<QC>           [rms_gradient]:         0.015936819604
+<QC>       [delta_lagrangian]:        -0.314748293284
+<QC>           [delta_energy]:        -0.308939212858
+<QC>          [delta_entropy]:        -0.005809080427
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -318.867469766308
+<QC>            [edft%energy]:      -318.850879401841
+<QC>           [edft%entropy]:        -0.016590364477
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.182681525948
+<QC>       [integrated_ne(1)]:        64.999999999993
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.147738221657
+<QC>       [integrated_ne(2)]:        64.999999999942
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.18867469766308E+02  Eh
+     [H,K] commutator            =   5.0498E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+ooooooooooooooooooooooooooooooo cDFT line search ooooooooooooooooooooooooooooooo
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter        RMS_gradient          Commutator    Free_energy(A=E-TS)     DeltaA
+#    0      0.016330049590      0.005077823424    -318.81667605890505   5.08E-02
+#    1      0.007057558832      0.001272906146    -318.96591405739139  -1.49E-01
+#    2      0.013000703009      0.002809247246    -319.07497078862383  -1.09E-01
+Finished EDFT density kernel iterations (   2)
+
+<QC>             [commutator]:         0.002809247246
+<QC>           [rms_gradient]:         0.013000703009
+<QC>       [delta_lagrangian]:        -0.109056731232
+<QC>           [delta_energy]:        -0.108745610686
+<QC>          [delta_entropy]:        -0.000311120547
+<QC>                   [iter]:                      2
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -319.074970788624
+<QC>            [edft%energy]:      -319.059069729602
+<QC>           [edft%entropy]:        -0.015901059025
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.180654248772
+<QC>       [integrated_ne(1)]:        64.999999999996
+<QC>        [orth_residue(2)]:         0.000000000000
+<QC>               [fermi(2)]:         0.144757619128
+<QC>       [integrated_ne(2)]:        64.999999999983
+
+Writing Hamiltonian to file "cedft-Pt13.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.19074970788624E+02  Eh
+     [H,K] commutator            =   2.8092E-03
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  002       Energy (Ha):      -318.86746976630786
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    1.097874808
+MAX cDFT-GRADIENT(UP+DOWN):          1.238022623
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+cDFT:RMS gradient                =       1.09787480811443
+cDFT MAX gradient                =       1.23802262340219
+cDFT:Trial step length           =               0.210295
+cDFT:Gradient along search dir.  =          0.24153521011
+cDFT:Functional at step 0        =    -318.86746976630786
+cDFT:Functional at step 1        =    -319.07497078862383
+cDFT:Functional predicted        =    -318.86497261826838
+cDFT:Selected quadratic step     =               0.020677
+cDFT:Conjugate gradients coeff.  =               0.847308
+oLooooooooooooooooooooooooo cDFT line search finished oooooooooooooooooooooooooo
+                                               
+WARNING: maximum number of cDFT CG iterations (   2) exceeded!
+
+                    ooooo CDFT OPTIMISATION SUMMARY ooooo
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted      
+   1     1.19270238982317   -318.71125925993107   0.361088   -318.19759721540987
+   2     1.09787480811443   -319.07497078862383  <-- CG                         
+ 
+<QC>        [cDFT iterations]:                      2
+<QC>      [cDFT total_energy]:      -318.867469766308
+<QC>      [cDFT rms_gradient]:         1.097874808114
+
+################################################################################
+cDFT information on atom      1 of constrained species cPt 
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      1 is 
+  0.98687903 -0.00657983 -0.00007477 -0.01129203 -0.00123787
+ -0.00657987  0.98869307 -0.00105643 -0.01161700 -0.00074161
+ -0.00013053 -0.00102998  0.00417669  0.00034496  0.00099690
+ -0.01189166 -0.01223365  0.00035337  0.00222029  0.00062404
+ -0.00123671 -0.00079016  0.00099648  0.00060791  0.00533653
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      2 is 
+  0.99963780  0.00011212  0.00074078  0.00003472  0.00129045
+  0.00011212  0.99961519  0.00096218  0.00004420  0.00165683
+  0.00076226  0.00098868  0.76456974 -0.00967710 -0.37092288
+  0.00003666  0.00004665 -0.00995617  0.99905275 -0.01684130
+  0.00132718  0.00170352 -0.37092139 -0.01641088  0.33602754
+################################################################################
+Total occupancy of cDFT site            1 is   6.08620864 e
+UP occupancy of cDFT site               1 is   1.98730562 e
+DOWN occupancy of cDFT site             1 is   4.09890303 e
+Local magnetic moment of cDFT site      1 is  -2.11159741 mu_B
+cDFT energy of cDFT site                1 is   0.33606232 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species Pt  
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      1 is 
+  0.99309911  0.00179288  0.01320887  0.00394003 -0.01293079
+  0.00188876  0.98433568 -0.01746445 -0.00037812  0.03854117
+  0.01308543 -0.01740094  0.92455100 -0.00916039  0.09282470
+  0.00394010 -0.00035882 -0.00922376  0.99448418  0.00951452
+ -0.01355257  0.03735027  0.09035464  0.00994743  0.76875271
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      2 is 
+  0.99204865  0.00293506  0.03969328  0.00343103 -0.01723314
+  0.00309214  0.97809826 -0.03238900 -0.00245247  0.05941609
+  0.03828505 -0.03172077  0.57329078  0.01383541  0.07532435
+  0.00343120 -0.00232841  0.01597221  0.99108138  0.02583799
+ -0.01912102  0.05782962  0.08350721  0.02504755  0.64737575
+################################################################################
+Total occupancy of cDFT site            2 is   8.84711751 e
+UP occupancy of cDFT site               2 is   4.66522269 e
+DOWN occupancy of cDFT site             2 is   4.18189482 e
+Local magnetic moment of cDFT site      2 is   0.48332787 mu_B
+cDFT energy of cDFT site                2 is   0.04068126 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species Pt  
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      1 is 
+  0.99661891 -0.00308602 -0.00170336  0.00002059  0.00031791
+ -0.00308586  0.99416979  0.00026406 -0.00012166  0.00046735
+ -0.00159360  0.00027298  0.47980431  0.02223333  0.01766836
+  0.00002179 -0.00012830  0.02220228  0.98673425  0.05149433
+  0.00023576  0.00048038  0.01913252  0.04984410  0.47137058
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      2 is 
+  0.99503079 -0.00399269 -0.00050317  0.00009278 -0.00008433
+ -0.00399248  0.99264945 -0.00026329 -0.00007262  0.00088326
+ -0.00047934 -0.00020536  0.85208280  0.03304148 -0.19241784
+  0.00009784 -0.00007668  0.03437735  0.98433799  0.04928510
+ -0.00010907  0.00087088 -0.19184998  0.04830362  0.61909796
+################################################################################
+Total occupancy of cDFT site            3 is   8.37189685 e
+UP occupancy of cDFT site               3 is   3.92869785 e
+DOWN occupancy of cDFT site             3 is   4.44319900 e
+Local magnetic moment of cDFT site      3 is  -0.51450115 mu_B
+cDFT energy of cDFT site                3 is   0.04535709 Ha
+################################################################################
+
+
+oSoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+    cDFT summary, CG iteration:  002       Energy (Ha):      -318.86746976630786
+
+TOTAL RMS cDFT-GRADIENT(UP+DOWN):    1.097874808
+MAX cDFT-GRADIENT(UP+DOWN):          1.238022623
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :      259.87502938806529 |
+           | Pseudopotential (local)    :    -1668.06756513715300 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):     -315.13958277023238 |
+           | Hartree                    :      895.09810015483481 |
+           | Exchange-correlation       :      -59.54472170607674 |
+           | cDFT [+(DFT+U)] correction :        0.83879937501675 |
+           | Ewald                      :      567.87761249606910 |
+           | Total                      :     -319.06232819947627 |
+           |------------------------------------------------------|
+           | Entropic contribution      :       -0.01264258914756 |
+           | Total free energy          :     -319.07497078862383 |
+           --------------------------------------------------------
+           Integrated density           :      129.99999999997925
+           Integrated spin density      :        0.00000000001236
+           Integrated |spin density|    :        8.50455382774011
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.10924596181834   -313.09687908455464   0.006620   -319.00599894380838        
+   1     0.07049682736205   -319.07497078862383  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:      -319.074970788624
+<QC>           [rms_gradient]:         0.070496827362
+
+################################################################################
+cDFT information on atom      1 of constrained species cPt 
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      1 is 
+  0.98687903 -0.00657983 -0.00007477 -0.01129203 -0.00123787
+ -0.00657987  0.98869307 -0.00105643 -0.01161700 -0.00074161
+ -0.00013053 -0.00102998  0.00417669  0.00034496  0.00099690
+ -0.01189166 -0.01223365  0.00035337  0.00222029  0.00062404
+ -0.00123671 -0.00079016  0.00099648  0.00060791  0.00533653
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      2 is 
+  0.99963780  0.00011212  0.00074078  0.00003472  0.00129045
+  0.00011212  0.99961519  0.00096218  0.00004420  0.00165683
+  0.00076226  0.00098868  0.76456974 -0.00967710 -0.37092288
+  0.00003666  0.00004665 -0.00995617  0.99905275 -0.01684130
+  0.00132718  0.00170352 -0.37092139 -0.01641088  0.33602754
+################################################################################
+Total occupancy of cDFT site            1 is   6.08620864 e
+UP occupancy of cDFT site               1 is   1.98730562 e
+DOWN occupancy of cDFT site             1 is   4.09890303 e
+Local magnetic moment of cDFT site      1 is  -2.11159741 mu_B
+cDFT energy of cDFT site                1 is   0.33280385 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species Pt  
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      1 is 
+  0.99309911  0.00179288  0.01320887  0.00394003 -0.01293079
+  0.00188876  0.98433568 -0.01746445 -0.00037812  0.03854117
+  0.01308543 -0.01740094  0.92455100 -0.00916039  0.09282470
+  0.00394010 -0.00035882 -0.00922376  0.99448418  0.00951452
+ -0.01355257  0.03735027  0.09035464  0.00994743  0.76875271
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      2 is 
+  0.99204865  0.00293506  0.03969328  0.00343103 -0.01723314
+  0.00309214  0.97809826 -0.03238900 -0.00245247  0.05941609
+  0.03828505 -0.03172077  0.57329078  0.01383541  0.07532435
+  0.00343120 -0.00232841  0.01597221  0.99108138  0.02583799
+ -0.01912102  0.05782962  0.08350721  0.02504755  0.64737575
+################################################################################
+Total occupancy of cDFT site            2 is   8.84711751 e
+UP occupancy of cDFT site               2 is   4.66522269 e
+DOWN occupancy of cDFT site             2 is   4.18189482 e
+Local magnetic moment of cDFT site      2 is   0.48332787 mu_B
+cDFT energy of cDFT site                2 is   0.04068126 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species Pt  
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      1 is 
+  0.99661891 -0.00308602 -0.00170336  0.00002059  0.00031791
+ -0.00308586  0.99416979  0.00026406 -0.00012166  0.00046735
+ -0.00159360  0.00027298  0.47980431  0.02223333  0.01766836
+  0.00002179 -0.00012830  0.02220228  0.98673425  0.05149433
+  0.00023576  0.00048038  0.01913252  0.04984410  0.47137058
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      2 is 
+  0.99503079 -0.00399269 -0.00050317  0.00009278 -0.00008433
+ -0.00399248  0.99264945 -0.00026329 -0.00007262  0.00088326
+ -0.00047934 -0.00020536  0.85208280  0.03304148 -0.19241784
+  0.00009784 -0.00007668  0.03437735  0.98433799  0.04928510
+ -0.00010907  0.00087088 -0.19184998  0.04830362  0.61909796
+################################################################################
+Total occupancy of cDFT site            3 is   8.37189685 e
+UP occupancy of cDFT site               3 is   3.92869785 e
+DOWN occupancy of cDFT site             3 is   4.44319900 e
+Local magnetic moment of cDFT site      3 is  -0.51450115 mu_B
+cDFT energy of cDFT site                3 is   0.04535709 Ha
+################################################################################
+
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      44.912s on      4 proc(s)                                    
+TOTAL TIME:        44.912s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 10:47 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

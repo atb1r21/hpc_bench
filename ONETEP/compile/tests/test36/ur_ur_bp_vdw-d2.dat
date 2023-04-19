@@ -1,0 +1,96 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for: EMPIRICAL DISPERSION     !
+!                       GRIMME D2 (WITH OVERRIDE)    !
+!                                                    !
+!     Created by Max Phipps on 10/09/2013            !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+
+! Geometry optimization of uracil base pair
+
+TASK:                GEOMETRYOPTIMIZATION
+geom_reuse_dk_ngwfs: F
+geommaxiter:         2
+write_xyz:           T
+write_forces:        T
+
+CUTOFF_ENERGY 400.0   eV
+MAXIT_NGWF_CG 1
+NGWF_THRESHOLD_ORIG 0.1 
+XC_FUNCTIONAL PBE
+
+OUTPUT_DETAIL VERBOSE
+PRINT_QC T 
+
+DO_PROPERTIES F
+CUBE_FORMAT F
+
+DISPERSION GRIMMED2
+
+ %block lattice_cart
+   53.00    0.00    0.00
+    0.00   45.00    0.00
+    0.00    0.00   33.00
+ %endblock lattice_cart
+ 
+ 
+ %block positions_abs
+N      23.12611960    24.31853049    16.00755886
+H      25.06874780    24.41490601    16.00944858
+C      22.05465054    21.93181899    16.00944858
+O      23.38312099    20.01564682    16.01133830
+C      19.32023127    21.89024523    16.00566915
+H      18.36403490    20.09501489    16.00755886
+C      18.03900372    24.09365426    16.00377943
+H      16.00000000    24.18247092    16.00188972
+N      19.26165007    26.36320336    16.00377943
+H      18.29978455    28.00536669    16.00188972
+C      21.87701722    26.61264589    16.00377943
+O      22.91825082    28.65353933    16.00377943
+N      32.33659610    22.22283528    16.00566915
+H      33.18129922    23.93680782    16.00755886
+C      33.95419313    20.11769149    16.00377943
+O      36.23885995    20.40303863    16.00188972
+C      32.60493580    17.73286971    16.00188972
+H      33.67451514    16.00188972    16.00000000
+C      30.05192928    17.72531084    16.00377943
+H      28.96345278    16.00000000    16.00377943
+N      28.65731876    19.90037413    16.00755886
+H      26.71846999    19.85880037    16.00944858
+C      29.74012611    22.25118102    16.00755886
+O      28.51181062    24.21837553    16.01133830
+ %endblock positions_abs
+ 
+ 
+ %block species
+ N   N   7 4 8.0
+ H   H   1 1 8.0
+ C   C   6 4 8.0
+ O   O   8 4 8.0
+ %endblock species
+ 
+ 
+ %block species_pot
+ N   "../../pseudo/nitrogen.recpot"
+ H   "../../pseudo/hydrogen.recpot"
+ C   "../../pseudo/carbon.recpot"
+ O   "../../pseudo/oxygen.recpot"
+ %endblock species_pot
+
+! atom-specific dispersion parameters override
+%block vdw_params
+! nzatom, c6coeff, radzero, neff
+7 21.1200 2.6200 2.5100
+%endblock vdw_params
+
+! damping function-specific damping coefficient override
+vdw_dcoeff 11.0

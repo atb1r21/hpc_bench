@@ -1,0 +1,123 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Conduction calculation with a hybrid functional.   !
+! Part 2 (conduction proper, from restart)           !
+!                                                    !
+! The test system is ethanol.                        !
+! Spin polarisation is enforced to test that it works!
+!                                                    !
+! Created by Jacek Dziedzic in Nov 2018, based on    !
+! conduction calc example input by G. Boschetto.     !
+!                                                    !
+! Switched to explicit OBCs after PBCs are now       !
+! the default in HFx, JD: 19/09/2021.                !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+! Note that this QC test does not yield valid physical insight.
+! NGWF radii are too modest for a conduction calculation, the
+! number of NGWF iterations is set to 1 to make the test run
+! faster, and the quality of HFx expansion is rather crude.
+! Also, in a real conduction calculation you'd want a 
+! well-converged valence calculation run first. Here we work
+! with an underconverged valence run, to save time.
+
+! jd: Switch to OBCs
+coulomb_cutoff_type SPHERE
+coulomb_cutoff_radius 40.0
+hfx_bc O O O
+
+spin_polarised T
+
+print_qc T
+output_detail VERBOSE
+timings_level 3
+
+%block swri
+  for_hfx 2 10 V 10 10 E
+%endblock swri
+
+! Read matrixblock files from part 1 to save time:
+swri_assembly_prefix ethanol_hybrid_conduction_1
+
+%block species_swri-for_hfx
+C
+H
+O
+%endblock species_swri-for_hfx
+
+hfx_use_ri for_hfx
+hfx_max_l 2
+hfx_max_q 10
+hfx_metric ELECTROSTATIC
+hfx_memory_limit 1500
+hfx_memory_weights 1 0 0
+
+task                : COND
+cutoff_energy       : 900.0 eV
+do_properties       : T
+xc_functional       : B3LYP
+maxit_pen           : 0
+write_density_plot  : F
+maxit_palser_mano   : -1
+
+ppd_npoints 7 7 7
+
+write_denskern            : F
+write_tightbox_ngwfs      : F
+read_denskern             : T
+read_tightbox_ngwfs       : T
+
+maxit_ngwf_cg             : 1
+cond_num_states           : 18
+cond_calc_max_eigen       : T
+cond_plot_joint_orbitals  : F
+cond_plot_vc_orbitals     : F
+cond_minit_lnv            : 15
+cond_maxit_lnv            : 15
+cond_calc_optical_spectra : F
+cond_spec_print_mat_els   : F
+
+%BLOCK SPECIES
+C   C   6   4  8.0
+H   H   1   1  8.0
+O   O   8   4  8.0
+%ENDBLOCK SPECIES
+
+%BLOCK SPECIES_COND
+C   C   6   13  8.0
+H   H   1    5  8.0
+O   O   8   13  8.0
+%ENDBLOCK SPECIES_COND
+
+%BLOCK SPECIES_POT
+C "../../pseudo/carbon.recpot"
+H "../../pseudo/hydrogen.recpot"
+O "../../pseudo/oxygen.recpot"
+%ENDBLOCK SPECIES_POT
+
+ %block lattice_cart
+  30.00000000   0.00000000   0.00000000
+   0.00000000  30.00000000   0.00000000
+   0.00000000   0.00000000  30.00000000
+ %endblock lattice_cart
+
+ %block positions_abs
+C      13.46742914      14.31214396      15.05196333
+C      16.34359259      14.36505630      14.97826400
+H      12.74177424      12.36950531      15.24093596
+H      12.67185436      15.10582901      13.29451785
+H      12.76067150      15.44031057      16.65067179
+H      17.05979886      13.17830817      13.40601171
+H      17.14672627      13.59593769      16.73948892
+O      17.32814000      16.88406147      14.79685027
+H      16.63083099      17.63050336      13.26050278
+ %endblock positions_abs

@@ -1,0 +1,424 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Conduction NGWF optimisation and optical absorption spectra &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Finite-temperature DFT calculations using the Ensemble-DFT method" href="onetep_edft_documentation.html" />
+    <link rel="prev" title="Using the Pseudoatomic Solver to Generate NGWFs" href="pseudoatomic_solver.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="conduction-ngwf-optimisation-and-optical-absorption-spectra">
+<h1>Conduction NGWF optimisation and optical absorption spectra<a class="headerlink" href="#conduction-ngwf-optimisation-and-optical-absorption-spectra" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Laura E. Ratcliff, Imperial College London</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">July 2011</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="conduction-calculations">
+<h2>Conduction calculations<a class="headerlink" href="#conduction-calculations" title="Permalink to this headline">¶</a></h2>
+<p>As a consequence of the NGWF optimisation process in ONETEP the occupied
+(valence) Kohn-Sham states are well represented by the NGWFs, but the
+unoccupied (conduction) NGWFs are not, so that upon diagonalisation of
+the Hamiltonian at the end of a calculation, if one were to compare the
+resulting eigenvalues with a conventional cubic-scaling DFT code such as
+CASTEP [Clark2005], the ONETEP conduction states would be
+higher in energy than the CASTEP states, and some conduction states
+might be missing [Skylaris2005]. In order to correct this
+problem, a method has been implemented whereby a second set of NGWFs
+(referred to as the conduction NGWFs) are optimised to accurately
+represent the Kohn-Sham conduction states. This is done with asymptotic
+linear-scaling computational effort by constructing an idempotent
+density matrix representing the manifold of conduction states (rather
+than by solving for them explicitly). Optimisation of the NGWFs
+describing the conduction states proceeds as with the valence states,
+using a dual-loop system by which the conduction density kernel and the
+conduction NGWF coefficients are simultaneously optimised.</p>
+<p>It should be noted that the Kohn-Sham eigenvalues will of course not be
+expected to exactly correspond to the true quasi-particle energies,
+however in practice reasonable agreement with experiment has been seen
+to occur in a number of systems, particularly when using the scissor
+operator [Godby1986], [Gygi1989].</p>
+<p>The conduction NGWF optimisation takes the form of a non-self-consistent
+calculation following a ground-state calculation, where the density and
+potential calculated in the ground-state calculation are re-used. A
+projected Hamiltonian is then constructed in the conduction NGWF basis,
+using the density operator as a projection operator. This projected
+Hamiltonian is modified to avoid problems which might occur if the
+Hamiltonian and density operators do not commute perfectly.
+Additionally, the valence states are shifted up in energy by some amount
+<span class="math">\(w\)</span>, such that they become higher in energy than the conduction
+states. The projected conduction Hamiltonian is thus written:</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+\left(H_\chi^{\textrm{proj}}\right)_{\alpha\beta}&amp;=&amp;\langle \chi_\alpha|\hat{H}-\hat{\rho}\left(\hat{H}-w\right)\hat{\rho}|\chi_\beta\rangle\\ \nonumber
+&amp;=&amp;\left(H_\chi\right)_{\alpha\beta} -\left(T^\dag K H_\phi KT\right)_{\alpha\beta}\\ \nonumber
+&amp;&amp;+w\left(T^\dag K S_\phi KT\right)_{\alpha\beta}, \end{aligned}\end{split}\]</div>
+<p>where <span class="math">\(\{|\phi_{\alpha}\rangle\}\)</span> is the set of valence NGWFs and
+<span class="math">\(\{|\chi_{\alpha}\rangle\}\)</span> the set of conduction NGWFs.
+<span class="math">\({\bm{\rho}}\)</span> is the valence density matrix, <span class="math">\(\mathbf{K}\)</span> is
+the valence density kernel, <span class="math">\(\mathbf{S_{\phi}}\)</span> is the valence
+overlap matrix and <span class="math">\(\mathbf{H_{\phi}}\)</span> is the valence Hamiltonian.
+<span class="math">\(\mathbf{S_{\chi}}\)</span> is the conduction overlap matrix,
+<span class="math">\(\mathbf{T}\)</span> is the valence-conduction cross overlap matrix
+defined as
+<span class="math">\(T_{\alpha\beta}=\langle \phi_{\alpha} | \chi_{\beta} \rangle\)</span>,
+<span class="math">\(\mathbf{H_{\chi}}\)</span> is the (unprojected) conduction Hamiltonian,
+<span class="math">\(\mathbf{H_\chi^{\textrm{proj}}}\)</span> is the projected conduction
+Hamiltonian, <span class="math">\(\mathbf{Q}\)</span> is the conduction density matrix and
+<span class="math">\(\mathbf{M}\)</span> is the conduction density kernel. The conduction
+NGWFs and kernel are then minimised with respect to the energy
+expression
+<span class="math">\(E=\text{tr}\left[\mathbf{Q}\mathbf{H_\chi^{\textrm{proj}}}\right]\)</span>,
+following the same procedure as in a standard ONETEP calculation. The
+shift can either be set to a constant value, or updated during a
+calculation, by setting it to be higher than the highest eigenvalue as
+calculated in the conduction NGWF basis.</p>
+<p>At the end of the conduction NGWF optimisation process, the valence and
+conduction NGWF basis sets are combined into a new ‘joint’ basis, which
+will be capable of accurately representing both the occupied and
+unoccupied Kohn-Sham states. Other properties such as optical absorption
+spectra can then be calculated in this joint basis.</p>
+<p>For further information see Ratcliff <em>et
+al</em>. [Ratcliff2011].</p>
+</div>
+<div class="section" id="performing-conduction-calculations-in-onetep">
+<h2>Performing conduction calculations in ONETEP<a class="headerlink" href="#performing-conduction-calculations-in-onetep" title="Permalink to this headline">¶</a></h2>
+<p>In order to optimise a set of NGWFs capable of accurately representing
+the Kohn-Sham conduction states in ONETEP, it is first necessary to have
+performed a standard ONETEP ground-state calculation and have retained
+the density kernel and NGWF output files. No special parameter values
+are required for this stage, although it may be worth setting
+ODD_PSINC_GRID to true, as conduction NGWF radii generally need to be
+larger than valence NGWF radii in order to achieve large convergence,
+and so it is more likely that the FFT box will be required to be equal
+to the psinc grid, and as both stages of the calculation must have the
+same cut-off energy and therefore grid size, it is desirable to have an
+odd grid for both the cell size and FFT box.</p>
+<p>Once a ground-state calculation has been performed, a conduction
+calculation can be performed by setting TASK=COND. The number of
+conduction NGWFs per species and their radii must then be specified in
+the SPECIES_COND block, which follows the same pattern as the species
+block. The initial NGWFs, if not specified, will be equal to the initial
+NGWFs used for the valence density matrix. This choice can be overridden
+by specifying different choices in a SPECIES_ATOMIC_SET_COND block,
+which can be set to use the pseudoatomic solver by setting “SOLVE” for
+each species. One useful option is to specify that certain valence
+states, particularly those known to be fully filled and thus not
+expected to contribute to the manifold of conduction states, should be
+included in the calculation of the ground state of the pseudoatom but
+left out of the conduction NGWF set. For example, when generating
+conduction NGWFs for Cadmium, one might want to include the 10 filled 4d
+states in the atom calculation, but since they are not expected to
+contribute to the unoccupied states, they can be omitted from the
+conduction NGWFs by setting a splitnorm of “-1” for them, through the
+following solver string: “SOLVE conf=4d10:-1”.</p>
+<p>The conduction density kernel must contain a specific number of occupied
+states, and only these states will contribute to the NGWF gradient:
+COND_NUM_STATES is used to specify the number of conduction states to
+be optimised. In principle this could be any number, but in practice the
+higher energy conduction states converge rather slowly with respect to
+conduction NGWF radii, and in particular completely delocalised
+conduction states are very hard to represent using localised basis
+functions. Therefore results should be treated with caution when
+optimising high energy conduction states. A good rule-of-thumb is, if at
+all possible, to try to choose a manifold of conduction states above
+which there is a reasonable sized gap in the density-of-states (as
+calculated with the valence NGWFs).</p>
+<p>For truly asymptotically linear-scaling calculations, one must truncate
+the conduction density kernel. The cutoff for this truncation is
+specified using COND_KERNEL_CUTOFF, although it is expected that high
+levels of kernel truncation will significantly limit the accuracy of the
+calculated conduction states. If unsure, do not use kernel truncation
+unless you are confident you have verified that the properties you are
+interested in are unaffected by the truncation.</p>
+<p>At the end of a conduction calculation, diagonalisations are
+automatically performed of the valence Hamiltonian, both the projected
+and unprojected conduction Hamiltonians and the joint valence-conduction
+Hamiltonian. The eigenvalues are written to the corresponding .bands
+files. However, no joint basis density kernel is generated and so the
+occupancies are not calculated within this basis. The unprojected
+conduction eigenvalues are of limited use to most users, as it is
+difficult to determine which are conduction states and which are poorly
+represented valence states. For the projected conduction eigenvalues,
+the gap referred to in the output is not the usual gap, rather it is the
+gap between the highest optimised conduction state and the lowest
+unoptimised conduction state. If required, it is also possible to plot
+the orbitals in either the valence and conduction NGWF basis sets,
+and/or in the joint basis set, using the keywords
+COND_PLOT_VC_ORBITALS and COND_PLOT_JOINT_ORBITALS.</p>
+<p>A standalone properties calculation can also be performed on the basis
+of sets of valence and conduction NGWFs and kernels which have already
+been calculated. To enable this, set TASK=PROPERTIES_COND: the options
+COND_READ_TIGHTBOX_NGWFS and COND_READ_DENSKERN will automatically
+be enabled, the NGWF optimisation will skipped and the calculation will
+proceed straight to the stage of diagonalisation of the Hamiltonian and
+plotting of the orbitals.</p>
+<div class="section" id="automatic-setup-of-cond-num-states">
+<h3>Automatic setup of COND_NUM_STATES<a class="headerlink" href="#automatic-setup-of-cond-num-states" title="Permalink to this headline">¶</a></h3>
+<p>Since it is not always straightforward to guess a sensible number of
+conduction states to converge, the code will by default attempt to
+choose an appropriate number of states for the user. By default, at the
+start of a conduction optimisation, the code will count the number of
+unoccupied states of the valence Hamiltonian with negative eigenvalues
+to arrive at a guess of the number of bound states in a finite system.
+The code will also check for any degeneracy of the highest unoccupied
+state included in the calculation and automatically include more states
+until an energy gap of at least 0.001 Ha between states that get
+optimised and states that are unoptimised is achieved.</p>
+<p>Since counting the number of eigenstates with negative eigenvalues in
+order to obtain the number of bound states is only strictly valid in
+finite systems, it is possible for the user to define an energy range,
+as measured from the HOMO energy level, and the code will attempt to
+optimise all states within that energy range. The two keywords
+controlling the automatic conduction state setup are given by
+COND_ENERGY_RANGE and COND_ENERGY_GAP. The first keyword defines the
+desired energy range in Hartree while COND_ENERGY_GAP defines the
+minimum required energy gap between the highest conduction state that is
+optimised and the lowest conduction state that stays unoptimised.</p>
+</div>
+<div class="section" id="setting-the-shift">
+<h3>Setting the shift<a class="headerlink" href="#setting-the-shift" title="Permalink to this headline">¶</a></h3>
+<p>There are a number of parameters relating to the shift, <span class="math">\(w\)</span>, used
+in the projected conduction Hamiltonian. It is possible to keep the
+shift at some fixed value (defined using COND_INIT_SHIFT) during the
+calculation, by setting COND_FIXED_SHIFT to true. Alternatively, it
+can be automatically updated during the calculation, which is usually
+the safest way to proceed. This is achieved by calculating the highest
+eigenvalue within the conduction NGWF basis at the start of each NGWF
+iteration (providing COND_CALC_MAX_EIGEN is set to true), and
+comparing the current shift to this eigenvalue. Providing the shift is
+higher than the highest eigenvalue, it remains unchanged, but if the
+maximum eigenvalue has become greater than the current shift, it is
+updated to equal the maximum eigenvalue plus some extra buffer value
+(defined by COND_SHIFT_BUFFER).</p>
+</div>
+<div class="section" id="local-minima">
+<h3>Local minima<a class="headerlink" href="#local-minima" title="Permalink to this headline">¶</a></h3>
+<p>In practice, it is sometimes possible to become trapped in local minima,
+where the ordering of states within the initial unoptimised basis
+doesn’t correspond to the correct order, and so sometimes states are
+missed. The problem can be identified by decreasing
+NGWF_THRESHOLD_ORIG and seeing if the gradient stagnates while the
+energy continues to decrease, or by plotting convergence graphs with
+conduction NGWF radii where sharp changes in energy are sometimes
+observed with small changes in conduction NGWF radii. In practice it is
+therefore very important to systematically converge calculations with
+respect to the conduction NGWF radii, which might require larger values
+than ground-state ONETEP calculations. This problem can typically be
+avoided by optimising some extra states (COND_NUM_EXTRA_STATES) above
+the required number of conduction states for a few iterations
+(COND_NUM_EXTRA_ITS) (typically 5-10 iterations). Selecting the
+required number of extra states to include is mostly a trial and error
+process whereby the number of extra states should be increased until no
+changes are seen in the calculated conduction energy.</p>
+</div>
+<div class="section" id="additional-notes-on-input-parameters">
+<h3>Additional notes on input parameters<a class="headerlink" href="#additional-notes-on-input-parameters" title="Permalink to this headline">¶</a></h3>
+<p>As the ground-state NGWFs and density kernel are required for the
+conduction calculation, READ_TIGHTBOX_NGWFS and READ_DENSKERN are
+automatically set to true. There are separate variables for the
+corresponding conduction quantities (COND_READ_TIGHTBOX_NGWFS and
+COND_READ_DENSKERN) which can be set to true for restarting conduction
+calculations. The parameters WRITE_TIGHTBOX_NGWFS and WRITE_DENSKERN
+are not independently specified for the conduction and valence NGWF
+basis sets.</p>
+</div>
+<div class="section" id="conduction-calculations-in-implicit-solvent">
+<h3>Conduction calculations in implicit solvent<a class="headerlink" href="#conduction-calculations-in-implicit-solvent" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Some care has to be taken when performing a conduction optimisation
+for a system embedded in an implicit solvent (see the separate
+Implicit Solvation documentation on how to perform a ground state
+calculation in implicit solvent). The reason for this is that the
+ground state in the implicit solvation model is often computed in a
+two step process. In the first step the solvation cavity is computed
+as an isosurface of the ground state density in vacuum, while in the
+second step the ground state of the system is evaluated for that fixed
+cavity. In order for the conduction calculation to be consistent with
+the ground state calculation, the same solvation cavity has to be used
+in both cases. To ensure that the code uses the correct restart files
+when setting up the ground state Hamiltonian at the beginning of a
+conduction optimisation, the following sets of keywords should be
+used:</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">Task</span> <span class="pre">:</span> <span class="pre">Singlepoint</span> <span class="pre">Cond</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">is_implicit_solvent</span> <span class="pre">:</span> <span class="pre">T</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">is_auto_solvation</span> <span class="pre">:</span> <span class="pre">T</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">is_smeared_ion_rep</span> <span class="pre">:</span> <span class="pre">T</span></code></div>
+</div>
+<div class="line-block">
+<div class="line">The code will then automatically perform a SinglePoint and a
+conduction calculation in the implicit solvent, using the same
+solvation cavity for both the ground state and the conduction state
+calculation. This is achieved by writing .vacuum_dkn and
+.vacuum_tightbox_ngwfs files that are used to set up the solvation
+cavity.</div>
+</div>
+<p>If further conduction calculations are required using the same ground
+state, for example in order to change the number of conduction states
+converged, it is possible to change the Task to COND and include the
+keyword is_separate_restart_files: T. This triggers the use of the
+.vacuum files to set up the correct solvation cavity at the beginning of
+the COND calculation.</p>
+</div>
+</div>
+<div class="section" id="optical-absorption-spectra">
+<h2>Optical absorption spectra<a class="headerlink" href="#optical-absorption-spectra" title="Permalink to this headline">¶</a></h2>
+<p>The calculation of matrix elements for the generation of optical
+absorption spectra using Fermi’s golden rule has been implemented in
+ONETEP following the method used in CASTEP, as outlined by
+Pickard [Pickard1997]. Using the dipole approximation, the
+imaginary component of the dielectric function is defined as</p>
+<div class="math" id="equation-imag-diel">
+<span class="eqno">(1)<a class="headerlink" href="#equation-imag-diel" title="Permalink to this equation">¶</a></span>\[\varepsilon_2\left(\omega\right)=\frac{2e^2\pi}{\Omega\epsilon_0}\sum_{\mathbf{k},v,c}\left|\langle\psi_{\mathbf{k}}^{c}|\mathbf{\hat{q}}\cdot\mathbf{r}|\psi_{\mathbf{k}}^{v}\rangle\right|^2\delta\left(E_{\mathbf{k}}^{c}-E_{\mathbf{k}}^{v}-\hbar\omega\right) ,\]</div>
+<p>where <span class="math">\(v\)</span> and <span class="math">\(c\)</span> denote valence and conduction bands
+respectively, <span class="math">\(|\psi_{\mathbf{k}}^{n}\rangle\)</span> is the <span class="math">\(n\)</span>th
+eigenstate at a given <span class="math">\(\mathbf{k}\)</span>-point with a corresponding
+energy <span class="math">\(E_{\mathbf{k}}^n\)</span>, <span class="math">\(\Omega\)</span> is the cell volume,
+<span class="math">\(\mathbf{\hat{q}}\)</span> is the direction of polarization of the photon
+and <span class="math">\(\hbar\omega\)</span> its energy. Currently only the <span class="math">\(\Gamma\)</span>
+point is included in the sum over <span class="math">\(\mathbf{k}\)</span>-points.</p>
+<p>As the position operator is ill-defined in periodic boundary conditions,
+this should instead be calculated using a momentum operator formalism,
+where the two are related via [Read1991]:</p>
+<div class="math">
+\[\langle\phi_f|\mathbf{r}|\phi_i\rangle = \frac{1}{i\omega m}\langle\phi_f|\mathbf{p}|\phi_i\rangle + \frac{1}{\hbar\omega}\langle\phi_f|\left[\hat{V}_{nl},\mathbf{r}\right]|\phi_i\rangle .\]</div>
+<p>The commutator term can then be found using the
+identity [Motta2010]:</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+&amp;&amp;\left(\nabla_\mathbf{k}+\nabla_\mathbf{k'}\right)\left[\int e^{-i\mathbf{k}\cdot\mathbf{r}} V_{nl}\left(\mathbf{r},\mathbf{r'}\right) e^{i\mathbf{k'}\cdot\mathbf{r'}} d\mathbf{r}\ d\mathbf{r'}\right] \\
+&amp;=&amp;i\int e^{-i\mathbf{k}\cdot\mathbf{r}}\left[V_{nl}\left(\mathbf{r},\mathbf{r'}\right)\mathbf{r'}-\mathbf{r}V_{nl}\left(\mathbf{r},\mathbf{r'}\right)\right] e^{i\mathbf{k'}\cdot\mathbf{r'}} d\mathbf{r}\ d\mathbf{r'} \nonumber,\end{aligned}\end{split}\]</div>
+<p>where the derivative can either be calculated directly or using finite
+differences in reciprocal space. Once the matrix elements have been
+calculated in this manner, they can then be used to form a weighted
+density of states according to equation <a class="reference internal" href="#equation-imag-diel">(1)</a>.</p>
+</div>
+<div class="section" id="calculating-optical-absorption-spectra-in-onetep">
+<h2>Calculating optical absorption spectra in ONETEP<a class="headerlink" href="#calculating-optical-absorption-spectra-in-onetep" title="Permalink to this headline">¶</a></h2>
+<p>The calculation of matrix elements for optical absorption spectra is
+activated by setting COND_CALC_OPTICAL_SPECTRA to true. The matrix
+elements are then calculated at the end of a conduction calculation in
+both the valence and joint valence-conduction NGWF basis sets. Various
+options can be modified, including the choice of calculating the matrix
+elements in either the position or momentum representation, using the
+parameter COND_SPEC_CALC_MOM_MAT_ELS. For accurate results, the
+position operator should only be used for molecules, where the
+conduction NGWFs are sufficiently small compared to the size of the unit
+cell that they do not overlap with any periodic copies. If using the
+momentum formulation, the default behaviour is to also calculate the
+commutator between the nonlocal potential and the position operator,
+although setting COND_SPEC_CALC_NONLOC_COMM will switch this off.
+Additionally, the method of calculation of the commutator can be
+specified using COND_SPEC_CONT_DERIV, so that either a continuous
+derivative or finite difference method is employed. If using the finite
+difference option, the finite difference shifting parameter can also be
+specified using COND_SPEC_NONLOC_COMM_SHIFT.</p>
+<div class="section" id="outputs">
+<h3>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h3>
+<p>If the input filename is seed.dat then the matrix elements will be
+written to seed_val_OPT_MAT_ELS.txt and
+seed_joint_OPT_MAT_ELS.txt. These contain the matrix elements
+between all states in the <span class="math">\(x\)</span>, <span class="math">\(y\)</span> and <span class="math">\(z\)</span> directions,
+and the energies of each state, as well as the transition energy, are
+also printed. For calculations in the momentum representation, the real
+and imaginary components of the matrix element are printed in the
+additional two columns at the end.</p>
+<p>[Clark2005] S. J. Clark, M. D. Segall, C. J. Pickard, P. J. Hasnip, M. J. Probert, K. Refson and M. C. Payne, Z. Kristallogr. <strong>220</strong>, 567 (2005).</p>
+<p>[Skylaris2005] C.-K. Skylaris, P. D. Haynes, A. A. Mostofi and M. C. Payne, J. Phys. Condens. Matter <strong>17</strong>, 5757 (2005).</p>
+<p>[Godby1986] R. W. Godby, M. Schlüter and L. J. Sham, Phys. Rev. Lett <strong>56</strong>, 2415 (1986).</p>
+<p>[Gygi1989] F. Gygi and A. Baldereschi, Phys. Rev. Lett <strong>62</strong>, 2160 (1989).</p>
+<p>[Ratcliff2011] L. E. Ratcliff, N. D. M. Hine and P. D. Haynes <em>In Preparation</em> (2011).</p>
+<p>[Pickard1997] C. J. Pickard, Ph.D. thesis, University of Cambridge (1997).</p>
+<p>[Read1991] A. J. Read and R. J. Needs, Phys. Rev. B <strong>44</strong>, 13071 (1991).</p>
+<p>[Motta2010] C. Motta, M. Giantomassi, M. Cazzaniga, K. Gal-Nagy and X. Gonze, Comput. Mater. Sci. <strong>50</strong>, 698 (2010).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="pseudoatomic_solver.html" title="previous chapter">Using the Pseudoatomic Solver to Generate NGWFs</a></li>
+      <li>Next: <a href="onetep_edft_documentation.html" title="next chapter">Finite-temperature DFT calculations using the Ensemble-DFT method</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/conduction.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,91 @@
+Instructions for installing ONETEP
+
+The following assumes that your working directory is the top level of
+the ONETEP tree.
+
+You will need to supply:
+- BLAS and LAPACK libraries
+- an FFT library
+- a compiler set up for MPI (if compiling a parallel version) and OpenMP
+  (if enabling hybrid paralellism)
+
+You may want to supply
+- LIBXC library
+- ScaLAPACK and PBLAS libraries
+
+1) If there is a configuration file already present in the config
+folder which is set up for your HPC system, then you will want to use
+it, otherwise you may want to create one by making a copy of an
+existing one for a system which is similar. You may edit
+the bin/arch script to return a specific string for your system if you
+wish. The ONETEP build system will by default use the flags defined in
+config/conf.ARCH where ARCH is the output from bin/arch. However you
+may use any file by defining the variable ${ARCH} on the make command
+line: gmake onetep ARCH=xxx
+
+2) The ONETEP build system is designed to work with GNU make and may
+not work with other versions. Compiled objects are stored in the
+obj/ARCH directory and the final binary is bin/onetep.ARCH so that
+more than one platform may be supported simultaneously.
+
+3) Edit (or create) the relevant file in the config directory. This
+might look something like:
+
+      # ONETEP configuration file
+
+      F90 = mpif90 -openmp
+      FFLAGS = -DMPI -DFFTW3 -DSCALAPACK
+      LIBS = -lmkl_lapack -lmkl
+      OPTFLAGS = -O2 
+      DEBUGFLAGS = -g -CB -debug full
+      PROFILEFLAGS = -p -g
+      COMPILER = INTEL-ifort-on-LINUX
+
+  a) F90 is simply the Fortran compiler to be used. To enable OpenMP, you
+     will need the appropriate directive for your compiler, eg: 
+        -openmp for ifort
+        -fopenmp for gfortran
+     IBM and Cray compilers enable these by default.
+  b) FFLAGS are the default compiler flags, including preprocessor directives
+        -DMPI if compiling for parallel execution with MPI
+        -DFFTW to use FFTw version 2 as the FFT library
+        -DFFTW3 to use FFTw version 3 as the FFT library
+        -DMKL_FFTW3 to use threaded MKL FFTW as the FFT library
+        -DVENDOR to use a vendor specific FFT library, in addition you must
+                 specify one of the following:
+        -DALPHA for compiling under Tru64 (to use CXML)
+        -DSUN for compiling under Solaris (to use Sun's performance library)
+        -DFD to test the lnv and NGWF gradients with finite differences
+        -DLIBXC to request LIBXC support (requires appropriate linker
+                 options supplied under LIBS)
+        -DSCALAPACK to request ScaLAPACK support (requries appropriate
+                 linker options supplied under LIBS)
+  c) LIBS lists the libraries to link with (and additions to the
+        standard search path where necessary). lib/ARCH is searched by default.
+     Be aware that if MKL is present in your module environment, then even if
+     you use -DFFTW3 rather than -DMKL_FFTW3, the linker will usually link to
+     the MKL versions of FFTW. This is fine for a non-threaded compilation (ie
+     without OpenMP), but causes issues with threaded runs because the library
+     has internal data structures that do not default to being thread-safe.
+     Therefore, if you are using MKL at all, you are strongly recommended to use
+     -DMKL_FFTW3. In that case you also need to supply the mkl_service.mod
+     module as an include with -I/path/to/mkl_service.mod
+  d) OPTFLAGS lists optimization flags for the compiler
+  e) DEBUGFLAGS lists debugging flags for the 'debug' target
+  f) PROFILEFLAGS lists profiling flags for the 'profile' target
+  g) COMPILER is the name of the compiler family.  Run
+        utils/compare_module_files.pl to see the available options.  If your
+        compiler is not listed, then do not set it and a safe default will be
+        supplied..
+
+4) Running gmake with no target in the ONETEP directory lists the
+available options. The normal target is 'onetep' but there are also
+options for debugging and profiling. This should create the
+appropriate binary for your platform.  Setting CASCADE=yes will avoid using the
+compare_module_file.pl and compile_mod.pl scripts (but recompilation might be
+substantially slower).
+
+5) Check your binary using the inputs in the quality_control directory.
+
+ONETEP Developers' Group
+Last updated: 30 May 2018

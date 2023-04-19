@@ -1,0 +1,38 @@
+
+# -------------------------------------------------
+# A ONETEP configuration file for RH79 desktop
+# machines in Southampton.
+# 2021.03 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+#                         University of Southampton
+# -------------------------------------------------
+# v1.20
+
+# -------------------------------------------------
+# Compiler: 	Intel ifort v18.0.5
+# MPI: 		Intel MPI 2018 Update 4 Build 20180823
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the compiler.
+# ScaLAPACK:	Yes.
+# -------------------------------------------------
+
+# -------------------------------------------------
+# This works with the intel module "intel/2018".
+# Make sure you have it loaded.
+# 
+# This can be achieved by adding the following
+# line to the end of ~/.bashrc (drop the trailing '#'):
+#
+# module load intel/2018
+# -------------------------------------------------
+
+F90 = mpiifort
+FFLAGS = -g -qopenmp -mkl=parallel -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DSTACK_TRACE_IN_ABORT -DMPI -I${MKLROOT}/include/fftw -diag-disable 8290,8291,7712,5462 -warn all
+OPTFLAGS = -O2 -march=native
+DEBUGFLAGS = -traceback -check all,noarg_temp_created -ftrapuv
+COMPILER = INTEL-ifort-on-LINUX
+LIBS = -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl
+
+# Warnings disabled:
+#   8290, 8291 - suggest field widths
+#   7712 - unused variables
+#   5462 - global name too long (for linker, still within F2003 standard bounds)

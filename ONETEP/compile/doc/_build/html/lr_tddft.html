@@ -1,0 +1,652 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Linear response time-dependent density-functional theory (LR-TDDFT) &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Electron Energy Loss Calculations" href="eels_in_onetep.html" />
+    <link rel="prev" title="Calculating the Local/Partial Density of States and Angular Momentum Projected Density of States" href="ldos_calculations.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="linear-response-time-dependent-density-functional-theory-lr-tddft">
+<h1>Linear response time-dependent density-functional theory (LR-TDDFT)<a class="headerlink" href="#linear-response-time-dependent-density-functional-theory-lr-tddft" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Tim Zuehlsdorff, Imperial College London</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="linear-response-tddft">
+<h2>Linear Response TDDFT<a class="headerlink" href="#linear-response-tddft" title="Permalink to this headline">¶</a></h2>
+<p>The linear response TDDFT (LR-TDDFT) functionality in ONETEP allows the
+calculation of the low energy excited states of a system in linear
+scaling effort. In contrast to time-evolution TDDFT, where the density
+matrix of the system is propagated explicitly in time, LR-TDDFT recasts
+the problem of finding TDDFT excitation energies into an effective
+non-hermitian eigenvalue equation of the form:</p>
+<div class="math" id="equation-full-tddft">
+<span class="eqno">(1)<a class="headerlink" href="#equation-full-tddft" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{pmatrix} \textbf{A} &amp; \textbf{B} \\ \textbf{B} &amp; \textbf{A}\end{pmatrix}\begin{pmatrix} \vec{\textbf{X}} \\ \vec{\textbf{Y}} \end{pmatrix} = \omega \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}\begin{pmatrix} \vec{\textbf{X}} \\ \vec{\textbf{Y}} \end{pmatrix}\end{split}\]</div>
+<p>where the elements of the block matrices <span class="math">\(\textbf{A}\)</span> and
+<span class="math">\(\textbf{B}\)</span> can be expressed in canonical Kohn-Sham
+representation as</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+A_{cv,c'v'}&amp;=&amp;\delta_{c,c'}\delta_{v,v'}(\epsilon^{\textrm{\scriptsize{KS}}}_{c}-\epsilon^{\textrm{\scriptsize{KS}}}_{v})+K_{cv,c'v'} \\
+B_{cv,c'v'}&amp;=&amp;K_{cv, v'c'}\end{aligned}\end{split}\]</div>
+<p>Here, <span class="math">\(c\)</span> and <span class="math">\(v\)</span> denote Kohn-Sham conduction and valence
+states and <strong>K</strong> is the coupling matrix with elements given by</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+ \nonumber
+K_{cv,c'v'}=2\int \mathrm{d} ^3 r \mathrm{d} ^3 r'\left[\frac{1}{|\textbf{r}-\textbf{r}'|}+\left. \frac{\delta^2 E_{\textrm{\scriptsize{xc}}}}{\delta\rho(\textbf{r})\delta\rho(\textbf{r}')}\right|_{\rho^{\{0\}}}\right]  \\
+\times \psi^{\textrm{\scriptsize{KS}}*}_{c}(\textbf{r})\psi^{\textrm{\scriptsize{KS}}}_{v}(\textbf{r})\psi^{\textrm{\scriptsize{KS}}*}_{v'}(\textbf{r}')\psi^{\textrm{\scriptsize{KS}}}_{c'}(\textbf{r}').\end{aligned}\end{split}\]</div>
+<p>with <span class="math">\(E_{\textrm{\scriptsize{xc}}}\)</span> being the
+exchange-correlation energy. Its second derivative, evaluated at the
+ground-state density <span class="math">\(\rho^{\{0\}}\)</span> of the system, is normally
+referred to as the exchange-correlation kernel.</p>
+<p>The above equation can be understood as an effective 2-particle
+Hamiltonian consisting of a diagonal part of conduction-valence
+eigenvalue differences and a coupling term <span class="math">\(K_{cv,c'v'}\)</span>
+connecting individual Kohn-Sham excitations.</p>
+<p>In ONETEP, LR-TDDFT is implemented both in terms of the full TDDFT
+eigenvalue equation (Eqn. [full_tddft]) and in the Tamm-Dancoff
+approximation, a commonly used simplification to the full non-hermitian
+eigenvalue equation, where the off diagonal elements <span class="math">\(\textbf{B}\)</span>
+are set to zero. The problem of calculating the TDDFT excitation
+energies thus becomes equivalent to solving the hermitian eigenvalue
+equation</p>
+<div class="math">
+\[\textbf{A}\vec{\textbf{X}}=\omega \vec{\textbf{X}}\]</div>
+<p>The Tamm-Dancoff approximation violates time-reversal symmetry and
+oscillator strength sum rules and can blue-shift strong peaks in the
+spectrum by up to 0.3 eV, however, dark states are typically left almost
+unaltered from their corresponding states in the Tamm-Dancoff
+approximation.</p>
+<p>In the ONETEP code, the Tamm-Dancoff eigenvalue equation is re-expressed
+in terms of two sets of NGWFs, one optimised for the valence space
+(denoted as <span class="math">\(\{ \phi_\alpha\}\)</span>) and one optimised for a low energy
+subspace of the conduction manifold (denoted as <span class="math">\(\{\chi_\beta \}\)</span>,
+see the documentation of the conduction NGWF optimiation functionality).
+Furthermore, the eigenvalue equation is solved iteratively for the
+lowest few eigenvalues using a conjugate gradient method. In order to do
+so we define the action <span class="math">\(\textbf{q}\)</span> of operator
+<span class="math">\(\textbf{A}\)</span> acting <span class="math">\(\vec{\textbf{X}}\)</span> in conduction-valence
+NGWF space as</p>
+<div class="math" id="equation-operator">
+<span class="eqno">(2)<a class="headerlink" href="#equation-operator" title="Permalink to this equation">¶</a></span>\[(q^{\chi\phi})^{\alpha\beta}=(P^{\{\mathrm{c}\}} H^{\chi}P^{\{1\}}-P^{\{1\}} H^{\phi}P^{\{\mathrm{v}\}})^{\alpha\beta}
++(P^{\{\mathrm{c}\}} V^{\{1\}\chi\phi}_{\textrm{\scriptsize{SCF}}}P^{\{\mathrm{v}\}})^{\alpha\beta}.\]</div>
+<p>where <span class="math">\(\textbf{H}^{\chi}\)</span> and <span class="math">\(\textbf{H}^\phi\)</span> are the
+Hamiltonians in conduction and valence NGWF representation respectively,
+<span class="math">\(\textbf{P}^{\{c\}}\)</span> and <span class="math">\(\textbf{P}^{\{v\}}\)</span> denote the
+conduction and valence density matrices and <span class="math">\(\textbf{P}^{\{1\}}\)</span>
+is the response density matrix, a representation of the trial vector
+<span class="math">\(\vec{\textbf{X}}\)</span> in conduction-valence NGWF space.
+<span class="math">\(V^{\{1\}}_{\textrm{\scriptsize{SCF}}}\)</span> is the first order
+response of the system due to the density
+<span class="math">\(\rho^{\{1\}}(\textbf{r})\)</span> associated with
+<span class="math">\(\textbf{P}^{\{1\}}\)</span>. Under this redefinition of the action
+<span class="math">\(\textbf{A}\)</span> in conduction-valence NGWF space, finding the lowest
+<span class="math">\(N_\omega\)</span> excitation energies is equivalent to minimising</p>
+<div class="math">
+\[\Omega=\sum_i^{N_\omega}\omega_i=\sum_i^{N_{\omega}}\left[  \frac{\textrm{Tr}\left[\textbf{P}^{\{1\}\dagger}_i\textbf{S}^{\chi}\textbf{q}^{\chi\phi}_i\textbf{S}^\phi\right]}{\textrm{Tr}\left[\textbf{P}^{\{1\}^\dagger}_i\textbf{S}^{\chi}\textbf{P}^{\{1\}}_i\textbf{S}^\phi\right]}\right]\]</div>
+<p>with respect to <span class="math">\(\left\{ \textbf{P}^{\{1\}}_i\right\}\)</span> under the
+constraint</p>
+<div class="math" id="equation-ortho">
+<span class="eqno">(3)<a class="headerlink" href="#equation-ortho" title="Permalink to this equation">¶</a></span>\[ \textrm{Tr}\left[\textbf{P}^{\{1\}\dagger}_i\textbf{S}^{\chi}\textbf{P}^{\{1\}}_j\textbf{S}^\phi\right]=\delta_{ij}.\]</div>
+<p>If all density matrices involved in the above expressions, ie.
+<span class="math">\(\textbf{P}^{\{1\}}\)</span>, <span class="math">\(\textbf{P}^{\{c\}}\)</span> and
+<span class="math">\(\textbf{P}^{\{v\}}\)</span> are truncated and thus become sparse, the
+algorithm scales as <span class="math">\(O(N)\)</span> with system size for a fixed number of
+excitation energies <span class="math">\(N_\omega\)</span> and as <span class="math">\(O(N_\omega^2)\)</span> with
+the number of excitation energies required.</p>
+<p>A similar algorithm can be derived for the full TDDFT eigenvalue
+equation, where we make use of the change of variables
+<span class="math">\(\textbf{p}=\vec{\textbf{X}}+\vec{\textbf{Y}}\)</span> and
+<span class="math">\(\textbf{q}=\vec{\textbf{X}}-\vec{\textbf{Y}}\)</span>. Each TDDFT
+excitation then has two effective density matrices,
+<span class="math">\(\textbf{P}^{\{p\}}\)</span> and <span class="math">\(\textbf{P}^{\{q\}}\)</span>, associated
+with it that have the same structure as <span class="math">\(\textbf{P}^{\{1\}}\)</span> in
+the Tamm-Dancoff approximation. The density matrices do obey an updated
+orthonormality constraint of the form</p>
+<div class="math" id="equation-ortho2">
+<span class="eqno">(4)<a class="headerlink" href="#equation-ortho2" title="Permalink to this equation">¶</a></span>\[ \frac{1}{2}\left(\textrm{Tr}\left[\textbf{P}^{\{p\}\dagger}_i\textbf{S}^{\chi}\textbf{P}^{\{q\}}_j\textbf{S}^\phi\right]+ \textrm{Tr}\left[\textbf{P}^{\{q\}\dagger}_i\textbf{S}^{\chi}\textbf{P}^{\{p\}}_j\textbf{S}^\phi\right]\right)=\delta_{ij}\]</div>
+<p>and an analogous expression for the total energy <span class="math">\(\Omega\)</span> in full
+TDDFT can be derived.</p>
+</div>
+<div class="section" id="performing-a-lr-tddft-calculation">
+<h2>Performing a LR-TDDFT calculation<a class="headerlink" href="#performing-a-lr-tddft-calculation" title="Permalink to this headline">¶</a></h2>
+<p>The LR-TDDFT calculation in ONETEP is enabled by setting the task flag
+to TASK=LR_TDDFT. The LR-TDDFT calculation mode reads in the density
+kernels and NGWFs of a converged ground state and conduction state
+calculation, so the .dkn, .dkn_cond, .tightbox_ngwfs and
+.tightbox_ngwfs_cond files all need to be present. The most important
+keywords in a TDDFT calculation are:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_RPA}\)</span>: T/F.</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_RPA}\)</span>=F. If set to T, the
+code performs a full TDDFT calculation without relying on the
+simplified Tamm-Dancoff approximation.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_num\_states}\)</span>: n</div>
+<div class="line">Integer, default <span class="math">\(\tt{lr\_tddft\_num\_states}=1\)</span>.</div>
+<div class="line">The keyword specifies how many excitations we want to converge. If
+set to a positive integer n, the TDDFT algorithm will converge the
+n lowest excitations of the system.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_cg\_threshold}\)</span>: x</div>
+<div class="line">Real, default <span class="math">\(\tt{lr\_tddft\_cg\_threshold}=10^{-6}\)</span>.</div>
+<div class="line">The keyword specifies the convergence tolerance on the sum of the n
+TDDFT excitation energies. If the sum of excitation energies
+changes by less than x in two consecutive iterations, the
+calculation is taken to be converged.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_maxit\_cg}\)</span>: n</div>
+<div class="line">Integer, default <span class="math">\(\tt{lr\_tddft\_maxit\_cg}=60\)</span>.</div>
+<div class="line">The maximum number of conjugate gradient iterations the algorithm
+will perform.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_triplet}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_triplet}=F\)</span>.</div>
+<div class="line">Flag that decides whether the <span class="math">\(\tt{lr\_tddft\_num\_states}=n\)</span>
+states to be converged are singlet or triplet states.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_write\_kernels}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_write\_kernels}=T\)</span>.</div>
+<div class="line">If the flag is set to T, the TDDFT response density kernels are
+printed out at every conjugate gradient iteration. These files are
+necessary to restart a LR_TDDFT calculation.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_restart}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_trestart}=F\)</span>.</div>
+<div class="line">If the flag is set to T, the algorithm reads in
+<span class="math">\(\tt{lr\_tddft\_num\_states}=n\)</span> response density kernels in
+.dkn format and uses them as initial trial vectors for a restarted
+LR_TDDFT calculation.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_restart\_from\_TDA}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_trestart\_from\_TDA}=F\)</span>.</div>
+<div class="line">If the flag is set to T and <span class="math">\(\tt{lr\_tddft\_RPA}\)</span>: T, the
+code will read in already converged density kernels
+<span class="math">\(\left\{\textbf{P}^{\{1\}}_i\right\}\)</span> and use them as a
+starting guess for a full TDDFT calculation such that
+<span class="math">\(\textbf{P}^{\{p\}}_i=\textbf{P}^{\{q\}}_i=\textbf{P}^{\{1\}}\)</span>.
+In many cases, the full TDDFT results are similar to the
+Tamm-Dancoff results and this strategy of starting the full TDDFT
+calculation leads to a rapid convergence.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_init\_random}\)</span> T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_init\_random}\)</span> T.</div>
+<div class="line">By default, the initial TDDFT eigenvector guesses are initialised
+to random matrices. This yields an unbiased convergence of the
+TDDFT algorithm but can mean that one starts the optimisation
+relatively far away from the minimum. If
+<span class="math">\(\tt{lr\_tddft\_init\_random}\)</span>=F, the code instead computes
+the <span class="math">\(n\)</span> minimum energy pure Kohn-Sham transitions in
+linear-scaling effort and initialises the <span class="math">\(n\)</span> TDDFT response
+density matrices to the pure Kohn-Sham transition density matrices.
+In many small to medium sized systems this leads to initial states
+much closer to the TDDFT minimum and rapid convergence. In large
+extended systems this can yield states that are spurious charge
+transfer states that are not ideal, especially if a more advanced
+density matrix truncation scheme is used. In this case it is
+possible to set the keyword
+<span class="math">\(\tt{lr\_tddft\_init\_max\_overlap}\)</span> T, in which, rather than
+choosing the lowest Kohn-Sham transitions, the code picks the
+lowest few transitions that also have a maximum overlap of electron
+and hole densities.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_kernel\_cutoff}\)</span>: x</div>
+<div class="line">Real, default <span class="math">\(\tt{lr\_tddft\_kernel\_cutoff}=1000 a_0\)</span>.</div>
+<div class="line">Keyword sets a truncation radius on all response density kernels in
+order to achieve linear scaling computational effort with system
+size.</div>
+</div>
+</li>
+</ul>
+<p>While the LR_TDDFT calculation can be made to scale linearly for a
+fixed number of excitations converged, it should be kept in mind that
+the algorithm needs to perform orthonormalisation procedures and thus
+scales as <span class="math">\(O(N^2)\)</span> with <span class="math">\(\tt{lr\_tddft\_num\_states}\)</span>.</p>
+</div>
+<div class="section" id="truncation-of-the-response-density-matrix">
+<h2>Truncation of the Response density matrix<a class="headerlink" href="#truncation-of-the-response-density-matrix" title="Permalink to this headline">¶</a></h2>
+<p>To run a fully linear scaling TDDFT calculation the response density
+matrix has to be truncated by setting
+<span class="math">\(\tt{lr\_tddft\_kernel\_cutoff}\)</span>. This truncation introduces
+numerical errors into the calculation, which mainly manifest themselves
+in the form that the response density matrices do no longer exactly obey
+a first order idempotency constraint that is placed on them. The
+idempotency constraint can be written in form of an invariance equation:</p>
+<div class="math">
+\[\textbf{P}^{\{1\}'}=\textbf{P}^{\{\mathrm{c}\}}\textbf{S}^{\chi}\textbf{P}^{\{1\}}\textbf{S}^{\phi}\textbf{P}^{\{\mathrm{v}\}}=\textbf{P}^{\{1\}}\]</div>
+<p>To measure the degree to which the invariance relation is violated we
+make use of a penalty functional
+<span class="math">\(Q\left[ \textbf{P}^{\{1\}}\right]\)</span> given by:</p>
+<div class="math">
+\[Q\left[\textbf{P}^{\{1\}}\right]=\textrm{Tr}\left[\left(\textbf{P}^{\{1\}\dagger}\textbf{S}^{\chi}\textbf{P}^{\{1\}}\textbf{S}^{\phi}-\textbf{P}^{\{1\}' \dagger}\textbf{S}^{\chi}\textbf{P}^{\{1\}'}\textbf{S}^{\phi} \right)^2\right].\]</div>
+<p>For truncated <span class="math">\(\textbf{P}^{\{1\}}\)</span>,
+<span class="math">\(Q\left[\textbf{P}^{\{1\}}\right]\neq 0\)</span> which can lead to
+problems in the convergence of the conjugate gradient algorithm. In
+order to avoid these issues, the TDDFT routines perform the minimisation
+of the energy in an analogous form to the LNV method in ground-state
+calculations: The auxiliary density kernel <span class="math">\(\textbf{P}^{\{1\}'}\)</span>
+is used instead of <span class="math">\(\textbf{P}^{\{1\}}\)</span> for the minimisation of
+<span class="math">\(\Omega\)</span>. While <span class="math">\(\textbf{P}^{\{1\}'}\)</span> is much less sparse
+than <span class="math">\(\textbf{P}^{\{1\}}\)</span> it preserves idempotency to the same
+degree as the conduction and valence density kernel, yielding a
+stabilised convergence.</p>
+<p>However, should <span class="math">\(Q\left[\textbf{P}^{\{1\}}\right]\)</span> diverge
+significantly from 0 during the calculation, there are routines in place
+similar to the kernel purification schemes in ground state DFT that
+force the kernel towards obeying its idempotency constraint. The keyword
+controlling these routines are given below:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_penalty\_tol}\)</span>: x</div>
+<div class="line">Real, default <span class="math">\(\tt{lr\_tddft\_penalty\_tol}=10^{-8}\)</span>.</div>
+<div class="line">Keyword sets a tolerance for the penalty functional. If
+<span class="math">\(Q\left[\textbf{P}^{\{1\}}\right]\)</span> is larger than
+<span class="math">\(\tt{lr\_tddft\_penalty\_tol}\)</span> the algorithm will perform
+purification iterations in order to decrease the penalty value and
+force <span class="math">\(\textbf{P}^{\{1\}}\)</span> towards the correct idempotency
+behaviour.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_maxit\_pen}\)</span>: n</div>
+<div class="line">Integer, default <span class="math">\(\tt{lr\_tddft\_maxit\_pen}=20\)</span>.</div>
+<div class="line">The maximum number purification iterations performed per conjugate
+gradient step.</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="more-advanced-tddft-kernel-truncation-schemes">
+<h2>More advanced TDDFT kernel truncation schemes<a class="headerlink" href="#more-advanced-tddft-kernel-truncation-schemes" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">There are many situations where physical intuition allows one to
+specify a more sophisticated sparsity pattern than a uniform spherical
+kernel cutoff on <span class="math">\(\textbf{P}^{\{1\}}\)</span> (or
+<span class="math">\(\textbf{P}^{\{p\}}\)</span> and <span class="math">\(\textbf{P}^{\{q\}}\)</span> for full
+TDDFT). For example, in pigment-protein complexes the excitations of
+interest retain a relative localisation on the pigment and one would
+ideally converge these states directly, without obtaining any spurious
+charge transfer states from the pigment to far away regions of the
+protein, that can arise due to failures in semi-local exchange
+correlation functionals. This can be achieved by introducing a new
+block into the input file of the form</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_tddft_kernel</span>
+  <span class="n">label1</span> <span class="n">label</span> <span class="mi">2</span> <span class="n">label3</span> <span class="o">...</span>
+  <span class="n">label5</span> <span class="o">...</span>
+  <span class="o">...</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_tddft_kernel</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">where the labels refer to atom labels. As an example, consider a
+ pigment protein complex, where the pigment atoms are labelled H1, C1
+ etc. while the protein atoms are labelled H, C, etc. Then we can force
+ the excitations of the system to be fully localised on the pigment by
+including</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_tddft_kernel</span>
+  <span class="n">C1</span> <span class="n">H1</span> <span class="o">...</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_tddft_kernel</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">This has the effect of setting all elements of
+<span class="math">\(\textbf{P}^{\{1\}}\)</span> to zero that correspond to conduction or
+valence NGWFs centered on atoms of the environment. In this way the
+electrostatic effects of the environment are treated fully quantum
+mechanically, while no delocalisation into the protein is allowed. If
+one would like to introduce a coupling to the environment but wants to
+suppress any charge transfer coupling between the pigment and its
+environment, it is possible to specify</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_tddft_kernel</span>
+  <span class="n">C1</span> <span class="n">H1</span> <span class="o">...</span>
+  <span class="n">C</span> <span class="n">H</span> <span class="o">...</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_tddft_kernel</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">It is possible to specify an arbitrary number of subregions in the
+system in this way. It is also possible to list the same species in
+different lines, allowing for charge transfer interactions between
+some atom types of two regions but not others.</div>
+</div>
+<div class="line-block">
+<div class="line">Rather than having the off-diagonal charge-transfer blocks defined in
+<code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_tddft_kernel</span></code> set exactly to zero,
+it is also possible to give these blocks a more realistic sparsity
+pattern, for example that of the overlap matrix. While this process
+still suppresses any significant amount of charge transfer between
+TDDFT regions, it can be used to allow overlapping NGWFs from
+different TDDFT regions to contribute to the TDDFT transition density.
+In order to do so, set the block</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_tddft_ct</span>
+  <span class="n">C1</span> <span class="n">H1</span> <span class="o">...</span>
+  <span class="n">C2</span> <span class="n">H2</span> <span class="o">...</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_tddft_ct</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">and set <code class="docutils literal"><span class="pre">lr_tddft_ct_length</span></code> to a chosen cutoff length
+for the charge-transfer interaction between the specified blocks. For
+example, if the off-diagonal blocks of the response density matrix
+(corresponding to charge-transfer excitations between TDDFT regions)
+should have the same sparsity pattern as the overlap matrix, set
+<code class="docutils literal"><span class="pre">lr_tddft_ct_length</span></code> to twice the NGWF localisation
+radius.</div>
+</div>
+</div>
+<div class="section" id="preconditioning">
+<h2>Preconditioning<a class="headerlink" href="#preconditioning" title="Permalink to this headline">¶</a></h2>
+<p>The TDDFT eigenvalue problem is generally ill-conditioned, which can
+lead to a relatively slow convergence. For this reason, it is possible
+to precondition the eigenvalue problem, which is achieved by solving a
+linear system iteratively to a certain tolerance at each conjugate
+gradient step. Solving the linear system only requires matrix-matrix
+multiplications and is very cheap for small and medium sized systems,
+however, it can get more costly for very large systems, especially when
+no kernel truncation is used. In these cases, it can be necessary to
+reduce the number of default iterations of the preconditioner. The main
+keywords controlling the preconditioner are</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_precond}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_precond}=T\)</span>.</div>
+<div class="line">Flag that decides whether the preconditioner is switched on or off.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_precond\_iter}\)</span>: n</div>
+<div class="line">Integer, default <span class="math">\(\tt{lr\_tddft\_precond\_iter}=20\)</span>.</div>
+<div class="line">Maximum number of iterations in the linear system solver applying
+the preconditioner.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_precond\_tol}\)</span>: x</div>
+<div class="line">Real, default <span class="math">\(\tt{lr\_tddft\_precond\_tol}=10^{-8}\)</span>.</div>
+<div class="line">The tolerance to which the linear system is solved in the
+preconditioner. Choosing a large tolerance means that the
+preconditioner is only applied approximately during each iteration.</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="representation-of-the-unoccupied-subspace">
+<h2>Representation of the unoccupied subspace<a class="headerlink" href="#representation-of-the-unoccupied-subspace" title="Permalink to this headline">¶</a></h2>
+<p>In the LR_TDDFT method as implemented in ONETEP, the user has two
+options regarding the representation of the unoccupied subspace. The
+first option is to define the active unoccupied subspace of the
+calculation to only contain the Kohn-Sham states that were explicitly
+optimised in the COND calculation. The other is to make use of a
+projector onto the entire unoccupied subspace, where we redefine the
+conduction density matrix as:</p>
+<div class="math">
+\[\textbf{P}^{\{\textrm{c}\}}=\left(\left(\textbf{S}^{\chi}\right)^{-1} -\left(\textbf{S}^{\chi}\right)^{-1}\textbf{S}^{\chi\phi}\textbf{P}^{\{\textrm{v}\}}\left(\textbf{S}^{\chi\phi}\right)^\dagger \left(\textbf{S}^{\chi}\right)^{-1}\right) .\]</div>
+<p>The first option has the advantage that we only include states for
+which the NGWFs are well optimised, but has the drawback that some
+excitations converge very slowly with the size of the unoccupied
+subspace and thus a good convergence with the number of conduction
+states optimised is hard to reach. The second method implicitly includes
+the entire unoccupied subspace (to the extent that it is representable
+by a small, localised NGWF representation), but has the disadvantage
+that now states are included in the calculation for which the NGWFs are
+not optimised. Furthermore, the density matrix defined above is no
+longer strictly idempotent, leading to violations of the idempotency
+condition and thus a non-vanishing penalty functional
+<span class="math">\(Q\left[\textbf{P}^{\{1\}}\right]\)</span>, requiring kernel purification
+iterations as described in the previous section.</p>
+<p>The problem of loss of idempotency can be avoided by using the joint
+NGWF set to represent the conduction space when using the projector.
+While this increases the computational cost of the LR_TDDFT calculation
+by a factor of 2, it preserves the idempotency of
+<span class="math">\(\textbf{P}^{\{\textrm{c}\}}\)</span> and is the recommended option when
+using the projector onto the unoccupied subspace.</p>
+<p>The keywords controlling the use of the projector are</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_projector}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_projector}=T\)</span>.</div>
+<div class="line">If the flag is set to T, the conduction density matrix
+<span class="math">\(\textbf{P}^{\{\textrm{c}\}}\)</span> is redefined to be a projector
+onto the entire unoccupied subspace.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_joint\_set}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_joint\_set}=T\)</span>.</div>
+<div class="line">If the flag is set to T, the joint NGWF set is used to represent
+the conduction space in the LR_TDDFT calculation.</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="calculations-in-implicit-solvent">
+<h2>Calculations in implicit solvent<a class="headerlink" href="#calculations-in-implicit-solvent" title="Permalink to this headline">¶</a></h2>
+<p>A TDDFT calculation in implicit solvent is performed in an analogous way
+to the implicit solvent calculation in combination with a conduction
+optimisation (see the documentation of the conduction optimisation for
+further details). By default, the implicit solvent only acts on the
+ground state of the system and thus influences the conduction and
+valence Kohn-Sham states mixed into the TDDFT calculation. However, a
+screening of the response density due to a dynamic dielectric constant
+is not included in the calculation. In order to activate dynamic
+screening effects in TDDFT, the user can set the keyword
+<span class="math">\(\tt{lr\_optical\_permittivity}\)</span> to the effective dynamic
+dielectric constant <span class="math">\(\epsilon_\infty\)</span> of the system in question.</p>
+</div>
+<div class="section" id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<p>The LR_TDDFT calculation will produce a number of outputs. At the end
+of the calculation, the individual excitation energies and oscillator
+strengths will be computed and printed in the main ONETEP output file.
+Furthermore, the energies and oscillator strengths are used to generate
+a excitation spectrum written to the textfile rootname.tddft_spectrum.
+The peaks in the spectrum are Gaussians of a width controlled by
+<span class="math">\(\tt{lr\_tddft\_spectrum\_smear}\)</span>. Furthermore, by default,
+density cube files of the response density, the electron and the hole
+density for each excitation are printed out. The LR_TDDFT code can also
+perform an analysis of individual excitations, where the response
+density matrix is decomposed into dominant Kohn-Sham transitions. Since
+this analysis requires the Kohn-Sham eigenstates and thus a
+diagonalisation of the Hamiltonian, it scales as <span class="math">\(O(N^3)\)</span> and
+should not be performed for very large system sizes.</p>
+<p>The keywords controlling these outputs are:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_write\_densities}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_write\_densities}=T\)</span>.</div>
+<div class="line">If the flag is set to T, the response density, electron density and
+hole density for each excitation is computed and written into a
+.cube file.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><span class="math">\(\tt{lr\_tddft\_analysis}\)</span>: T/F</div>
+<div class="line">Boolean, default <span class="math">\(\tt{lr\_tddft\_analysis}=F\)</span>.</div>
+<div class="line">If the flag is set to T, a full <span class="math">\(O(N^3)\)</span> analysis of each
+TDDFT excitation is performed in which the response density is
+decomposed into dominant Kohn-Sham transitions.</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="good-practices-and-common-problems">
+<h2>Good practices and common problems<a class="headerlink" href="#good-practices-and-common-problems" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>The quality of the TDDFT excitation energies critically depends on
+the representation of the conduction space manifold. Any excitation
+that has a large contribution from an unoccupied state that is not
+explicitly optimised in the COND calculation is not expected to be
+represented correctly in the LR_TDDFT calculation. In general it is
+advisable to optimise as many conduction states as possible. However,
+high energy conduction states are often very delocalised and only
+representable if the conduction NGWF radius is increased
+significantly, thus leading to poor computational efficiency. In
+practice, there is a tradeoff between computational efficiency and
+the representation of the conduction state manifold (see also the
+documentation on conduction state optimisation on this issue).
+Generally, TDDFT excitations should be converged with respect to both
+the conduction NGWF radius and the number of conduction states
+explicitly optimised.</li>
+<li>Since the ground state and conduction density kernels are used as
+projectors onto the occupied and unoccupied subspace in LR_TDDFT,
+one often finds that the inner loop of the SINGLEPOINT and COND
+optimisation has to be converged to a higher degree of accuracy to
+achieve well behaved TDDFT results. It is therefore recommended to
+increase MAXIT_LNV and MINIT_LNV from their default value in the
+SINGLEPOINT and COND calculation. If no density kernel cutoff is
+used, the penalty functional value in the LR_TDDFT calculation
+should be vanishingly small. If the number increases significantly
+during a calculation or if the code begins to perform penalty
+optimisation steps, that is a clear sign that the initial conduction
+and valence density kernels are not converged well enough.</li>
+<li>In order to perform a LR_TDDFT calculation that scales fully
+linearly with system size, all density matrices involved have to be
+sparse and thus a KERNEL_CUTOFF has to be set for both the
+SINGLEPOINT and COND calculation. Using a density matrix truncation
+on the conduction states can sometimes be difficult depending on how
+the subspace of optimised conduction states is chosen and care has to
+be taken to prevent unphysical results.</li>
+<li>When running calculations in full linear scaling mode, the ground
+state and conduction density kernels are no longer strictly
+idempotent, which means that the penalty functional in LR_TDDFT will
+no longer be strictly zero. The code might perform penalty functional
+optimisation steps to keep the idempotency error small. However,
+these idempotency corrections can cause the conjugate gradient
+algorithm to stagnate and can even cause the energy to increase. If
+this happens, it is an indication that the minimum energy and maximum
+level of convergence for this truncation of the density kernel has
+been reached.</li>
+<li>When placing a truncation onto the the response density kernels it
+should be kept in mind that this may cause the optimisation to miss
+certain low energy excitations completely. Very long range
+charge-transfer type excitations cannot be represented by a truncated
+response density kernel and will thus be missing from the spectrum of
+excitations converged. However, well localised excitations should be
+unaffected. In a similar way, if the TDDFT kernel is limited to a
+certain region, it should be checked whether increasing the region
+leads to a smooth convergence of the energy of the localised state
+within the region.</li>
+</ul>
+</div>
+<div class="section" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<p>For further background regarding the theory behind the LR_TDDFT method
+in ONETEP, as well as a number of benchmark tests, see</p>
+<ul class="simple">
+<li>Linear-scaling time-dependent density-functional theory in the linear
+response formalism, T. J. Zuehlsdorff, N. D. M. Hine, J. S. Spencer,
+N. M. Harrison, D. J. Riley, and P. D. Haynes, J. Chem. Phys.
+<strong>139</strong>, 064104 (2013)</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_spectroscopy.html">Spectroscopy and Transport</a><ul>
+      <li>Previous: <a href="ldos_calculations.html" title="previous chapter">Calculating the Local/Partial Density of States and Angular Momentum Projected Density of States</a></li>
+      <li>Next: <a href="eels_in_onetep.html" title="next chapter">Electron Energy Loss Calculations</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/lr_tddft.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

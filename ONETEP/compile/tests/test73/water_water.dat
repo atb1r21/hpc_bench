@@ -1,0 +1,66 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Electron localisation descriptor                   !
+!                                                    !
+! The test system is a water dimer.                  !
+!                                                    !
+! Created by Rebecca Clements, 14/10/2019.           !
+!====================================================!
+
+task singlepoint
+cutoff_energy 900.0 eV
+xc_functional pbe
+maxit_ngwf_cg 2
+minit_lnv 5
+maxit_lnv 5
+paw F
+print_qc T
+do_properties T
+write_density_plot T
+homo_plot -1
+lumo_plot -1
+eld_calculate T
+eld_function ELF
+cube_format T
+dx_format F
+grd_format F
+write_denskern F
+write_tightbox_ngwfs F
+write_xyz F
+write_hamiltonian F
+popn_calculate F
+ngwf_analysis F
+read_denskern F
+read_tightbox_ngwfs F
+read_hamiltonian F
+
+%block species                                                                  
+H1 H 1 1 7.0
+O1 O 8 4 7.0
+H2 H 1 1 7.0
+O2 O 8 4 7.0
+%endblock species                                                               
+
+%block species_pot
+H1 "../../pseudo/hydrogen.recpot"
+O1 "../../pseudo/oxygen.recpot"
+H2 "../../pseudo/hydrogen.recpot"
+O2 "../../pseudo/oxygen.recpot"
+%endblock species_pot
+
+%block lattice_cart
+     30.000000000       0.000000000       0.000000000
+      0.000000000      30.000000000       0.000000000
+      0.000000000       0.000000000      30.000000000
+%endblock lattice_cart
+
+%block positions_abs
+O1       16.203224001     15.100000000     11.536063353
+H1       15.100000000     15.100000000     10.100000000
+H1       15.100000000     15.100000000     12.991451046
+O2       12.600158789     15.100000000     17.306583960
+H2       13.051873252     13.656398529     18.308114239
+H2       13.051873252     16.543601471     18.308114239
+%endblock positions_abs

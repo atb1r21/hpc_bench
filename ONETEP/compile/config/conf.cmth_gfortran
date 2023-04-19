@@ -1,0 +1,21 @@
+#
+# ONETEP configuration file
+# for CMTH/TYC cluster machines in Imperial College London.
+#
+# Compiler: 	gfortran 6.3.0
+# MPI: 		    Intel MPI.
+# OMP:          Yes.
+# FFTW3: 	    MKL.
+# ScaLAPACK:	No.
+
+# This works with the default gcc module "gcc/6.3.0".
+
+F90 = mpif90 -fopenmp
+FFLAGS = -DFFTW3 -DGFORTRAN -DMPI -DFFTW3_NO_OMP
+
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -Wall -Wextra -Wconversion -fimplicit-none -fbacktrace
+
+LIBS = $(MPILIBS) -L$(MKLPATH) -lfftw3 -lmkl_intel_lp64 -lmkl_core -lmkl_sequential -lpthread
+
+COMPILER = GNU-gfortran-on-LINUX

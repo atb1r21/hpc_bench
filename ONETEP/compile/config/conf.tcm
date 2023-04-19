@@ -1,0 +1,9 @@
+# ONETEP config file for TCM Group machines (University of Cambridge)
+# Written by Edward Linscott, 2019
+
+F90 = mpifort -qopenmp
+FFLAGS = -diag-disable 8290,8291,7712,5462 -DFFTW3 -DMPI -DDEFAULT_THREADS=2
+LIBS = -lpthread -mkl
+OPTFLAGS = -O3 -qopt-mem-bandwidth2
+DEBUGFLAGS = -g -traceback -O0 -fpe3
+COMPILER = INTEL-ifort-on-LINUX

@@ -1,0 +1,44 @@
+task                   : phonon
+phonon_farming_task    : 0
+phonon_finite_disp     : 0.10 bohr
+phonon_fmax            : 0.01 'ha/bohr'
+
+cutoff_energy          : 400 eV
+
+# WARNING, ngwf_threshold_orig should be ~2.0e-7 or less to achieve 
+# good results in real phonon calculations. Here it has been increased 
+# to ensure the QC test runs quickly
+ngwf_threshold_orig    : 2.0e-5
+maxit_pen              : 3
+
+# WARNING, lnv_threshold_orig should be ~1.0e-10 or less to achieve
+# good results in real phonon calculations. Here it has been increased 
+# to ensure the QC test runs quickly
+lnv_threshold_orig     : 1.0e-6
+
+print_qc               : T
+
+%block  lattice_cart
+  40.000    0.000    0.000
+   0.000   40.000    0.000
+   0.000    0.000   40.000
+%endblock  lattice_cart
+
+%block  positions_abs
+C      2.12769335E+001      1.99636100E+001      2.00553775E+001
+H      2.23475076E+001      2.14036224E+001      2.11229703E+001
+H      2.23519017E+001      1.84682685E+001      1.90873055E+001
+C      1.87232128E+001      2.00345411E+001      1.99442456E+001
+H      1.76479018E+001      2.15317721E+001      2.09127380E+001
+H      1.76525425E+001      1.85961859E+001      1.88773631E+001
+%endblock  positions_abs
+
+%block  species
+H H 1 1 5.50
+C C 6 4 6.00
+%endblock  species
+
+%block  species_pot
+H "../../pseudo/hydrogen.recpot"
+C "../../pseudo/carbon.recpot"
+%endblock  species_pot

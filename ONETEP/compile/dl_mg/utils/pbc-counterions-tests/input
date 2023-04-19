@@ -1,0 +1,46 @@
+# grid number of points and cell sizes
+128 128 128 10 10 10
+
+# nproc
+1 1 1
+
+# periodic
+T T T
+
+# use_pbe  temp n ion species
+T 300 2
+
+# ion concentrations
+0.1 0.1
+
+# ion charges
+1.0 -1.0
+
+# linearised  fixed n ions, use_steric, r_steric_weight
+F T T 3.0
+
+# use cnt ions, mixing fraction, step for loop
+F 0.0 0.0
+
+# finite diffs order, use dampling
+2 F
+
+# max number of iterations defco and mg
+30 30
+
+# convergence tols (defect correction: residual {abs,rel}, pot (abs,rel}; newton rel; mg_rel )
+1.e-2 1.e-2 1.e-2 1.e-2 1.e-5 1.e-5
+
+# gauss disttribution params
+# sigma, ave, scale
+# 0.5 5.0 1.0
+ 2.0 5.0 0.1
+
+# permittivity params
+# eps0, d, delta
+# eps(r) =  1 + (eps0-1) * 0.5_wp * (1 + erf((r-d)/delta))
+#78.36 1.7 0.3
+2.0  2.0 1.0
+
+# dump fields
+T

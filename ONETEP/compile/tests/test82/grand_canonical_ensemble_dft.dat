@@ -1,0 +1,149 @@
+!=========================================================!
+! Input for calculation with the ONETEP program           !
+!                                                         !
+! Quality Control file for:                               !
+! Grand canonical ensemble DFT calculations               !
+! where the Fermi level is set by the electrode potential !
+! and the number of electrons change in the system        !
+!                                                         !
+! Test system: periodic graphene sheet (PBCs)             !
+!                                                         !
+! Features tested:                                        !
+!  - grand canonical ensemble DFT                         !
+!                                                         !
+! Created by Arihant Bhandari on 07/08/2020                !
+!                                                         !
+! School of Chemistry                                     !
+! University of Southampton                               !
+! Highfield                                               !
+! Southampton SO17 1BJ                                    !
+! UK                                                      !
+!                                                         !
+!=========================================================!
+
+ print_qc T
+
+!***********Grand canonical EDFT keywords******************
+ edft_grand_canonical T
+ edft_reference_potential -4.44 eV
+ edft_electrode_potential -1.00 V
+ edft_nelec_thres 0.0001
+!**********************************************************
+
+ write_denskern F
+ write_tightbox_ngwfs F
+
+! as charge fluctuates, it is best to neutralize by an electrolyte solution
+
+ is_pbe_neutralisation_scheme counterions_auto
+ is_auto_solvation F
+ is_implicit_solvent T
+ is_smeared_ion_rep T
+ is_include_apolar T
+ is_solvation_properties F
+
+ is_pbe                    full
+ is_pbe_temperature        298.15
+ is_pbe_bc_debye_screening T
+ is_bc_coarseness 5
+ is_bc_threshold 1E-9
+
+ is_steric_pot_type M
+ is_hc_steric_dens_isovalue  0.001   
+ is_hc_steric_smearing       0.4 bohr   
+ is_steric_write F                        
+
+ %block species_solvent_radius
+ C 3.0
+ %endblock species_solvent_radius
+
+ %block sol_ions
+ Li  +1 6.0
+ PF6 -1 6.0
+ %endblock sol_ions
+
+ mg_continue_on_error F
+ mg_max_res_ratio 1000.0
+ mg_max_iters_vcycle 500 
+ mg_vcyc_smoother_iter_pre 4
+ mg_vcyc_smoother_iter_post 4
+
+ multigrid_bc:   P P P
+ ion_ion_bc:     P P P
+ pspot_bc:       P P P
+ smeared_ion_bc: P P P
+ vdw_bc:         P P P
+
+ edft                    : T
+ edft_maxit              : 4
+ edft_smearing_width     : 298.15 K
+ spin                    : 0.0
+ edft_spin_fix           : 1
+ spin_polarized          : T
+
+ cutoff_energy :  500 eV
+ maxit_ngwf_cg : 2
+ ngwf_threshold_orig : 0.000002
+ kernel_cutoff : 1000 bohr
+ xc_functional PBE
+ maxit_palser_mano 100
+ maxit_pen 0
+
+ dispersion 4
+
+ output_detail VERBOSE
+ ! timings_level 3
+ do_properties F
+ cube_format F
+ dx_format F
+
+ %block species
+ C  C  6  4  8.0
+ %endblock species
+
+ %block species_pot
+ C "../../pseudo/carbon.recpot"
+ %endblock species_pot
+
+ %BLOCK LATTICE_CART
+ ang
+ 8.5416002274 0.0000000000  0.0000000000
+ 0.0000000000 9.8652000427  0.0000000000
+ 0.0000000000 0.0000000000 30.4228973389
+ %ENDBLOCK LATTICE_CART
+
+ %BLOCK POSITIONS_ABS
+ ang
+ C    2.866732    0.623900   10.420708
+ C    2.866732    5.556500   10.420708
+ C    7.137532    0.623900   10.420708
+ C    7.137532    5.556500   10.420708
+ C    2.866732    3.090200   10.420708
+ C    2.866732    8.022799   10.420708
+ C    7.137532    3.090200   10.420708
+ C    7.137532    8.022799   10.420708
+ C    1.443274    0.623851   10.421616
+ C    1.443274    5.556450   10.421616
+ C    5.714074    0.623851   10.421616
+ C    5.714074    5.556450   10.421616
+ C    1.443274    3.090151   10.421616
+ C    1.443274    8.022751   10.421616
+ C    5.714074    3.090151   10.421616
+ C    5.714074    8.022751   10.421616
+ C    3.578589    1.857297   10.422520
+ C    3.578589    6.789896   10.422520
+ C    7.849389    1.857297   10.422520
+ C    7.849389    6.789896   10.422520
+ C    3.578589    4.323596   10.422520
+ C    3.578589    9.256196   10.422520
+ C    7.849389    4.323596   10.422520
+ C    7.849389    9.256196   10.422520
+ C    0.731204    1.857321   10.422520
+ C    0.731204    6.789921   10.422520
+ C    5.002004    1.857321   10.422520
+ C    5.002004    6.789921   10.422520
+ C    0.731204    4.323622   10.422520
+ C    0.731204    9.256222   10.422520
+ C    5.002004    4.323622   10.422520
+ C    5.002004    9.256222   10.422520
+ %ENDBLOCK POSITIONS_ABS

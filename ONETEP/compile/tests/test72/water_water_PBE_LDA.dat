@@ -1,0 +1,85 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Embedded mean field theory with LDA environment and!
+! PBE for active system XC functional.               !
+!                                                    !
+! The test system is a water dimer.                  !
+!                                                    !
+! Created by Robert Charlton, 23/10/2018.            !
+! Based on a QM/MM sample water dimer input file     ! 
+! by Jacek Dzeidzic.                                 !
+!                                                    !
+! O2 and H2 form the embedded system to be treated   !
+! at the higher level of theory, O1 and H1 are the   !
+! environment treated at the low-level.              !
+!====================================================!
+
+print_qc T
+output_detail VERBOSE
+timings_level 3
+
+%block species_ngwf_regions
+O2 H2
+O1 H1
+%endblock species_ngwf_regions
+
+task: SINGLEPOINT
+cutoff_energy 1000 eV
+do_properties: F
+write_forces: T
+xc_functional: LDA
+active_xc_functional: PBE
+
+use_emft: T
+use_emft_follow: F
+parallel_scheme: HOUSE
+
+minit_lnv 5
+maxit_lnv 5
+maxit_ngwf_cg 30
+
+delta_e_conv  T
+elec_energy_tol 1.6e-6 hartree
+
+write_denskern F
+write_tightbox_ngwfs F
+read_denskern F
+read_tightbox_ngwfs F
+
+%block species_atomic_set                                                       
+H1 "SOLVE"
+O1 "SOLVE"
+H2 "SOLVE"
+O2 "SOLVE"
+%endblock species_atomic_set                                                    
+
+%block species                                                                  
+H1 H 1 1 7.0
+O1 O 8 4 7.0
+H2 H 1 1 7.0
+O2 O 8 4 7.0
+%endblock species                                                               
+
+%block species_pot
+H1 "../../pseudo/hydrogen.recpot"
+O1 "../../pseudo/oxygen.recpot"
+H2 "../../pseudo/hydrogen.recpot"
+O2 "../../pseudo/oxygen.recpot"
+%endblock species_pot
+
+%block lattice_cart
+     30.000000000       0.000000000       0.000000000
+      0.000000000      30.000000000       0.000000000
+      0.000000000       0.000000000      30.000000000
+%endblock lattice_cart
+
+%block positions_abs
+O1       16.203224001     15.100000000     11.536063353
+H1       15.100000000     15.100000000     10.100000000
+H1       15.100000000     15.100000000     12.991451046
+O2       12.600158789     15.100000000     17.306583960
+H2       13.051873252     13.656398529     18.308114239
+H2       13.051873252     16.543601471     18.308114239
+%endblock positions_abs

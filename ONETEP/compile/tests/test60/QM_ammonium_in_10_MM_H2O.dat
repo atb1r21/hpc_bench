@@ -1,0 +1,140 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for POLARISABLE EMBEDDING.    !
+! No spin-polarisation. No DMA charge scaling.       !
+! Polarisation interactions handled via QM*.         !
+! Parmenent interactions handled via full density.   !
+!                                                    !
+! NH4+ surrounded by 10 polarisable MM H2O molecules.!
+!                                                    !
+! Created on 2017/06/27 by                           !
+! Jacek Dziedzic                                     !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+!----------------------------------------------------!
+! This test does not require (or use) TINKER or any  !
+! other implementation of AMOEBA. The response of    !
+! the MM environment has been pre-generated in       !
+! advance and is stored in the .mpole_for_onetep     !
+! file. In this way this calculation can be run      !
+! using the standard QC approach, using only ONETEP  !
+! and does not test the TINKTEP scripts.             !
+!-----------------------------------------------------
+! It is imperative that the auxiliary files          !
+! - $QM2MM.lock                                      !
+! - $MM2QM.lock                                      !
+! - QM_ammonium_in_10_MM_H2O.mpoles_for_onetep       !
+! are not removed. Please do not modify any of these !
+! files, except $QM2MM.lock, the contents of which   !
+! are irrelevant.                                    !
+!-----------------------------------------------------
+
+print_qc             : TRUE
+output_detail        : VERBOSE
+timings_level        : 3
+
+charge 1
+
+! ---------------------------
+! ----------- DMA -----------
+! ---------------------------
+
+    %block swri
+      for_scf_dma 2 12 V 14 14 R
+    %endblock swri
+
+    %block species_swri-for_scf_dma
+    H
+    N
+    %endblock species_swri-for_scf_dma
+
+    dma_calculate T 
+    dma_use_ri for_scf_dma
+    dma_max_l 2
+    dma_max_q 12
+    dma_metric ELECTROSTATIC
+    dma_bessel_averaging T
+    dma_scale_charge F
+
+! -----------------------------
+! --- POLARISABLE EMBEDDING ---
+! -----------------------------
+
+    pol_emb_vacuum_qmstar F
+    pol_emb_dma_min_l 0
+    pol_emb_dma_max_l 2
+    pol_emb_mpole_exclusion_radius 1.00 bohr    
+    pol_emb_pot_filename QM_ammonium_in_10_MM_H2O.mpoles_for_onetep
+
+do_properties F
+                                                                                
+write_forces T
+xc_functional PBE
+
+minit_lnv 5
+maxit_lnv 5
+
+maxit_ngwf_cg 2
+
+write_denskern F
+write_tightbox_ngwfs F
+
+read_denskern F
+read_tightbox_ngwfs F
+
+coulomb_cutoff_type SPHERE
+coulomb_cutoff_radius 30.0 bohr
+coulomb_cutoff_write_int F
+
+%block species_atomic_set                                                       
+H  "SOLVE"
+N  "SOLVE"
+%endblock species_atomic_set                                                    
+
+%block species                                                                  
+H  H 1 1 8.0                                                                    
+N  N 7 4 8.0
+%endblock species                                                               
+
+%block species_pot
+H   "../../pseudo/hydrogen.recpot"
+N   "../../pseudo/nitrogen.recpot"
+%endblock species_pot
+
+cutoff_energy 800 eV
+
+%block lattice_cart
+     30.000000000       0.000000000       0.000000000
+      0.000000000      30.000000000       0.000000000
+      0.000000000       0.000000000      30.000000000
+%endblock lattice_cart
+
+! Positions obtained from QM_ammonium_in_10_MM_H2O_qm.xyz, translated to the centre of QM_ammonium_in_10_MM_H2O.dat.template
+! by qm_xyz_to_dat on Mon Jun 26 16:51:56 BST 2017. Translation vector [a0]: 15.291993867 15.675657403 15.002252554.
+
+%block positions_abs
+N        14.677825318     15.135333681     14.911309484
+H        14.718235221     16.388138954     13.477627186
+H        13.579548619     13.611861046     14.366312470
+H        16.420451381     14.626872632     15.186623683
+H        13.840657747     15.787521631     16.522372815
+%endblock positions_abs
+
+! Thole polarisabilities obtained from QM_ammonium_in_10_MM_H2O_qm.xyz and amoeba_ammonium.prm.
+! by qm_xyz_to_dat (with atom_number_to_polarisability doing all the dirty work) on Mon Jun 26 16:51:56 BST 2017.
+! They have been converted from A^3 to a0^3.
+
+%block thole_polarisabilities
+N 7.240962912008 ! Ammonium Ion N+
+H 3.347173908999 ! Ammonium Ion H4N+
+H 3.347173908999 ! Ammonium Ion H4N+
+H 3.347173908999 ! Ammonium Ion H4N+
+H 3.347173908999 ! Ammonium Ion H4N+
+%endblock thole_polarisabilities

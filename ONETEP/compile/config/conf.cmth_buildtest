@@ -1,0 +1,20 @@
+#
+# ONETEP configuration file
+# for CMTH/TYC cluster machines in Imperial College London.
+# To be used specifically for the build tests (OpenMP disabled)
+#
+# Compiler: 	Intel ifort 2017.4.196
+# MPI: 		    Intel MPI, bundled with the above.
+# OMP:          Yes.
+# FFTW3: 	    MKL, bundled with the above.
+# ScaLAPACK:	No.
+
+# This works with the default Intel module "intel/2017.4.196".
+
+F90 = mpif90
+FFLAGS = -diag-disable 8290,8291 -DFFTW3 -DMPI
+OPTFLAGS = -O3 -qopt-mem-bandwidth2
+DEBUGFLAGS = -g -C
+COMPILER = INTEL-ifort-on-LINUX
+MPILIBS= 
+LIBS = $(MPILIBS) -L$(MKLPATH) -lfftw3 -lmkl_intel_lp64 -lmkl_core -lmkl_sequential -lpthread

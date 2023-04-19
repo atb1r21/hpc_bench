@@ -1,0 +1,39 @@
+#
+# ONETEP configuration file for Intel compilers on Southampton RHEL6.5 Desktops
+# Created by Karl Wilkinson on 01/08/2013.
+# Modified by Jacek Dziedzic on 24/04/2014 to work with RHEL6.5 modules.
+
+# General notes:
+#       SCALAPACK is used.
+#       COMPILER variable is used to prevent cascading compilations when module interfaces are unchanged.
+#       Changes to the version of MKL or OpenMPI should only require changes to MPIROOT and/or MKLROOT.
+#       Use of FFTW3 instead of MKL would require significant changes, please ask about these if interested.
+#       Use of the PGI compiler will require more changes than simply the compiler/OpenMPI library, please ask.
+
+# Critical notes:
+#       The introduction of OpenMP into ONETEP and the multigrid has made the code require a larger amount of stack memory. As such,
+#       the use of "ulimit -s unlimited" in your .bashrc is recommended.
+#       Modules: module load intel/14.0 intel/mkl/14.0 openmpi/1.6.4/intel
+
+
+COMPILER = INTEL-ifort-on-LINUX
+
+MPIROOT = /local/software/openmpi/1.6.4/intel
+MKLROOT = /local/software/intel/2013.4.183/composer_xe_2013.4.183/mkl
+
+# ===== MPI information ==== #
+MPIINC = -I$(MPIROOT)/include
+MPILIBS= -L$(MPIROOT)/lib -lmpi_f90 -lmpi_f77 -lmpi -lopen-rte -lopen-pal -ldl -Wl,--export-dynamic -lnsl -lutil -ldl
+
+
+# ===== MKL information ===== #
+MKLINC = -I$(MKLROOT)/include/fftw
+MKLLIBS =  $(MKLROOT)/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group  $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a $(MKLROOT)/lib/intel64/libmkl_intel_thread.a $(MKLROOT)/lib/intel64/libmkl_core.a $(MKLROOT)/lib/intel64/libmkl_blacs_openmpi_lp64.a -Wl,--end-group -liomp5 -lpthread -lm
+
+
+# ===== Flags needed by the ONETEP Makefile ===== #
+F90 = mpif90 -openmp -mkl
+FFLAGS = -DParallelFFT -DMKL_FFTW3 -DMPI -DSCALAPACK $(MPIINC) $(MKLINC) -diag-disable 8290,8291 -diag-error-limit 1
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -C -check all,noarg_temp_created
+LIBS = $(MPILIBS) $(MKLLIBS) -lm -lpthread

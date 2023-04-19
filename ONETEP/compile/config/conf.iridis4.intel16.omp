@@ -1,0 +1,41 @@
+#
+# ONETEP configuration file
+# for the Iridis4 supercomputer
+# Created by Jacek Dziedzic, 22/12/2015.
+# v1.01
+#
+# Compiler: 	Intel ifort v16.0.0.
+# MPI: 		Intel MPI, bundled with the above.
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the above.
+# ScaLAPACK:	No.
+#
+
+# It is crucial that you have the right set of modules loaded, both on the login node 
+# (where you compile) and on the compute nodes (where your executable is run). Preferably 
+# add the following lines to ~/.bashrc (without the #):
+#
+# module purge
+# module load torque
+# module load moab
+# module load intel/parallelxe/2016
+#
+# followed by any additional modules you might want. Subsequently ensure that the additional 
+# modules did not pull in anything Intel-related, and if so, unload them.
+#
+# With no additional modules loaded, I'm getting the following module list
+#  1) torque/current          3) intel/2016              5) intel/tbb/2016          7) intel/vtune/2016        9) intel/inspector/2016   11) intel/parallelxe/2016
+#  2) moab/current            4) intel/mkl/2016          6) intel/ipp/2016          8) intel/advisor/2016     10) intel/mpi/2016
+#
+# The following lines added to ~/.bashrc (without the #) will ensure other environment details
+# are set up correctly:
+# ulimit -s unlimited
+# ulimit -c unlimited
+# export OMP_STACKSIZE=64M
+#
+
+F90 = mpiifort -openmp -mkl
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DMPI -I$(MKLROOT)/include/fftw -diag-disable 8290,8291
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -traceback -check all,noarg_temp_created -ftrapuv
+COMPILER = INTEL-ifort-on-LINUX

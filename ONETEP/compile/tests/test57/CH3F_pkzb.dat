@@ -1,0 +1,87 @@
+!========================================================!
+! Fluoromethane dimer                                    !
+! Geometry files provided by N. Mardirossian             !
+!                                                        !
+! Originally from the X40 set, see                       !
+!     Řezáč, J., Riley, K. E. & Hobza, P.                !
+!       J. Chem. Theory Comput. 8, 4285–4292 (2012).     !
+!                                                        !
+! ONETEP QC test for self-consistent meta-GGA energy     !
+! evaluation.                                            !
+!                                                        !
+! This test uses the XC_INITIAL_FUNCTIONAL keyword to    !
+! allow an alternative XC functional to be used for      !
+! calculating the initial guess (since an initial guess  !
+!
+! This test also uses the XC_MIN_TAU keyword to manually !
+! specify the threshold for the KE density below which   !
+! 1/tau in XC energy and potential functions is set to   !
+! zero. Some functionals, such as PKZB are sensitive to  !
+! this value, and may require a higher threshold for     !
+! larger systems.                                        !
+!                                                        !
+! James C. Womack, June 2016                             !
+!--------------------------------------------------------!
+! Updated 31/05/2018 to remove explicit specification of !
+! XC_INITIAL_FUNCTIONAL keyword, since 'PBE' is now the  !
+! default value for this parameter.                      !
+!========================================================!
+
+task: SINGLEPOINT
+print_qc: TRUE
+output_detail: VERBOSE
+maxit_lnv: 5
+maxit_ngwf_cg: 3
+write_denskern       : FALSE
+write_tightbox_ngwfs : FALSE
+write_xyz            : FALSE
+
+
+! Output of script for determining simulation cell size from positions_abs
+! block
+!NGWF radius:     12.000000 bohr
+!Cell buffer:     5.000000 bohr
+!Number of atoms: 10
+!Minimum values:  -1.074191 -1.187167 -3.405339 ang
+!Maximum values:  1.189310 1.120794 2.783864 ang
+!max-min values:  2.263501 2.307960 6.189203 ang
+!Simulation cell dimensions: 38.277398 38.361413 45.695898 bohr
+%block lattice_cart
+ang
+20.255526 0.000000 0.000000
+0.000000 20.299986 0.000000
+0.000000 0.000000 24.181228
+%endblock lattice_cart
+
+! ONETEP PKZB
+xc_functional        : PKZB
+xc_min_tau           : 1e-7
+
+cutoff_energy: 900 eV
+
+%block species_pot
+C "../../pseudo/carbon.recpot"
+H "../../pseudo/hydrogen.recpot"
+F "../../pseudo/fluorine.recpot"
+%endblock species_pot
+
+%block species
+F      F    9    4   8.00
+C      C    6    4   8.00
+H      H    1    1   8.00
+%endblock species
+
+! Fluoromethane dimer [dimer] / ang
+%block positions_abs
+ang
+C    0.250211388  -0.141261283   2.278305952
+F    0.055015573  -0.060688554   0.911538424
+H    1.189310250   0.342978795   2.531275149
+H    0.282891774  -1.187166859   2.570525524
+H   -0.571443596   0.358513497   2.783864006
+C   -0.222998033   0.125060181  -2.031995678
+F   -0.353854222   0.228242626  -3.405338910
+H   -1.074191041  -0.417537604  -1.631229882
+H    0.694086089  -0.408170093  -1.799115801
+H   -0.187197902   1.120793540  -1.599918593
+%endblock positions_abs

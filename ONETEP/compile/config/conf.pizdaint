@@ -1,0 +1,19 @@
+#
+# ONETEP configuration file
+#
+# For GPU accelerated execution on Piz Daint at CSCS, originally by Levi Barnes, tweaked by Karl Wilkinson
+
+MPIF90 = ftn -g -C -Mchkptr -Mchkstk -traceback
+F90 = ftn
+FFLAGS = -acc -ta=nvidia:cc35 -Mcuda=cuda5.5 -Minfo=accel -dynamic -DFFTW3_NO_OMP -DGPU_PGI -DPGI_BUG
+#FFLAGS = -acc -ta=nvidia:cc35 -Mcuda=cuda5.5 -Minfo=accel -dynamic -DFFTW3_NO_OMP -DMPI -DNOMPIIO -DGPU_PGI -DPGI_BUG
+LIBS =  -lfftw3 -lm -llapack -lblas -lpthread -ldl -lmpich -lfmpich -mp -lcufft
+
+#LIBS = -lfftw3 -llapack -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_pgi_thread -lmkl_blacs_intelmpi_lp64 -pgf90libs -ldl -lpthread -lm
+#-lblas
+
+OPTFLAGS = -O2
+WARNINGFLAGS = -Wall -Wextra
+DEBUGFLAGS = -g -C -Mchkptr -Mchkstk -traceback
+COMPILER = PORTLAND-pgf90-on-LINUX
+

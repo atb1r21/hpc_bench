@@ -1,0 +1,62 @@
+# ------------------------------------------------------------------
+# A ONETEP configuration file for ARCHER2 (full 23-cabinet system).
+# GNU Fortran compiler + MKL version.
+#
+# 2022.03.24 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+#                            University of Southampton
+# ------------------------------------------------------------------
+# v1.00, 2022.03.24 Jacek Dziedzic
+
+# ------------------------------------------------------------------
+# Compiler: 	GNU Fortran 9.3.0
+# MPI: 		Cray mpich 8.1.4
+# OMP:          Yes
+# FFTW3:	From MKL 21.2-2883
+# ScaLAPACK:	From 21.2-2883
+# ------------------------------------------------------------------
+
+# ------------------------------------------------------------------
+# Make sure you issue the following commands prior to compiling 
+# your executable (without the leading '#'). This ensures the
+# correct modules are loaded.
+#
+# module load PrgEnv-gnu
+# module load gcc/9.3.0
+# module load mkl
+# module load cray-mpich/8.1.4
+# export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+#
+# This can be achieved automatically by adding the following
+# lines to the end of ~/.bash_profile (drop the leading '#'):
+#
+#    module load PrgEnv-gnu       >/dev/null 2>/dev/null
+#    module load gcc/9.3.0        >/dev/null 2>/dev/null
+#    module load mkl              >/dev/null 2>/dev/null
+#    module load cray-mpich/8.1.4 >/dev/null 2>/dev/null
+#    export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+# ... and then logging out and logging back in for the changes to take effect.
+#
+# One last thing. The MKL on Archer2 does not provide an mkl_service.mod
+# that would be ABI-compatible with gfortran 9.3.0, so we need to compile one on our own. This only
+# needs to be done once. Remove the '#' from the lines below and issue them as bash commands.
+#
+# cd your_onetep_directory
+# mkdir lib 2>/dev/null
+# mkdir lib/archer2_2022_gfortran_mkl
+# cd lib/archer2_2022_gfortran_mkl
+# module load mkl
+# cp $MKLROOT/include/mkl_service.f90 .
+# ftn -c mkl_service.f90
+# stat mkl_service.mod >/dev/null && echo "SUCCESS" || echo "It did not work."
+# cd -
+#
+# See https://software.intel.com/en-us/mkl-developer-reference-fortran-using-a-fortran-interface-module-for-support-functions
+# ------------------------------------------------------------------
+
+F90 = ftn
+MKLMODPATH = ${ROOTDIR}/lib/archer2_2022_gfortran_mkl
+FFLAGS = -DMPI -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DNO_OMP_IN_SCALAPACK_DIAG -fopenmp -ffree-line-length-0 -Wno-unused -Wno-missing-include-dirs -I${MKLMODPATH}
+OPTFLAGS = -O2
+DEBUGFLAGS = -Wall -g -fcheck=all -finit-integer=-999999999 -finit-real=snan -ffpe-trap=invalid,zero,overflow -fbacktrace -fdump-core
+COMPILER = GNU-gfortran-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_gnu_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -lgomp -lpthread -lm -ldl

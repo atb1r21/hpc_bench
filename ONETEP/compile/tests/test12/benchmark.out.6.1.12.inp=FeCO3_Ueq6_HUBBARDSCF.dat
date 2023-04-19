@@ -1,0 +1,821 @@
+==================================================================================
+It's Wed Sep 21 10:05:19 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 260843 260844 260845 260846)...
+    - ONETEP arguments: FeCO3_Ueq6_HUBBARDSCF.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test12
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test12/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test12/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack FeCO3_Ueq6_HUBBARDSCF.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:05 (+0100)
+ 
+Reading parameters from file "FeCO3_Ueq6_HUBBARDSCF.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "FeCO3_Ueq6_HUBBARDSCF.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                  : HUBBARDSCF                                              
+cutoff_energy         : 400.000000  eV                                          
+maxit_ngwf_cg         : 2                                                       
+minit_lnv             : 5                                                       
+maxit_lnv             : 5                                                       
+xc_functional         : LDA                                                     
+hubbard_max_iter      : 3                                                       
+kerfix                : 2                                                       
+pen_param             : 6.0                                                     
+spin_polarized        : T                                                       
+spin                  : 2                                                       
+write_denskern        : FALSE                                                   
+write_tightbox_ngwfs  : FALSE                                                   
+write_forces          : TRUE                                                    
+do_properties         : FALSE                                                   
+output_detail         : NORMAL                                                  
+timings_level         : 0                                                       
+print_qc              : TRUE                                                    
+%block hubbard                                                                  
+Fe1 2 6.0 0.0 -1.0 0.0 0.0                                                      
+%endblock hubbard                                                               
+%block  lattice_cart                                                            
+ang                                                                             
+21.167    0.000    0.000                                                        
+0.000   21.167    0.000                                                         
+0.000    0.000   21.167                                                         
+%endblock  lattice_cart                                                         
+%block  positions_abs                                                           
+     Hash =  -000002453539554274207625
+%endblock  positions_abs                                                        
+%block  species                                                                 
+ANG                                                                             
+Fe1    Fe  26  9  5.0                                                           
+C1      C   6  4  5.0                                                           
+O1      O   8  4  5.0                                                           
+%endblock  species                                                              
+%block  species_pot                                                             
+Fe1   "../../pseudo/iron.recpot"                                                
+C1    "../../pseudo/carbon.recpot"                                              
+O1    "../../pseudo/oxygen.recpot"                                              
+%endblock  species_pot                                                          
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+WARNING in pseudopotentials_read_species: string "GGA" found in pseudopotential
+file "../../pseudo/iron.recpot", yet xc_functional = "LDA".
+ 
+WARNING in pseudopotentials_read_species: string "GGA" found in pseudopotential
+file "../../pseudo/carbon.recpot", yet xc_functional = "LDA".
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/iron.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 26;  ionic charge:  8.000000
+    Shell 1: l = 1; rc = 2.02 bohr
+    Shell 2: l = 2; rc = 1.90 bohr
+  Core charge supplied for Nonlinear Core Corrections
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/oxygen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  8;  ionic charge:  6.000000
+    Shell 1: l = 0; rc = 1.31 bohr
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  Fe         1         9         8
+  C          1         4         1
+  O          3        12         3
+.......   ......    ......    ......
+Totals:      5        25        12
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.634917985567a0 (KE cutoff=  18.84381Eh = 512.76619eV)
+Grid space d2=  0.634917985567a0 (KE cutoff=  18.84381Eh = 512.76619eV)
+Grid space d3=  0.634917985567a0 (KE cutoff=  18.84381Eh = 512.76619eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     15    16    15
+         Recip-space ('23') slabs/proc (min max mean):      8     8     8
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+Atom SCF Calculation for Fe : Z (AE atom) =  26 : Z (PS atom) =   8
+Config String:
+Orbitals (num,occ):  3     6.00 2.00 0.00
+Orbitals   (num,l):  3        2    0    1
+Atom SCF converged after  25 iterations to a total energy of    -26.95591450
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  16 iterations to a total energy of     -5.36398228
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  23 iterations to a total energy of    -15.72501069
+
+Atom SCF Calculation for Fe : Z (AE atom) =  26 : Z (PS atom) =   8
+Config String:
+Orbitals (num,occ):  3     6.00 2.00 0.00
+Orbitals   (num,l):  3        2    0    1
+Atom SCF converged after  25 iterations to a total energy of    -26.95591450
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  16 iterations to a total energy of     -5.36398228
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  23 iterations to a total energy of    -15.72501069
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               64.762607 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Density renormalisation, spin  1 ...
+Target Charge:    16.000000000000 ; Input Charge:    15.000279344834
+Density renormalisation, spin  2 ...
+Target Charge:    14.000000000000 ; Input Charge:    15.000279344834
+Up spin density kernel initialisation ...... done
+Down spin density kernel initialisation ...... done
+
+################################################################################
+
+HUBBARD PROJECTOR SCF ITERATION     1
+
+################################################################################
+
+... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.826350777033E+01     4.1024E-02     2.4559E-02
+    2        -7.836659103977E+01     1.9032E-02     1.1437E-02    -1.0308E-01
+    3        -7.839122244886E+01     8.2586E-03     4.9692E-03    -2.4631E-02
+    4        -7.839900620570E+01     6.8453E-03     4.0859E-03    -7.7838E-03
+    5        -7.840387572584E+01     4.6912E-03     2.7752E-03    -4.8695E-03
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.84038757258415E+01  Eh
+     Estimated bandgap (UP spin) =   4.9716E-02  Eh
+     Estimated bandgap (DN spin) =   4.7160E-02  Eh
+     RMS occupancy error         =   9.1991E-09
+     [H,K] commutator            =   2.7752E-03
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.2525E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.89176986196309E+01 Eh
+   Predicted gain in energy  =      -5.13822893789381E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.891645599991E+01     1.0047E-02     5.9604E-03
+    2        -7.892163037581E+01     3.9819E-03     2.3660E-03    -5.1744E-03
+    3        -7.892324938155E+01     2.9771E-03     1.7638E-03    -1.6190E-03
+    4        -7.892420031725E+01     2.3922E-03     1.4201E-03    -9.5094E-04
+    5        -7.892478401970E+01     1.8077E-03     1.0641E-03    -5.8370E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.89247840196954E+01  Eh
+     Estimated bandgap (UP spin) =   3.7559E-02  Eh
+     Estimated bandgap (DN spin) =   6.4203E-02  Eh
+     RMS occupancy error         =   1.4879E-12
+     [H,K] commutator            =   1.0641E-03
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.5028E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.93678199861154E+01 Eh
+   Predicted gain in energy  =      -4.43035966419941E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.935904734296E+01     1.0813E-02     6.4246E-03
+    2        -7.936528313952E+01     3.7998E-03     2.2556E-03    -6.2358E-03
+    3        -7.936643812049E+01     2.9711E-03     1.7533E-03    -1.1550E-03
+    4        -7.936807137922E+01     2.7876E-03     1.6473E-03    -1.6333E-03
+    5        -7.936881518792E+01     2.2452E-03     1.3292E-03    -7.4381E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.93688151879169E+01  Eh
+     Estimated bandgap (UP spin) =   3.4623E-02  Eh
+     Estimated bandgap (DN spin) =   6.8402E-02  Eh
+     RMS occupancy error         =   3.8367E-11
+     [H,K] commutator            =   1.3292E-03
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       59.19590810041921 |
+           | Pseudopotential (local)    :     -283.94736189840501 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):      -20.87599297961895 |
+           | Hartree                    :      126.16784650139343 |
+           | Exchange-correlation       :      -24.74065274355412 |
+           | Hubbard DFT+U correction   :        0.06883095741690 |
+           | Ewald                      :       64.76260687443161 |
+           | Total                      :      -79.36881518791691 |
+           --------------------------------------------------------
+           Integrated density           :       29.99999999999997
+           Integrated spin density      :        1.99999999999990
+           Integrated |spin density|    :        2.08734365665501
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00425249886064    -78.40387572584147   0.164654    -78.91769861963085        
+   1     0.00550280074635    -79.36881518791691  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -79.368815187917
+<QC>           [rms_gradient]:         0.005502800746
+
+################################################################################
+DFT+U information on atom      1 of Hubbard species Fe1 
+################################################################################
+Occupancy matrix of Hubbard site      1 and spin      1 is 
+  m_l =   -2          -1           0           1           2
+  0.93341863 -0.00631891  0.02010011 -0.01390154  0.19665431
+ -0.00634688  0.99670458  0.01468845 -0.00232961  0.01873090
+  0.01580129  0.01431694  0.20675538  0.02829113 -0.12116465
+ -0.01380310 -0.00230305  0.02888572  0.99184482  0.04520078
+  0.19640683  0.01833592 -0.11755456  0.04491246  0.33136446
+################################################################################
+Occupancy matrix of Hubbard site      1 and spin      2 is 
+  m_l =   -2          -1           0           1           2
+  0.76891980 -0.07074793  0.00480483 -0.03066261 -0.14318045
+ -0.07104152  0.97320808 -0.02139389 -0.01087345 -0.06482757
+  0.00808703 -0.02000944  0.05268692 -0.00501797 -0.01340694
+ -0.03044485 -0.01075153 -0.00476903  0.98952091  0.00802100
+ -0.14344061 -0.06415143 -0.01258883  0.00819438  0.08508465
+################################################################################
+Total occupancy of Hubbard site      1 is         6.32950823 e
+Local magnetic moment of Hubbard site      1 is   0.59066750 mu_B
+DFT+U energy of Hubbard site      1 is            0.06883096 Ha
+################################################################################
+
+
+################################################################################
+
+HUBBARD PROJECTOR SCF ITERATION     2
+
+################################################################################
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.936948291514E+01     2.2687E-03     1.3433E-03
+    2        -7.936989073491E+01     1.8672E-03     1.1018E-03    -4.0782E-04
+    3        -7.937047035524E+01     1.6747E-03     9.7825E-04    -5.7962E-04
+    4        -7.937081891863E+01     1.7747E-03     1.0432E-03    -3.4856E-04
+    5        -7.937131424363E+01     1.9846E-03     1.1818E-03    -4.9532E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.93713142436253E+01  Eh
+     Estimated bandgap (UP spin) =   2.5518E-02  Eh
+     Estimated bandgap (DN spin) =   6.9357E-02  Eh
+     RMS occupancy error         =   2.0510E-10
+     [H,K] commutator            =   1.1818E-03
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.8108E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.94187888836869E+01 Eh
+   Predicted gain in energy  =      -4.74746400616652E-02 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.941875905710E+01     3.6197E-03     2.1188E-03
+    2        -7.941958233321E+01     2.3807E-03     1.3688E-03    -8.2328E-04
+    3        -7.942072625862E+01     3.4034E-03     2.0035E-03    -1.1439E-03
+    4        -7.942246821401E+01     2.7104E-03     1.6127E-03    -1.7420E-03
+    5        -7.942341913612E+01     2.6899E-03     1.6005E-03    -9.5092E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.94234191361164E+01  Eh
+     Estimated bandgap (UP spin) =   3.7570E-02  Eh
+     Estimated bandgap (DN spin) =   7.1277E-02  Eh
+     RMS occupancy error         =   2.0860E-09
+     [H,K] commutator            =   1.6005E-03
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.2185E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.94509125608403E+01 Eh
+   Predicted gain in energy  =      -2.74934247238861E-02 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.945087688462E+01     3.5303E-03     2.0969E-03
+    2        -7.945163297184E+01     2.0969E-03     1.2352E-03    -7.5609E-04
+    3        -7.945224904089E+01     2.5315E-03     1.4885E-03    -6.1607E-04
+    4        -7.945367942469E+01     2.3188E-03     1.3695E-03    -1.4304E-03
+    5        -7.945393229196E+01     2.2520E-03     1.3295E-03    -2.5287E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.94539322919591E+01  Eh
+     Estimated bandgap (UP spin) =   3.0031E-02  Eh
+     Estimated bandgap (DN spin) =   7.2738E-02  Eh
+     RMS occupancy error         =   1.1181E-12
+     [H,K] commutator            =   1.3295E-03
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       59.43716187136233 |
+           | Pseudopotential (local)    :     -284.39350908790624 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):      -21.35323730484384 |
+           | Hartree                    :      126.83237139937162 |
+           | Exchange-correlation       :      -24.81007345689392 |
+           | Hubbard DFT+U correction   :        0.07074741251938 |
+           | Ewald                      :       64.76260687443161 |
+           | Total                      :      -79.45393229195906 |
+           --------------------------------------------------------
+           Integrated density           :       29.99999999999987
+           Integrated spin density      :        1.99999999999986
+           Integrated |spin density|    :        2.05837065294994
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00181075370276    -79.37131424362526   0.083905    -79.41878888368693        
+   1     0.00121850296884    -79.45393229195906  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -79.453932291959
+<QC>           [rms_gradient]:         0.001218502969
+
+################################################################################
+DFT+U information on atom      1 of Hubbard species Fe1 
+################################################################################
+Occupancy matrix of Hubbard site      1 and spin      1 is 
+  m_l =   -2          -1           0           1           2
+  0.90651939 -0.01057214  0.07817407 -0.02306503  0.20891962
+ -0.01054085  0.99697532  0.03488123 -0.00475297  0.02527321
+  0.07171299  0.03426321  0.36660052  0.04711497 -0.24990944
+ -0.02282179 -0.00468616  0.04807474  0.98895426  0.05703638
+  0.20534051  0.02418139 -0.24457474  0.05584807  0.49780303
+################################################################################
+Occupancy matrix of Hubbard site      1 and spin      2 is 
+  m_l =   -2          -1           0           1           2
+  0.67675614 -0.10159245 -0.00536916 -0.05025024 -0.14779189
+ -0.10265925  0.96436044 -0.02929643 -0.01696293 -0.07533529
+ -0.00108433 -0.02652835  0.03675841 -0.00726563 -0.00574711
+ -0.04908353 -0.01638686 -0.00673402  0.98676510  0.00932734
+ -0.14810996 -0.07318648 -0.00427036  0.00851315  0.08448901
+################################################################################
+Total occupancy of Hubbard site      1 is         6.50598162 e
+Local magnetic moment of Hubbard site      1 is   1.00772341 mu_B
+DFT+U energy of Hubbard site      1 is            0.07074741 Ha
+################################################################################
+
+
+################################################################################
+
+HUBBARD PROJECTOR SCF ITERATION     3
+
+################################################################################
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.945399839870E+01     2.2552E-03     1.3310E-03
+    2        -7.945512806324E+01     2.5125E-03     1.4750E-03    -1.1297E-03
+    3        -7.945580107084E+01     2.1980E-03     1.2940E-03    -6.7301E-04
+    4        -7.945651872725E+01     2.9045E-03     1.7260E-03    -7.1766E-04
+    5        -7.945852561753E+01     2.9344E-03     1.7601E-03    -2.0069E-03
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.94585256175347E+01  Eh
+     Estimated bandgap (UP spin) =   3.6262E-02  Eh
+     Estimated bandgap (DN spin) =   8.1070E-02  Eh
+     RMS occupancy error         =   9.1966E-08
+     [H,K] commutator            =   1.7601E-03
+     UP spin occupancy bounds    = [ -0.000:  1.000]
+     DN spin occupancy bounds    = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.1504E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.94750858590065E+01 Eh
+   Predicted gain in energy  =      -1.65602414717654E-02 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.947507826376E+01     2.7436E-03     1.6473E-03
+    2        -7.947580316158E+01     1.8568E-03     1.1045E-03    -7.2490E-04
+    3        -7.947613534203E+01     1.4504E-03     8.6563E-04    -3.3218E-04
+    4        -7.947637374897E+01     1.1831E-03     6.9567E-04    -2.3841E-04
+    5        -7.947653660258E+01     9.5276E-04     5.6101E-04    -1.6285E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.94765366025823E+01  Eh
+     Estimated bandgap (UP spin) =   3.8522E-02  Eh
+     Estimated bandgap (DN spin) =   8.1149E-02  Eh
+     RMS occupancy error         =   9.8790E-08
+     [H,K] commutator            =   5.6101E-04
+     UP spin occupancy bounds    = [ -0.000:  1.000]
+     DN spin occupancy bounds    = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  8.6119E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.94968722766011E+01 Eh
+   Predicted gain in energy  =      -2.03356740187246E-02 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.949682069560E+01     3.7438E-03     2.2046E-03
+    2        -7.949752520264E+01     1.6993E-03     9.7251E-04    -7.0451E-04
+    3        -7.949804229914E+01     2.1230E-03     1.2453E-03    -5.1710E-04
+    4        -7.949869785108E+01     1.8119E-03     1.0691E-03    -6.5555E-04
+    5        -7.949909324609E+01     1.6446E-03     9.7636E-04    -3.9540E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.94990932460886E+01  Eh
+     Estimated bandgap (UP spin) =   3.7442E-02  Eh
+     Estimated bandgap (DN spin) =   8.2227E-02  Eh
+     RMS occupancy error         =   2.3656E-11
+     [H,K] commutator            =   9.7636E-04
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       59.91322780543527 |
+           | Pseudopotential (local)    :     -285.12977997306541 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):      -21.86228154816682 |
+           | Hartree                    :      127.67146598033207 |
+           | Exchange-correlation       :      -24.91154968012566 |
+           | Hubbard DFT+U correction   :        0.05721729507039 |
+           | Ewald                      :       64.76260687443161 |
+           | Total                      :      -79.49909324608856 |
+           --------------------------------------------------------
+           Integrated density           :       30.00000000000005
+           Integrated spin density      :        1.99999999999986
+           Integrated |spin density|    :        2.03709033932505
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00115038768359    -79.45852561753472   0.072515    -79.47508585900648        
+   1     0.00086118620391    -79.49909324608861  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -79.499093246089
+<QC>           [rms_gradient]:         0.000861186204
+
+################################################################################
+DFT+U information on atom      1 of Hubbard species Fe1 
+################################################################################
+Occupancy matrix of Hubbard site      1 and spin      1 is 
+  m_l =   -2          -1           0           1           2
+  0.93799683 -0.00781411  0.12747381 -0.02209738  0.13843261
+ -0.00780049  0.99719393  0.03096326 -0.00504204  0.01889696
+  0.12217761  0.03024876  0.44526116  0.06919742 -0.37504773
+ -0.02172662 -0.00494324  0.07018625  0.98546331  0.05800326
+  0.13278648  0.01772888 -0.36611253  0.05601060  0.64546180
+################################################################################
+Occupancy matrix of Hubbard site      1 and spin      2 is 
+  m_l =   -2          -1           0           1           2
+  0.57335076 -0.12893013 -0.01665328 -0.06930362 -0.13083949
+ -0.13023308  0.95580466 -0.03092884 -0.02337806 -0.07262570
+ -0.01266250 -0.02816762  0.04032806 -0.01113033 -0.00337588
+ -0.06785427 -0.02264983 -0.01025723  0.98059731  0.01522270
+ -0.13030206 -0.07018578 -0.00195099  0.01476339  0.08392567
+################################################################################
+Total occupancy of Hubbard site      1 is         6.64538349 e
+Local magnetic moment of Hubbard site      1 is   1.37737057 mu_B
+DFT+U energy of Hubbard site      1 is            0.05721730 Ha
+################################################################################
+
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    Fe      1      0.04308632  -0.00598984  -0.01247994 *
+*    C       2      0.07828752   0.00959936   0.01353252 *
+*    O       3      0.01033935  -0.05125081   0.01343763 *
+*    O       4     -0.03043302   0.07054224   0.00001538 *
+*    O       5     -0.10128016  -0.02290095  -0.01450559 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000   0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:         0.043086315340
+<QC>       [total_force(1,2)]:         0.078287519672
+<QC>       [total_force(1,3)]:         0.010339348426
+<QC>       [total_force(1,4)]:        -0.030433022384
+<QC>       [total_force(1,5)]:        -0.101280161053
+<QC>       [total_force(2,1)]:        -0.005989836986
+<QC>       [total_force(2,2)]:         0.009599356016
+<QC>       [total_force(2,3)]:        -0.051250807748
+<QC>       [total_force(2,4)]:         0.070542242390
+<QC>       [total_force(2,5)]:        -0.022900953672
+<QC>       [total_force(3,1)]:        -0.012479943834
+<QC>       [total_force(3,2)]:         0.013532519451
+<QC>       [total_force(3,3)]:         0.013437634867
+<QC>       [total_force(3,4)]:         0.000015376055
+<QC>       [total_force(3,5)]:        -0.014505586539
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      57.690s on      4 proc(s)                                    
+TOTAL TIME:        57.690s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 10:06 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

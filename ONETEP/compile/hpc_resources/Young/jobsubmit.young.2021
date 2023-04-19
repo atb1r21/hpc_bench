@@ -1,0 +1,103 @@
+#!/bin/bash -l
+
+# --------------------------------------------------
+# A PBS submission script for ONETEP on Young.
+# Supports hybrid (MPI/OMP) parallelism.
+# 2021.03 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+#                         University of Southampton
+# --------------------------------------------------
+
+# v1.01 (2021.03.10)
+
+# ==========================================================================================================
+# Edit the following lines to your liking.
+#
+#$ -N myjob			# Name of the job.
+#$ -l h_rt=48:00:00 		# Max time for your job (hh:mm:ss).
+#$ -pe mpi 120          	# Total number of CPU cores for the job.
+threads_per_process=4           # Number of OMP threads spawned from every MPI process.
+#
+# Point this to your ONETEP launcher (it's in the 'utils' directory in your ONETEP installation).
+onetep_launcher="$HOME/Scratch/ONETEP_jd/utils/onetep_launcher"
+# ==========================================================================================================
+
+# You should not need to edit anything below this line.
+#$ -S /bin/bash
+#$ -P Gold
+#$ -A Soton_allocation
+#$ -cwd
+
+export OMP_NUM_THREADS=$threads_per_process # Needed by gerun to determine the number of MPI processes
+
+workdir=`pwd`
+echo "--- This is the submission script, the time is `date`."
+echo "--- workdir is '$workdir'."
+echo "--- onetep_launcher is '$onetep_launcher'."
+
+# Ensure exactly 1 .dat file in there.
+ndats=`ls -l *dat | wc -l`
+
+if [ "$ndats" == "0" ]; then
+  echo "!!! There is no .dat file in the current directory. Aborting." >&2
+  touch "%NO_DAT_FILE"
+  exit 2
+fi
+
+if [ "$ndats" == "1" ]; then
+  true
+else
+  echo "!!! More than one .dat file in the current directory, that's too many. Aborting." >&2
+  touch "%MORE_THAN_ONE_DAT_FILE"
+  exit 3
+fi
+
+rootname=`echo *.dat | sed -r "s/\.dat\$//"`
+rootname_dat=$rootname".dat"
+rootname_out=$rootname".out"
+rootname_err=$rootname".err"
+
+echo "--- The input file is $rootname_dat, the output goes to $rootname_out and errors go to $rootname_err."
+
+# Ensure onetep_launcher is there and is indeed executable.
+if [ ! -x "$onetep_launcher" ]; then
+  echo "!!! $onetep_launcher does not exist or is not executable. Aborting!" >&2
+  touch "%ONETEP_LAUNCHER_MISSING"
+  exit 5
+fi
+
+# Dump the module list to a file.
+module list 2>\$modules_loaded
+
+# Actually run ONETEP
+########################################################################################################################################################
+gerun $onetep_launcher -t $threads_per_process $rootname_dat >$rootname_out 2>$rootname_err
+########################################################################################################################################################
+
+echo "--- gerun finished at `date`."
+
+# Check for error conditions
+result=$?
+if [ $result -ne 0 ]; then
+  echo "!!! gerun reported a non-zero exit code $result. Aborting!" >&2
+  touch "%GERUN_ERROR"
+  exit 6
+fi
+
+if [ -r $rootname.error_message ]; then
+  echo "!!! ONETEP left an error message file. Aborting!" >&2
+  touch "%ONETEP_ERROR_DETECTED"
+  exit 7
+fi
+
+tail $rootname.out | grep completed >/dev/null 2>/dev/null
+result=$?
+if [ $result -ne 0 ]; then
+  echo "!!! ONETEP calculation likely did not complete. Aborting!" >&2
+  touch "%ONETEP_DID_NOT_COMPLETE"
+  exit 8
+fi
+
+echo "--- Looks like everything went fine. Praise be."
+touch "%DONE"
+
+echo "--- Finished successfully at `date`."

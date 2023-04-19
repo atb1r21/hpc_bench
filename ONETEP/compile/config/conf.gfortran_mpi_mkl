@@ -1,0 +1,12 @@
+F90 = mpif90
+FFLAGS = -DFFTW3 -DGFORTRAN -DMPI
+
+OPTFLAGS = -O3
+DEBUGFLAGS = -g -fcheck=all
+
+MPILIBS= 
+
+LIBS = $(MPILIBS) -L$(MKLPATH) -lfftw3 -lmkl_gf_lp64 -lmkl_core -lmkl_sequential -lpthread
+LIBS = $(MPILIBS) -L$(MKLPATH) -lmkl_gf_lp64 -lmkl_core -lmkl_sequential -lpthread
+
+COMPILER = GNU-gfortran-on-LINUX

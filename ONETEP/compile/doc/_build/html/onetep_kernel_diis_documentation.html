@@ -1,0 +1,391 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Density mixing (Kernel-DIIS) &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Empirical Dispersion Correction" href="VDW-correction.html" />
+    <link rel="prev" title="Running linear-scaling DFT calculations for metallic systems with the AQUA-FOE method" href="AQUA-FOE.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="density-mixing-kernel-diis">
+<h1>Density mixing (Kernel-DIIS)<a class="headerlink" href="#density-mixing-kernel-diis" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Álvaro Ruiz Serrano, University of Southampton</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="basic-principles">
+<h2>Basic principles<a class="headerlink" href="#basic-principles" title="Permalink to this headline">¶</a></h2>
+<p>This manual describes how to run density mixing (kernel DIIS)
+calculations in ONETEP. Currently, kernel DIIS is an alternative to the
+LNV density kernel optimisation in the ONETEP inner loop (where the
+NGWFs are fixed). Please note that:</p>
+<ul class="simple">
+<li>The current code is experimental and might be unstable.</li>
+<li>Kernel DIIS currently can only perform calculations on insulators,
+where the constraint of idempotency of the density matrix holds
+(i.e., the Kohn-Sham occupancies are integers, 1 for the valence
+states and 0 for the conductions states.)</li>
+<li>Kernel DIIS is cubic-scaling, always, even if the density matrix is
+truncated and localised.</li>
+<li>Use only in the rare occasions where LNV optimisation might not be
+optimal.</li>
+</ul>
+<p>Density mixing is a type of self-consistent cycle used to minimise the
+total energy of the system. Currently, there are two types of mixing
+implemented in ONETEP: density kernel mixing or Hamiltonian mixing. In
+both cases, Hamiltonian diagonalisation is required, which makes the
+method cubic-scaling. The current implementation includes the linear
+mixing, ODA mixing [Cances2000], [Cances2001], Pulay mixing
+[Pulay1980], LiSTi [Wang2011] and LiSTb
+[Chen2011] mixing schemes. Pulay, LiSTi and LiSTb offer
+the best performance of all, but they must be used in conjunction with
+linear mixing in order to obtain numerical stability.</p>
+</div>
+<div class="section" id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p>By default, ONETEP is linked against the Lapack library
+[Lapack_web] for linear algebra. The Lapack
+eigensolver DSYGVX [DSYGVX], can only be executed in
+one CPU at a time. Therefore, kernel DIIS calculations with Lapack are
+limited to small systems (a few tens of atoms). Calculations on large
+systems are possible if, instead, ONETEP is linked against ScaLapack
+library [Scalapack_web] during compilation time. The
+ScaLapack eigensolver, PDSYGVX [PDSYGVX], can be run
+in parallel using many CPUs simultaneously. Moreover, ScaLapack can
+distribute the storage of dense matrices across many CPUs, thus allowing
+to increase the total memory allocated to a given calculation in a
+systematic manner, simply by requesting more processors. For the
+compilation against ScaLapack to take effect, the flag <code class="docutils literal"><span class="pre">-DSCALAPACK</span></code>
+must be specified during the compilation of ONETEP.</p>
+</div>
+<div class="section" id="commands-for-the-inner-loop">
+<h2>Commands for the inner loop<a class="headerlink" href="#commands-for-the-inner-loop" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mixing-schemes">
+<h3>Mixing schemes<a class="headerlink" href="#mixing-schemes" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">The keyword</div>
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">string</span></code>  [String, default <code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">NONE</span></code>]</div>
+</div>
+<p>is used to select the mixing method during the kernel-DIIS loop. By
+default, this keyword takes the value “<code class="docutils literal"><span class="pre">NONE</span></code>”, which disables kernel
+DIIS and tells the program to proceed with the LNV optimisation. The
+following options are available:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">DKN_LINEAR</span></code></div>
+<div class="line">linear mixing of density kernels. The new input density kernel is
+built from the <em>in</em> and <em>out</em> density kernels of the current
+iteration as
+<span class="math">\(K_in^{n+1} = (1-\lambda) K_{in}^{n} + \lambda K_{out}^{n}\)</span>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">HAM_LINEAR</span></code></div>
+<div class="line">linear mixing of Hamiltonians. The new input Hamiltonian is built
+from the and <em>out</em> Hamiltonians of the current iteration as
+<span class="math">\(H_in^{n+1} = (1-\lambda) H_{in}^{n} + \lambda H_{out}^{n}\)</span>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">DKN_PULAY</span></code></div>
+<div class="line">Pulay mixing of density kernels (see Ref.
+[Pulay1980]). The new input density kernel is
+built as a linear combination of the <em>output</em> density kernels of
+the <span class="math">\(N_{mix}\)</span> previous iterations as
+<span class="math">\(K_in^{n+1} = \sum_{m=n-N_mix}^{n} \lambda_m
+K_{out}^{m}\)</span>. Pulay mixing requires the storage of <span class="math">\(N_{mix}\)</span>
+matrices.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">HAM_PULAY</span></code></div>
+<div class="line">Pulay mixing of Hamiltonians (see Ref.
+[Pulay1980]). The new input Hamiltonian is built
+as a linear combination of the <em>output</em> Hamiltonians of the
+<span class="math">\(N_{mix}\)</span> previous iterations as
+<span class="math">\(H_in^{n+1} = \sum_{m=n-N_mix}^{n} \lambda_m H_{out}^{m}\)</span>.
+Pulay mixing requires the storage of <span class="math">\(N_{mix}\)</span> matrices.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">DKN_LISTI</span></code></div>
+<div class="line">LiSTi mixing of density kernels (see Ref.
+[Wang2011]). The new input density kernel is built
+as a linear combination of the <em>output</em> density kernels of the
+<span class="math">\(N_{mix}\)</span> previous iterations as
+<span class="math">\(K_in^{n+1} = \sum_{m=n-N_mix}^{n} \lambda_m K_{out}^{m}\)</span>.
+LiSTi mixing requires the storage of <span class="math">\(4\times N_{mix}\)</span>
+matrices.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">HAM_LISTI</span></code></div>
+<div class="line">LiSTi mixing of Hamiltonians (see Ref. [Wang2011]).
+The new input Hamiltonian is built as a linear combination of the
+<em>output</em> Hamiltonians of the <span class="math">\(N_{mix}\)</span> previous iterations as
+<span class="math">\(H_in^{n+1} = \sum_{m=n-N_mix}^{n} \lambda_m H_{out}^{m}\)</span>.
+LiSTi requires the storage of <span class="math">\(4\times N_{mix}\)</span> matrices.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">DKN_LISTB</span></code></div>
+<div class="line">LiSTb mixing of density kernels (see Ref.
+[Chen2011]). The new input density kernel is built
+as a linear combination of the <em>output</em> density kernels of the
+<span class="math">\(N_{mix}\)</span> previous iterations as
+<span class="math">\(K_in^{n+1} = \sum_{m=n-N_mix}^{n} \lambda_m K_{out}^{m}\)</span>.
+LiSTb mixing requires the storage of <span class="math">\(4\times N_{mix}\)</span>
+matrices.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">HAM_LISTB</span></code></div>
+<div class="line">LiSTb mixing of Hamiltonians (see Ref. [Chen2011]).
+The new input Hamiltonian is built as a linear combination of the
+<em>output</em> Hamiltonians of the <span class="math">\(N_{mix}\)</span> previous iterations as
+<span class="math">\(H_in^{n+1} = \sum_{m=n-N_mix}^{n} \lambda_m H_{out}^{m}\)</span>.
+LiSTb mixing requires the storage of <span class="math">\(4\times N_{mix}\)</span>
+matrices.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">kernel_diis_scheme:</span> <span class="pre">DIAG</span></code></div>
+<div class="line">Hamiltonian diagonalisation only - no mixing takes place. Strongly
+NOT recommended.</div>
+</div>
+</li>
+</ul>
+<p><strong>NOTE</strong>: linear mixing can be used simultaneously with Pulay, LiSTi or
+LiSTb mixing to create a history of density kernels/Hamiltonians with
+optimal numerical properties. See the keywords <code class="docutils literal"><span class="pre">kernel_diis_coeff</span></code> and
+<code class="docutils literal"><span class="pre">kernel_diis_linear_iter</span></code> in the section on basic principles  for more information.</p>
+</div>
+<div class="section" id="basic-setup-controlling-the-mix">
+<h3>Basic setup: controlling the mix<a class="headerlink" href="#basic-setup-controlling-the-mix" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">kernel_diis_coeff:</span> <span class="pre">x</span></code> [Real, default
+<code class="docutils literal"><span class="pre">kernel_diis_coeff:</span> <span class="pre">0.1</span></code>]. Linear-mixing <span class="math">\(\lambda\)</span>
+coefficient. Must be in the range <span class="math">\(\left[0,1\right]\)</span>. If set to
+a negative value, the ODA method (see Refs.
+[Cances2000], [Cances2001]) will automatically calculate
+the optimal value of <span class="math">\(\lambda\)</span>. The value of
+<code class="docutils literal"><span class="pre">kernel_diis_coeff</span></code> can be made arbitrarily small in order to
+attain numerical stability. However, this can make convergence slow.
+A small value can be used in order to create a history of matrices
+before Pulay, LiSTi or LiSTb mixing. A value close to 1 will make the
+calculation potentially unstable.</li>
+<li><code class="docutils literal"><span class="pre">kernel_diis_linear_iter:</span> <span class="pre">n</span></code> [Integer, default
+<code class="docutils literal"><span class="pre">kernel_diis_linear_iter:</span> <span class="pre">5</span></code>]. Number of linear mixing iterations
+before Pulay, LiSTi or LiSTb mixing. This keyword will create and
+store a history of <code class="docutils literal"><span class="pre">n</span></code> previous matrices generated by linear mixing
+before Pulay, LiSTi or LiSTb mixing begin. Required for large systems
+in order to achieve stability.</li>
+<li><code class="docutils literal"><span class="pre">kernel_diis_size:</span> <span class="pre">n</span></code> [Integer, default
+<code class="docutils literal"><span class="pre">kernel_diis_size:</span> <span class="pre">10</span></code>]. Number of matrices (<span class="math">\(N_{mix}\)</span>) to be
+mixed with the Pulay, LiSTi or LiSTb schemes.</li>
+<li><code class="docutils literal"><span class="pre">kernel_diis_maxit:</span> <span class="pre">n</span></code> [Integer, default
+<code class="docutils literal"><span class="pre">kernel_diis_maxit:</span> <span class="pre">25</span></code>]. Maximum number of iterations during the
+density mixing inner loop.</li>
+</ul>
+</div>
+<div class="section" id="tolerance-thresholds">
+<h3>Tolerance thresholds<a class="headerlink" href="#tolerance-thresholds" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">kernel_diis_threshold:</span> <span class="pre">x</span></code> [Real, default
+<code class="docutils literal"><span class="pre">kernel_diis_threshold:</span> <span class="pre">1.0e-9</span></code>]. Numerical convergence threshold
+for the DIIS inner loop. Use in conjunction with
+<code class="docutils literal"><span class="pre">kernel_diis_conv_criteria</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">kernel_diis_conv_criteria:</span> <span class="pre">string</span></code> [String, default
+<code class="docutils literal"><span class="pre">kernel_diis_conv_criteria:</span> <span class="pre">1000</span></code>]. Select the convergence criteria
+for the DIIS inner loop.<code class="docutils literal"><span class="pre">kernel_diis_conv_criteria</span></code> takes a
+string value 4 characters long. Each position acts as a logical
+switch, and can only take the values “<code class="docutils literal"><span class="pre">1</span></code>” (on) or “<code class="docutils literal"><span class="pre">0</span></code>” (off).
+The order is the following:</p>
+<ul class="simple">
+<li>Position 1: residual <span class="math">\(|K_{out} - K_{in}|\)</span>, if density kernel
+mixing, or <span class="math">\(|H_{out}-H_{in}|\)</span>, if Hamiltonian mixing.</li>
+<li>Position 2: Hamiltonian-density kernel commutator.</li>
+<li>Position 3: band-gap variation between two consecutive iterations
+(in Hartree).</li>
+<li>Position 4: total energy variation between two consecutive
+iterations (in Hartree).</li>
+</ul>
+<p>For example, <code class="docutils literal"><span class="pre">kernel_diis_conv_thres:</span> <span class="pre">1101</span></code> will enable criteria
+1,2 and 4 and disable criterion 3.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="advanced-setup-level-shifter">
+<h3>Advanced setup: level shifter<a class="headerlink" href="#advanced-setup-level-shifter" title="Permalink to this headline">¶</a></h3>
+<p>Extra stability can sometimes be achieved if the conduction energy
+values are artificially increased. This technique is known as
+level-shifting. See Ref. [Saunders1973]
+for further details.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">kernel_diis_lshift:</span> <span class="pre">x</span> <span class="pre">units</span></code> [Real physical, default
+<code class="docutils literal"><span class="pre">kernel_diis_lshift:</span> <span class="pre">1.0</span> <span class="pre">Hartree</span></code>]. Energy shift of the conduction
+bands.</li>
+<li><code class="docutils literal"><span class="pre">kernel_diis_ls_iter:</span> <span class="pre">n</span></code> [Integer, default
+<code class="docutils literal"><span class="pre">kernel_diis_ls_iter:</span> <span class="pre">0</span></code>]. Total number of DIIS iterations with
+level-shifting enabled.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="commands-for-the-outer-loop">
+<h2>Commands for the outer loop<a class="headerlink" href="#commands-for-the-outer-loop" title="Permalink to this headline">¶</a></h2>
+<p>The standard ONETEP commands for NGWF optimisation apply.</p>
+</div>
+<div class="section" id="restarting-a-kernel-diis-calculation">
+<h2>Restarting a kernel DIIS calculation<a class="headerlink" href="#restarting-a-kernel-diis-calculation" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">write_denskern:</span> <span class="pre">T/F</span></code> [Boolean, default <code class="docutils literal"><span class="pre">write_denskern:</span> <span class="pre">F</span></code>]. Save
+the last density matrix on a file.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">read_denskern:</span> <span class="pre">T/F</span></code> [Boolean, default <code class="docutils literal"><span class="pre">read_denskern:</span> <span class="pre">F</span></code>]. Read
+the density kernel matrix from a file, and continue the calculation
+from this point.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">write_tightbox_ngwfs:</span> <span class="pre">T/F</span></code> [Boolean, default
+<code class="docutils literal"><span class="pre">write_tightbox_ngwfs:</span> <span class="pre">T</span></code>]. Save the last NGWFs on a file.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">read_tightbox_ngwfs:</span> <span class="pre">T/F</span></code> [Boolean, default
+<code class="docutils literal"><span class="pre">read_tightbox_ngwfs:</span> <span class="pre">F</span></code>]. Read the NGWFs from a file and continue
+the calculation from this point.</p>
+<div class="line-block">
+<div class="line">If a calculation is intended to be restarted at some point in the
+future, then run the calculation with</div>
+<div class="line"><code class="docutils literal"><span class="pre">write_tightbox_ngwfs:</span> <span class="pre">T</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">write_denskern:</span> <span class="pre">T</span></code></div>
+<div class="line">to save the density kernel and the NGWFs on disk. Two new files
+will be created, with extensions <code class="docutils literal"><span class="pre">.dkn</span></code> and <code class="docutils literal"><span class="pre">.tightbox_ngwfs</span></code>,
+respectively. Then, to restart the calculation, set</div>
+<div class="line"><code class="docutils literal"><span class="pre">read_tightbox_ngwfs:</span> <span class="pre">T</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">read_denskern:</span> <span class="pre">T</span></code></div>
+<div class="line">to tell ONETEP to read the files that were previously saved on
+disk. Remember to keep a backup of the output of the first run
+before restarting the calculation.</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="controlling-the-parallel-eigensolver">
+<h2>Controlling the parallel eigensolver<a class="headerlink" href="#controlling-the-parallel-eigensolver" title="Permalink to this headline">¶</a></h2>
+<p>Currently, only the ScaLapack PDSYGVX parallel eigensolver is available.
+A complete manual to this routine can be found by following the link in
+Ref. [PDSYGVX]. If ONETEP is interfaced to ScaLapack,
+the following directives can be used:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">eigensolver_orfac:</span> <span class="pre">x</span></code> [Real, default
+<code class="docutils literal"><span class="pre">eigensolver_orfac:</span> <span class="pre">1.0e-4</span></code>]. Precision to which the eigensolver
+will orthogonalise degenerate Hamiltonian eigenvectors. Set to a
+negative number to avoid reorthogonalisation with the ScaLapack
+eigensolver.</li>
+<li><code class="docutils literal"><span class="pre">eigensolver_abstol:</span> <span class="pre">x</span></code> [Real, default
+<code class="docutils literal"><span class="pre">eigensolver_abstol:</span> <span class="pre">1.0e-9</span></code>]. Precision to which the parallel
+eigensolver will calculate the eigenvalues. Set to a negative number
+to use ScaLapack defaults.</li>
+</ul>
+<p>The abovementioned directives are useful in calculations where the
+ScaLapack eigensolver fails to orthonormalise the eigenvectors. In such
+cases, the following error will be printed in the input file:</p>
+<p><code class="docutils literal"><span class="pre">(P)DSYGVX</span> <span class="pre">in</span> <span class="pre">subroutine</span> <span class="pre">dense_eigensolve</span> <span class="pre">returned</span> <span class="pre">info=</span> <span class="pre">2</span></code>.</p>
+<p>Many times (although not always) this error might cause the calculation
+to fail.</p>
+<p>[Cances2000] E.&nbsp;Cancès and C.&nbsp;Le Bris. Can we outperform the diis approach for electronic structure calculations? Int. J. Quantum Chem., 79(2):82, 2000.</p>
+<p>[Cances2001] E.&nbsp;Cances. Self-consistent field algorithms for Kohn–Sham models with fractional occupation numbers. J. Chem. Phys., 114(24):10616, 2001.</p>
+<p>[Pulay1980] P.&nbsp;Pulay. Convergence acceleration of iterative sequences - the case of SCF iteration. Chem. Phys. Lett., 73(2):393, 1980.</p>
+<p>[Wang2011] Y.&nbsp;A. Wang, C.&nbsp;Y. Yam, Y.&nbsp;K. Chen, and G.&nbsp;Chen. Linear-expansion shooting techniques for accelerating self-consistent field convergence. J. Chem. Phys., 134(24):241103, 2011.</p>
+<p>[Chen2011] Y.&nbsp;K. Chen and Y.&nbsp;A. Wang. LISTb: a better direct approach to LIST. J. Chem. Theory Comput., 7(10):3045, 2011.</p>
+<p>[Lapack_web] Lapack. <a class="reference external" href="http://www.netlib.org/lapack/">http://www.netlib.org/lapack/</a>.</p>
+<p>[DSYGVX] Lapack DSYGVX eigensolver. <a class="reference external" href="http://netlib.org/lapack/double/dsygvx.f">http://netlib.org/lapack/double/dsygvx.f</a>.</p>
+<p>[Scalapack_web] ScaLapack. <a class="reference external" href="http://www.netlib.org/scalapack/">http://www.netlib.org/scalapack/</a>.</p>
+<p>[PDSYGVX] ScaLapack PDSYGVX eigensolver. <a class="reference external" href="http://www.netlib.org/scalapack/double/pdsygvx.f">http://www.netlib.org/scalapack/double/pdsygvx.f</a>.</p>
+<p>[Saunders1973] V.&nbsp;R. Saunders and I.&nbsp;H. Hillier. Level-shifting method for converging closed shell Hartree-Fock wave-functions. Int. J. Quantum Chem., 7(4):699, 1973.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="AQUA-FOE.html" title="previous chapter">Running linear-scaling DFT calculations for metallic systems with the AQUA-FOE method</a></li>
+      <li>Next: <a href="VDW-correction.html" title="next chapter">Empirical Dispersion Correction</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/onetep_kernel_diis_documentation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

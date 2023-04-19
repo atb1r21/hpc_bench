@@ -1,0 +1,108 @@
+
+!========================================================!
+! Input for calculation with the ONETEP program          !
+!                                                        !
+! Quality Control file for:                              !
+! (Multibody) Energy Decomposition Analysis              !
+! Water, ammonium ion, and sodium hydride complex        !
+!                                                        !
+! Created by Max Phipps in February 2016                 !
+!                                                        !
+!========================================================!
+ 
+ do_properties : T
+ print_qc : T
+
+ cutoff_energy       : 500 eV
+ ngwf_threshold_orig : 0.000002
+ kernel_cutoff       : 1000
+ k_zero              : 3.5
+ write_xyz : F
+
+ elec_cg_max 0
+ occ_mix 1.0
+
+ minit_lnv : 2
+ maxit_lnv : 2
+ maxit_ngwf_cg : 1
+
+ maxit_palser_mano : 0
+
+ write_denskern : F
+ write_tightbox_ngwfs : F
+ write_density_plot : F
+ dx_format : F
+ cube_format : F
+
+ xc_functional : PBE
+ dispersion : NONE
+
+ TASK : EDA
+
+ CHARGE : +1
+
+ devel_code = PAR:OLD_LOAD_BALANCE=T:PAR
+
+ ! Resetting of NGWFs at
+ ! the polarisation and charge
+ ! transfer EDA stages:
+ EDA_RESET_NGWFS_POL : F
+ EDA_RESET_NGWFS_CT  : F
+
+ ! EDA fragment polarisations:
+ EDA_FRAG_ISOL_POL   : F
+
+ ! EDA charge transfer
+ ! fragment-pair delocalisations:
+ EDA_FRAG_ISOL_CT    : F
+ %block eda_deloc
+   1 3
+ %endblock eda_deloc
+
+ ! Do not read in frozen supermolecule
+ ! density from disk:
+ eda_read_super : F
+
+
+ ! Define EDA fragments
+ ! (N_at, Charge)
+ ! H2O, NH4+, NaH
+ %block eda_iatm
+   3   0
+   5  +1
+   2   0
+ %endblock eda_iatm
+ 
+
+ %block lattice_cart
+   39.00    0.00    0.00
+    0.00   37.00    0.00
+    0.00    0.00   37.00
+ %endblock lattice_cart
+
+ %block positions_abs
+O      14.25735700      12.71493600      11.08089000
+H      13.42266500      14.34312400      10.99887600
+H      12.89335200      11.53612500      11.40214400
+N      21.33381400      14.69253500       9.82252200
+H      22.88868000      15.50946300       9.07570200
+H      21.05885800      15.34883600      11.59357300
+H      21.57248600      12.79978500       9.87524500
+H      19.81504100      15.11243200       8.74556700
+Na     26.72293400      12.64331600       9.92872400
+H      25.98556300      10.90779100       7.58433000
+ %endblock positions_abs
+
+ %block species
+ O   O   8   4  7.0
+ H   H   1   1  7.0
+ N   N   7   4  7.0
+ Na  Na  11  4  7.0
+ %endblock species
+
+ %block species_pot
+ O  "../../pseudo/oxygen.recpot"
+ H  "../../pseudo/hydrogen.recpot"
+ N  "../../pseudo/nitrogen.recpot"
+ Na  "../../pseudo/sodium.recpot"
+ %endblock species_pot

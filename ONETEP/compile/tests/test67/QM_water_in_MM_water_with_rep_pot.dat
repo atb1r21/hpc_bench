@@ -1,0 +1,176 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for POLARISABLE EMBEDDING     !
+! with an MM repulsive potential to prevent QM-to-MM !
+! charge spilling, and with QM/MM polarisability     !
+! scaling to prevent overpolarisation. This is the   !
+! scheme described in the TINKTEP-2 paper (2018).    !
+!                                                    !
+! No DMA charge scaling (incompatible with NGWF      !
+! gradient at the moment).                           !
+!                                                    !
+! Bessel averaging.                                  !
+!                                                    !
+! Permanent interactions handled via full density,   !
+! no damping.                                        !
+!                                                    !
+! Polarisation interactions handled via QM*, up to   !
+! quadrupoles, Thole damping with polscal 6.0.       !
+!                                                    !
+! QM: H2O (H-bond donor)                             !
+! MM: H2O (H-bond acceptor)                          !
+!                                                    !
+! Configuration provided by Yuezhi Mao. This is the  !
+! shortest intermolecular separation studied         !
+! (O-O dist = 2.4). This is not exactly the same     !
+! calculation as used in the paper, since we're not  !
+! restarting from optimised in-vacuum NGWFs here,    !
+! we're doing quadrupoles too, and we're terminating !
+! after 2 NGWF iterations.                           !
+!                                                    !
+! Created on 2018/04/01 (no pun intended) by         !
+! Jacek Dziedzic                                     !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+!-------------------------------------------------------!
+! This test does not require (or use) TINKER or any     !
+! other implementation of AMOEBA. The response of the   !
+! MM environment has been pre-generated in advance and  !
+! is stored in the .mpoles_for_onetep file.             !
+! In this way this calculation can be run using the     !
+! standard QC approach, using only ONETEP and does not  !
+! test the TINKTEP scripts.                             !
+!-------------------------------------------------------!
+! It is imperative that the auxiliary files             !
+! - $QM2MM.lock                                         !
+! - $MM2QM.lock                                         !
+! - QM_water_in_MM_water_with_rep_pot.mpoles_for_onetep !
+! are not removed. Please do not modify any of these    !
+! files, except $QM2MM.lock, the contents of which are  !
+! irrelevant.                                           !
+!--------------------------------------------------------
+
+print_qc             : TRUE
+output_detail        : VERBOSE
+timings_level        : 3
+
+charge 0
+
+ ! ----------- DMA -----------
+ ! ---------------------------
+
+ %block swri
+   for_dma 2 12 V 14 14 R
+ %endblock swri
+
+ %block species_swri-for_dma
+ H
+ O
+ %endblock species_swri-for_dma
+ 
+ 
+ dma_calculate T 
+ dma_use_ri for_dma
+ dma_max_l 2
+ dma_max_q 12
+ dma_metric ELECTROSTATIC
+ 
+ dma_bessel_averaging T
+ dma_scale_charge F
+
+! -----------------------------
+! --- POLARISABLE EMBEDDING ---
+! -----------------------------
+
+ pol_emb_vacuum_qmstar F
+ pol_emb_dma_min_l 0
+ pol_emb_dma_max_l 2
+ 
+ pol_emb_mpole_exclusion_radius 1.00 bohr
+ pol_emb_pot_filename QM_water_in_MM_water_with_rep_pot.mpoles_for_onetep
+ pol_emb_repulsive_mm_pot_cutoff 10.0 bohr
+ pol_emb_polscal 6.0
+
+ %block mm_rep_params
+ H   35 2.400 ! follows TINKTEP-2 paper
+ O  550 1.580 ! follows TINKTEP-2 paper
+ %endblock mm_rep_params
+
+ ! Thole polarisabilities obtained from water_water_qm.xyz and amoeba09.prm.
+ ! by qm_xyz_to_dat (with atom_number_to_polarisability doing all the dirty work) on Sun Apr  1 15:13:33 BST 2018.
+ ! They have been converted from A^3 to a0^3.
+ %block thole_polarisabilities
+ O 5.648355971436 ! Water O
+ H 3.347173908999 ! Water H
+ H 3.347173908999 ! Water H
+ %endblock thole_polarisabilities
+ 
+! --------------------
+! --- USUAL ONETEP ---
+! --------------------
+
+do_properties F
+                                                                                
+write_forces T
+xc_functional PBE
+
+minit_lnv 5
+maxit_lnv 5
+
+maxit_ngwf_cg 2
+
+write_denskern F
+write_tightbox_ngwfs F
+read_denskern F
+read_tightbox_ngwfs F
+
+maxit_pen 0
+lnv_check_trial_steps T
+delta_e_conv  T
+elec_energy_tol 1.6e-6 hartree
+
+dispersion 1
+
+coulomb_cutoff_type SPHERE
+coulomb_cutoff_radius 40.0 bohr
+coulomb_cutoff_write_int F
+
+%block species_atomic_set                                                       
+H  "SOLVE"
+O  "SOLVE"
+%endblock species_atomic_set                                                    
+
+%block species                                                                  
+H  H 1 1 7.0
+O  O 8 4 7.0
+%endblock species                                                               
+
+%block species_pot
+H   "../../pseudo/hydrogen.recpot"
+O   "../../pseudo/oxygen.recpot"
+%endblock species_pot
+
+cutoff_energy 1000 eV
+
+%block lattice_cart
+     30.000000000       0.000000000       0.000000000
+      0.000000000      30.000000000       0.000000000
+      0.000000000       0.000000000      30.000000000
+%endblock lattice_cart
+
+! Positions obtained from water_water_qm.xyz, translated to the centre of water_water.dat.template
+! by qm_xyz_to_dat on Sun Apr  1 15:13:33 BST 2018. Translation vector [a0]: 15.1 15.1 10.1.
+
+%block positions_abs
+O        16.203224001     15.100000000     11.536063353
+H        15.100000000     15.100000000     10.100000000
+H        15.100000000     15.100000000     12.991451046
+%endblock positions_abs
+

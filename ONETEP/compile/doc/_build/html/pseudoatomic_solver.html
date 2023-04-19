@@ -1,0 +1,543 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Using the Pseudoatomic Solver to Generate NGWFs &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Conduction NGWF optimisation and optical absorption spectra" href="conduction.html" />
+    <link rel="prev" title="Ground State Calculation Setup" href="index_ground_state.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-the-pseudoatomic-solver-to-generate-ngwfs">
+<h1>Using the Pseudoatomic Solver to Generate NGWFs<a class="headerlink" href="#using-the-pseudoatomic-solver-to-generate-ngwfs" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Nicholas D.M. Hine, University of Warwick</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">September 2011</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">Updated February 2016</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="what-is-being-calculated">
+<h2>What is being calculated?<a class="headerlink" href="#what-is-being-calculated" title="Permalink to this headline">¶</a></h2>
+<p>When the atomic solver is used [Ruiz-Serrano2012], a
+Kohn-Sham DFT calculation is performed for a “pseudoatom”. This means
+that the pseudopotential of a single isolated ion is used as the
+external potential, and the single-electron Kohn-Sham states are solved
+self-consistently, for a given XC functional. The resulting states can
+be expected to form an ‘ideal’ atomic orbital basis for a given
+calculation [Soler2002], [Artacho1999], [Blum2009], [Tarralba2008], [Chen2010].
+In practice they are a good starting point for initial NGWFs, or a
+passable fixed basis for calculations without NGWF optimisation, in
+which context they should be at least comparable to the basis sets
+generated in SIESTA, for example (though note that a high cutoff energy
+is required for accurate representation on the grid in such cases).</p>
+<p>The pseudoatomic orbitals we are looking for solve the Kohn-Sham
+equation:</p>
+<div class="math">
+\[\hat{H}_{\mathrm{KS}}\psi_{n}(\mathbf{r})=\epsilon_{n}\psi_{n}(\mathbf{r})\]</div>
+<p>where</p>
+<div class="math">
+\[\hat{H}_{\mathrm{KS}}=-\frac{1}{2}\nabla^{2}+V_{\mathrm{loc}}(r)+\sum_{i}|p_{i}\rangle D_{ij}\langle p_{j}|\]</div>
+<p>is the Hamiltonian in terms of kinetic, local potential and nonlocal
+potential contributions. For a norm conserving pseudopotential the
+matrix <span class="math">\(D_{ij}\)</span> is diagonal and there is one term per angular
+momentum channel, so there is generally only one contributing nonlocal
+projector for each wavefunction. In PAW and USPs, there may be more, and
+nonzero cross-terms <span class="math">\(D_{ij}\)</span> for <span class="math">\(i\neq j\)</span>. Because it is a
+spherical potential, solutions of this form of the Kohn-Sham equation
+are easily separable into an angular part, solved by the spherical
+harmonics (<span class="math">\(Y_{lm}(\hat{\mathbf{r}})\)</span>, or equivalently the real
+spherical harmonics <span class="math">\(S_{lm}(\hat{\mathbf{r}})\)</span>) multiplied by
+radial part, which we will be solving explicitly in terms of a basis.</p>
+<p>The atomic orbitals are solved in a sphere of radius <span class="math">\(R_{c}\)</span>. The
+most appropriate basis to use therefore consists of normalised spherical
+Bessel functions of given angular momentum <span class="math">\(l\)</span>. The radial parts
+of the basis functions, <span class="math">\(B_{l,\nu}(r)\)</span> are</p>
+<div class="math">
+\[B_{l,\nu}(r)=j_{l}(q_{l,\nu}r)\:/\,\Big[\int_{0}^{R_{c}}|j_{l}(q_{l,\nu}r)|^{2}r^{2}dr\Big]^{\frac{1}{2}}\;,\]</div>
+<p>with <span class="math">\(q_{l,\nu}\)</span> such that <span class="math">\(q_{l,\nu}R_{c}\)</span> are the zeros
+of the spherical Bessel functions. Thence <span class="math">\(B_{l,\nu}(R_{c})=0\)</span> and
+<span class="math">\(\int_{0}^{R_{c}}|B_{l,\nu}(r)|^{2}r^{2}dr=1\)</span> for all <span class="math">\(\nu\)</span>.
+The basis would be complete if <span class="math">\(\nu\)</span> were infinite: in practice it
+must be truncated, and the number of functions included is determined by
+a kinetic energy cutoff <span class="math">\(E_{\mathrm{cut}}\)</span>. The criterion
+<span class="math">\(\frac{1}{2}q_{l,\nu}^{2}&lt;E_{\mathrm{cut}}\)</span> determines the largest
+<span class="math">\(\nu\)</span> for each <span class="math">\(l\)</span>.</p>
+<p>In the pseudoatom calculation we are therefore calculating Kohn-Sham
+states of the form</p>
+<div class="math">
+\[\psi_{n}(\mathbf{r})=\sum_{\nu}c_{n,\nu}\, B_{l_{n},\nu}(r)\, S_{l_{n}m_{n}}(\hat{\mathbf{r}})\;,\]</div>
+<p>which have eigenvalues <span class="math">\(\epsilon_{n}\)</span> and occupancies
+<span class="math">\(f_{n}\)</span> which include spin-degeneracy. The occupancies are fixed,
+and determined before the main calculation, such that they sum to the
+number of valence electrons. Spherical symmetry of the density is
+assumed, so the occupancies of all members of a given set of
+<span class="math">\(m\)</span>-degenerate orbitals are always equal — and in fact in practice
+the <span class="math">\(m\)</span> states for a given <span class="math">\(l\)</span>, <span class="math">\(n\)</span> pair are
+amalgamated into one state with <span class="math">\(f_{n}\)</span> summed over all the
+degenerate <span class="math">\(m\)</span>’s. For example, for a nitrogen ion with valence
+configuration <span class="math">\(2s^{2}\,2p^{3}\)</span>, we would have <span class="math">\(f_{2s}=2\)</span>,
+<span class="math">\(f_{2p}=3\)</span>. For this, we therefore need to find the lowest-energy
+self-consistent eigenstate of each of <span class="math">\(l=0\)</span> and <span class="math">\(l=1\)</span>.
+Henceforth we will only consider the radial dependence
+<span class="math">\(\psi_{n}(r)\)</span>. All radial quantities will be considered to have
+been integrated over solid angle already, so factors of <span class="math">\(4\pi\)</span> are
+omitted and <span class="math">\(\int|\psi_{n}(r)|^{2}r^{2}dr=1\)</span> for a normalised
+orbital.</p>
+<p>We define the local potential through</p>
+<div class="math">
+\[V_{\mathrm{loc}}(r)=V_{\mathrm{psloc}}(r)+V_{H}[n](r)+V_{XC}[n](r)+V_{\mathrm{conf}}(r)\]</div>
+<p>where for a spherical charge distribution
+<span class="math">\(n(r)=\sum_{n}f_{n}|\psi_{n}(r)|^{2}\)</span>, the Hartree potential is
+given by</p>
+<div class="math">
+\[V_{H}(r)=\frac{1}{r}\int_{0}^{r}n(r')r'^{2}dr'+\int_{r}^{\infty}n(r')r'\, dr'\;.\]</div>
+<p>and the XC potential is
+<span class="math">\(V_{XC}[n](r)=\frac{\partial E_{XC}[n]}{\partial n(r)}\)</span>.
+<span class="math">\(V_{\mathrm{conf}}(r)\)</span> is an optional confining potential whose
+specific form will be discussed later [Blum2009].</p>
+<p>For each <span class="math">\(l\)</span> we can define the Hamiltonian matrix</p>
+<div class="math">
+\[H_{\nu,\nu'}^{l}=\int_{0}^{R_{c}}B_{l,\nu}(r)\left[\hat{H}B_{l,\nu'}(r)\right]r^{2}dr\]</div>
+<p>and the overlap matrix</p>
+<div class="math">
+\[S_{\nu,\nu'}^{l}=\int_{0}^{R_{c}}B_{l,\nu}(r)B_{l,\nu'}(r)r^{2}dr\]</div>
+<p>We then solve the secular equation</p>
+<div class="math">
+\[\mathbf{H}^{l}.\mathbf{c}_{n}=\epsilon_{n}\mathbf{S}^{l}.\mathbf{c}_{n}\]</div>
+<p>to give the coefficients <span class="math">\(c_{n,\nu}\)</span> which describe the orbitals.
+The orbitals are generated on the real-space grid and density mixing
+with a variable mixing parameter <span class="math">\(\alpha\)</span> is then used until
+self-consistency is obtained. The result is deemed to be converged once
+a) the Harris-Foulkes estimate of the total energy (the bandstructure
+energy) matches the total energy as determined from the density to
+within a given tolerance (<span class="math">\(10^{-5}\)</span> Ha) and the energy has stopped
+changing each iteration, to within a given tolerance (<span class="math">\(10^{-7}\)</span>
+Ha).</p>
+</div>
+<div class="section" id="performing-a-calculation-with-the-pseudoatomic-solver">
+<h2>Performing a Calculation with the Pseudoatomic Solver<a class="headerlink" href="#performing-a-calculation-with-the-pseudoatomic-solver" title="Permalink to this headline">¶</a></h2>
+<p>The atomic solver is the default approach to NGWF initialisation, so if
+you do not need to change any settings for any species, simply omit the
+<code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code> block.</p>
+<p>If there are any tweaks to be made to the default, this block is
+required, and for each element symbol the string “SOLVE” should appear
+in the entry. If you want to use automatic initialisation of the number
+of NGWFs, then specify that to be <code class="docutils literal"><span class="pre">-1</span></code> in the species block. The code
+will attempt to determine how many orbitals to use, which orbitals
+constitute the valence, and what their default occupancies should be. To
+illustrate what will happen, we present some simple examples.</p>
+<p>Let us imagine setting up a calculation with only nitrogen, for which
+<span class="math">\(Z_{\mathrm{atom}}=7\)</span> and <span class="math">\(Z_{\mathrm{ion}}=5\)</span>. The valence
+manifold consists of <span class="math">\(4\)</span> NGWFs of radius <span class="math">\(R_{c}=8.0\)</span> per
+atom, so we would have the following blocks in our input file:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">N</span> <span class="pre">N</span> <span class="pre">7</span> <span class="pre">4</span> <span class="pre">8.0</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">N</span> <span class="pre">“SOLVE”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>Note that because we may well want to add extra options to this string
+later, it’s best to always use the “” quotes around SOLVE. These
+settings will activate the pseudoatomic solver and it will attempt to
+guess a default configuration for the atom. Since
+<span class="math">\(Z_{\mathrm{ion}}=5\)</span>, the code will count back five electrons from
+the end of the default neutral atom occupancy, which is
+<span class="math">\(1s^{2}\,2s^{2}\,2p^{3}\)</span>, and will discover that the valence
+states are <span class="math">\(2s^{2}\,2p^{3}\)</span>. Since we have asked for <span class="math">\(N=4\)</span>
+NGWFs, the solver will then count forward from the start of the valence
+states and determine that by including the whole first set of <span class="math">\(s\)</span>
+and <span class="math">\(p\)</span> states it has enough to span the valence space and create
+four orbitals (and thus four NGWFs). The solver will therefore solve for
+one state with <span class="math">\(l=0\)</span>, <span class="math">\(f=2\)</span> and one state with <span class="math">\(l=1\)</span>,
+<span class="math">\(f=3\)</span>, all with radius <span class="math">\(R_{c}=8.0\)</span>, and from these states
+will produce one <span class="math">\(s\)</span>-like NGWF and the three degenerate
+<span class="math">\(p_{x}\)</span>, <span class="math">\(p_{y}\)</span> and <span class="math">\(p_{z}\)</span> NGWFs.</p>
+<p>A slightly more complex example would be if we were generating orbitals
+for iron (<span class="math">\(Z_{\mathrm{atom}}=26\)</span>, <span class="math">\(Z_{\mathrm{ion}}=8)\)</span>:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">Fe</span> <span class="pre">Fe</span> <span class="pre">26</span> <span class="pre">9</span> <span class="pre">10.0</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">Fe</span> <span class="pre">“SOLVE”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>This time, to find the default configuration, the solver initialisation
+routines will count back 8 electrons from the neutral atom configuration
+of <span class="math">\(1s^{2}\,2s^{2}\,2p^{6}\,3s^{2}\,3p^{6}\,3d^{6}\,4s^{2}\)</span> and
+thus will determine that the valence states are <span class="math">\(3d^{6}\,4s^{2}\)</span>.
+However, this time we have asked for 9 NGWFs, so it will then count
+forward from <span class="math">\(3d\)</span>, include the fivefold-degenerate lowermost
+<span class="math">\(d\)</span>-like state and the lowest <span class="math">\(s\)</span>-like state. This only
+makes six, so it then will also have to include the threefold-degenerate
+<span class="math">\(4p\)</span>-like state. The solver will have to solve for one unoccupied
+<span class="math">\(p\)</span>-like orbital, which will have <span class="math">\(f=0\)</span> throughout the
+calculation.</p>
+<div class="section" id="controlling-the-configuration">
+<h3>Controlling the configuration<a class="headerlink" href="#controlling-the-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The default neutral-atom configurations for all the elements up to
+<span class="math">\(Z=92\)</span> are included in the code, and will be used by default to
+generate the configuration. However, it is also possible to override
+these default configurations. For example, to generate NGWFs for iron in
+the 3+ state, we might want to set the occupancies to
+<span class="math">\(3d^{5}\,4s^{0}\)</span>. To do this we use the “conf=” directive after
+the SOLVE string:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">Fe</span> <span class="pre">“SOLVE</span> <span class="pre">conf=3d5</span> <span class="pre">4s0”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>Any terms in the configuration which are not overridden are left at
+their default values. Another example might be if we wanted to force the
+partial occupation of more higher-lying states than would otherwise be
+occupied for the neutral atom:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">C</span> <span class="pre">“SOLVE</span> <span class="pre">conf=2s1.5</span> <span class="pre">2p2.5”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>Note that the solver counts through the configuration terms strictly in
+the order <span class="math">\(n,l\)</span>, i.e.&nbsp;<span class="math">\(n\)</span> is looped over outermost, then
+<span class="math">\(l=0\)</span> to <span class="math">\(l=n-1\)</span> for each <span class="math">\(n\)</span> innermost. This means
+that sometimes a little thought is required to get the terms one
+actually wants, and not spurious extra ones. For example, if we wanted
+to run a calculation of oxygen with 9 NGWFs per atom, what we probably
+wanted would be to run with 1 <span class="math">\(s\)</span>-like NGWF, 3 <span class="math">\(p\)</span>-like
+NGWFs and 5 <span class="math">\(d\)</span>-like NGWFs. However, this is not by default what
+one will get if one asks for</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">O</span> <span class="pre">8</span> <span class="pre">9</span> <span class="pre">9.0</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">“SOLVE”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>This will identify <span class="math">\(2s^{2}\,2p^{4}\)</span> as the valence orbitals, and
+counting forward will identify <span class="math">\(2s\)</span>, <span class="math">\(2p\)</span>, <span class="math">\(3s\)</span>,
+<span class="math">\(3p\)</span> and just 1 of the 5 degenerate <span class="math">\(3d\)</span> states as the NGWFs
+required. Therefore, we must instruct the atomsolver to ignore the
+unwanted excited <span class="math">\(3s\)</span> and <span class="math">\(3p\)</span> terms. We do this with an
+“X”, which instructs the solver to knock out this term:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">“SOLVE</span> <span class="pre">conf=2s2</span> <span class="pre">2p4</span> <span class="pre">3sX</span> <span class="pre">3pX</span> <span class="pre">3d0”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>Strictly speaking, the <span class="math">\(2s\)</span>, <span class="math">\(2p\)</span> and <span class="math">\(3d\)</span> strings are
+not needed, as they are the default values anyway, but they are left in
+for clarity. I find it advisable, so that I can keep track of the terms
+which will generate the NGWFs, to add explicitly the terms with zero
+occupancy to the conf string.</p>
+</div>
+<div class="section" id="generating-larger-non-minimal-bases">
+<h3>Generating larger, non-minimal bases<a class="headerlink" href="#generating-larger-non-minimal-bases" title="Permalink to this headline">¶</a></h3>
+<p>ONETEP is generally used to create an <em>in-situ-optimised</em>, minimal basis
+(eg 4 NGWFs/atom for C, N, O etc). However, it is also possible to fix
+the NGWFs and run with a much larger, unoptimised basis, in a manner
+akin to other DFT codes designed for large-scale simulations (eg
+SIESTA). One would then normally want to use multiple NGWFs for each
+angular momentum channel corresponding to the valence orbitals. This is
+known as using a “multiple-zeta” basis set, where zeta refers to the
+radial part of the valence atomic orbitals. For example, a “triple-zeta”
+basis for carbon would have <span class="math">\(3\)</span> <span class="math">\(s\)</span>-like functions and
+<span class="math">\(3\)</span> of each of <span class="math">\(p_{x}\)</span>, <span class="math">\(p_{y}\)</span>, and
+<span class="math">\(p_{z}\)</span>-like functions. There are two approaches to generating
+these extra radial functions. This simplest is just generate the
+higher-lying orbitals of a given angular momentum. For carbon, for
+example, a double-zeta basis in this scheme would include <span class="math">\(3s\)</span> and
+<span class="math">\(3p\)</span>-like states. This approach, however, is not very quick to
+converge with basis size.</p>
+<p>It is often better to apply the commonly-used “split-valence” approach.
+This allows the orbitals that have been generated to be “split” into
+multiple functions, so as to generate so-called “split-valence
+multiple-zeta” basis sets. In this formalism, one function <span class="math">\(f(r)\)</span>
+can be split into two functions <span class="math">\(g_{1}(r)\)</span> and <span class="math">\(g_{2}(r)\)</span>
+according to the following:</p>
+<ol class="arabic simple">
+<li>A matching radius <span class="math">\(r_{m}\)</span> is chosen: for <span class="math">\(r&gt;r_{m}\)</span>, we
+set <span class="math">\(g_{2}(r)=f(r)\)</span>. For <span class="math">\(r\leq r_{m}\)</span>, we set
+<span class="math">\(g_{2}(r)=r^{l}(a_{l}-b_{l}r^{2})\)</span>, where <span class="math">\(a_{l}\)</span> and
+<span class="math">\(b_{l}\)</span> are chosen such that <span class="math">\(g_{2}(r_{m})=f(r_{m})\)</span> and
+<span class="math">\(g_{2}'(r_{m})=f'(r_{m})\)</span>.</li>
+<li>The other function, <span class="math">\(g_{1}(r)\)</span>, is set to
+<span class="math">\(f(r)-g_{2}(r)\)</span>, so <span class="math">\(g_{1}(r)=0\)</span> for <span class="math">\(r\geq r_{m}\)</span>.</li>
+<li>Both functions are renormalised, so
+<span class="math">\(\int_{0}^{R_{c}}|g_{1}(r)|^{2}r^{2}dr=1\)</span> and
+<span class="math">\(\int_{0}^{R_{c}}|g_{2}(r)|^{2}r^{2}dr=1\)</span>.</li>
+</ol>
+<p>Splitting of a term is activated by adding a colon after the term and
+specifying the “split norm” value. This is the fraction <span class="math">\(p\)</span> of the
+total norm of the orbital which is beyond the matching radius
+<span class="math">\(r_{m}\)</span>, such that
+<span class="math">\(\int_{r_{m}}^{R_{c}}|f(r)|^{2}r^{2}dr=p\)</span>. If this colon is
+present, the solver will take into account the total number of orbitals
+which will result from this term <em>after splitting,</em> when counting
+forward in the configuration terms to determine which orbitals to solve.
+For example, if we wished to generate a Double-Zeta Polarisation (DZP)
+basis for oxygen (<span class="math">\(2\times1\times s\)</span>,
+<span class="math">\(2\times3\times p\)</span>,<span class="math">\(1\times5\times d\)</span>), where the last 15%
+of the norm was matched for the <span class="math">\(s\)</span> and <span class="math">\(p\)</span>-orbitals, we
+would use the following:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">O</span> <span class="pre">8</span> <span class="pre">13</span> <span class="pre">9.0</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">“SOLVE</span> <span class="pre">conf=2s2:0.15</span> <span class="pre">2p4:0.15</span> <span class="pre">3sX</span> <span class="pre">3pX</span> <span class="pre">3d0”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>So that you can tell that it is happening, the code will output a
+message along the following lines when splitting a given orbital.</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">Splitting</span> <span class="pre">orbital</span> <span class="pre">1,</span> <span class="pre">splitnorm=</span> <span class="pre">0.150000000</span></code></p>
+<p><code class="docutils literal"><span class="pre">Splitting</span> <span class="pre">orbital</span> <span class="pre">1,</span> <span class="pre">splitnorm=</span> <span class="pre">0.060000000</span></code></p>
+<p>The result of the splitting can be viewed in the
+“initial_rad_ngwf_xx” files.</p>
+</div>
+<div class="section" id="obtaining-polarisation-orbitals-through-perturbation">
+<h3>Obtaining Polarisation Orbitals through Perturbation<a class="headerlink" href="#obtaining-polarisation-orbitals-through-perturbation" title="Permalink to this headline">¶</a></h3>
+<p>As well as including more flexibility for the valence orbitals, in the
+form of multiple-zeta basis sets, one frequently also wants to expand
+the basis by extending it to higher angular momentum channels. This can
+be done by simply increasing the number of NGWFs requested and ensuring
+through the ’conf=’ string that the extra functions obtained are of the
+right angular momentum. However, the resulting high-<span class="math">\(l\)</span> states
+tend to be unbound in the free atom, and therefore do not necessarily
+add anything particularly useful to the basis.</p>
+<p>There is an alternative means to generate higher-<span class="math">\(l\)</span> states,
+using perturbation theory. In this, one effectively applies an electric
+field to the valence states of angular momentum <span class="math">\(l\)</span> and polarises
+them, resulting in a set of states of angular momentum <span class="math">\(l+1\)</span>.
+Imagine we have an orbital <span class="math">\(\psi_{0}(\mathbf{r})\)</span> of angular
+momentum <span class="math">\(l\)</span>, <span class="math">\(m\)</span> which is an eigenstates of the original
+Hamiltonian <span class="math">\(\hat{H}_{0}\)</span> with eigenvalue <span class="math">\(\epsilon_{0}\)</span>:</p>
+<div class="math">
+\[\psi_{0}(\mathbf{r})=\sum_{\nu}c_{0,\nu}\, B_{l,\nu}(r)\, S_{lm}(\hat{\mathbf{r}})\;.\]</div>
+<p>We wish to polarise this orbital by applying an electric field
+<span class="math">\(\mathcal{E}\)</span> in the <span class="math">\(z\)</span>-direction:</p>
+<div class="math">
+\[\hat{H}_{1}=\mathcal{E}r\, S_{10}(\hat{\mathbf{r}})\;,\]</div>
+<p>(since <span class="math">\(S_{10}(\hat{\mathbf{r}})=z/r\)</span>). Perturbing
+<span class="math">\(\psi_{0}\)</span> with <span class="math">\(\hat{H}_{1}\)</span> gives us no shift in energy to
+first-order, since the perturbation is an odd multiplicative function of
+<span class="math">\(z\)</span>, meaning <span class="math">\(\epsilon_{1}=0\)</span>. What about the change in the
+wavefunction? This obeys</p>
+<div class="math">
+\[(\hat{H}_{0}-\epsilon_{0})\psi_{1}(\mathbf{r})=-(\hat{H}_{1}-\epsilon_{1})\psi_{0}(\mathbf{r})\label{eq:pert}\]</div>
+<p>In principle, <span class="math">\(\psi_{1}(\mathbf{r})\)</span> could have any angular
+momentum components, but we can see that in practice it only contains
+<span class="math">\(L=l\pm1\)</span>, since the dipole selection rule excludes all other
+channels. We already have <span class="math">\(l-1\)</span> states in our basis, so we
+conclude that <span class="math">\(\psi_{1}(\mathbf{r})\)</span> need only include
+<span class="math">\(l+1\)</span>, and we can expand <span class="math">\(\psi_{1}\)</span> in terms of the
+<span class="math">\(l+1\)</span> basis functions:</p>
+<div class="math">
+\[\psi_{1}(\mathbf{r})=\sum_{\nu}c_{1,\nu}\, B_{l+1,\nu}\, S_{l+1,m}(\hat{\mathbf{r}})\]</div>
+<p>Therefore we can generate a shifted Hamiltonian</p>
+<div class="math" id="equation-pert">
+<span class="eqno">(1)<a class="headerlink" href="#equation-pert" title="Permalink to this equation">¶</a></span>\[H_{\nu,\nu'}^{l+1}=\int_{0}^{R_{c}}B_{l+1,\nu}(r)\left[(\hat{H}^{l+1}-\epsilon_{0})B_{l+1,\nu'}(r)\right]r^{2}dr\;,\]</div>
+<p>and the components of the RHS of Eq. <a class="reference internal" href="#equation-pert">(1)</a></p>
+<div class="math">
+\[D_{\nu}=-\int_{0}^{R_{c}}B_{l+1,\nu}(r)r\psi_{0}(r)r^{2}dr\;.\]</div>
+<p>To solve for <span class="math">\(c_{1,\nu}\)</span> we just need to invert
+<span class="math">\(H_{\nu,\nu'}^{l+1}\)</span>and apply it to <span class="math">\(D_{\nu}\)</span>, and then
+renormalise the result to have a norm of 1.</p>
+<p>In practice, polarisation of a given configuration term of angular
+momentum <span class="math">\(l\)</span>, to form a perturbative polarisation orbital for
+<span class="math">\(l+1\)</span>, is achieved by adding “|P” to the term, for example:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">O</span> <span class="pre">8</span> <span class="pre">13</span> <span class="pre">9.0</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species</span></code></p>
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">“SOLVE</span> <span class="pre">conf=2s2:0.15</span> <span class="pre">2p4:0.15|P”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>So that you can tell that it is happening, the code will output a
+message along the following lines when polarising a given orbital:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">Polarising</span> <span class="pre">orbital</span> <span class="pre">1</span> <span class="pre">to</span> <span class="pre">generate</span> <span class="pre">l=</span> <span class="pre">2</span> <span class="pre">function</span> <span class="pre">(orbital</span> <span class="pre">3)</span></code></p>
+<p>Again, the result can be viewed by plotting the relevant
+“initial_rad_ngwf_xx” file.</p>
+</div>
+<div class="section" id="overriding-radii">
+<h3>Overriding radii<a class="headerlink" href="#overriding-radii" title="Permalink to this headline">¶</a></h3>
+<p>By default, the cutoff radius used for all the orbitals of an atom is
+the same <span class="math">\(R_{c}\)</span> as defined in the <code class="docutils literal"><span class="pre">%block</span> <span class="pre">species</span></code> entry for
+that element. However, we can override this, either for all orbitals, or
+for certain angular momentum channels.</p>
+<p>To override the radius for all channels, for example to
+7.0<span class="math">\(a_{0}\)</span>, would we add the flag “R=7.0” to the SOLVE string:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">“SOLVE</span> <span class="pre">conf=2s2:0.15</span> <span class="pre">2p4:0.15</span> <span class="pre">3sX</span> <span class="pre">3pX</span> <span class="pre">3d0</span> <span class="pre">R=7.0”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>Or leave the default values for all other channels, but override the
+<span class="math">\(d\)</span>-channel only to 5.0<span class="math">\(a_{0}\)</span>, we would use</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">“SOLVE</span> <span class="pre">conf=2s2:0.15</span> <span class="pre">2p4:0.15</span> <span class="pre">3sX</span> <span class="pre">3pX</span> <span class="pre">3d0</span> <span class="pre">Rd=5.0”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+</div>
+<div class="section" id="adjusting-confining-potentials">
+<h3>Adjusting confining potentials<a class="headerlink" href="#adjusting-confining-potentials" title="Permalink to this headline">¶</a></h3>
+<p>By default, a confining potential is applied, of the form:</p>
+<div class="math">
+\[V_{\mathrm{conf}}(r)=S\,\exp[-w_{l}/(r-R_{c}+w_{l})]/(r-R_{c})^2\]</div>
+<p>where <span class="math">\(S\)</span> is the maximum height of the confining potential (at
+<span class="math">\(r=R_{c}\)</span>), and <span class="math">\(w_{l}\)</span> is the width of the region over
+which it is applied. By default, <span class="math">\(S=100\)</span> Ha,
+and<span class="math">\(w_{l}=3.0a_{0}\)</span> for all <span class="math">\(l\)</span>-channels used. These can
+also be overridden, either all at once or for specific <span class="math">\(l\)</span>-values
+in the case of <span class="math">\(w\)</span>.</p>
+<p>For example, to set no confining potential on the confined
+<span class="math">\(d\)</span>-orbitals in Zinc, but to keep the default one on all the other
+orbitals, we could set <span class="math">\(w_{d}=0\)</span>:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">Zn</span> <span class="pre">“SOLVE</span> <span class="pre">conf=3d10</span> <span class="pre">4s2</span> <span class="pre">Rd=5.0</span> <span class="pre">wd=0.0”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>Or to turn off confinement potentials entirely, and generate
+<span class="math">\(R_{c}=15.0a_{0}\)</span> orbitals to match those generated by CASTEP’s
+atomsolver (this should allow direct comparison of energies, given
+suitable tweaking of the energy cutoffs so that they exactly match:</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">O</span> <span class="pre">“SOLVE</span> <span class="pre">R=15.0</span> <span class="pre">S=0.0”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>Note that there can be problems with convergence for certain choices of
+confining potential. In particular, if you apply different confining
+potentials to different <em>occupied</em> orbitals, there will be problems
+obtaining agreement between the Harris-Foulkes estimator and the actual
+total energy - because the band energy will incorporate the different
+confining potentials, but the total energy cannot. The confining
+potential on angular momentum channels with no occupied orbitals can
+therefore be whatever you like, but those of occupied orbitals must all
+match. The exception to this is if the cutoff radius ment of one channel
+is less than the onset radius for the others. In this case, there is no
+need to apply a confinement to the lower-cutoff channel at all (eg in
+the example above for Zinc).</p>
+</div>
+<div class="section" id="initial-guess-density-setting-initial-charges-and-spins">
+<h3>Initial Guess Density: Setting initial charges and spins<a class="headerlink" href="#initial-guess-density-setting-initial-charges-and-spins" title="Permalink to this headline">¶</a></h3>
+<p>The atomsolver solutions are by default also used to provide an initial
+guess for the valence electron density. This is used to generate the
+initial Hamiltonian, which determines the occupation of the orbitals via
+Palser-Manolopoulos or other kernel optimisation schemes. Therefore it
+is important that this initial density is a reasonably good guess to the
+real density.</p>
+<p>A superposition of atomic densities is usually fine for neutral systems
+without large magnetic moments. Sometimes, however, one needs to adjust
+the charges and spins of this initial density. It appears to be a rather
+bad idea to actually adjust the orbital occupations of the pseudoatoms
+self-consistently: it becomes impossible to disentangle the effect of
+changing the orbital from that of changing the density.</p>
+<p>A better approach, therefore, is to retain the same pseudoatomic
+solutions for the neutral atom, but adjust the orbital occupations only
+at the point where they are used to generate the density.</p>
+<p>This can be done by specifying “INIT CHARGE=X SPIN=Y” in the SOLVE
+string. Either CHARGE or SPIN can be omitted if they are not required.
+For example, for a manganese ion with charge +3 and spin 4, we might set</p>
+<hr class="docutils" />
+<p><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_atomic_set</span></code></p>
+<p><code class="docutils literal"><span class="pre">Mn</span> <span class="pre">“SOLVE</span> <span class="pre">conf=3d5</span> <span class="pre">4s2</span> <span class="pre">wd=7.0</span> <span class="pre">INIT</span> <span class="pre">SPIN=4</span> <span class="pre">CHARGE=+3”</span></code></p>
+<p><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_atomic_set</span></code></p>
+<p>The default occupation for the neutral atom is <span class="math">\(3d^5\)</span>
+<span class="math">\(4s^2\)</span>. However, we ask it to apply a charge of +3, and this will
+remove occupation number from the orbitals with the highest energy until
+the right charge is obtained. In this case the resulting occupation will
+be <span class="math">\(3d^4\)</span> <span class="math">\(4s^0\)</span>. Next, the spin is applied, resulting in
+<span class="math">\(3d_{\uparrow}^4\)</span> <span class="math">\(3d_{\downarrow}^0\)</span>. Note that the charge
+is applied first, followed by the spin.</p>
+<p>[Ruiz-Serrano2012] A. Ruiz-Serrano, N.D.M. Hine and C.-K. Skylaris, <em>in press</em>, (2012).</p>
+<p>[Soler2002] J.M. Soler, E. Artacho, J.D. Gale, A. Garcia, J. Junquera, P. Ordejon,
+and D. Sanchez-Portal,<em>The SIESTA method for ab initio order-N
+materials simulation</em>, J. Phys. Condens. Matter 14, (2002).</p>
+<p>[Artacho1999] E. Artacho, D. Sanchez-Portal, P. Ordejon, A. Garca, and J. M. Soler, <em>Linear-scaling ab-initio calculations for large and complex systems</em>, Phys. Status Solidi B 215, 809 (1999).</p>
+<p>[Blum2009] V. Blum, R. Gehrke, F. Hanke, P. Havu, V. Havu, X. Ren, K. Reuter, and M. Scheffler: <em>Ab initio molecular simulations with numeric atom-centered orbitals</em>, Comput. Phys. Commun. 180, 2175 (2009).</p>
+<p>[Tarralba2008] A. S. Torralba, M. Todorovic, V. Brazdova, R. Choudhury, T. Miyazaki, M. J. Gillan, and D. R. Bowler. <em>Pseudo-atomic orbitals as basis sets for the O(N) DFT code CONQUEST</em>, J. Phys. Condens. Matt. 20(29), (2008).</p>
+<p>[Chen2010] M. Chen, G.-C. Guo, and L. He, <em>Systematically improvable optimized atomic basis sets for ab initio calculations</em>, J. Phys. Condens. Matt. 22, 445501, (2010).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="index_ground_state.html" title="previous chapter">Ground State Calculation Setup</a></li>
+      <li>Next: <a href="conduction.html" title="next chapter">Conduction NGWF optimisation and optical absorption spectra</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/pseudoatomic_solver.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

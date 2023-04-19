@@ -1,0 +1,69 @@
+!========================================================!
+! Input for calculation with the ONETEP program          !
+!                                                        !
+! Quality Control file for:                              !
+! Ab initio Molecular dynamics calculation               !
+! Water dimer                                            !
+!                                                        !
+! Created by Valerio Vitale in January 2016              !
+!                                                        !
+!========================================================!
+
+task                : MOLECULARDYNAMICS
+md_delta_t          : 0.5 fs
+md_num_iter         : 6
+md_restart          : F
+md_reset_history    : 100
+
+rand_seed:          : 42
+maxit_lnv           : 8
+lnv_threshold_orig  : 1E-5
+md_lnv_threshold    : 1E-4
+md_aux_rep          : asym
+mix_dkn_init_type   : NONE
+mix_dkn_init_num    : 4
+mix_dkn_type        : XLD
+mix_dkn_num         : 3
+mix_dkn_reset       : 100
+
+maxit_ngwf_cg       : 0
+
+cutoff_energy       : 400 eV
+xc_functional       : PBE
+print_qc            : TRUE
+
+%block thermostat
+0 6 none 300 K
+%endblock thermostat
+
+%block species
+O      O    8    4   7.00
+H      H    1    1   7.00
+%endblock species
+
+%block species_pot
+H "../../pseudo/hydrogen.recpot"
+O "../../pseudo/oxygen.recpot"
+%endblock species_pot
+
+%block species_atomic_set
+O "SOLVE"
+H "SOLVE"
+%endblock species_atomic_set
+
+%block lattice_cart
+ang
+14.000  0.000  0.000
+ 0.000 14.000  0.000 
+ 0.000  0.000 14.000
+%endblock lattice_cart
+
+%block positions_abs
+ang
+O  6.98596200  7.17798100  7.08832400
+H  7.23955400  6.88846100  7.97925700
+H  7.77444600  7.00513700  6.54945200
+O  5.75145500  4.70063400  6.35794100
+H  6.02602900  5.61355800  6.57163800
+H  4.86014500  4.80110400  5.99433800
+%endblock positions_abs

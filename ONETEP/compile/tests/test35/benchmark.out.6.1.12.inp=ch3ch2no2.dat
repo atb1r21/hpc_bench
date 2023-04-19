@@ -1,0 +1,958 @@
+==================================================================================
+It's Wed Sep 21 10:32:37 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 2870 2871 2872 2873)...
+    - ONETEP arguments: ch3ch2no2.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test35
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test35/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test35/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack ch3ch2no2.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:32 (+0100)
+ 
+Reading parameters from file "ch3ch2no2.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "ch3ch2no2.dat" ...... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+print_qc             : TRUE                                                     
+task                 : SINGLEPOINT                                              
+cutoff_energy        : 1000 eV                                                  
+write_forces         : T                                                        
+write_xyz            : F                                                        
+xc_functional        : PBE                                                      
+homo_plot            : -1                                                       
+lumo_plot            : -1                                                       
+homo_dens_plot       : -1                                                       
+lumo_dens_plot       : -1                                                       
+dos_smear            : -1 eV                                                    
+num_eigenvalues      : -1                                                       
+write_density_plot   : F                                                        
+maxit_pen            : 0                                                        
+minit_lnv            : 3                                                        
+maxit_lnv            : 3                                                        
+maxit_ngwf_cg        : 2                                                        
+output_detail        : NORMAL                                                   
+dispersion           : 1                                                        
+read_tightbox_ngwfs  : F                                                        
+read_denskern        : F                                                        
+write_tightbox_ngwfs : F                                                        
+write_denskern       : F                                                        
+charge               : 0                                                        
+spin_polarized       : F                                                        
+do_properties        : T                                                        
+ddec_calculate       : T                                                        
+ddec_maxit           : 5                                                        
+ddec_moment          : 3                                                        
+cube_format          : F                                                        
+grd_format           : F                                                        
+%block species_atomic_set                                                       
+C   SOLVE                                                                       
+H   SOLVE                                                                       
+N   SOLVE                                                                       
+O   SOLVE                                                                       
+%endblock species_atomic_set                                                    
+%block species                                                                  
+C C  6 4 10.0                                                                   
+H H  1 1 10.0                                                                   
+N N  7 4 10.0                                                                   
+O O  8 4 10.0                                                                   
+%endblock species                                                               
+%block species_pot                                                              
+C   "../../pseudo/carbon_spd.recpot"                                            
+H   "../../pseudo/hydrogen_coul.recpot"                                         
+N   "../../pseudo/nitrogen.recpot"                                              
+O   "../../pseudo/oxygen_spd.recpot"                                            
+%endblock species_pot                                                           
+%block lattice_cart                                                             
+"ang"                                                                           
+15 0 0                                                                          
+0 15 0                                                                          
+0 0 15                                                                          
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =   000007666455421969132176
+%endblock positions_abs                                                         
+ddec_refdens_path : "../../c2_refdens/"                                         
+%block ddec_rcomp                                                               
+C ALL  "C_c2.refconf"                                                           
+C CORE "C_c2.coreconf"                                                          
+N CORE "N_c2.coreconf"                                                          
+N ALL  "N_c2.refconf"                                                           
+O CORE "O_c2.coreconf"                                                          
+O ALL  "O_c2.refconf"                                                           
+H ALL  "H_c2.refconf"                                                           
+%endblock ddec_rcomp                                                            
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+WARNING in pseudopotentials_read_species: string "LDA" found in pseudopotential
+file "../../pseudo/hydrogen_coul.recpot", yet xc_functional = "PBE".
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon_spd.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.25 bohr
+    Shell 2: l = 1; rc = 1.48 bohr
+    Shell 3: l = 2; rc = 1.54 bohr
+File: ../../pseudo/nitrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  7;  ionic charge:  5.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/oxygen_spd.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  8;  ionic charge:  6.000000
+    Shell 1: l = 0; rc = 1.01 bohr
+    Shell 2: l = 1; rc = 1.60 bohr
+    Shell 3: l = 2; rc = 1.60 bohr
+File: ../../pseudo/hydrogen_coul.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C          2         8        18
+  N          1         4         1
+  O          2         8        18
+  H          5         5         0
+.......   ......    ......    ......
+Totals:     10        25        37
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.449934793948a0 (KE cutoff=  37.52363Eh =1021.06992eV)
+Grid space d2=  0.449934793948a0 (KE cutoff=  37.52363Eh =1021.06992eV)
+Grid space d3=  0.449934793948a0 (KE cutoff=  37.52363Eh =1021.06992eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     15    16    15
+         Recip-space ('23') slabs/proc (min max mean):      8     8     8
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  26 iterations to a total energy of     -5.38114711
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  18 iterations to a total energy of     -0.45796926
+
+Atom SCF Calculation for N  : Z (AE atom) =   7 : Z (PS atom) =   5
+Config String:
+Orbitals (num,occ):  2     2.00 3.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  22 iterations to a total energy of     -9.68887881
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  24 iterations to a total energy of    -15.79323321
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               57.870725 Hartree
+Model : Elstner
+Dispersion Correction Energy: -0.10381588E-02 Hartree
+<QC>      [Dispersion Energy]:        -0.001038158777
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -5.557793861878E+01     4.5704E-02     3.8087E-02
+    2        -5.575041876448E+01     1.1500E-02     9.5836E-03    -1.7248E-01
+    3        -5.576887364557E+01     3.6804E-03     3.0670E-03    -1.8455E-02
+Finished density kernel iterations (   3)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -5.57688736455702E+01  Eh
+     Estimated bandgap           =   1.0969E-01  Eh
+     RMS occupancy error         =   2.6599E-10
+     [H,K] commutator            =   3.0670E-03
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.8800E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -5.62517124904757E+01 Eh
+   Predicted gain in energy  =      -4.82838844905466E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -5.625161052588E+01     1.6021E-02     1.3351E-02
+    2        -5.627377274203E+01     4.2901E-03     3.5751E-03    -2.2162E-02
+    3        -5.627579203037E+01     9.0529E-04     7.5441E-04    -2.0193E-03
+Finished density kernel iterations (   3)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -5.62757920303744E+01  Eh
+     Estimated bandgap           =   1.3542E-01  Eh
+     RMS occupancy error         =   1.4650E-13
+     [H,K] commutator            =   7.5441E-04
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.0133E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -5.63579997044121E+01 Eh
+   Predicted gain in energy  =      -8.22076740376687E-02 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -5.635798973559E+01     5.6561E-03     4.7134E-03
+    2        -5.636056141994E+01     1.6902E-03     1.4085E-03    -2.5717E-03
+    3        -5.636107361536E+01     6.7143E-04     5.5952E-04    -5.1220E-04
+Finished density kernel iterations (   3)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -5.63610736153640E+01  Eh
+     Estimated bandgap           =   1.4226E-01  Eh
+     RMS occupancy error         =   1.8113E-08
+     [H,K] commutator            =   5.5952E-04
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       40.32588929251685 |
+           | Pseudopotential (local)    :     -252.89531490343569 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):       10.01777525543204 |
+           | Hartree                    :      103.05967425287211 |
+           | Exchange-correlation       :      -14.73878445846018 |
+           | Ewald                      :       57.87072510448796 |
+           | Dispersion Correction      :       -0.00103815877709 |
+           | Total                      :      -56.36107361536399 |
+           --------------------------------------------------------
+           Integrated density           :       29.99999999999975
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00078799558345    -55.76887364557025   1.352710    -56.25171249047571        
+   1     0.00030133223271    -56.36107361536397  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -56.361073615364
+<QC>           [rms_gradient]:         0.000301332233
+<QC>      [atom_1_population]:         4.439473550188
+<QC>          [atom_1_charge]:        -0.439473550188
+<QC>      [atom_2_population]:         4.587248783395
+<QC>          [atom_2_charge]:         0.412751216605
+<QC>      [atom_3_population]:         6.333635828777
+<QC>          [atom_3_charge]:        -0.333635828777
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)
+==================================
+  C      1       4.439     -0.439
+  N      2       4.587      0.413
+  O      3       6.334     -0.334
+  O      4       6.330     -0.330
+  C      5       4.791     -0.791
+  H      6       0.684      0.316
+  H      7       0.683      0.317
+  H      8       0.719      0.281
+  H      9       0.711      0.289
+  H     10       0.722      0.278
+==================================
+
+        Bond         Population      Length (bohr)
+==================================================
+ C     5 -- H     9        0.81      2.07393
+ C     1 -- H     7        0.81      2.07484
+ C     5 -- H     8        0.81      2.07641
+ C     5 -- H    10        0.79      2.07978
+ C     1 -- H     6        0.81      2.07987
+ N     2 -- O     4        0.71      2.32519
+ N     2 -- O     3        0.72      2.32529
+ C     1 -- C     5        0.64      2.86259
+ C     1 -- N     2        0.53      2.89193
+ H     6 -- H     7       -0.11      3.35611
+ H     8 -- H     9       -0.10      3.36070
+ H     8 -- H    10       -0.09      3.37003
+ H     9 -- H    10       -0.09      3.37498
+ N     2 -- H     6       -0.11      3.94956
+ N     2 -- H     7       -0.11      3.95789
+ C     1 -- H    10       -0.11      4.05351
+ C     1 -- H     9       -0.12      4.09473
+ C     1 -- H     8       -0.12      4.10218
+ C     5 -- H     6       -0.12      4.14050
+ O     3 -- O     4       -0.17      4.14305
+ C     5 -- H     7       -0.11      4.16024
+ C     1 -- O     3       -0.22      4.43306
+ C     1 -- O     4       -0.20      4.48335
+ O     3 -- H     7       -0.02      4.66718
+ H     6 -- H    10       -0.02      4.77303
+ N     2 -- C     5       -0.12      4.80072
+ H     6 -- H     9       -0.03      4.80963
+ H     7 -- H     8       -0.03      4.81643
+ H     7 -- H    10       -0.02      4.82430
+ O     4 -- H     9       -0.00      4.92311
+ O     3 -- H     6       -0.01      5.01198
+ O     4 -- C     5       -0.04      5.17603
+ N     2 -- H     9       -0.02      5.28361
+ N     2 -- H     8       -0.02      5.34658
+ O     4 -- H     8       -0.00      5.36539
+ O     4 -- H     6        0.00      5.56744
+==================================================
+
+================================================
+                      DDEC
+------------------------------------------------
+------------------------------------------------
+================= DDEC Charges =================
+              Version 01-Sep-2014
+------------------------------------------------
+ Total integrated density =       30.00000000 e
+ WARNING: A cation configuration with the same
+ ionic charge as the core density of N
+ has been found and will be ignored.
+ WARNING: A cation configuration with the same
+ ionic charge as the core density of O
+ has been found and will be ignored.
+====================================================================
+ rcomp parameters for C   
+--------------------------------------------------------------------
+     -2  C_c2.refconf
+     -1  C_c2.refconf
+      0  C_c2.refconf
+      1  C_c2.refconf
+      2  C_c2.refconf
+ C    4  C_c2.coreconf
+--------------------------------------------------------------------
+=================================================
+====================================================================
+ rcomp parameters for H   
+--------------------------------------------------------------------
+     -2  H_c2.refconf
+     -1  H_c2.refconf
+      0  H_c2.refconf
+ C    1  H_c2.refconf
+--------------------------------------------------------------------
+=================================================
+====================================================================
+ rcomp parameters for N   
+--------------------------------------------------------------------
+     -2  N_c2.refconf
+     -1  N_c2.refconf
+      0  N_c2.refconf
+      1  N_c2.refconf
+      2  N_c2.refconf
+ C    5  N_c2.coreconf
+--------------------------------------------------------------------
+=================================================
+====================================================================
+ rcomp parameters for O   
+--------------------------------------------------------------------
+     -2  O_c2.refconf
+     -1  O_c2.refconf
+      0  O_c2.refconf
+      1  O_c2.refconf
+      2  O_c2.refconf
+ C    6  O_c2.coreconf
+--------------------------------------------------------------------
+=================================================
+----------------------------------
+ Reference density init summary
+----------------------------------
+ Sp     Ion  Init Source Type   c3
+ C    : -002   T READ   NORMAL  T
+        -001   T READ   NORMAL  T
+        +000   T READ   NORMAL  T
+        +001   T READ   NORMAL  T
+        +002   T READ   NORMAL  T
+        +004   T READ   CORE    F
+ H    : -002   T READ   NORMAL  T
+        -001   T READ   NORMAL  T
+        +000   T READ   NORMAL  T
+        +001   T READ   NORMAL  F
+ N    : -002   T READ   NORMAL  T
+        -001   T READ   NORMAL  T
+        +000   T READ   NORMAL  T
+        +001   T READ   NORMAL  T
+        +002   T READ   NORMAL  T
+        +005   T READ   CORE    F
+ O    : -002   T READ   NORMAL  T
+        -001   T READ   NORMAL  T
+        +000   T READ   NORMAL  T
+        +001   T READ   NORMAL  T
+        +002   T READ   NORMAL  T
+        +006   T READ   CORE    F
+----------------------------------
+<QC>    [sp_1_rad_2_qn_2_rad]:         3.732209115803
+<QC>   [sp_1_rad_2_qn_2_dens]:         0.003331833188
+<QC>    [sp_1_rad_3_qn_2_rad]:         5.621935250386
+<QC>   [sp_1_rad_3_qn_2_dens]:         0.000275528501
+<QC>    [sp_1_rad_4_qn_2_rad]:         7.511661384970
+<QC>   [sp_1_rad_4_qn_2_dens]:         0.000028256730
+<QC>    [sp_2_rad_2_qn_2_rad]:         3.732209115803
+<QC>   [sp_2_rad_2_qn_2_dens]:         0.001240600256
+<QC>    [sp_2_rad_3_qn_2_rad]:         5.621935250386
+<QC>   [sp_2_rad_3_qn_2_dens]:         0.000325672512
+<QC>    [sp_2_rad_4_qn_2_rad]:         7.511661384970
+<QC>   [sp_2_rad_4_qn_2_dens]:         0.000249879479
+<QC>    [sp_3_rad_2_qn_2_rad]:         3.732209115803
+<QC>   [sp_3_rad_2_qn_2_dens]:         0.002479793277
+<QC>    [sp_3_rad_3_qn_2_rad]:         5.621935250386
+<QC>   [sp_3_rad_3_qn_2_dens]:         0.000162596786
+<QC>    [sp_3_rad_4_qn_2_rad]:         7.511661384970
+<QC>   [sp_3_rad_4_qn_2_dens]:         0.000014185018
+------------------------------------------------
+ Parameters: IH fraction =      0.2142857
+             nshells_max =   100
+             rcut_max    =      9.4486307 bohr
+             c3_refdens       = T
+             reshape_dens     = T
+             include_coredens = T
+             core_correction  = T
+
+-----------------------------------------------------------------
+                           DDEC Core
+-----------------------------------------------------------------
+    Iteration   Max Change: Population (e)   Density (e)
+-----------------------------------------------------------------
+           1                4.8150019311         307.5264421966
+           2                0.0157405355           0.0485143746
+           3                0.0000035619           0.0000022262
+           4                0.0000020714           0.0000002587
+           5                0.0000010839           0.0000000629
+           6                0.0000004972           0.0000000204
+-----------------------------------------------------------------
+ DDEC core density converged
+
+-----------------------------------------------------------------
+                     DDEC Core Correction
+-----------------------------------------------------------------
+    Iteration     Max Population Difference (e)
+-----------------------------------------------------------------
+           0                2.8133577678
+           1                1.4771681968
+           2                0.7128309377
+           3                0.2875695686
+           4                0.0776331741
+           5                0.0083083793
+           6                0.0001125447
+           7                0.0000000237
+-----------------------------------------------------------------
+ DDEC core density correction converged
+------------------------------------------------
+                  Core Charges
+------------------------------------------------
+   Atom       Uncorrected (e)     Corrected (e) 
+------------------------------------------------
+ C        1         3.1128302       2.0000000
+ N        2         2.0674701       2.0000000
+ O        3         1.6924152       2.0000000
+ O        4         4.8133578       2.0000000
+ C        5         2.0111417       2.0000000
+ H        6         0.0000000       0.0000000
+ H        7         0.0000000       0.0000000
+ H        8         0.0000000       0.0000000
+ H        9         0.0000000       0.0000000
+ H       10         0.0000000       0.0000000
+------------------------------------------------
+ Total uncorrected (e) :     13.6972149
+ Total corrected (e)   :     10.0000000
+------------------------------------------------
+
+-----------------------------------------------------------------
+                              DDEC
+-----------------------------------------------------------------
+    Iteration   Max Change: Population (e)   Density (e)
+-----------------------------------------------------------------
+           1                6.1852559580         242.3822505866
+           2                0.0982702504           0.0088124107
+           3                0.0708149105           0.0014943209
+           4                0.0488227370           0.0007133159
+           5                0.0348611543           0.0005262048
+ WARNING: DDEC charges not converged after     5 iterations
+-----------------------------------------------------------------
+------------------------------------------------
+             DDEC Charges (X=0.21)              
+------------------------------------------------
+   Atom        Population (e)      Charge (e)   
+------------------------------------------------
+ C        1         6.0795235      -0.0795235
+ N        2         6.5415547       0.4584453
+ O        3         8.3165865      -0.3165865
+ O        4         8.3021585      -0.3021585
+ C        5         6.2532637      -0.2532637
+ H        6         0.8955179       0.1044821
+ H        7         0.8972202       0.1027798
+ H        8         0.9046537       0.0953463
+ H        9         0.9027598       0.0972402
+ H       10         0.9067615       0.0932385
+------------------------------------------------
+ Total charge (e) :     30.0000000
+ Spilling (e)     :      0.0000072
+------------------------------------------------
+<QC>       [atom_1_ddec_popn]:        -0.079523524165
+<QC>       [atom_1_rad_2_rad]:         3.732209115803
+<QC>      [atom_1_rad_2_dens]:         0.000549520101
+<QC>       [atom_1_rad_3_rad]:         5.621935250386
+<QC>      [atom_1_rad_3_dens]:         0.000017728181
+<QC>       [atom_1_rad_4_rad]:         7.511661384970
+<QC>      [atom_1_rad_4_dens]:         0.000000650701
+<QC>       [atom_2_ddec_popn]:         0.458445334469
+<QC>       [atom_2_rad_2_rad]:         3.732209115803
+<QC>      [atom_2_rad_2_dens]:         0.000396752682
+<QC>       [atom_2_rad_3_rad]:         5.621935250386
+<QC>      [atom_2_rad_3_dens]:         0.000007649085
+<QC>       [atom_2_rad_4_rad]:         7.511661384970
+<QC>      [atom_2_rad_4_dens]:         0.000000110106
+<QC>       [atom_3_ddec_popn]:        -0.316586485672
+<QC>       [atom_3_rad_2_rad]:         3.732209115803
+<QC>      [atom_3_rad_2_dens]:         0.000339986842
+<QC>       [atom_3_rad_3_rad]:         5.621935250386
+<QC>      [atom_3_rad_3_dens]:         0.000006729835
+<QC>       [atom_3_rad_4_rad]:         7.511661384970
+<QC>      [atom_3_rad_4_dens]:         0.000000144384
+---------------------------------------------------------
+              AIM Effective Decay Exponents
+  Least-squares fit to exp(a-br) for r >    3.77945 a0
+---------------------------------------------------------
+ isp  iat   a              b              R^2
+---------------------------------------------------------
+ C        1     -1.0855900      1.7555089      0.9998861
+ N        2      0.8469589      2.2641368      0.9991940
+ O        3     -0.5233485      2.0321287      0.9993606
+ O        4     -0.3746629      2.0593709      0.9996591
+ C        5     -1.0227859      1.7543777      0.9997733
+ H        6     -1.6704140      1.9056197      0.9986456
+ H        7     -1.7883172      1.8853605      0.9992888
+ H        8     -1.4583911      1.9379851      0.9985162
+ H        9     -1.3276848      1.9625702      0.9980497
+ H       10     -1.0717461      2.0134145      0.9953702
+---------------------------------------------------------
+<QC>        [atom_1_moment_3]:        36.466758029153
+<QC>        [atom_2_moment_3]:        27.546776807410
+<QC>        [atom_3_moment_3]:        23.343581247275
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------
+           DDEC Radial Moment Order  3 (X=0.21)
+-------------------------------------------------------------
+  Atom        AIM-Valence     AIM-Core        Reference
+-------------------------------------------------------------
+ C       1        28.1091601       0.0911787      36.4667580
+ N       2        21.2244293       0.0575243      27.5467768
+ O       3        23.7114658       0.0375103      23.3435812
+ O       4        23.4353065       0.0382177      23.3287792
+ C       5        30.0118926       0.0931433      36.4758488
+ H       6         5.2100528       0.0000000       8.6772304
+ H       7         5.2830032       0.0000000       8.6753820
+ H       8         5.5912927       0.0000000       8.6767311
+ H       9         5.6247659       0.0000000       8.6781267
+ H      10         5.5944668       0.0000000       8.6753266
+-------------------------------------------------------------
+
+====================================================================
+-------------------------------------------------------------
+
+                   Extra Point Charges 
+-------------------------------------------------------------
+           Atom Type and Number
+                C       1
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                N       2
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                O       3
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                O       4
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                C       5
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                H       6
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                H       7
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                H       8
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                H       9
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+           Atom Type and Number
+                H      10
+            Error in Potential 
+                  0.0000000
+             VdW Radius Used 
+                  0.0000000
+------------------------------------------------
+
+        AIM Dipole Before (e.bohr)
+     dx  =        1.243896484408907543
+     dy  =       -0.428180904075754487
+     dz  =       -0.264577763133402755
+    magnitude =     1.341871358694507910
+
+        AIM Dipole After (e.bohr)
+     dx  =        1.243896484408907543
+     dy  =       -0.428180904075754487
+     dz  =       -0.264577763133402755
+    magnitude =     1.341871358694507910
+
+================================================
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1      0.00023616   0.00323673   0.00292935 *
+*    N       2     -0.00599355   0.00455246   0.00217648 *
+*    O       3      0.00988312   0.00437226   0.00379780 *
+*    O       4      0.00059043  -0.01046760  -0.00619246 *
+*    C       5     -0.00571253  -0.00352730  -0.00470504 *
+*    H       6      0.00138993  -0.00090300   0.00286297 *
+*    H       7      0.00181165   0.00281100  -0.00036970 *
+*    H       8      0.00050023   0.00075462  -0.00271161 *
+*    H       9      0.00019158  -0.00265289   0.00064303 *
+*    H      10     -0.00289701   0.00182373   0.00156917 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000  -0.00000000  -0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:         0.000236155904
+<QC>       [total_force(1,2)]:        -0.005993545348
+<QC>       [total_force(1,3)]:         0.009883116919
+<QC>       [total_force(1,4)]:         0.000590430182
+<QC>       [total_force(1,5)]:        -0.005712533892
+<QC>       [total_force(1,6)]:         0.001389928642
+<QC>       [total_force(1,7)]:         0.001811647010
+<QC>       [total_force(1,8)]:         0.000500234840
+<QC>       [total_force(1,9)]:         0.000191577554
+<QC>      [total_force(1,10)]:        -0.002897011811
+<QC>       [total_force(2,1)]:         0.003236729700
+<QC>       [total_force(2,2)]:         0.004552462827
+<QC>       [total_force(2,3)]:         0.004372257967
+<QC>       [total_force(2,4)]:        -0.010467603760
+<QC>       [total_force(2,5)]:        -0.003527304921
+<QC>       [total_force(2,6)]:        -0.000903004006
+<QC>       [total_force(2,7)]:         0.002810997970
+<QC>       [total_force(2,8)]:         0.000754621106
+<QC>       [total_force(2,9)]:        -0.002652885947
+<QC>      [total_force(2,10)]:         0.001823729064
+<QC>       [total_force(3,1)]:         0.002929347507
+<QC>       [total_force(3,2)]:         0.002176482759
+<QC>       [total_force(3,3)]:         0.003797803307
+<QC>       [total_force(3,4)]:        -0.006192457520
+<QC>       [total_force(3,5)]:        -0.004705039003
+<QC>       [total_force(3,6)]:         0.002862965811
+<QC>       [total_force(3,7)]:        -0.000369697984
+<QC>       [total_force(3,8)]:        -0.002711605338
+<QC>       [total_force(3,9)]:         0.000643027101
+<QC>      [total_force(3,10)]:         0.001569173360
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      17.611s on      4 proc(s)                                    
+TOTAL TIME:        17.611s on      4 proc(s)                                    
+================= AVERAGE TIMINGS FROM ALL PROCS (CUMULATIVE) ==================
+|| TAG                                    #calls    cpu time   %total  Gflops ||
+|| onetep.F90 main loop imbalance       :     1        0.00s   0.000%  ------ ||
+|| ewald_calculate_forces_realspace     :     1        0.00s   0.002%  ------ ||
+|| onetep.F90 final imbalance           :     1        0.00s   0.002%  ------ ||
+|| vdwcorrection_calculate_energy       :     1        0.00s   0.003%  ------ ||
+|| vdwcorrection_calculate_forces       :     1        0.00s   0.004%  ------ ||
+|| sparse_set_to_garbage                :    34        0.00s   0.005%  ------ ||
+|| basis_extract_function_from_box      :    37        0.00s   0.008%  ------ ||
+|| ewald_calculate_energy               :     1        0.00s   0.009%  ------ ||
+|| ewald_calculate_forces_recipspace    :     1        0.00s   0.014%  ------ ||
+|| ewald_calculate_forces               :     1        0.00s   0.018%  ------ ||
+|| ngwf_gradient_coeffs                 :     3        0.00s   0.028%  ------ ||
+|| sparse_init                          :     1        0.01s   0.033%  ------ ||
+|| sparse_embed_hotelling_invert_embed  :     6        0.01s   0.056%  ------ ||
+|| palser_mano_kernel_optimise          :     1        0.01s   0.057%  ------ ||
+|| pseudo_make_structure_factor         :     1        0.01s   0.064%  ------ ||
+|| lnv_gradient_norm                    :     9        0.01s   0.065%  ------ ||
+|| pseudopotentials_nonlocal_mat        :     6        0.02s   0.099%  ------ ||
+|| pseudopotentials_local_on_grid       :     1        0.02s   0.114%  ------ ||
+|| pseudo_local_calculate_forces        :     1        0.02s   0.116%  ------ ||
+|| kernel_purify                        :    31        0.02s   0.137%  ------ ||
+|| fourier_apply_box_pair               :    62        0.03s   0.165% 191.084 ||
+|| sparse_trace                         :   413        0.03s   0.179%  ------ ||
+|| basis_copy_function_to_box           :   250        0.03s   0.184%  ------ ||
+|| kernel_fix                           :     9        0.05s   0.279%  ------ ||
+|| basis_dot_function_with_box          :  4328        0.08s   0.434%  ------ ||
+|| sparse_product                       :   600        0.08s   0.441%  ------ ||
+|| integrals_grad                       :     1        0.09s   0.530%  ------ ||
+|| nonsc_forces_ngwfs_calc              :     1        0.09s   0.530%  ------ ||
+|| basis_add_function_to_box            :  5312        0.10s   0.541%  ------ ||
+|| ngwfs_initialise_from_radial         :     1        0.12s   0.705%  ------ ||
+|| density_init_guess_real              :     1        0.12s   0.706%  ------ ||
+|| function_ops_brappd_ketppd           :     6        0.18s   1.000%  ------ ||
+|| projectors_func_grad_ovlp_box        :     3        0.20s   1.108%  ------ ||
+|| pseudo_nl_calculate_forces           :     1        0.20s   1.129%  ------ ||
+|| integrals_kinetic                    :     6        0.20s   1.157%  ------ ||
+|| integrals_locpot_mat_els_batch       :    11        0.25s   1.392%  ------ ||
+|| density_batch_row_sums               :    22        0.28s   1.594%  ------ ||
+|| hamiltonian_energy_components        :     1        0.29s   1.629%  ------ ||
+|| projectors_init_fftbox_recip         :    12        0.29s   1.641%  ------ ||
+|| density_fftbox_deposit_to_cell       :   198        0.34s   1.920%  ------ ||
+|| projectors_func_ovlp_box             :     6        0.40s   2.280%  ------ ||
+|| energy_and_force_init_cell           :     1        0.40s   2.285%  ------ ||
+|| forces_calculate                     :     1        0.40s   2.289%  ------ ||
+|| hartree_on_grid                      :    21        0.45s   2.540%  ------ ||
+|| projectors_gradient_batch            :     3        0.49s   2.803%  ------ ||
+|| cell_grid_extract_box_real           :   359        0.67s   3.827%  ------ ||
+|| cell_grid_deposit_box_real           :   306        0.75s   4.249%  ------ ||
+|| fourier_apply_box                    :   677        0.80s   4.542% 311.520 ||
+|| density_fftbox_interpolate_multiply  :   198        0.81s   4.606%  ------ ||
+|| fourier_apply_cell_forward           :   106        1.00s   5.685%  11.200 ||
+|| fourier_apply_cell_backward          :   106        1.01s   5.750%  11.073 ||
+|| ngwf_gradient_build_batch            :     3        1.06s   6.041%  ------ ||
+|| potential_apply_to_ngwf_batch        :    11        1.62s   9.181%  ------ ||
+|| integrals_locpot_dbl_grid            :    11        1.88s  10.650%  ------ ||
+|| ngwf_gradient_batch                  :     3        1.94s  11.027%  ------ ||
+|| xc_energy_potential                  :    21        2.04s  11.587%  ------ ||
+|| ngwf_gradient_lnv                    :     3        2.12s  12.011%  ------ ||
+|| density_batch_interp_deposit         :    22        2.72s  15.458%  ------ ||
+|| density_on_dbl_grid                  :    22        3.26s  18.491%  ------ ||
+|| ddec_main                            :     1        4.57s  25.943%  ------ ||
+|| properties_calculate                 :     1        5.28s  29.962%  ------ ||
+|| hamiltonian_lhxc_calculate           :    19        5.73s  32.557%  ------ ||
+|| lnv_denskernel_optimise_cg           :     3        6.08s  34.533%  ------ ||
+|| ngwf_cg_optimise                     :     1       10.37s  58.907%  ------ ||
+|| energy_and_force_calculate           :     1       16.88s  95.864%  ------ ||
+|| total_time                           :     1       17.61s 100.000%  ------ ||
+================================================================================
+Overhead of generating timer report: 
+- 1 ms averaging over threads,
+- 0 ms ensuring consistency across MPI ranks,
+- 3 ms printing in order.
+
+Job completed: 21-09-2022 10:32 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

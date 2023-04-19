@@ -1,0 +1,48 @@
+
+# -------------------------------------------------
+# A ONETEP configuration file for IRIDIS5.
+# 2021.03 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+#                         University of Southampton
+# -------------------------------------------------
+# v2.00
+
+# -------------------------------------------------
+# Compiler: 	Intel ifort v19.0.3.
+# MPI: 		Intel MPI 2018.3.222.
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the compiler.
+# ScaLAPACK:	Yes.
+# -------------------------------------------------
+
+# -------------------------------------------------
+# Make sure you have the following modules loaded:
+# intel-compilers/19.0.3
+# intel-mpi/2018.3.222
+# intel-tools/2019.3
+# intel-mkl/2019.3.199
+#
+# This can be achieved by adding the following
+# lines to the end of ~/.bashrc (drop the leading '#'):
+#
+# module load intel-compilers/19.0.3 >/dev/null 2>/dev/null  
+# module load intel-mkl/2019.3.199   >/dev/null 2>/dev/null
+# module load intel-mpi/2018.3.222   >/dev/null 2>/dev/null
+# module load intel-tools/2019.3     >/dev/null 2>/dev/null # needed for gdb-ia
+#
+# Do NOT use the intel-mpi/2019.3.199 module. It will deadlock in sparse_mod.
+# -------------------------------------------------
+
+# Adjust MKLROOT, the one set by the module is wrong.
+MKLROOT=/local/software/intel-mkl/intel-mkl-2019.3.199/compilers_and_libraries_2019.3.199/linux/mkl/
+
+F90 = mpiifort -qopenmp -mkl
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DSTACK_TRACE_IN_ABORT -DMPI -I$(MKLROOT)/include/fftw -diag-disable 8290,8291,7712,5462 -warn all
+OPTFLAGS = -O2 -g -traceback
+DEBUGFLAGS = -g -traceback -check all,noarg_temp_created -ftrapuv
+COMPILER = INTEL-ifort-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lmkl_blacs_intelmpi_lp64 -lpthread -lm
+
+# Warnings disabled:
+#   8290, 8291 - suggest field widths
+#   7712 - unused variables
+#   5462 - global name too long (for linker, still within F2003 standard bounds)

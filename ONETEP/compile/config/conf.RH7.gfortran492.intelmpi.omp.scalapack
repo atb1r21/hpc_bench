@@ -1,0 +1,69 @@
+#
+# ONETEP configuration file
+# for Red Hat Linux 7 PCs in Southampton.
+# Created by Jacek Dziedzic, 23/05/2017.
+# Updated by James C. Womack for GCC 4.9.2, 30/11/2018
+# v1.2
+#
+# Compiler: 	GNU Fortran v4.9.2
+# MPI: 		    Intel MPI, provided with Intel Parallel Studio XE 2018.
+# OMP:        Yes.
+# FFTW3:	    MKL interface, provided with Intel Parallel Studio XE 2018.
+# ScaLAPACK:	Yes, provided with Intel Parallel Studio XE 2018.
+#
+# This config file instructs gfortran to default-initialise variables with garbage,
+# which could be useful for detecting uninitialised data.
+#
+# You must install gcc 4.9.2 by going go https://deskctl/software first.
+#
+# You can also install the following packages using yum on the command line:
+#   devtoolset-3-gcc.x86_64 
+#   devtoolset-3-gcc-gfortran.x86_64
+#   devtoolset-3-gdb.x86_64
+#   devtoolset-3-gcc-c++.x86_64
+#
+# It is crucial that you have the right Software Collection enabled.
+# To do this, issue 'scl enable devtoolset-3 bash' (without the quotes) from the command line.
+# Also, you will need the module 'intel/2018' for MKL and Intel MPI.
+#
+# You should also have sourced the compilervars.sh script to setup the relevant environment
+# variables, i.e.
+#
+#   source /local/software/intel/2018/compilers_and_libraries_2018.5.274/linux/bin/compilervars.sh -arch intel64 -platform linux
+#
+# One last thing. The MKL bundled with Intel Parallel Studio does not provide an mkl_service.mod
+# that would be ABI-compatible with gfortran, so we need to compile one on our own. This only
+# needs to be done once. Remove the '#' from the lines below and issue them as bash commands.
+#
+# cd your_onetep_directory/devel
+# mkdir lib/mkl_mod_gfortran_492
+# cd lib/mkl_mod_gfortran_492
+# cp /local/software/intel/2018/compilers_and_libraries_2018.5.274/linux/mkl/include/mkl_service.f90 .
+# gfortran -c mkl_service.f90
+# stat mkl_service.mod >/dev/null && echo "SUCCESS" || echo "It did not work."
+# cd -
+#
+
+F90 = mpif90  -m64 -fopenmp
+MKLMODPATH = ${ROOTDIR}/lib/mkl_mod_gfortran_492
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DMPI -DGFORTRAN  -I${MKLROOT}/include -I${MKLROOT}/include/fftw -I${MKLMODPATH} -Werror -Wall -Wno-unused -Wno-unused-dummy-argument -Wno-maybe-uninitialized -Wno-character-truncation -Wno-conversion -Wno-conversion-extra -Wno-target-lifetime
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -fcheck=all -finit-integer=-999999999 -finit-real=snan -ffpe-trap=invalid,zero,overflow
+COMPILER = GNU-gfortran-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -Wl,--no-as-needed -lmkl_scalapack_lp64 -lmkl_gf_lp64 -lmkl_gnu_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -lgomp -lpthread -lm -ldl
+# NB. Link line generated using the link line advisor (below) with the dynamic option.
+# https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
+# Options:
+#     Intel product:              Intel(R) Parallel Studio XE 2018
+#     OS:                         Linux*
+#     Xeon Phi Coprocessor:       None
+#     Compiler:                   GNU Fortran
+#     Architecture:               Intel(R) 64
+#     Dynamic or static linking:  Dynamic
+#     Interface layer:            LP64 (32-bit integer)
+#     Threading layer:            OpenMP threading
+#     OpenMP library:             GNU (libgomp)
+#     Cluster library:            ScaLAPACK, BLACS
+#     MPI library:                Intel(R) MPI
+#     F95 interfaces:             [None selected]
+#     Link with Intel(R) MKL libraries explicitly: Yes

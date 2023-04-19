@@ -1,0 +1,663 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Constrained Density Functional Theory (cDFT) &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dynamics" href="index_dynamics.html" />
+    <link rel="prev" title="DFT+\(U\)(+\(J\))" href="ONETEP_DFT+U_README.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="constrained-density-functional-theory-cdft">
+<h1>Constrained Density Functional Theory (cDFT)<a class="headerlink" href="#constrained-density-functional-theory-cdft" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Gilberto Teobaldi, University of Liverpool (<a class="reference external" href="mailto:g&#46;teobaldi&#37;&#52;&#48;liv&#46;ac&#46;uk">g<span>&#46;</span>teobaldi<span>&#64;</span>liv<span>&#46;</span>ac<span>&#46;</span>uk</a>)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">November 2013</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="cdft-input-check-list">
+<h2>cDFT input check-list<a class="headerlink" href="#cdft-input-check-list" title="Permalink to this headline">¶</a></h2>
+<p>This is a short check-list meant to help the setting up of a
+constrained-DFT (cDFT) simulation. ONETEP implements some rather
+extensive check of the input (as specified in .dat file). In spite of
+this, users may be still capable of creating erroneous inputs which I
+could not think of. If you experience disaster (commutators larger than
+1.E-3, NWGFs- and cDFT-optimisation stuck at the same value of the
+gradient for many iterations, or NaN (Not A Number) and ‘***’ outputs
+from ONETEP), please do get in touch.</p>
+<div class="section" id="can-i-start-by-running-a-cdft-geometry-optimisation-and-or-molecular-dynamics-straightaway">
+<h3>Can I start by running a cDFT geometry-optimisation and/or Molecular Dynamics straightaway?<a class="headerlink" href="#can-i-start-by-running-a-cdft-geometry-optimisation-and-or-molecular-dynamics-straightaway" title="Permalink to this headline">¶</a></h3>
+<p>Currently, this is <strong>not</strong> possible. ONETEP will not allow you to run a
+geometry-optimisation/molecular dynamics simulation unless a .cdft file
+(containing the cDFT-potentials, Uq/s) is present. This is meant to
+force you to first make sure that your cDFT-settings let you obtain a
+good convergence in a single-point calculation for the system and
+constrained solution you are interested in.</p>
+</div>
+<div class="section" id="what-projectors-am-i-telling-onetep-to-use">
+<h3>What projectors am I telling ONETEP to use?<a class="headerlink" href="#what-projectors-am-i-telling-onetep-to-use" title="Permalink to this headline">¶</a></h3>
+<p>Is cdft_read_projector=F (this is the default) and cdft_multi_proj=F
+(this is the default) in your input?</p>
+<p>If so, you will be using as cDFT-projectors the orbitals, of angular
+momentum <em>L-projectors</em>, of a hydrogenic atom of atomic number
+<em>Z-projector</em>, provided <em>Z-projector</em> is positive in the %block
+constrained_dft (Z&gt;0). Conversely, if you have entered a negative
+<em>Z-projector</em> value in the %block constrained_dft (Z&lt;0), you will be
+using the numerical orbital (of angular momentum <em>L-projectors</em>) for the
+given cDFT-atom as cDFT-projectors.</p>
+<p>Is cdft_multi_proj=T (this is NOT the default) in your input?</p>
+<p>If so, you will be using as cDFT-projectors the numerical orbitals,
+obtained from the pseudo-atom solver. You will be using as many
+cDFT-projectors as NGWFs for the given cDFT-site. Thus, to know the
+number and angular momentum of your cDFT-projectors, you need to refer
+to the specific settings of the cDFT-site in the %block
+species_atom_set and the relevant output in the standard .out file.</p>
+<p>Is cdft_read_projector=T in your input?</p>
+<p>If so, you will use the projectors stored in the .tightbox_hub_projs
+file (or experience a crash if this file is not present). Mind that the
+file will contain different classes of projectors (hydrogenic orbitals,
+numerical orbitals, self-consistent projectors) depending on the
+settings you used for the cDFT-run which generated the
+.tightbox_hub_projs file. This means that, unless one wants to
+experience a crash, the projectors in the .tightbox_hub_projs file
+should have been generated with the same entries for <em>Z-projector</em> <em>and
+L-projector</em> in %block constrained_dft <strong>OR</strong> cdft_multi_proj and
+%block species_atom_set as in the current calculation.</p>
+</div>
+<div class="section" id="is-this-the-first-single-point-cdft-submission-or-do-i-want-to-restart-a-single-point-calculation">
+<h3>Is this the first single-point cDFT submission or do I want to restart a single-point calculation?<a class="headerlink" href="#is-this-the-first-single-point-cdft-submission-or-do-i-want-to-restart-a-single-point-calculation" title="Permalink to this headline">¶</a></h3>
+<p>For submission from scratch the user can chose between starting the
+cDFT-run from previously obtained DFT-NGWFs and Density Kernel (DKN), by
+setting (read_denskern=T and read_tightbox_ngwfs=T), <strong>or not</strong>
+(read_denskern=F and read_tightbox_ngwfs=F).</p>
+<p><strong>To restart a cDFT</strong>-single point run (from the latest Uq/s-potentials)
+or to run cDFT-geometry optimisations/Molecular Dynamics it is necessary
+to activate cdft_continuation=T. <strong>Mind</strong> that if, instead of
+hydrogenic or numerical orbitals as cDFT-projectors (see above) one
+wants to use/keep using pre-optimised projectors (stored in
+.tightbox_hub_projs file) it is necessary to activate also
+cdft_read_projector=T in a restart.</p>
+</div>
+<div class="section" id="are-the-columns-of-the-block-constrained-dft-requesting-the-right-targets-for-the-given-cdft-flavour">
+<h3>Are the columns of the %block constrained_dft requesting the right targets for the given cDFT-flavour?<a class="headerlink" href="#are-the-columns-of-the-block-constrained-dft-requesting-the-right-targets-for-the-given-cdft-flavour" title="Permalink to this headline">¶</a></h3>
+<p><strong>MIND</strong> that, as explained in the description of the keywords,
+different columns of the %block constrained_dft are used depending on
+the selected cDFT-modes (cdft_atom_charge, cdft_atom_spin,
+cdft_group_charge/spin_acceptor/donor,
+cdft_group_charge/spin_diff). Are you requesting the right targets in
+terms of atomic-population, group-populations, atomic magnetic-moments
+and group magnetic-moments?</p>
+<p>Mind also that the cdft_group_charge/spin_acceptor/donor,
+cdft_group_charge/spin_diff cDFT-modes require that targeted
+population, magnetic-moment and differences are entered explicitly with
+the corresponding _TARGET keyword. If you have forgotten entering the
+relevant _TARGET keyword in your input, the simulation will stop and
+ONETEP will tell you about it.</p>
+</div>
+<div class="section" id="have-i-set-cdft-group-charge-up-down-only-t">
+<h3>Have I set CDFT_GROUP_CHARGE_UP/DOWN_ONLY=T?<a class="headerlink" href="#have-i-set-cdft-group-charge-up-down-only-t" title="Permalink to this headline">¶</a></h3>
+<p>Remember that, for CDFT_GROUP_CHARGE_UP/DOWN_ONLY=T, only the
+corresponding spin-channel will be constrained in
+cdft_group_charge_acceptor/donor and cdft_group_charge_diff runs.
+Accordingly, you should target populations for one-spin channel only
+(<strong>not</strong> for the UP+DOWN channels).</p>
+</div>
+<div class="section" id="is-the-sign-of-uq-s-correct-for-the-group-charge-spin-acceptor-donor-diff-run">
+<h3>Is the sign of U<sub>q/s</sub> correct for the group_charge/spin_acceptor/donor/diff run?<a class="headerlink" href="#is-the-sign-of-uq-s-correct-for-the-group-charge-spin-acceptor-donor-diff-run" title="Permalink to this headline">¶</a></h3>
+<p>Remember that atoms in acceptor- and donor-group are identified by mean
+of the sign of the Uq/s in the %block constrained_dft. Thus,
+<strong>acceptor-group atoms</strong> need to be assigned negative (e-attractive)
+U<sub>q/s</sub> (<strong>U:sub:`q/s`&lt;0</strong>), whereas <strong>donor-group atoms</strong>
+need to be assigned positive (e-repulsive) U<sub>q/s</sub>
+(<strong>U:sub:`q/s`&gt;0</strong>).</p>
+</div>
+<div class="section" id="are-my-constraints-compatible-with-the-spin-nup-ndown-keyword-in-the-input-dat-file">
+<h3>Are my constraints compatible with the spin (=N<sub>UP</sub>-N<sub>DOWN</sub>) keyword in the input (.dat) file?<a class="headerlink" href="#are-my-constraints-compatible-with-the-spin-nup-ndown-keyword-in-the-input-dat-file" title="Permalink to this headline">¶</a></h3>
+<p>Remember that ONETEP optimises the Density Kernel keeping the number of
+UP (N<sub>UP</sub>) and DOWN (N<sub>DOWN</sub>) electrons fixed. As a result,
+the net magnetization of the system (N<sub>UP</sub>-N<sub>DOWN</sub>) is also
+fixed. Have you introduced any incongruence between the spin=0,1,2,etc
+keyword and the cDFT-ones in your input? If your targeted cDFT-solution
+results in a high-value (i.e. &gt; 0 μ<sub>B</sub>) magnetization of the
+<strong>total</strong> system, the spin keyword should reflect it.</p>
+</div>
+<div class="section" id="what-values-of-min-maxit-lnv-maxit-ngwf-cg-and-maxit-cdft-u-cg-should-i-use">
+<h3>What values of min/maxit_lnv, maxit_ngwf_cg and maxit_cdft_u_cg should I use?<a class="headerlink" href="#what-values-of-min-maxit-lnv-maxit-ngwf-cg-and-maxit-cdft-u-cg-should-i-use" title="Permalink to this headline">¶</a></h3>
+<p>Based on the tests run so far, and considering that the cDFT-potentials
+(Uq/s) are iteratively optimised at each (1:sup:<cite>st</cite>) step of the
+NGWFs-optimisation line-search, the following choices seem to be
+reasonable:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">maxit_palser_mano</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">kerfix</span> <span class="p">:</span> <span class="mi">2</span>
+<span class="n">maxit_pen</span> <span class="p">:</span> <span class="mi">0</span>
+<span class="n">minit_lnv</span> <span class="p">:</span> <span class="mi">5</span>
+<span class="n">maxit_lnv</span> <span class="p">:</span> <span class="mi">10</span>
+<span class="n">maxit_ngwf_cg</span> <span class="p">:</span> <span class="mi">60</span>
+<span class="n">lnv_check_trial_steps</span> <span class="p">:</span> <span class="n">T</span>
+<span class="n">lnv_threshold_orig</span> <span class="p">:</span> <span class="mf">1.0e-10</span>
+<span class="n">maxit_cdft_u_cg</span> <span class="p">:</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>Increasing maxit_cdft_u_cg above 5 is hardly going to accelerate the
+convergence of the cDFT-run (the NGWFs will change at the following step
+of NGWFs-optimisation), decreasing minit_lnv below 5 might be risky.</p>
+</div>
+<div class="section" id="to-what-value-should-i-initialise-the-cdft-potentials-uq-s">
+<h3>To what value should I initialise the cDFT-potentials (Uq/s)?<a class="headerlink" href="#to-what-value-should-i-initialise-the-cdft-potentials-uq-s" title="Permalink to this headline">¶</a></h3>
+<p>In the current implementation, unless cdft_guru=T, in which case the
+Uq/s entered in the %block constrained_dft will be used, the absolute
+value of the Uq/s cDFT-potentials are internally initialised to 1 eV
+(their original sign is, of course, maintained). For spin-excitation
+|Us|=1eV may be too large, and initialising the |Us| with 0.1-0.3 eV
+may accelerate convergence (this has been tested only on triplet
+excitations in benzene dimers).</p>
+</div>
+<div class="section" id="what-is-the-difference-between-a-cdft-atom-charge-run-and-a-cdft-group-charge-acceptor-donor-one-with-one-atom-group">
+<h3>What is the difference between a cdft_atom_charge run and a cdft_group_charge_acceptor/donor one with one-atom group?<a class="headerlink" href="#what-is-the-difference-between-a-cdft-atom-charge-run-and-a-cdft-group-charge-acceptor-donor-one-with-one-atom-group" title="Permalink to this headline">¶</a></h3>
+<p>Whereas the cdft_atom_charge=T mode allows independent (i.e.
+potentially different) constraining potentials to be applied to the UP
+and DOWN spin-channels, for <strong>one-atom</strong>
+cdft_group_charge_acceptor/donor=T the same Uq will be applied to
+both the UP and DOWN spin-channel. Activation of
+cdft_group_charge_up/down_only=T in cdft_group_acceptor/donor
+modes allows to optimise Uq for only a spin-channel, leaving the other
+spin-channel unconstrained.</p>
+</div>
+<div class="section" id="have-i-chosen-a-meaningful-cdft-cg-max-for-the-cdft-mode-i-wish-to-use">
+<h3>Have I chosen a meaningful cdft_cg_max for the cDFT-mode I wish to use?<a class="headerlink" href="#have-i-chosen-a-meaningful-cdft-cg-max-for-the-cdft-mode-i-wish-to-use" title="Permalink to this headline">¶</a></h3>
+<p>For cDFT-runs with only one cDFT-group in the system
+(cdft_group_charge/spin_acceptor/donor modes) and
+group_charge/spin_diff runs, <strong>only one</strong> cDFT-potential (Uq/s) will
+be optimised in the cDFT-loop. Accordingly, for these cases it is
+recommended to perform the cDFT-optimisation via a steepest descendent
+algorithm (cdft_cg_max=1).</p>
+</div>
+<div class="section" id="how-do-i-obtain-the-population-of-the-cdft-sites-for-a-standard-dft-run">
+<h3>How do I obtain the population of the cDFT-sites for a standard DFT-run?<a class="headerlink" href="#how-do-i-obtain-the-population-of-the-cdft-sites-for-a-standard-dft-run" title="Permalink to this headline">¶</a></h3>
+<p>Performing a single-point (task=singlepoint) fixed-Uq/s
+(maxit_cdft_u_cg=0) cDFT-run using very small (e.g. 1.E-60)
+Uq/s-potentials in the %block constrained_dft and setting
+output_detail=VERBOSE will result in the cDFT-population of all the
+cDFT-sites being printed in the standard output (.out) file. To obtain
+atom-specific (instead of atomic_species-specific) information on the
+population of the cDFT-sites, it is necessary to set
+CDFT_PRINT_ALL_OCC=T.</p>
+<p><strong>Mind.</strong> The population of a given cDFT-site depends critically on the
+projector used. Make sure you decide your cDFT-targets from the
+DFT-populations obtained with the same set of projectors!</p>
+</div>
+<div class="section" id="how-do-i-optimise-self-consistently-the-projectors-for-a-given-geometry">
+<h3>How do I optimise self-consistently the projectors for a given geometry?<a class="headerlink" href="#how-do-i-optimise-self-consistently-the-projectors-for-a-given-geometry" title="Permalink to this headline">¶</a></h3>
+<p>In analogy with DFT+U simulations, self-consistent optimisation of the
+cDFT-projectors (for a fixed geometry) is activated by setting
+task=HUBBARDSCF in the .dat file. It is recommended to start the
+task=HUBBARDSCF run from pre-optimised PAO-cDFT projectors (Z&lt;0 in
+%block constrained_dft), cDFT-potentials (Uq/s), NGWFs and DKN. This is
+accomplished, regardless of the keywords specific to the chosen
+cDFT-flavour, by making sure the input file (.dat) contains:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">task</span> <span class="p">:</span> <span class="n">HUBBARDSCF</span>
+<span class="n">hubbard_max_iter</span> <span class="p">:</span> <span class="mi">40</span> <span class="c1"># perform 40 Hubbard-SCF iterations</span>
+<span class="n">read_denskern</span> <span class="p">:</span> <span class="n">T</span>
+<span class="n">read_tightbox_ngwfs</span> <span class="p">:</span> <span class="n">T</span>
+<span class="n">cdft_read_projectors</span> <span class="p">:</span> <span class="n">T</span>
+<span class="n">cdft_continuation</span> <span class="p">:</span> <span class="n">T</span>
+</pre></div>
+</div>
+<p>The percentage of the latest-optimised cDFT-NGWFs to be used as new
+cDFT-projectors is controlled by the hubbard_proj_mixing keyword [0 &lt;
+|hubbard_proj_mixing| &lt; 1], with hubbard_proj_mixing=1 meaning
+that the latest optimised-NGWFs are used entirely as new
+cDFT-projectors.</p>
+<p><strong>Mind.</strong> Provided cdft_read_projector=T, the cDFT-projectors in the
+.tightbox_hub_projs file are used (entirely) as new projector during
+the 1<sup>st</sup> HUBBARDSCF iteration.</p>
+</div>
+<div class="section" id="is-self-consistent-optimisation-of-the-cdft-projectors-at-the-dft-geometry-a-good-idea">
+<h3>Is self-consistent optimisation of the cDFT-projectors at the DFT-geometry a good idea?<a class="headerlink" href="#is-self-consistent-optimisation-of-the-cdft-projectors-at-the-dft-geometry-a-good-idea" title="Permalink to this headline">¶</a></h3>
+<p>From the tests so far, this is <strong>not a good idea</strong>. For tightly
+constrained systems (for instance an hypothetical
+N<sup>(+)</sup>=N<sup>(-)</sup> excitation) a cDFT task=HUBBARDSCF run at
+the DFT-optimised geometry may result in very slow convergence. The
+recommended procedure is to <strong>first</strong> optimise the cDFT-geometry using
+numerical orbitals (PAO) as projectors (Z-projector &lt;0 in %block
+constrained_dft) and <strong>then</strong> optimise the cDFT-projectors at the
+PAO-cDFT optimised geometry.</p>
+</div>
+</div>
+<div class="section" id="cdft-keywords">
+<h2>cDFT Keywords<a class="headerlink" href="#cdft-keywords" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="intermediate-keywords">
+<h3>Intermediate Keywords<a class="headerlink" href="#intermediate-keywords" title="Permalink to this headline">¶</a></h3>
+<p><strong>CDFT_ATOM_CHARGE</strong></p>
+<p>Syntax: CDFT_ATOM_CHARGE [Logical]</p>
+<p>Description: Activate atom charge-constrained-DFT mode. This mode is
+incompatible with any other cDFT-mode.</p>
+<p>Default: False</p>
+<p>Example: CDFT_ATOM_CHARGE T</p>
+<p><strong>CDFT_ATOM_SPIN</strong></p>
+<p>Syntax: CDFT_ATOM_SPIN [Logical]</p>
+<p>Description: Activate atom magnetic-moment-constrained-DFT mode. This
+mode is incompatible with any other cDFT-mode.</p>
+<p>Default: False</p>
+<p>Example: CDFT_ATOM_SPIN T</p>
+<p><strong>CDFT_CG_MAX</strong></p>
+<p>Syntax: CDFT_CG_MAX [Real]</p>
+<p>Description: Specifies the maximum number of constraining potential
+(Uq/s) conjugate gradient iterations between resets.</p>
+<p>Default: Number of independent Uq/s for cdft_guru=F</p>
+<p>Example: CDFT_CG_MAX 1 #Perform steepest descents optimisation</p>
+<p><strong>CDFT_CG_MAX_STEP</strong></p>
+<p>Syntax: CDFT_CG_MAX_STEP [Real]</p>
+<p>Description: Maximum length of trial step for the constraining potential
+(Uq/s) optimisation line search.</p>
+<p>Default: 50.0</p>
+<p>Example: CDFT_CG_MAX_STEP 10.0</p>
+<p><strong>CDFT_CG_THRESHOLD</strong></p>
+<p>Syntax: CDFT_CG_THRESHOLD [Real]</p>
+<p>Description: Specifies the convergence threshold for the RMS gradient of
+the constraining potentials (Uq/s).</p>
+<p>Default: 1.0E-3</p>
+<p>Example: CDFT_CG_THRESHOLD 0.01</p>
+<p><strong>CDFT_CG_TYPE</strong></p>
+<p>Syntax: CDFT_CG_TYPE [Text]</p>
+<p>Description: Specifies the variant of the conjugate gradients algorithm
+used for the optimization of the constraining potentials (Uq/s),
+currently either NGWF_FLETCHER for Fletcher-Reeves or NGWF_POLAK for
+Polak-Ribiere.</p>
+<p>Default: NGWF_FLETCHER</p>
+<p>Example: CDFT_CG_TYPE NGWF_POLAK</p>
+<p><strong>CDFT_CHARGE_ACCEPTOR_TARGET</strong></p>
+<p>Syntax: CDFT_CHARGE_ACCEPTOR_TARGET [Real]</p>
+<p>Description: Targeted acceptor-group electron population for
+acceptor-group charge-constrained-DFT mode
+[CDFT_GROUP_CHARGE_ACCEPTOR=T].</p>
+<p>Default: 0.</p>
+<p>Example: CDFT_CHARGE_ACCEPTOR_TARGET 17 #Constrain Nup+Ndown=17 e in
+subspace</p>
+<p><strong>CDFT_CHARGE_DONOR_TARGET</strong></p>
+<p>Syntax: CDFT_CHARGE_DONOR_TARGET [Real]</p>
+<p>Description: Targeted donor-group electron population for donor-group
+charge-constrained-DFT mode [CDFT_GROUP_CHARGE_DONOR=T].</p>
+<p>Default: 0.</p>
+<p>Example: CDFT_CHARGE_DONOR_TARGET 17 #Constrain Nup+Ndown=17 e in
+subspace</p>
+<p><strong>CDFT_CONTINUATION</strong></p>
+<p>Syntax: CDFT_CONTINUATION [Logical]</p>
+<p>Description: Continue a constraining potential (Uq/s) optimisation from
+a previous run using the .cdft file with the latest cDFT-potentials.
+CDFT_CONTINUATION=T allows also to perform single-point cDFT runs
+(MAXIT_CDFT_U_CG=0) reading atom-specific constraining potentials
+from .cdft file (instead of species-specific ones from the
+CONSTRAINED_DFT block). For cdft_continuation=T, the constraining
+potentials (Uq/s) are read from the .cdft file no matter the setting of
+cdft_guru.</p>
+<p>Default: False</p>
+<p>Example: CDFT_CONTINUATION T</p>
+<p><strong>CDFT_GROUP_CHARGE_ACCEPTOR</strong></p>
+<p>Syntax: CDFT_GROUP_CHARGE_ACCEPTOR [Logical]</p>
+<p>Description: Activate acceptor-group charge-constrained-DFT mode. This
+mode is compatible with CDFT_GROUP_CHARGE_DONOR and
+CDFT_GROUP_SPIN_ACCEPTOR/DONOR cDFT-modes, and incompatible with
+CDFT_ATOM_CHARGE/SPIN and CDFT_GROUP_CHARGE/SPIN_DIFF cDFT modes.</p>
+<p>Default: False</p>
+<p>Example: CDFT_GROUP_CHARGE_ACCEPTOR T</p>
+<p><strong>CDFT_GROUP_CHARGE_DIFF</strong></p>
+<p>Syntax: CDFT_GROUP_CHARGE_DIFF [Logical]</p>
+<p>Description: Activate group charge-difference constrained-DFT mode. This
+mode is compatible with CDFT_GROUP_SPIN_DIFF cDFT mode only. Thus, it
+is incompatible with any other CDFT_ATOM_CHARGE/SPIN and
+CDFT_GROUP_CHARGE/SPIN_ACCEPTOR/DONOR cDFT modes.</p>
+<p>Default: False</p>
+<p>Example: CDFT_GROUP_CHARGE_DIFF T</p>
+<p><strong>CDFT_GROUP_CHARGE_DIFF_TARGET</strong></p>
+<p>Syntax: CDFT_CHARGE_DIFF_TARGET [Real]</p>
+<p>Description: Targeted electron population difference between acceptor
+and donor group for -group charge-difference constrained-DFT mode
+[CDFT_GROUP_CHARGE_DIFF=T].</p>
+<p>Default: 0.</p>
+<p>Example: CDFT_CHARGE_ACCEPTOR_TARGET 2</p>
+<blockquote>
+<div>#Constrain [Nup+Ndown]_ACC - [Nup+Ndown]_DON to 2 e.</div></blockquote>
+<p><strong>CDFT_GROUP_CHARGE_DONOR</strong></p>
+<p>Syntax: CDFT_GROUP_CHARGE_DONOR [Logical]</p>
+<p>Description: Activate donor-group charge-constrained-DFT mode. This mode
+is compatible with CDFT_GROUP_CHARGE_ACCEPTOR and
+CDFT_GROUP_SPIN_ACCEPTOR/DONOR cDFT-modes, and incompatible with
+CDFT_ATOM_CHARGE/SPIN and CDFT_GROUP_CHARGE/SPIN_DIFF cDFT modes.</p>
+<p>Default: False</p>
+<p>Example: CDFT_GROUP_CHARGE_DONOR T</p>
+<p><strong>CDFT_GROUP_CHARGE_DOWN_ONLY</strong></p>
+<p>Syntax: CDFT_GROUP_CHARGE_DOWN_ONLY [Logical]</p>
+<p>Description: Constrain only SPIN-DOWN channel in
+CDFT_GROUP_CHARGE_ACCEPTOR, CDFT_GROUP_CHARGE_DONOR and
+CDFT_GROUP_CHARGE_DIFF modes. To avoid disaster, make sure the
+specified CDFT_CHARGE_ACCEPTOR/DONOR_TARGET or
+CDFT_CHARGE_DIFF_TARGET keywords are consistent with the fact only
+one spin channel is being constrained. This functionality is NOT
+compatible with CDFT_GROUP_CHARGE_UP_ONLY, CDFT_ATOM_CHARGE/SPIN,
+and CDFT_GROUP_SPIN_ACCEPTOR/DONOR and CDFT_GROUP_SPIN_DIFF cDFT
+modes.</p>
+<p>Default: False</p>
+<p>Example: CDFT_GROUP_CHARGE_DOWN_ONLY T</p>
+<p><strong>CDFT_GROUP_CHARGE_UP_ONLY</strong></p>
+<p>Syntax: CDFT_GROUP_CHARGE_UP_ONLY [Logical]</p>
+<p>Description: Constrain only SPIN-UP channel in
+CDFT_GROUP_CHARGE_ACCEPTOR, CDFT_GROUP_CHARGE_DONOR and
+CDFT_GROUP_CHARGE_DIFF modes. To avoid disaster, make sure the
+specified CDFT_CHARGE_ACCEPTOR/DONOR_TARGET or
+CDFT_CHARGE_DIFF_TARGET keywords are consistent with the fact only
+one spin channel is being constrained. This functionality is NOT
+compatible with CDFT_GROUP_CHARGE_DOWN_ONLY,
+CDFT_ATOM_CHARGE/SPIN, and CDFT_GROUP_SPIN_ACCEPTOR/DONOR and
+CDFT_GROUP_SPIN_DIFF cDFT modes.</p>
+<p>Default: False</p>
+<p>Example: CDFT_GROUP_CHARGE_UP_ONLY T</p>
+<p><strong>CDFT_GROUP_SPIN_ACCEPTOR</strong>Syntax: CDFT_GROUP_SPIN_ACCEPTOR
+[Logical]</p>
+<p>Description: Activate acceptor-group magnetic-moment constrained-DFT
+mode. This mode is compatible with CDFT_GROUP_SPIN_DONOR and
+CDFT_GROUP_CHARGE_ACCEPTOR/DONOR cDFT-modes, and incompatible with
+CDFT_ATOM_CHARGE/SPIN and CDFT_GROUP_CHARGE/SPIN_DIFF cDFT modes.</p>
+<p>Default: False</p>
+<p>Example: CDFT_GROUP_SPIN_ACCEPTOR T</p>
+<p><strong>CDFT_GROUP_SPIN_DIFF</strong></p>
+<p>Syntax: CDFT_GROUP_SPIN_DIFF [Logical]</p>
+<p>Description: Activate group magnetic-moment-difference constrained-DFT
+mode. This mode is compatible with CDFT_GROUP_CHARGE_DIFF cDFT mode
+only. Thus, it is incompatible with any other CDFT_ATOM_CHARGE/SPIN
+and CDFT_GROUP_CHARGE/SPIN_ACCEPTOR/DONOR cDFT modes.</p>
+<p>Default: False</p>
+<p>Example: CDFT_GROUP_CHARGE_DIFF T</p>
+<p><strong>CDFT_GROUP_SPIN_DIFF_TARGET</strong></p>
+<p>Syntax: CDFT_SPIN_DIFF_TARGET [Real]</p>
+<p>Description: Targeted magnetic-moment difference between acceptor and
+donor group for group magnetic-moment-difference constrained-DFT mode
+[CDFT_GROUP_SPIN_DIFF=T].</p>
+<p>Default: 0.</p>
+<p>Example: CDFT_CHARGE_ACCEPTOR_TARGET 2</p>
+<blockquote>
+<div>#Constrain [Nup-Ndown]_ACC - [Nup-Ndown]_DON to 2 e.</div></blockquote>
+<p><strong>CDFT_GROUP_SPIN_DONOR</strong></p>
+<p>Syntax: CDFT_GROUP_SPIN_DONOR [Logical]</p>
+<p>Description: Activate donor-group magnetic-moment constrained-DFT mode.
+This mode is compatible with CDFT_GROUP_SPIN_ACCEPTOR and
+CDFT_GROUP_CHARGE_ACCEPTOR/DONOR cDFT-modes, and incompatible with
+CDFT_ATOM_CHARGE/SPIN and CDFT_GROUP_CHARGE/SPIN_DIFF cDFT modes.</p>
+<p>Default: False</p>
+<p>Example: CDFT_GROUP_SPIN_DONOR T</p>
+<p><strong>CDFT_GURU</strong></p>
+<p>Syntax: CDFT_GURU [Logical]</p>
+<p>Description: Tell ONETEP you are a cDFT-expert and prevent it from
+initialising the active |Uq/s| to failsafe value of 1 eV overwriting
+the values entered in the %block constrained_dft (Uq/s).</p>
+<p>Default: False</p>
+<p>Example: CDFT_GURU T</p>
+<p><strong>CDFT_HUBBARD</strong></p>
+<p>Syntax: CDFT_HUBBARD [Logical]</p>
+<p>Description: Activate the constrained-DFT+U functionality. It requires
+specifications of a positive value for the Hubbard correction (Uh) in
+the CONSTRAINED_DFT Block.</p>
+<p>Default: False</p>
+<p>Example: CDFT_HUBBARD T</p>
+<p><strong>CDFT_MAX_GRAD</strong></p>
+<p>Syntax: CDFT_MAX_GRAD [Real]</p>
+<p>Description: Specifies the convergence threshold for the maximum value
+of the constraining-potential (Uq/s) gradient at any cDFT-site</p>
+<p>Default: 1.0E-3</p>
+<p>Example: CDFT_MAX_GRAD 0.01</p>
+<p><strong>CDFT_MULTI_PROJ</strong></p>
+<p>Syntax: CDFT_MULTI_PROJ [Logical]</p>
+<p>Description: Activate the “as many cDFT-projectors as NGWFs” cDFT-mode.
+In this mode, the number of cDFT-projectors for a given cDFT-atom equals
+the number of NWGFs for that atom as specified in the %block species.
+Both the cDFT-projectors and the NGWFs are localised within spheres of
+the same radius. When activated, this mode overwrites the L-projectors
+and Z-projectors settings in %block constrained_dft, and the
+cDFT-projectors are built according to the settings in %block
+species_atomic_set for that atom=cDFT-site.</p>
+<p>Default: False</p>
+<p>Example: CDFT_MULTI_PROJ T</p>
+<p><strong>CDFT_PRINT_ALL_OCC</strong></p>
+<p>Syntax: CDFT_PRINT_ALL_OCC [Logical]</p>
+<p>Description: Print detailed information of occupancies for al the
+cDFT-sites, for OUTPUT_DETAIL = VERBOSE.</p>
+<p>Default: False</p>
+<p>Example: CDFT_PRINT_ALL_OCC T</p>
+<p><strong>CDFT_READ_PROJ</strong></p>
+<p>Syntax: CDFT_READ_PROJ [Logical]</p>
+<p>Description: Read cDFT-projectors from .tightbox_hub_proj file.
+Activation of this keyword overwrites any Z-projector setting in %block
+constrained_dft. It also makes not necessary to set
+hubbard_proj_mixing&lt;0 to have task=HUBBARDSCF runs with projectors
+read in from file.</p>
+<p>Default: False</p>
+<p>Example: CDFT_READ_PROJ T</p>
+<p><strong>CDFT_SPIN_ACCEPTOR_TARGET</strong></p>
+<p>Syntax: CDFT_SPIN_ACCEPTOR_TARGET [Real]</p>
+<p>Description: Targeted group magnetic-moment for acceptor-group
+magnetic-moment constrained-DFT mode [CDFT_GROUP_SPIN_ACCEPTOR=T].</p>
+<p>Default: 0.</p>
+<p>Example: CDFT_SPIN_ACCEPTOR_TARGET -2 #Constrain Nup-Ndown=-2 in
+subspace</p>
+<p><strong>CDFT_SPIN_DONOR_TARGET</strong></p>
+<p>Syntax: CDFT_SPIN_DONOR_TARGET [Real]</p>
+<p>Description: Targeted group magnetic-moment for donor-group
+magnetic-moment constrained-DFT mode [CDFT_GROUP_SPIN_DONOR=T].</p>
+<p>Default: 0.</p>
+<p>Example: CDFT_SPIN_DONOR_TARGET -2 #Constrain Nup-Ndown=-2 in
+subspace</p>
+<p><strong>CDFT_TRIAL_LENGTH</strong></p>
+<p>Syntax: CDFT_TRIAl_LENGTH [Real]</p>
+<p>Description: Specifies initial trial length for first step of
+constraining-potential (Uq/s) conjugate gradients optimisation.</p>
+<p>Default: 0.1</p>
+<p>Example: CDFT_TRIAL_LENGTH 1.0</p>
+<p><strong>CI_CDFT</strong></p>
+<p>Syntax: CI_CDFT [Logical]</p>
+<p>Description: Perform a Configuration Interaction calculation based on
+constrained-DFT configurations.</p>
+<p>Default: False</p>
+<p>Example: CI_CDFT T</p>
+<p><strong>CI_CDFT_NUM_CONF</strong></p>
+<p>Syntax: CDFT_MAX_GRAD [Integer]</p>
+<p>Description: Specifies the number of constrained-DFT configuration
+available for a CI_CDFT=T simulation</p>
+<p>Default: 0</p>
+<p>Example: CI_CDFT_NUM_CONF 4</p>
+<p><strong>CONSTRAINED_DFT</strong></p>
+<p>Syntax: CONSTRAINED_DFT [Block]</p>
+<p>Syntax: %BLOCK CONSTRAINED_DFT</p>
+<p>S1 L1 Z1 Uh1 Uq1(UP) Uq1(DOWN) Us1 N1(UP) N1(DOWN) [N1(UP)-N1(DOWN)] S2
+L2 Z2 Uh2 Uq2(UP) Uq2(DOWN) Us2 N2(UP) N2(DOWN) [N2(UP)-N2(DOWN)] …
+. .</p>
+<p>… . .</p>
+<p>SM LM ZM UhM UqM(UP) UqM(DOWN) UsM NM(UP) NM(DOWN) [NM(UP)-NM(DOWN)]</p>
+<p>%ENDBLOCK CONSTRAINED_DFT</p>
+<p>Description: Manages constrained-DFT simulations. Provided
+cdft_multi_proj=F, for species S and subspace of angular momentum
+channel L (with principal quantum number n=L+1) we apply charge
+spin-specific [Uq(UP), Uq(DOWN)] or magnetic-moment-specific (Us)
+constraining potentials (eV). For cdft_atom_charge=T, N(UP) and
+N(DOWN) indicate the targeted e-population for spin-channel UP and DOWN,
+respectively. For cdft_atom_spin=T, [N1(UP)-N1(DOWN)] indicates the
+targeted e-population difference (i.e. local magnetic moment). Uh
+indicates the optional Hubbard parameter (U, eV) to be applied for
+cdft_hubbard=T. An effective nuclear charge Z defines the hydrogenic
+orbitals spanning the subspace unless a negative value is given, e.g.,
+Z=-10, in which case the NGWFs initial guess orbitals (numerical atomic
+orbitals) are used. Depending on the activated cDFT-mode, different
+columns of the block are used. These are:</p>
+<blockquote>
+<div><p>S, L, Z, (Uh), Uq(UP), Uq(DOWN), N(UP), N(DOWN) for
+cdft_atom_charge=T</p>
+<p>S, L, Z, (Uh), Us, [N(UP)-N(DOWN)] for cdft_atom_spin=T</p>
+<p>S, L, Z, (Uh), Uq(UP), Uq(DOWN) for cdft_group_charge_acceptor=T,
+cdft_group_charge_donor=T, or cdft_group_charge_diff=T. In
+this case, Uq(UP) must be equal to Uq(DOWN). Acceptor and donor
+atoms are differentiated by mean of negative [Uq(UP/DOWN)&lt;0] and
+positive [Uq(UP/DOWN)&gt;0] constraining-potentials, respectively.
+Setting Uq=0 in the %block constrained_dft will result in the given
+cDFT-atom being excluded from the list of the atoms in a given
+cdft_group_charge_donor/acceptor/diff group.</p>
+<p>S, L, Z, (Uh), and Us for cdft_group_spin_acceptor=T,
+cdft_group_spin_donor=T, or cdft_group_spin_diff=T. In this
+case, Acceptor and donor atoms are differentiated by mean of
+negative (Us&lt;0) and positive (Us&gt;0) constraining-potentials,
+respectively. Setting Us=0 in the %block constrained_dft will
+result in the given cDFT-atom being excluded from the list of the
+atoms in a given cdft_group_spin_donor/acceptor/diff group.</p>
+<p>cdft_group_spin_acceptor=T, cdft_group_spin_donor=T,
+cdft_group_charge_acceptor=T and cdft_group_charge_donor=T are
+all compatible one with another. Charge- and magnetic-moment
+acceptor- and donor-groups may or may not be the same group. Thus,
+besides simultaneously constraining the charge and magnetic-moment
+on a given group, it is also possible (by setting the appropriate
+sign of Uq and Us in the %block constrained_dft) to create, within
+the same input and system, a charge_acceptor group-A, a
+charge_donor group-B, a spin_acceptor group-C and a spin_donor
+group-C. Similar considerations apply also for simultaneous
+activation of group_charge_diff and group_spin_diff cDFT-modes.
+In sum,</p>
+<p>Activation of cdft_group_charge_up(down)_only=T for
+cdft_group_charge_acceptor/donor or cdft_group_charge_diff
+modes leads to optimisation of the Uq potentials only for the
+selected spin-channel i.e. Uq(UP) only for
+cdft_group_charge_up_only=T, and Uq(DOWN) only for
+cdft_group_charge_down_only=T, leaving the other spin channel
+unconstrained.</p>
+<p>For cdft_multi_proj=T the L-projector and Z-projector columns in
+the %block constrained_dft are read but NOT used. The
+cDFT-projectors are set on the basis of the %block
+species_atomic_set and taken as the NGWFs initial guess (numerical
+atomic orbital). This leads to as many cDFT-projectors as NGWFs for
+the cDFT-atom being used. In the current implementation, the same
+Uq/s is applied to all the projectors of a given cDFT-atom
+regardless of their principal quantum number and angular momentum.</p>
+<p>For all the cDFT-modes, unless maxit_cdft_u_cg=0, and depending
+of the specific cDFT-mode, the constraining potentials (Uq,Us) will
+be automatically optimised. Note that, unless cdft_guru=T, the
+constraining potentials (Uq/s) will be initialised to 1 eV. Thus, to
+perform fixed-Uq/s cDFT-runs or to initialise Uq/s with values
+different from 1 eV (useful for low-energy spin-excitation), it is
+necessary to set cdft_guru=T.</p>
+<p>The CONSTRAINED_DFT Block is incompatible with the HUBBARD Block.
+To perform a constrained-DFT+U simulation with Hubbard (Uh)
+correction applied to the subspace in addition to the constraining
+potentials (Uq/s) it is necessary to set cdft_hubbard=T. For
+cdft_hubbard=F (which is the default), the Hubbard correction will
+NOT be applied to the subspace.</p>
+</div></blockquote>
+<p>Example: %BLOCK CONSTRAINED_DFT</p>
+<p># L Z Uh Uq(UP) Uq(DOWN) Us N(UP) N1(DOWN) [N1(UP)-N1(DOWN)]</p>
+<p>N1 1 -5. 0.0 11.0 11.0 0.0 2.3 1.3 0.</p>
+<p>N2 1 -5. 0.0 -26.0 -26.0 0.0 2.7 2.7 0.</p>
+<p>%ENDBLOCK CONSTRAINED_DFT</p>
+<p><strong>MAXIT_CDFT_U_CG</strong></p>
+<p>Syntax: MAXIT_CDFT_U_CG [Integer]</p>
+<p>Description: Specifies the maximum number of iterations for the
+constraining potentials (Uq/s) conjugate gradients optimisation.</p>
+<p>Default: 60</p>
+<p>Example: MAXIT_CDFT_U_CG 5</p>
+<p><strong>HUBBARD_TENSOR_CORR</strong></p>
+<p>Syntax: HUBBARD_TENSOR_CORR [Integer]</p>
+<p>Description:</p>
+<blockquote>
+<div><blockquote>
+<div><p>1: Correct tensorially for the slight nonorthogonality between DFT+U or constrained DFT (cDFT) projectors of numerical pseudoatomic orbital form, individually on each atom, which arise due to finite psinc sampling. See details see Phys. Rev. B 83, 245124 (2011).</p>
+<p>2: Use the full simulation-cell overlap matrix of the initial numerical pseudoatomic orbitals (whether or not they are selected as projectors) to form the nonorthogonality correction, in the vein of Mulliken analysis. Experimental, non-Hermitian at present, and not recommended.</p>
+<p>3: Do not correct for the slight nonorthogonality between DFT+U or constrained DFT (cDFT) projectors on a given atom. This is standard in many codes, and currently necessary to choose when using USP/PAW.</p>
+<p>4: This is a reasonable, but not necessary choice, when using cDFT with constraints based on atom group populations. The non-negligible nonorthogonality between projectors on different atoms in the group is accounted for tensorially. This also activates multi-site Pulay force terms in constrained DFT (cDFT) that account for varying inter-atom nonorthogonality. For details see Phys. Rev. B 97, 205120 (2018).</p>
+<p>5: This is also an arguably reasonable, but not necessary choice, when using cDFT with constraints based on, e.g. the difference of atom or atom group populations, that is source-drain cDFT. The non-negligible nonorthogonality between projectors on different atoms in a group is accounted for tensorially, and also the possible nonorthogonality between the source and drain atoms or atom-groups. For an application see Phys. Rev. B 93, 165102 (2016). This also activates (in principle) multi-site Pulay force terms in constrained DFT (cDFT) that account for varying inter-subspace nonorthogonality. This also activates multi-site Pulay force terms in constrained DFT (cDFT) that account for varying inter-atom nonorthogonality. This also activates multi-site Pulay force terms in constrained DFT (cDFT) that account for varying inter-atom nonorthogonality. For details see Phys. Rev. B 97, 205120 (2018).</p>
+</div></blockquote>
+<p>The HUBBARD_TENSOR_CORR functionality is not activated in the rare case that analytical hydrogenic projectors are instead of the default numerical pseudoatomic ones.</p>
+</div></blockquote>
+<p>Default: 1</p>
+<p>Example: HUBBARD_TENSOR_CORR 4</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_correlation_constrained.html">Correlation and Constrained DFT</a><ul>
+      <li>Previous: <a href="ONETEP_DFT+U_README.html" title="previous chapter">DFT+<span class="math">\(U\)</span>(+<span class="math">\(J\)</span>)</a></li>
+      <li>Next: <a href="index_dynamics.html" title="next chapter">Dynamics</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/cDFT.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,109 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+fi
+
+# If you want to allow non-ascii filenames set this variable to true.
+allownonascii=$(git config hooks.allownonascii)
+
+# Redirect output to stderr.
+exec 1>&2
+
+# Cross platform projects tend to avoid non-ascii filenames; prevent
+# them from being added to the repository. We exploit the fact that the
+# printable range starts at the space character and ends with tilde.
+if [ "$allownonascii" != "true" ] &&
+	# Note that the use of brackets around a tr range is ok here, (it's
+	# even required, for portability to Solaris 10's /usr/bin/tr), since
+	# the square bracket bytes happen to fall in the designated range.
+	test $(git diff --cached --name-only --diff-filter=A -z $against |
+	  LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0
+then
+	echo "Error: Attempt to add a non-ascii file name."
+	echo
+	echo "This can cause problems if you want to work"
+	echo "with people on other platforms."
+	echo
+	echo "To be portable it is advisable to rename the file ..."
+	echo
+	echo "If you know what you are doing you can disable this"
+	echo "check using:"
+	echo
+	echo "  git config hooks.allownonascii true"
+	echo
+	exit 1
+fi
+
+# run these checks by default only on master and hotfix branches
+# but it can be triggered on any branch by setting DLMG_PRECOMMIT=1
+
+branchname=$(git rev-parse --abbrev-ref HEAD)
+# branch_regex="^(hotfix|master|1)"
+if [ x"$branchname" = xmaster ] || [ x"$branchname" = xhotfix ] || [ x"$DLMG_PRECOMMIT" = x1 ]
+then
+    # check for modified files in the tree
+   if [ -n "$(git status --porcelain -uno | awk '/^.[^ ]/ {print $0}')" ]
+   then
+      echo "pre-commit error: git status has found modified files."
+      exit 1
+   fi
+   dl_mg_src=$(git rev-parse --show-toplevel)/src
+   re="^ *char.*version_string *= *"
+   nlines=$(grep -c -i "$re" "$dl_mg_src"/dl_mg_info.F90)
+   if [ ! x"$nlines" = x1 ]
+   then
+      echo "pre-commit found 0 or more than 1 line with version_string in dl_mg_info.F90. Please investigate!"
+      grep -i -n "$re" "$dl_mg_src"/dl_mg_info.F90
+      exit 1
+   fi
+   # the version string looks as follows:
+   #   character(len=*), parameter :: version_string="3.0.0rc4 (11/04/2021)"
+   # first sed expression picks whatever is between "" or ''
+   old_version=$(git show "$branchname":src/dl_mg_info.F90 | grep -i "$re" | sed -e 's/[^"'\'']*["'\'']\([^"'\'']*\)["'\''][^"'\'']*/\1/' -e 's/ *\([^ ]*\) *(.*/\1/')
+   new_version_all=$(grep -i "$re" "$dl_mg_src"/dl_mg_info.F90 | sed -e 's/[^"'\'']*["'\'']\([^"'\'']*\)["'\''][^"'\'']*/\1/')
+   new_version=$(echo "$new_version_all" | sed -e 's/ *\([^ ]*\) *(.*/\1/') # chop the date off
+   new_version_date=$(echo "$new_version_all" | sed -e 's/.[^(]*(\([^)]*\)).*/\1/')
+   if [ "$old_version" = "$new_version" ]
+   then
+      echo "Error: I guess that you forgot to update the version string after working on branch releases"
+      exit 2
+   fi
+   # test is the date in new_version_date is the same as computer time
+   computer_date_e="$(date +%e/%m/%Y | sed -e 's/^ *//')"
+   computer_date_d=$(date +%d/%m/%Y)
+
+   if [ ! "$computer_date_e" = "$new_version_date" ] && [ ! "$computer_date_d" = "$new_version_date" ]
+   then
+     echo "Error: It seems that the date is not updated correctly in the version string"
+     echo "       computer date is $computer_date_d $computer_date_e"
+     echo "       version date  is $new_version_date"
+     exit 3
+   fi
+
+   # check if RELEASE_NOTES was updated
+   # this is done only when the release string contains only digits and dots
+   # i.e. no release notes for release candidates, changes for these should be available
+   # from git logs
+   if [ -z "$(echo $new_version | grep -e '[a-zA-Z]')" ] && \
+      [ -z "$(git status --porcelain -uno | grep RELEASE_NOTES)" ]
+   then
+       echo "It seems that RELEASE_NOTES was not updated. Quitting ..."
+       exit 4
+   fi
+
+# If there are whitespace errors, print the offending file names and fail.
+   git diff-index --check --cached $against --
+   [ $? = 0 ] || { echo "white space errors" ; exit 1 ; }
+fi

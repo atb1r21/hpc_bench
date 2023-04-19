@@ -1,0 +1,45 @@
+
+# -------------------------------------------------
+# A ONETEP configuration file for HAWK.
+# 2021.09 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+#                         University of Southampton
+# with contributions from Lennart Gundelach and
+#                         Christian Simmendinger.
+# -------------------------------------------------
+# v1.01
+
+# -------------------------------------------------
+# Compiler: 	Intel ifort v19.1.3.
+# MPI: 		HPE MPT 2.23.
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the compiler.
+# MKL:          19.1.0.
+# ScaLAPACK:	Yes.
+# -------------------------------------------------
+
+# -------------------------------------------------
+# Make sure you have the following modules loaded:
+# intel/19.1.3
+# mkl/19.1.0
+# mpt/2.23
+# 
+# This can be achieved by adding the following
+# lines to the end of ~/.bash_profile (drop the leading '#'):
+#
+# module load intel/19.1.3 >/dev/null 2>/dev/null  
+# module load mkl/19.1.0   >/dev/null 2>/dev/null
+# module load mpt/2.23     >/dev/null 2>/dev/null
+# -------------------------------------------------
+
+F90 = mpif90 -qopenmp -mkl
+FFLAGS = -DASK_FOR_MPI_THREAD_MULTIPLE -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DSTACK_TRACE_IN_ABORT -DMPI -I$(MKLROOT)/include/fftw -diag-disable 8290,8291,7712,5462,10120 -warn all -I${MKLROOT}/include/intel64/lp64 -I${MKLROOT}/include
+OPTFLAGS = -O2 -g -traceback
+DEBUGFLAGS = -g -traceback -check all,noarg_temp_created -ftrapuv
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lmkl_blacs_sgimpt_lp64 -lpthread -lm
+COMPILER = INTEL-ifort-on-LINUX
+
+# Warnings disabled:
+#   8290, 8291 - suggest field widths
+#   7712 - unused variables
+#   5462 - global name too long (for linker, still within F2003 standard bounds)
+#  10120 - overriding -O3 with -O2 (I think mpif90 tries to add -O3).

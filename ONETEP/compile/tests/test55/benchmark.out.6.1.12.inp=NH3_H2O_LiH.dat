@@ -1,0 +1,1835 @@
+==================================================================================
+It's Wed Sep 21 10:58:09 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 16001 16002)...
+    - ONETEP arguments: NH3_H2O_LiH.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test55
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test55/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test55/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack NH3_H2O_LiH.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:58 (+0100)
+ 
+Reading parameters from file "NH3_H2O_LiH.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 2 MPI processes.
+   There are 2 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "NH3_H2O_LiH.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+do_properties : T                                                               
+print_qc : T                                                                    
+cutoff_energy       : 500 eV                                                    
+ngwf_threshold_orig : 0.000002                                                  
+kernel_cutoff       : 1000                                                      
+k_zero              : 3.5                                                       
+write_xyz : F                                                                   
+elec_cg_max 0                                                                   
+occ_mix 1.0                                                                     
+minit_lnv : 2                                                                   
+maxit_lnv : 2                                                                   
+maxit_ngwf_cg : 1                                                               
+maxit_palser_mano : 0                                                           
+eda_nodiag : 3                                                                  
+write_denskern : F                                                              
+write_tightbox_ngwfs : F                                                        
+write_density_plot : F                                                          
+dx_format : F                                                                   
+cube_format : F                                                                 
+xc_functional : PBE                                                             
+dispersion : NONE                                                               
+TASK : EDA                                                                      
+CHARGE : +1                                                                     
+EDA_RESET_NGWFS_POL : F                                                         
+EDA_RESET_NGWFS_CT  : F                                                         
+EDA_FRAG_ISOL_POL   : F                                                         
+EDA_FRAG_ISOL_CT    : F                                                         
+%block eda_deloc                                                                
+1 3                                                                             
+%endblock eda_deloc                                                             
+eda_read_super : F                                                              
+%block eda_iatm                                                                 
+3   0                                                                           
+5  +1                                                                           
+2   0                                                                           
+%endblock eda_iatm                                                              
+%block lattice_cart                                                             
+39.00    0.00    0.00                                                           
+0.00   37.00    0.00                                                            
+0.00    0.00   37.00                                                            
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =   000003522344176597461435
+%endblock positions_abs                                                         
+%block species                                                                  
+O   O   8   4  7.0                                                              
+H   H   1   1  7.0                                                              
+N   N   7   4  7.0                                                              
+Na  Na  11  4  7.0                                                              
+%endblock species                                                               
+%block species_pot                                                              
+O  "../../pseudo/oxygen.recpot"                                                 
+H  "../../pseudo/hydrogen.recpot"                                               
+N  "../../pseudo/nitrogen.recpot"                                               
+Na  "../../pseudo/sodium.recpot"                                                
+%endblock species_pot                                                           
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+ ESDF WARNING(1): "kernelcutoff" (esdf_physical) has no units. Assume "bohr".
+ ESDF WARNING(2): "kzero" (esdf_physical) has no units. Assume "1/bohr".
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/oxygen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  8;  ionic charge:  6.000000
+    Shell 1: l = 0; rc = 1.31 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+File: ../../pseudo/nitrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  7;  ionic charge:  5.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/sodium.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 11;  ionic charge:  9.000000
+    Shell 1: l = 1; rc = 2.02 bohr
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  O          1         4         1
+  H          7         7         0
+  N          1         4         1
+  Na         1         4         3
+.......   ......    ......    ......
+Totals:     10        19         5
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of    -15.80963387
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+
+Atom SCF Calculation for N  : Z (AE atom) =   7 : Z (PS atom) =   5
+Config String:
+Orbitals (num,occ):  2     2.00 3.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of     -9.68139814
+
+Atom SCF Calculation for Na : Z (AE atom) =  11 : Z (PS atom) =   9
+Config String:
+Orbitals (num,occ):  2     2.00 6.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  22 iterations to a total energy of    -42.23659747
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy for supermolecule ...... done
+
+================================================================================
+ EDA: Performing initialisation checks for supermolecule system
+================================================================================
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/oxygen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  8;  ionic charge:  6.000000
+    Shell 1: l = 0; rc = 1.31 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+File: ../../pseudo/nitrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  7;  ionic charge:  5.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/sodium.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 11;  ionic charge:  9.000000
+    Shell 1: l = 1; rc = 2.02 bohr
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  O          1         4         1
+  H          7         7         0
+  N          1         4         1
+  Na         1         4         3
+.......   ......    ......    ......
+Totals:     10        19         5
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of    -15.80963387
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+
+Atom SCF Calculation for N  : Z (AE atom) =   7 : Z (PS atom) =   5
+Config String:
+Orbitals (num,occ):  2     2.00 3.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of     -9.68139814
+
+Atom SCF Calculation for Na : Z (AE atom) =  11 : Z (PS atom) =   9
+Config String:
+Orbitals (num,occ):  2     2.00 6.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  22 iterations to a total energy of    -42.23659747
+Checking atom boundaries...  done
+
+================================================================================
+ EDA: Finished initialisation checks for supermolecule system
+================================================================================
+
+Determining parallel strategy for fragment ID:   1...... done
+Determining parallel strategy for fragment ID:   2...... done
+Determining parallel strategy for fragment ID:   3...... done
+
+
+================================================================================
+ EDA: Performing initialisation checks for fragment #  1
+================================================================================
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/oxygen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  8;  ionic charge:  6.000000
+    Shell 1: l = 0; rc = 1.31 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  O          1         4         1
+  H          2         2         0
+.......   ......    ......    ......
+Totals:      3         6         1
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of    -15.80963387
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+Checking atom boundaries...  done
+
+
+================================================================================
+ EDA: Performing initialisation checks for fragment #  2
+================================================================================
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/nitrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  7;  ionic charge:  5.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  N          1         4         1
+  H          4         4         0
+.......   ......    ......    ......
+Totals:      5         8         1
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+
+Atom SCF Calculation for N  : Z (AE atom) =   7 : Z (PS atom) =   5
+Config String:
+Orbitals (num,occ):  2     2.00 3.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of     -9.68139814
+Checking atom boundaries...  done
+
+
+================================================================================
+ EDA: Performing initialisation checks for fragment #  3
+================================================================================
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/sodium.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 11;  ionic charge:  9.000000
+    Shell 1: l = 1; rc = 2.02 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  Na         1         4         3
+  H          1         1         0
+.......   ......    ......    ......
+Totals:      2         5         3
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+
+Atom SCF Calculation for Na : Z (AE atom) =  11 : Z (PS atom) =   9
+Config String:
+Orbitals (num,occ):  2     2.00 6.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  22 iterations to a total energy of    -42.23659747
+Checking atom boundaries...  done
+
+================================================================================
+ EDA: Finished initialisation checks for fragments
+================================================================================
+
+
+
+================================================================================
+ EDA: Monomer calculation for fragment #  1
+================================================================================
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/oxygen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  8;  ionic charge:  6.000000
+    Shell 1: l = 0; rc = 1.31 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  O          1         4         1
+  H          2         2         0
+.......   ......    ......    ......
+Totals:      3         6         1
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of    -15.80963387
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+... done
+Calculating Ewald energy ...                4.492151 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.674214496542E+01     5.9627E-02     4.4720E-02
+    2        -1.675317809294E+01     4.3362E-02     3.2521E-02    -1.1033E-02
+Finished density kernel iterations (   2)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.67531780929370E+01  Eh
+     Estimated bandgap           =   2.7641E-01  Eh
+     RMS occupancy error         =   7.7519E-08
+     [H,K] commutator            =   3.2521E-02
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.9053E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.69923550296015E+01 Eh
+   Predicted gain in energy  =      -2.39176936664482E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.699240888937E+01     1.3619E-02     1.0214E-02
+    2        -1.699374817847E+01     3.8114E-03     2.8586E-03    -1.3393E-03
+Finished density kernel iterations (   2)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.69937481784656E+01  Eh
+     Estimated bandgap           =   3.2165E-01  Eh
+     RMS occupancy error         =   3.1252E-08
+     [H,K] commutator            =   2.8586E-03
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       11.95285297749641 |
+           | Pseudopotential (local)    :      -50.13640553421830 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        2.15476976342939 |
+           | Hartree                    :       18.72316177628262 |
+           | Exchange-correlation       :       -4.18027785398169 |
+           | Ewald                      :        4.49215069252595 |
+           | Dispersion Correction      :        0.00000000000000 |
+           | Total                      :      -16.99374817846563 |
+           --------------------------------------------------------
+           Integrated density           :        7.99999999999995
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   1) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00590528288459    -16.99374817846562  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      1
+<QC>           [total_energy]:       -16.993748178466
+<QC>           [rms_gradient]:         0.005905282885
+<QC>      [atom_1_population]:         6.846235553198
+<QC>          [atom_1_charge]:        -0.846235553198
+<QC>      [atom_2_population]:         0.577462672307
+<QC>          [atom_2_charge]:         0.422537327693
+<QC>      [atom_3_population]:         0.576301774495
+<QC>          [atom_3_charge]:         0.423698225505
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)
+==================================
+  O      1       6.846     -0.846
+  H      2       0.577      0.423
+  H      3       0.576      0.424
+==================================
+
+        Bond         Population      Length (bohr)
+==================================================
+ O     1 -- H     3        0.51      1.83120
+ O     1 -- H     2        0.50      1.83151
+ H     2 -- H     3       -0.15      2.88479
+==================================================
+
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:       6
+   Number of occupied orbitals:       4.000000000
+   Occupancy sum (eigenvalues):       4.000000000
+                 HOMO-LUMO gap:       0.322065794 Eh
+                 Mid-gap level:      -0.084851341 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.952629008   0.9999625
+                            2    -0.485061305   0.9999983
+                            3    -0.317922781   0.9998469
+                            4    -0.245884238   0.9999944
+                        .......   --- gap ---   .........
+                            5     0.076181556   0.0001898
+                            6     0.179592754   0.0000082
+ 
+<QC>    [energy_eigenvalue_1]:        -0.952629007521
+<QC>    [energy_eigenvalue_n]:         0.179592754078
+<QC>            [occupancy_1]:         0.999962490054
+<QC>            [occupancy_n]:         0.000008179922
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO-3  -25.92235431  1.000000 | 
+| HOMO-2  -13.19918973  1.000000 | 
+| HOMO-1   -8.65111908  1.000000 | 
+| HOMO     -6.69085058  1.000000 | 
+| LUMO      2.07300561  1.000000 | 
+| LUMO+1    4.88696750  1.000000 | 
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "NH3_H2O_LiH_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "NH3_H2O_LiH.val_bands" ... done
+
+
+================================================================================
+ EDA: Monomer calculation for fragment #  2
+================================================================================
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/nitrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  7;  ionic charge:  5.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  N          1         4         1
+  H          4         4         0
+.......   ......    ......    ......
+Totals:      5         8         1
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+
+Atom SCF Calculation for N  : Z (AE atom) =   7 : Z (PS atom) =   5
+Config String:
+Orbitals (num,occ):  2     2.00 3.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of     -9.68139814
+... done
+Calculating Ewald energy ...                9.360454 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Density renormalisation ...
+Target Charge:     8.000000000000 ; Input Charge:     9.000159779930
+Up spin density kernel initialisation ...... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.163218659075E+01     1.4235E-01     1.4235E-01
+    2        -1.174144428664E+01     9.7480E-02     9.7480E-02    -1.0926E-01
+Finished density kernel iterations (   2)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.17414442866447E+01  Eh
+     Estimated bandgap           =   4.7309E-01  Eh
+     RMS occupancy error         =   1.2586E-13
+     [H,K] commutator            =   9.7480E-02
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.4056E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.19739558563906E+01 Eh
+   Predicted gain in energy  =      -2.32511569745869E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.197177357180E+01     7.4467E-02     7.4467E-02
+    2        -1.200224421158E+01     5.3393E-02     5.3393E-02    -3.0471E-02
+Finished density kernel iterations (   2)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.20022442115790E+01  Eh
+     Estimated bandgap           =   5.2808E-01  Eh
+     RMS occupancy error         =   5.3186E-08
+     [H,K] commutator            =   5.3393E-02
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :        9.21174620754272 |
+           | Pseudopotential (local)    :      -44.54438668706726 |
+           | Pseudo (non-coul chg cor)  :        0.00002240970214
+           | Pseudopotential (non-local):        1.31366155171963 |
+           | Hartree                    :       16.40131119904723 |
+           | Exchange-correlation       :       -3.74503030031346 |
+           | Ewald                      :        9.36045381749212 |
+           | Dispersion Correction      :        0.00000000000000 |
+           | Total                      :      -12.00224421157902 |
+           --------------------------------------------------------
+           Integrated density           :        7.99999999999993
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   1) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00440563478924    -12.00224421157901  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      1
+<QC>           [total_energy]:       -12.002244211579
+<QC>           [rms_gradient]:         0.004405634789
+<QC>      [atom_1_population]:         6.733962189978
+<QC>          [atom_1_charge]:        -1.733962189978
+<QC>      [atom_2_population]:         0.320921081100
+<QC>          [atom_2_charge]:         0.679078918900
+<QC>      [atom_3_population]:         0.310660076832
+<QC>          [atom_3_charge]:         0.689339923168
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)
+==================================
+  N      1       6.734     -1.734
+  H      2       0.321      0.679
+  H      3       0.311      0.689
+  H      4       0.312      0.688
+  H      5       0.323      0.677
+==================================
+
+        Bond         Population      Length (bohr)
+==================================================
+ N     1 -- H     4        0.45      1.90847
+ N     1 -- H     2        0.46      1.90859
+ N     1 -- H     5        0.46      1.90862
+ N     1 -- H     3        0.45      1.90865
+ H     4 -- H     5       -0.02      3.11659
+ H     2 -- H     3       -0.02      3.11668
+ H     2 -- H     5       -0.03      3.11671
+ H     2 -- H     4       -0.02      3.11673
+ H     3 -- H     5       -0.02      3.11675
+ H     3 -- H     4       -0.02      3.11675
+==================================================
+
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:       8
+   Number of occupied orbitals:       4.000000000
+   Occupancy sum (eigenvalues):       4.000000000
+                 HOMO-LUMO gap:       0.572963840 Eh
+                 Mid-gap level:      -0.379288368 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -1.061665344   0.9958458
+                            2    -0.671468551   0.9854470
+                            3    -0.670544354   0.9850274
+                            4    -0.665770288   0.9850764
+                        .......   --- gap ---   .........
+                            5    -0.092806448   0.0041570
+                            6    -0.013241702   0.0149270
+                            7    -0.013146297   0.0146093
+                            8    -0.009252677   0.0149101
+ 
+<QC>    [energy_eigenvalue_1]:        -1.061665344332
+<QC>    [energy_eigenvalue_n]:        -0.009252676854
+<QC>            [occupancy_1]:         0.995845757794
+<QC>            [occupancy_n]:         0.014910115646
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO-3  -28.88938401  1.000000 | 
+| HOMO-2  -18.27158899  1.000000 | 
+| HOMO-1  -18.24644032  1.000000 | 
+| HOMO    -18.11653138  1.000000 | 
+| LUMO     -2.52539195  1.000000 | 
+| LUMO+1   -0.36032505  1.000000 | 
+| LUMO+2   -0.35772895  1.000000 | 
+| LUMO+3   -0.25177815  1.000000 | 
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "NH3_H2O_LiH_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "NH3_H2O_LiH.val_bands" ... done
+
+
+================================================================================
+ EDA: Monomer calculation for fragment #  3
+================================================================================
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/sodium.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 11;  ionic charge:  9.000000
+    Shell 1: l = 1; rc = 2.02 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  Na         1         4         3
+  H          1         1         0
+.......   ......    ......    ......
+Totals:      2         5         3
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+
+Atom SCF Calculation for Na : Z (AE atom) =  11 : Z (PS atom) =   9
+Config String:
+Orbitals (num,occ):  2     2.00 6.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  22 iterations to a total energy of    -42.23659747
+... done
+Calculating Ewald energy ...               -0.769170 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Density renormalisation ...
+Target Charge:    10.000000000000 ; Input Charge:     9.000259689398
+Up spin density kernel initialisation ...... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -4.287070629558E+01      2.094E-17      1.067E-15
+
+                 ..............................................
+                 | RMS LNV GRADIENT=    0.00000000000000      |
+                 | LNV density kernel optimisation converged! |
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -4.28707062955766E+01  Eh
+     Estimated bandgap           =   1.0000E-01  Eh
+     RMS occupancy error         =   2.4331E-16
+     [H,K] commutator            =   2.0936E-17
+     Occupancy bounds            = [  1.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.5122E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -4.29079942210763E+01 Eh
+   Predicted gain in energy  =      -3.72879254997613E-02 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -4.290804493869E+01      4.364E-12      4.806E-11
+
+                 ..............................................
+                 | RMS LNV GRADIENT=    0.00000000004806      |
+                 | LNV density kernel optimisation converged! |
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -4.29080449386933E+01  Eh
+     Estimated bandgap           =   1.0000E-01  Eh
+     RMS occupancy error         =   1.7821E-11
+     [H,K] commutator            =   4.3641E-12
+     Occupancy bounds            = [  1.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       22.26209366258676 |
+           | Pseudopotential (local)    :      -83.29174276526120 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):       -8.15352688343199 |
+           | Hartree                    :       33.73325478251856 |
+           | Exchange-correlation       :       -6.68895372981640 |
+           | Ewald                      :       -0.76917000528904 |
+           | Dispersion Correction      :        0.00000000000000 |
+           | Total                      :      -42.90804493869331 |
+           --------------------------------------------------------
+           Integrated density           :        9.99999999999995
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   1) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00251218057088    -42.90804493869329  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      1
+<QC>           [total_energy]:       -42.908044938693
+<QC>           [rms_gradient]:         0.002512180571
+<QC>      [atom_1_population]:         8.000000000000
+<QC>          [atom_1_charge]:         1.000000000000
+<QC>      [atom_2_population]:         2.000000000000
+<QC>          [atom_2_charge]:        -1.000000000000
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)
+==================================
+  Na     1       8.000      1.000
+  H      2       2.000     -1.000
+==================================
+
+        Bond         Population      Length (bohr)
+==================================================
+ Na    1 -- H     2       -0.16      3.00865
+==================================================
+
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:       5
+   Number of occupied orbitals:       5.000000000
+   Occupancy sum (eigenvalues):       5.000000000
+                 HOMO-LUMO gap:  Unavailable - all orbitals occupied
+                 Mid-gap level:  Unavailable - all orbitals occupied
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -2.041288029   1.0000000
+                            2    -1.049820239   1.0000000
+                            3    -1.046102785   1.0000000
+                            4    -1.041410495   1.0000000
+                            5    -0.021174861   1.0000000
+                        .......   --- gap ---   .........
+ 
+<QC>    [energy_eigenvalue_1]:        -2.041288029263
+<QC>    [energy_eigenvalue_n]:        -0.021174861249
+<QC>            [occupancy_1]:         0.999999999996
+<QC>            [occupancy_n]:         1.000000000016
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO-4  -55.54627366  1.000000 | 
+| HOMO-3  -28.56706231  1.000000 | 
+| HOMO-2  -28.46590523  1.000000 | 
+| HOMO-1  -28.33822151  1.000000 | 
+| HOMO     -0.57619729  1.000000 | 
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "NH3_H2O_LiH_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "NH3_H2O_LiH.val_bands" ... done
+
+
+================================================================================
+===================== Energy Decomposition Analysis (EDA) ======================
+================================================================================
+==> Monomer Energy Calculations Finished 
+ Fragment ID     Energy (Ha)        Charge         Spins
+      1       -16.99374817846562      0.0            1
+      2       -12.00224421157901      1.0            1
+      3       -42.90804493869329      0.0            1
+   Total      -71.90403732873793
+================================================================================
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/oxygen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  8;  ionic charge:  6.000000
+    Shell 1: l = 0; rc = 1.31 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+File: ../../pseudo/nitrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  7;  ionic charge:  5.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/sodium.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 11;  ionic charge:  9.000000
+    Shell 1: l = 1; rc = 2.02 bohr
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  O          1         4         1
+  H          7         7         0
+  N          1         4         1
+  Na         1         4         3
+.......   ......    ......    ......
+Totals:     10        19         5
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d2=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+Grid space d3=  0.587301587302a0 (KE cutoff=  22.02326Eh = 599.28346eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     63    63    63
+         Recip-space ('23') slabs/proc (min max mean):     32    32    32
+********************************************************************************
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of    -15.80963387
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.45395522
+
+Atom SCF Calculation for N  : Z (AE atom) =   7 : Z (PS atom) =   5
+Config String:
+Orbitals (num,occ):  2     2.00 3.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  28 iterations to a total energy of     -9.68139814
+
+Atom SCF Calculation for Na : Z (AE atom) =  11 : Z (PS atom) =   9
+Config String:
+Orbitals (num,occ):  2     2.00 6.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  22 iterations to a total energy of    -42.23659747
+... done
+Calculating Ewald energy ...               26.643197 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+<QC>      [atom_1_population]:         6.845840457222
+<QC>          [atom_1_charge]:        -0.845840457222
+<QC>      [atom_2_population]:         0.577452791950
+<QC>          [atom_2_charge]:         0.422547208050
+<QC>      [atom_3_population]:         0.576279737708
+<QC>          [atom_3_charge]:         0.423720262292
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)
+==================================
+  O      1       6.846     -0.846
+  H      2       0.577      0.423
+  H      3       0.576      0.424
+  N      4       6.726     -1.726
+  H      5       0.320      0.680
+  H      6       0.311      0.689
+  H      7       0.310      0.690
+  H      8       0.322      0.678
+  Na     9       7.997      1.003
+  H     10       1.992     -0.992
+==================================
+
+        Bond         Population      Length (bohr)
+==================================================
+ O     1 -- H     3        0.51      1.83120
+ O     1 -- H     2        0.50      1.83151
+ N     4 -- H     7        0.45      1.90847
+ N     4 -- H     5        0.46      1.90859
+ N     4 -- H     8        0.46      1.90862
+ N     4 -- H     6        0.45      1.90865
+ H     2 -- H     3       -0.15      2.88479
+ Na    9 -- H    10       -0.16      3.00865
+ H     7 -- H     8       -0.02      3.11659
+ H     5 -- H     6       -0.02      3.11668
+ H     5 -- H     8       -0.03      3.11671
+ H     5 -- H     7       -0.02      3.11673
+ H     6 -- H     8       -0.02      3.11675
+ H     6 -- H     7       -0.02      3.11675
+ H     5 -- Na    9       -0.00      4.86250
+ H     7 -- Na    9       -0.00      5.15310
+ H     7 -- H    10       -0.00      5.32007
+==================================================
+
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:      19
+   Number of occupied orbitals:      13.000000000
+   Occupancy sum (eigenvalues):      13.000000000
+                 HOMO-LUMO gap:       0.041586837 Eh
+                 Mid-gap level:      -0.098542103 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -2.132069474   1.0001311
+                        .......   ...........   .........
+                            4    -1.131198777   1.0000236
+                            5    -1.066756547   0.9955906
+                            6    -1.004488737   0.9999519
+                            7    -0.677237770   0.9816894
+                            8    -0.673093927   0.9856907
+                            9    -0.671187743   0.9886970
+                           10    -0.536893069   0.9996397
+                           11    -0.378116205   0.9995341
+                           12    -0.301869889   0.9999450
+                           13    -0.119335521   0.5248930
+                        .......   --- gap ---   .........
+                           14    -0.077748684   0.4400214
+                           15    -0.025217996   0.0202533
+                           16    -0.013043826   0.0175859
+                           17    -0.002084370   0.0445410
+                           18     0.033676863   0.0005756
+                           19     0.134649841   0.0002516
+ 
+<QC>    [energy_eigenvalue_1]:        -2.132069474030
+<QC>    [energy_eigenvalue_n]:         0.134649841395
+<QC>            [occupancy_1]:         1.000131109348
+<QC>            [occupancy_n]:         0.000251587248
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO-5  -18.31581772  1.000000 | 
+| HOMO-4  -18.26394781  1.000000 | 
+| HOMO-3  -14.60960380  1.000000 | 
+| HOMO-2  -10.28906548  1.000000 | 
+| HOMO-1   -8.21429766  1.000000 | 
+| HOMO     -3.24728477  1.000000 | 
+| LUMO     -2.11564934  1.000000 | 
+| LUMO+1   -0.68621658  1.000000 | 
+| LUMO+2   -0.35494058  1.000000 | 
+| LUMO+3   -0.05671859  1.000000 | 
+| LUMO+4    0.91639407  1.000000 | 
+| LUMO+5    3.66400862  1.000000 | 
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "NH3_H2O_LiH_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "NH3_H2O_LiH.val_bands" ... done
+
+EDA: Printing energy components for pre-orthogonalised state...
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       43.42669284762589 |
+           | Pseudopotential (local)    :     -203.73312345496402 |
+           | Pseudo (non-coul chg cor)  :        0.00021309726496
+           | Pseudopotential (non-local):       -4.68509808785667 |
+           | Hartree                    :       81.06124694101705 |
+           | Exchange-correlation       :      -14.61620169409834 |
+           | Ewald                      :       26.64319663354114 |
+           | Dispersion Correction      :        0.00000000000000 |
+           | Total                      :      -71.90328681473493 |
+           --------------------------------------------------------
+           Integrated density           :       25.99999999999973
+================================================================================
+
+
+EDA: Printing energy components for orthogonalised state...
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       43.43734555585218 |
+           | Pseudopotential (local)    :     -203.74318678703864 |
+           | Pseudo (non-coul chg cor)  :        0.00021309726496
+           | Pseudopotential (non-local):       -4.68572973422569 |
+           | Hartree                    :       81.06629534992979 |
+           | Exchange-correlation       :      -14.61827510262063 |
+           | Ewald                      :       26.64319663354114 |
+           | Dispersion Correction      :        0.00000000000000 |
+           | Total                      :      -71.90035408456187 |
+           --------------------------------------------------------
+           Integrated density           :       25.99999992132921
+================================================================================
+
+
+
+================================================================================
+===================== Energy Decomposition Analysis (EDA) ======================
+================================================================================
+
+  (1) (Nonorthogonal) Frozen Interaction Energy  :      0.471 kcal/mol
+               Frozen Electrostatics E_ES        :      1.688 kcal/mol
+               Frozen Exchange E_EX              :     -0.698 kcal/mol
+               Frozen Correlation E_FRZ-CORR     :     -0.519 kcal/mol
+
+  (2) Repulsion Interaction Energy               :      1.840 kcal/mol
+               Pauli-Repulsion E_REP             :      1.882 kcal/mol
+               Repulsion Correlation E_REP-CORR  :     -0.042 kcal/mol
+
+  (1+2) Frozen Density Component E_FRZ           :      2.311 kcal/mol
+
+================================================================================
+
+
+WARNING: Turning off exact LNV for fragment polarisation calculation(s).
+WARNING: Parameter 'kerfix' overridden to 2 for SCF-MI calculation.
+
+
+
+================================================================================
+===================== Energy Decomposition Analysis (EDA) ======================
+================================================================================
+
+           Beginning polarisation calculation for supermolecule...
+
+================================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.190035408456E+01     2.2654E-02     1.6555E-02
+    2        -7.193207216480E+01     3.2798E-03     2.3968E-03    -3.1718E-02
+Finished density kernel iterations (   2)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.19320721647981E+01  Eh
+     Estimated bandgap           =  -4.5249E-02  Eh
+     RMS occupancy error         =   1.5659E-16
+     [H,K] commutator            =   2.3968E-03
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.9020E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.20314970145012E+01 Eh
+   Predicted gain in energy  =      -9.94248497031123E-02 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.203100880068E+01     5.0813E-03     3.7132E-03
+    2        -7.203317582575E+01     1.3877E-03     1.0141E-03    -2.1670E-03
+Finished density kernel iterations (   2)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.20331758257464E+01  Eh
+     Estimated bandgap           =  -2.1155E-02  Eh
+     RMS occupancy error         =   7.4271E-15
+     [H,K] commutator            =   1.0141E-03
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       43.09473743015496 |
+           | Pseudopotential (local)    :     -203.30354804287040 |
+           | Pseudo (non-coul chg cor)  :        0.00021309726496
+           | Pseudopotential (non-local):       -4.61916486408042 |
+           | Hartree                    :       80.71090965749886 |
+           | Exchange-correlation       :      -14.55930663999059 |
+           | Ewald                      :       26.64319663354114 |
+           | Dispersion Correction      :        0.00000000000000 |
+           | Total                      :      -72.03317582574645 |
+           --------------------------------------------------------
+           Integrated density           :       25.99999982108308
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   1) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00190196709581    -72.03317582574644  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      1
+<QC>           [total_energy]:       -72.033175825746
+<QC>           [rms_gradient]:         0.001901967096
+<QC>      [atom_1_population]:         6.947307326396
+<QC>          [atom_1_charge]:        -0.947307326396
+<QC>      [atom_2_population]:         0.535438736813
+<QC>          [atom_2_charge]:         0.464561263187
+<QC>      [atom_3_population]:         0.517253936791
+<QC>          [atom_3_charge]:         0.482746063209
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)
+==================================
+  O      1       6.947     -0.947
+  H      2       0.535      0.465
+  H      3       0.517      0.483
+  N      4       6.186     -1.186
+  H      5       0.479      0.521
+  H      6       0.457      0.543
+  H      7       0.434      0.566
+  H      8       0.443      0.557
+  Na     9       8.000      1.000
+  H     10       2.000     -1.000
+==================================
+
+        Bond         Population      Length (bohr)
+==================================================
+ O     1 -- H     3        0.49      1.83120
+ O     1 -- H     2        0.48      1.83151
+ N     4 -- H     7        0.57      1.90847
+ N     4 -- H     5        0.59      1.90859
+ N     4 -- H     8        0.58      1.90862
+ N     4 -- H     6        0.58      1.90865
+ H     2 -- H     3       -0.13      2.88479
+ Na    9 -- H    10       -0.16      3.00865
+ H     7 -- H     8       -0.04      3.11659
+ H     5 -- H     6       -0.05      3.11668
+ H     5 -- H     8       -0.05      3.11671
+ H     5 -- H     7       -0.04      3.11673
+ H     6 -- H     8       -0.04      3.11675
+ H     6 -- H     7       -0.04      3.11675
+ H     5 -- Na    9       -0.00      4.86250
+ H     7 -- Na    9       -0.00      5.15310
+ H     7 -- H    10       -0.00      5.32007
+==================================================
+
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:      19
+   Number of occupied orbitals:      13.000000000
+   Occupancy sum (eigenvalues):      12.999999911
+                 HOMO-LUMO gap:      -0.045734574 Eh
+                 Mid-gap level:      -0.134638211 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -2.127202711   0.9999997
+                        .......   ...........   .........
+                            4    -1.132659646   0.9999648
+                            5    -1.126942052   0.9999997
+                            6    -0.985952519   0.9999619
+                            7    -0.734241068   0.9999963
+                            8    -0.732085909   0.9999917
+                            9    -0.731129121   0.9999968
+                           10    -0.523115343   0.9999838
+                           11    -0.369896680   0.9994889
+                           12    -0.290746321   0.9998968
+                           13    -0.157505498   0.3080493
+                        .......   --- gap ---   .........
+                           14    -0.111770924   0.5885924
+                           15    -0.081795771   0.0093263
+                           16    -0.070086639   0.0053219
+                           17    -0.055463151   0.0893890
+                           18     0.022448229   0.0000520
+                           19     0.118020414   0.0000068
+ 
+<QC>    [energy_eigenvalue_1]:        -2.127202711374
+<QC>    [energy_eigenvalue_n]:         0.118020414368
+<QC>            [occupancy_1]:         0.999999656752
+<QC>            [occupancy_n]:         0.000006776795
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO-5  -19.92107123  1.000000 | 
+| HOMO-4  -19.89503572  1.000000 | 
+| HOMO-3  -14.23469279  1.000000 | 
+| HOMO-2  -10.06540083  1.000000 | 
+| HOMO-1   -7.91160996  1.000000 | 
+| HOMO     -4.28594268  1.000000 | 
+| LUMO     -3.04144160  1.000000 | 
+| LUMO+1   -2.22577619  1.000000 | 
+| LUMO+2   -1.90715449  1.000000 | 
+| LUMO+3   -1.50922914  1.000000 | 
+| LUMO+4    0.61084739  1.000000 | 
+| LUMO+5    3.21149889  1.000000 | 
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "NH3_H2O_LiH_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "NH3_H2O_LiH.val_bands" ... done
+
+
+================================================================================
+===================== Energy Decomposition Analysis (EDA) ======================
+================================================================================
+==> Polarisation finished 
+                    E_POL energy (Stoll SCF-MI) total :   -83.347 kcal/mol
+
+           Beginning charge transfer calculation for supermolecule...
+
+================================================================================
+
+ 
+WARNING: Turning exact LNV back on for charge transfer calculation.
+WARNING: Parameter 'kerfix' reverted to  1
+ 
+
+
+================================================================================
+===================== Energy Decomposition Analysis (EDA) ======================
+================================================================================
+==> Beginning fully relaxed supermolecule calculation 
+================================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.203317593619E+01     4.7344E-03     3.4598E-03
+    2        -7.203436279529E+01     4.5556E-03     3.3291E-03    -1.1869E-03
+Finished density kernel iterations (   2)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.20343627952864E+01  Eh
+     Estimated bandgap           =  -2.2111E-02  Eh
+     RMS occupancy error         =   4.1256E-10
+     [H,K] commutator            =   3.3291E-03
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.2214E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.20725564472012E+01 Eh
+   Predicted gain in energy  =      -3.81936519147530E-02 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.207253653878E+01     4.9563E-03     3.6219E-03
+    2        -7.208217403871E+01     8.6089E-03     6.2911E-03    -9.6375E-03
+Finished density kernel iterations (   2)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.20821740387115E+01  Eh
+     Estimated bandgap           =   3.4685E-02  Eh
+     RMS occupancy error         =   4.4745E-09
+     [H,K] commutator            =   6.2911E-03
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       43.32443004918687 |
+           | Pseudopotential (local)    :     -203.88640517205420 |
+           | Pseudo (non-coul chg cor)  :        0.00021309726496
+           | Pseudopotential (non-local):       -4.65730470578832 |
+           | Hartree                    :       81.09906978221107 |
+           | Exchange-correlation       :      -14.60516062580808 |
+           | Ewald                      :       26.64319663354114 |
+           | Dispersion Correction      :        0.00000000000000 |
+           | Total                      :      -72.08217403871150 |
+           --------------------------------------------------------
+           Integrated density           :       25.99999999999992
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   1) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00122144410977    -72.08217403871149  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      1
+<QC>           [total_energy]:       -72.082174038711
+<QC>           [rms_gradient]:         0.001221444110
+
+
+================================================================================
+===================== Energy Decomposition Analysis (EDA) ======================
+================================================================================
+
+==> (Fully) Variationally Optimized Supermolecule Finished 
+
+================================================================================
+
+==> Final EDA Calculation Results:
+
+  (1+2) Frozen Density Component E_FRZ           :      2.311 kcal/mol
+
+      (1) (Nonortho.) Frozen Interaction Energy  :      0.471 kcal/mol
+               Frozen Electrostatics E_ES        :      1.688 kcal/mol
+               Frozen Exchange E_EX              :     -0.698 kcal/mol
+               Frozen Correlation E_FRZ-CORR     :     -0.519 kcal/mol
+
+      (2) Repulsion Interaction Energy           :      1.840 kcal/mol
+               Pauli-Repulsion E_REP             :      1.882 kcal/mol
+               Repulsion Correlation E_REP-CORR  :     -0.042 kcal/mol
+
+
+  (3) Delocalisation Interaction Energy          :   -114.094 kcal/mol
+
+      (Stoll SCF-MI) Polarisation E_POL          :    -83.347 kcal/mol
+
+      Charge Transfer E_CT                       :    -30.747 kcal/mol
+
+  (1+2+3) Total Interaction Energy               :   -111.782 kcal/mol
+
+================================================================================
+
+
+ 
+<QC>         [EDA frag x   1]:        -3.898113758480
+<QC>         [EDA frag c   1]:        -0.282164107765
+<QC>         [EDA frag x   2]:        -3.464485166228
+<QC>         [EDA frag c   2]:        -0.280545163678
+<QC>         [EDA frag x   3]:        -6.285880223299
+<QC>         [EDA frag c   3]:        -0.403073506499
+<QC>      [EDA intrfrg x frz]:        -0.001111953639
+<QC>      [EDA intrfrg c frz]:        -0.000827814511
+<QC>           [EDA dE c rep]:        -0.000066835367
+<QC>        [EDA cmplx E frz]:       -71.903286814735
+<QC>    [EDA cmplx E frzIdem]:       -71.900354084562
+<QC>  [EDA cmplx E pol_simul]:       -72.033175825746
+<QC>       [EDA cmplx E full]:       -72.082174038711
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      21.885s on      2 proc(s)                                    
+TOTAL TIME:        21.886s on      2 proc(s)                                    
+================= AVERAGE TIMINGS FROM ALL PROCS (CUMULATIVE) ==================
+|| TAG                                    #calls    cpu time   %total  Gflops ||
+|| fragment_matrix_ops_blk_mxm          :     3        0.00s   0.000%  ------ ||
+|| fragment_matrix_ops_blk_mxn          :     3        0.00s   0.000%  ------ ||
+|| fragment_matrix_ops_blk_nxm          :     3        0.00s   0.000%  ------ ||
+|| onetep.F90 main loop imbalance       :     1        0.00s   0.000%  ------ ||
+|| onetep.F90 final imbalance           :     1        0.00s   0.001%  ------ ||
+|| fragment_matrix_ops_frz_spam_nxn     :    12        0.00s   0.001%  ------ ||
+|| fragment_matrix_ops_blk_nxn          :     6        0.00s   0.001%  ------ ||
+|| fragment_matrix_ops_spam_nxn         :    60        0.00s   0.001%  ------ ||
+|| fragment_matrix_load_dkn             :     2        0.00s   0.002%  ------ ||
+|| basis_extract_function_from_box      :    57        0.00s   0.002%  ------ ||
+|| sparse_set_to_garbage                :   110        0.00s   0.002%  ------ ||
+|| fragment_construct_masks             :     1        0.00s   0.005%  ------ ||
+|| ewald_calculate_energy               :     4        0.00s   0.009%  ------ ||
+|| ngwf_gradient_coeffs                 :     5        0.00s   0.016%  ------ ||
+|| pseudopotentials_nonlocal_mat        :    17        0.00s   0.020%  ------ ||
+|| fragment_scfmi_projection            :     5        0.01s   0.028%  ------ ||
+|| sparse_init                          :     4        0.01s   0.034%  ------ ||
+|| lnv_gradient_norm                    :    18        0.01s   0.054%  ------ ||
+|| dense_eigensolve                     :     8        0.01s   0.055%  ------ ||
+|| basis_dot_function_with_box          :  3888        0.01s   0.055%  ------ ||
+|| fragment_scfmi_construct_kern_nodiag :     8        0.01s   0.061%  ------ ||
+|| sparse_trace                         :   661        0.01s   0.062%  ------ ||
+|| sparse_embed_hotelling_invert_embed  :    21        0.02s   0.073%  ------ ||
+|| basis_add_function_to_box            :  6276        0.02s   0.081%  ------ ||
+|| kernel_purify                        :    57        0.02s   0.085%  ------ ||
+|| kernel_fix                           :    18        0.02s   0.097%  ------ ||
+|| function_ops_brappd_ketppd           :    17        0.03s   0.116%  ------ ||
+|| pseudo_make_structure_factor         :     4        0.04s   0.170%  ------ ||
+|| fourier_apply_box_pair               :   112        0.04s   0.176% 130.199 ||
+|| density_batch_row_sums               :    43        0.04s   0.190%  ------ ||
+|| sparse_product                       :  1463        0.06s   0.265%  ------ ||
+|| ngwfs_initialise_from_radial         :     3        0.06s   0.278%  ------ ||
+|| basis_copy_function_to_box           :   853        0.06s   0.286%  ------ ||
+|| cell_grid_extract_box_real           :   226        0.07s   0.337%  ------ ||
+|| pseudopotentials_local_on_grid       :     4        0.09s   0.414%  ------ ||
+|| projectors_gradient_batch            :     5        0.15s   0.699%  ------ ||
+|| integrals_locpot_mat_els_batch       :    29        0.16s   0.726%  ------ ||
+|| integrals_kinetic                    :    17        0.18s   0.829%  ------ ||
+|| projectors_init_fftbox_recip         :    22        0.26s   1.178%  ------ ||
+|| projectors_func_ovlp_box             :    17        0.31s   1.400%  ------ ||
+|| eigenstates_calculate                :     5        0.32s   1.440%  ------ ||
+|| density_init_guess_real              :     4        0.35s   1.616%  ------ ||
+|| cell_grid_deposit_box_real           :   639        0.36s   1.658%  ------ ||
+|| density_fftbox_deposit_to_cell       :   310        0.71s   3.232%  ------ ||
+|| ngwf_gradient_build_batch            :     5        0.86s   3.910%  ------ ||
+|| energy_and_force_init_cell           :     9        1.08s   4.932%  ------ ||
+|| fourier_apply_box                    :  1217        1.26s   5.739% 199.461 ||
+|| density_fftbox_interpolate_multiply  :   310        1.27s   5.795%  ------ ||
+|| ngwf_gradient_batch                  :     5        1.47s   6.702%  ------ ||
+|| hartree_on_grid                      :    47        1.47s   6.727%  ------ ||
+|| ngwf_gradient_lnv                    :     5        1.68s   7.674%  ------ ||
+|| hamiltonian_energy_components        :     7        2.11s   9.655%  ------ ||
+|| properties_calculate                 :     5        2.32s  10.579%  ------ ||
+|| potential_apply_to_ngwf_batch        :    29        3.18s  14.521%  ------ ||
+|| integrals_locpot_dbl_grid            :    29        3.35s  15.297%  ------ ||
+|| fourier_apply_cell_forward           :   235        3.49s  15.957%   7.119 ||
+|| fourier_apply_cell_backward          :   239        3.65s  16.659%   6.935 ||
+|| density_batch_interp_deposit         :    43        3.86s  17.627%  ------ ||
+|| density_on_dbl_grid                  :    43        4.19s  19.147%  ------ ||
+|| xc_energy_potential                  :    47        7.05s  32.230%  ------ ||
+|| lnv_denskernel_optimise_cg           :    10        9.12s  41.665%  ------ ||
+|| hamiltonian_lhxc_calculate           :    36       10.79s  49.284%  ------ ||
+|| ngwf_cg_optimise                     :     5       14.37s  65.641%  ------ ||
+|| energy_and_force_calculate           :     4       20.50s  93.649%  ------ ||
+|| total_time                           :     1       21.89s 100.000%  ------ ||
+================================================================================
+Overhead of generating timer report: 
+- 0 ms averaging over threads,
+- 0 ms ensuring consistency across MPI ranks,
+- 0 ms printing in order.
+
+Job completed: 21-09-2022 10:58 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

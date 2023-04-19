@@ -1,0 +1,2167 @@
+==================================================================================
+It's Wed Sep 21 09:55:51 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 255182 255183 255184 255185)...
+    - ONETEP arguments: benzene_dimer_vdw.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test02
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test02/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test02/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack benzene_dimer_vdw.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 09:55 (+0100)
+ 
+Reading parameters from file "benzene_dimer_vdw.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "benzene_dimer_vdw.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+... done
+ Writing xyz coordinates to file "benzene_dimer_vdw.xyz" ... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+cutoff_energy:       300 eV                                                     
+xc_functional:       PBE                                                        
+k_zero:              2.0                                                        
+occ_mix:             1.0                                                        
+elec_cg_max:         0                                                          
+ngwfthresholdorig:   0.0001                                                     
+maxit_pen            3                                                          
+output_detail:       NORMAL                                                     
+timings_level:       0                                                          
+print_qc:            T                                                          
+TASK:                GEOMETRYOPTIMIZATION                                       
+geom_reuse_dk_ngwfs: F                                                          
+geommaxiter:         2                                                          
+write_xyz:           T                                                          
+write_forces:        T                                                          
+dispersion:          1                                                          
+%block lattice_cart                                                             
+28.345894694999998       0.000000000000000       0.000000000000000              
+0.000000000000000      28.345894694999998       0.000000000000000               
+0.000000000000000       0.000000000000000      28.345894694999998               
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =  -000001666729778260391883
+%endblock positions_abs                                                         
+%block species                                                                  
+C1 C 6 4 6.5                                                                    
+H1 H 1 1 6.0                                                                    
+%endblock species                                                               
+%block species_pot                                                              
+C1 "../../pseudo/carbon.recpot"                                                 
+H1 "../../pseudo/hydrogen.recpot"                                               
+%endblock species_pot                                                           
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+ ESDF WARNING(1): "kzero" (esdf_physical) has no units. Assume "1/bohr".
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C         12        48        12
+  H         12        12         0
+.......   ......    ......    ......
+Totals:     24        60        12
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   35 x  35 x  35
+                              FFT-box:   35 x  35 x  35
+                                  PPD:    5 x   5 x   1
+Grid space d1=  0.809882705571a0 (KE cutoff=  11.58137Eh = 315.14498eV)
+Grid space d2=  0.809882705571a0 (KE cutoff=  11.58137Eh = 315.14498eV)
+Grid space d3=  0.809882705571a0 (KE cutoff=  11.58137Eh = 315.14498eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     35    35    35
+          Real-space ('12') slabs/proc (min max mean):      8     9     8
+         Recip-space ('23') slabs/proc (min max mean):      4     5     4
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:     70    70    70
+          Real-space ('12') slabs/proc (min max mean):     17    18    17
+         Recip-space ('23') slabs/proc (min max mean):      9     9     9
+********************************************************************************
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  33 iterations to a total energy of     -5.37277641
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  35 iterations to a total energy of     -0.44163187
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+================================================================================
+<<<<<<<<<<<<<<<<<<<< Starting ONETEP Geometry Optimisation >>>>>>>>>>>>>>>>>>>>>
+================================================================================
+
+ Geometry Optimisation: output file is "benzene_dimer_vdw.geom"
+ 
+ 
+                           -------------------------------
+                                     Cell Contents
+                           -------------------------------
+ 
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            x  Element    Atom      Absolute co-ordinates of atoms     x
+            x            Number        x           y           z       x
+            x----------------------------------------------------------x
+            x    C         1       12.061033   14.796189   12.569688   x
+            x    C         2       13.383773   12.505036   12.569688   x
+            x    C         3       16.029416   12.505061   12.569688   x
+            x    C         4       17.352141   14.796189   12.569688   x
+            x    C         5       16.029401   17.087342   12.569688   x
+            x    C         6       13.383759   17.087318   12.569688   x
+            x    H         7       10.265776   14.796173   12.569688   x
+            x    H         8       12.486204   10.950335   12.569688   x
+            x    H         9       16.926994   10.950345   12.569688   x
+            x    H        10       19.147399   14.796205   12.569688   x
+            x    H        11       16.926970   18.642044   12.569688   x
+            x    H        12       12.486180   18.642034   12.569688   x
+            x    C        13       11.902698   14.652051   16.729531   x
+            x    C        14       13.225439   12.360898   16.729531   x
+            x    C        15       15.871081   12.360923   16.729531   x
+            x    C        16       17.193807   14.652051   16.729531   x
+            x    C        17       15.871066   16.943204   16.729531   x
+            x    C        18       13.225424   16.943180   16.729531   x
+            x    H        19       10.107441   14.652035   16.729531   x
+            x    H        20       12.327870   10.806197   16.729531   x
+            x    H        21       16.768660   10.806207   16.729531   x
+            x    H        22       18.989064   14.652067   16.729531   x
+            x    H        23       16.768636   18.497906   16.729531   x
+            x    H        24       12.327846   18.497896   16.729531   x
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              194.570756 Hartree
+Model : Elstner
+Dispersion Correction Energy: -0.19426784E-01 Hartree
+<QC>      [Dispersion Energy]:        -0.019426783837
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+................................................................................
+<<<<<<<<<<<<<<<< Penalty functional density kernel optimisation >>>>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+iter|       energy      |   rms grad  |  commutator |LScoef|CGcoef|      Ne    |
+ 1    -72.03331815777841 0.12705758046 0.00315253352 0.0247  0.000   60.00000000
+ 2    -73.46969448320031 0.09943886655 0.00265645278 0.3438 -0.782   60.00000000
+ 3    -73.48035621116409 0.09957977851 0.00346635313 0.0730  4.174   60.00000000
+
+======================== Penalty functional minimisation =======================
+   Final total energy     :     -76.801596782705
+   Final penalty energy   :       1.894782527915
+   RMS occupancy error    :       0.088853
+   Occupancy bounds       : [-0.129, 1.133]
+================================================================================
+
+Finished density kernel iterations (   3)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.203702931735E+01     2.1106E-03     2.1106E-03
+    2        -7.204021998029E+01     8.6911E-04     8.6911E-04    -3.1907E-03
+    3        -7.204117710629E+01     6.2525E-04     6.2525E-04    -9.5713E-04
+    4        -7.204188276065E+01     6.6525E-04     6.6525E-04    -7.0565E-04
+    5        -7.204249034146E+01     4.5439E-04     4.5439E-04    -6.0758E-04
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.20424903414597E+01  Eh
+     Estimated bandgap           =   3.1892E-02  Eh
+     RMS occupancy error         =   4.9743E-12
+     [H,K] commutator            =   4.5439E-04
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  8.5175E-03 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.37875253555761E+01 Eh
+   Predicted gain in energy  =      -1.74503501411641E+00 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.375460279723E+01     4.2902E-03     4.2902E-03
+    2        -7.376778303937E+01     8.1779E-04     8.1779E-04    -1.3180E-02
+    3        -7.376851359250E+01     3.5285E-04     3.5285E-04    -7.3055E-04
+    4        -7.376863183128E+01     2.0785E-04     2.0785E-04    -1.1824E-04
+    5        -7.376870861690E+01     1.6242E-04     1.6242E-04    -7.6786E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.37687086168988E+01  Eh
+     Estimated bandgap           =   2.1007E-02  Eh
+     RMS occupancy error         =   1.9268E-09
+     [H,K] commutator            =   1.6242E-04
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.0045E-03 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.38625610281815E+01 Eh
+   Predicted gain in energy  =      -9.38524112827253E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.386015111380E+01     1.5044E-03     1.5044E-03
+    2        -7.386187573162E+01     2.4109E-04     2.4109E-04    -1.7246E-03
+    3        -7.386196871397E+01     1.4725E-04     1.4725E-04    -9.2982E-05
+    4        -7.386200754238E+01     1.3276E-04     1.3276E-04    -3.8828E-05
+    5        -7.386204086591E+01     1.4608E-04     1.4608E-04    -3.3324E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.38620408659137E+01  Eh
+     Estimated bandgap           =   1.8096E-02  Eh
+     RMS occupancy error         =   1.9557E-09
+     [H,K] commutator            =   1.4608E-04
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.0535E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.38696108172679E+01 Eh
+   Predicted gain in energy  =      -7.56995135422756E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.386950939515E+01     3.1019E-04     3.1019E-04
+    2        -7.386959247413E+01     1.0426E-04     1.0426E-04    -8.3079E-05
+    3        -7.386960558169E+01     7.8657E-05     7.8657E-05    -1.3108E-05
+    4        -7.386961781968E+01     7.8916E-05     7.8916E-05    -1.2238E-05
+    5        -7.386963352065E+01     7.1195E-05     7.1195E-05    -1.5701E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.38696335206467E+01  Eh
+     Estimated bandgap           =   1.7130E-02  Eh
+     RMS occupancy error         =   7.6354E-10
+     [H,K] commutator            =   7.1195E-05
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.6242E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.38697040399953E+01 Eh
+   Predicted gain in energy  =      -7.05193486112421E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.386970207758E+01     1.0015E-04     1.0015E-04
+    2        -7.386971266166E+01     5.1927E-05     5.1927E-05    -1.0584E-05
+    3        -7.386971705274E+01     2.8348E-05     2.8348E-05    -4.3911E-06
+    4        -7.386971795013E+01     2.2919E-05     2.2919E-05    -8.9739E-07
+    5        -7.386971967130E+01     2.4956E-05     2.4956E-05    -1.7212E-06
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.38697196713013E+01  Eh
+     Estimated bandgap           =   1.7194E-02  Eh
+     RMS occupancy error         =   2.4164E-11
+     [H,K] commutator            =   2.4956E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00006108612541              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       55.47125456697810 |
+           | Pseudopotential (local)    :     -558.43790842359624 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        9.84610970082030 |
+           | Hartree                    :      250.55388949726674 |
+           | Exchange-correlation       :      -25.85439378509541 |
+           | Ewald                      :      194.57075555616194 |
+           | Dispersion Correction      :       -0.01942678383681 |
+           | Total                      :      -73.86971967130135 |
+           --------------------------------------------------------
+           Integrated density           :       60.00000000000006
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00851753126115    -72.04249034145970   0.386761    -73.78752535557611        
+   1     0.00200450137866    -73.76870861689879   0.375576    -73.86256102818152        
+   2     0.00070534935295    -73.86204086591366   0.244653    -73.86961081726788        
+   3     0.00016241794611    -73.86963352064672   0.042984    -73.86970403999533        
+   4     0.00006108612541    -73.86971967130128  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      5
+<QC>           [total_energy]:       -73.869719671301
+<QC>           [rms_gradient]:         0.000061086125
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1      0.13687751   0.01299441  -0.06660411 *
+*    C       2      0.00437943   0.10797849  -0.06609863 *
+*    C       3     -0.01330350   0.11038381  -0.06851140 *
+*    C       4     -0.12481122   0.01278817  -0.07201426 *
+*    C       5     -0.01598514  -0.10012870  -0.07172184 *
+*    C       6      0.00666309  -0.09781275  -0.06991413 *
+*    H       7     -0.15718706  -0.00325185   0.00111158 *
+*    H       8     -0.08366457  -0.12589927   0.00128624 *
+*    H       9      0.08614486  -0.12591045   0.00091702 *
+*    H      10      0.16534756  -0.00311855   0.00017481 *
+*    H      11      0.08590585   0.12168649  -0.00010308 *
+*    H      12     -0.08334918   0.12176041   0.00058169 *
+*    C      13      0.12124955  -0.00329493   0.06853047 *
+*    C      14      0.00861809   0.10807087   0.06863567 *
+*    C      15     -0.01188064   0.10582442   0.06712060 *
+*    C      16     -0.12705366  -0.00247917   0.06378668 *
+*    C      17     -0.01164250  -0.11299454   0.06334789 *
+*    C      18      0.00894932  -0.11477113   0.06543517 *
+*    H      19     -0.16030043  -0.00233348   0.00266548 *
+*    H      20     -0.08383596  -0.12685842   0.00305168 *
+*    H      21      0.08617343  -0.12694204   0.00240731 *
+*    H      22      0.16044301  -0.00237383   0.00174367 *
+*    H      23      0.08576259   0.12334036   0.00192484 *
+*    H      24     -0.08350044   0.12334169   0.00224664 *
+*                                                        *
+**********************************************************
+* TOTAL:           -0.00000000   0.00000000  -0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:         0.136877508996
+<QC>       [total_force(1,2)]:         0.004379426957
+<QC>       [total_force(1,3)]:        -0.013303496340
+<QC>       [total_force(1,4)]:        -0.124811219810
+<QC>       [total_force(1,5)]:        -0.015985142368
+<QC>       [total_force(1,6)]:         0.006663088676
+<QC>       [total_force(1,7)]:        -0.157187059171
+<QC>       [total_force(1,8)]:        -0.083664570268
+<QC>       [total_force(1,9)]:         0.086144862979
+<QC>      [total_force(1,10)]:         0.165347558921
+<QC>      [total_force(1,11)]:         0.085905850806
+<QC>      [total_force(1,12)]:        -0.083349178397
+<QC>      [total_force(1,13)]:         0.121249550922
+<QC>      [total_force(1,14)]:         0.008618089633
+<QC>      [total_force(1,15)]:        -0.011880636465
+<QC>      [total_force(1,16)]:        -0.127053659162
+<QC>      [total_force(1,17)]:        -0.011642503802
+<QC>      [total_force(1,18)]:         0.008949320780
+<QC>      [total_force(1,19)]:        -0.160300431991
+<QC>      [total_force(1,20)]:        -0.083835956374
+<QC>      [total_force(1,21)]:         0.086173430390
+<QC>      [total_force(1,22)]:         0.160443014250
+<QC>      [total_force(1,23)]:         0.085762587237
+<QC>      [total_force(1,24)]:        -0.083500436401
+<QC>       [total_force(2,1)]:         0.012994412942
+<QC>       [total_force(2,2)]:         0.107978486555
+<QC>       [total_force(2,3)]:         0.110383811878
+<QC>       [total_force(2,4)]:         0.012788167517
+<QC>       [total_force(2,5)]:        -0.100128704363
+<QC>       [total_force(2,6)]:        -0.097812747327
+<QC>       [total_force(2,7)]:        -0.003251847894
+<QC>       [total_force(2,8)]:        -0.125899272415
+<QC>       [total_force(2,9)]:        -0.125910448945
+<QC>      [total_force(2,10)]:        -0.003118547036
+<QC>      [total_force(2,11)]:         0.121686485662
+<QC>      [total_force(2,12)]:         0.121760408439
+<QC>      [total_force(2,13)]:        -0.003294927286
+<QC>      [total_force(2,14)]:         0.108070867326
+<QC>      [total_force(2,15)]:         0.105824418493
+<QC>      [total_force(2,16)]:        -0.002479173459
+<QC>      [total_force(2,17)]:        -0.112994541675
+<QC>      [total_force(2,18)]:        -0.114771127596
+<QC>      [total_force(2,19)]:        -0.002333477892
+<QC>      [total_force(2,20)]:        -0.126858420625
+<QC>      [total_force(2,21)]:        -0.126942042241
+<QC>      [total_force(2,22)]:        -0.002373832924
+<QC>      [total_force(2,23)]:         0.123340363251
+<QC>      [total_force(2,24)]:         0.123341689617
+<QC>       [total_force(3,1)]:        -0.066604105347
+<QC>       [total_force(3,2)]:        -0.066098627697
+<QC>       [total_force(3,3)]:        -0.068511401910
+<QC>       [total_force(3,4)]:        -0.072014258232
+<QC>       [total_force(3,5)]:        -0.071721837481
+<QC>       [total_force(3,6)]:        -0.069914132221
+<QC>       [total_force(3,7)]:         0.001111584016
+<QC>       [total_force(3,8)]:         0.001286236099
+<QC>       [total_force(3,9)]:         0.000917019947
+<QC>      [total_force(3,10)]:         0.000174814484
+<QC>      [total_force(3,11)]:        -0.000103078287
+<QC>      [total_force(3,12)]:         0.000581691550
+<QC>      [total_force(3,13)]:         0.068530471555
+<QC>      [total_force(3,14)]:         0.068635669082
+<QC>      [total_force(3,15)]:         0.067120603480
+<QC>      [total_force(3,16)]:         0.063786676330
+<QC>      [total_force(3,17)]:         0.063347887293
+<QC>      [total_force(3,18)]:         0.065435170141
+<QC>      [total_force(3,19)]:         0.002665480122
+<QC>      [total_force(3,20)]:         0.003051676012
+<QC>      [total_force(3,21)]:         0.002407313274
+<QC>      [total_force(3,22)]:         0.001743669814
+<QC>      [total_force(3,23)]:         0.001924836527
+<QC>      [total_force(3,24)]:         0.002246641449
+ 
+                           -------------------------------
+                                     Cell Contents
+                           -------------------------------
+ 
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            x  Element    Atom      Absolute co-ordinates of atoms     x
+            x            Number        x           y           z       x
+            x----------------------------------------------------------x
+            x    C         1       12.061033   14.796189   12.569688   x
+            x    C         2       13.383773   12.505036   12.569688   x
+            x    C         3       16.029416   12.505061   12.569688   x
+            x    C         4       17.352141   14.796189   12.569688   x
+            x    C         5       16.029401   17.087342   12.569688   x
+            x    C         6       13.383759   17.087318   12.569688   x
+            x    H         7       10.265776   14.796173   12.569688   x
+            x    H         8       12.486204   10.950335   12.569688   x
+            x    H         9       16.926994   10.950345   12.569688   x
+            x    H        10       19.147399   14.796205   12.569688   x
+            x    H        11       16.926970   18.642044   12.569688   x
+            x    H        12       12.486180   18.642034   12.569688   x
+            x    C        13       11.902698   14.652051   16.729531   x
+            x    C        14       13.225439   12.360898   16.729531   x
+            x    C        15       15.871081   12.360923   16.729531   x
+            x    C        16       17.193807   14.652051   16.729531   x
+            x    C        17       15.871066   16.943204   16.729531   x
+            x    C        18       13.225424   16.943180   16.729531   x
+            x    H        19       10.107441   14.652035   16.729531   x
+            x    H        20       12.327870   10.806197   16.729531   x
+            x    H        21       16.768660   10.806207   16.729531   x
+            x    H        22       18.989064   14.652067   16.729531   x
+            x    H        23       16.768636   18.497906   16.729531   x
+            x    H        24       12.327846   18.497896   16.729531   x
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+
+BFGS: continuation file name is "benzene_dimer_vdw.continuation"
+ BFGS: finished iteration   0  with enthalpy= -7.386971967130E+001 Ha
+  
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+ | Parameter |      value      |    tolerance    |    units   | OK? | <-- BFGS
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+ |  dE/ion   |   0.000000E+000 |   1.000000E-006 |         Ha | No  | <-- BFGS
+ |  |F|max   |   1.653771E-001 |   2.000000E-003 |    Ha/Bohr | No  | <-- BFGS
+ |  |dR|max  |   0.000000E+000 |   5.000000E-003 |       Bohr | No  | <-- BFGS
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+  
+
+================================================================================
+ Starting BFGS iteration    1 ...
+================================================================================
+ Writing xyz coordinates to file "benzene_dimer_vdw.xyz" ... done
+
+ Writing continuation file "benzene_dimer_vdw.continuation" ...done
+  
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |    Step    |   lambda    |   F.delta   |    enthalpy     | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |  previous  |    0.000000 |    0.727695 |      -73.869720 | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+  
+
+--------------------------------------------------------------------------------
+ BFGS: starting iteration   1 with trial guess (lambda=    1.000000)
+--------------------------------------------------------------------------------
+ 
+                           -------------------------------
+                                     Cell Contents
+                           -------------------------------
+ 
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            x  Element    Atom      Absolute co-ordinates of atoms     x
+            x            Number        x           y           z       x
+            x----------------------------------------------------------x
+            x    C         1       12.260747   14.815149   12.472507   x
+            x    C         2       13.390163   12.662585   12.473245   x
+            x    C         3       16.010005   12.666119   12.469724   x
+            x    C         4       17.170033   14.814848   12.464614   x
+            x    C         5       16.006078   16.941247   12.465040   x
+            x    C         6       13.393481   16.944602   12.467678   x
+            x    H         7       10.036428   14.791429   12.571310   x
+            x    H         8       12.364132   10.766638   12.571564   x
+            x    H         9       17.052686   10.766632   12.571026   x
+            x    H        10       19.388653   14.791655   12.569943   x
+            x    H        11       17.052313   18.819593   12.569537   x
+            x    H        12       12.364568   18.819691   12.570536   x
+            x    C        13       12.079610   14.647244   16.829522   x
+            x    C        14       13.238013   12.518582   16.829675   x
+            x    C        15       15.853747   12.515328   16.827465   x
+            x    C        16       17.008426   14.648434   16.822600   x
+            x    C        17       15.854079   16.778337   16.821960   x
+            x    C        18       13.238482   16.775720   16.825006   x
+            x    H        19        9.873551   14.648631   16.733420   x
+            x    H        20       12.205547   10.621101   16.733984   x
+            x    H        21       16.894393   10.620989   16.733043   x
+            x    H        22       19.223162   14.648604   16.732075   x
+            x    H        23       16.893769   18.677868   16.732339   x
+            x    H        24       12.206012   18.677860   16.732809   x
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              194.049749 Hartree
+Model : Elstner
+Dispersion Correction Energy: -0.19158758E-01 Hartree
+<QC>      [Dispersion Energy]:        -0.019158757570
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+................................................................................
+<<<<<<<<<<<<<<<< Penalty functional density kernel optimisation >>>>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+iter|       energy      |   rms grad  |  commutator |LScoef|CGcoef|      Ne    |
+ 1    -72.47923893834771 0.13019149835 0.00180217312 0.0215  0.000   60.00000000
+ 2    -73.79285224583701 0.10554985253 0.00159578837 0.4947 -0.810   60.00000000
+WARNING: internal_polak_cg_coeff =  5.66806
+WARNING: setting internal_polak_cg_coeff to zero
+ 3    -73.80471569095099 0.10571158977 0.00218536118 0.0643  0.000   60.00000000
+
+======================== Penalty functional minimisation =======================
+   Final total energy     :     -76.975137850887
+   Final penalty energy   :       1.608894841267
+   RMS occupancy error    :       0.081876
+   Occupancy bounds       : [-0.143, 1.129]
+================================================================================
+
+Finished density kernel iterations (   3)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.248004853131E+01     1.4660E-03     1.4660E-03
+    2        -7.248165682096E+01     4.7377E-04     4.7377E-04    -1.6083E-03
+    3        -7.248184519287E+01     2.5224E-04     2.5224E-04    -1.8837E-04
+    4        -7.248192189429E+01     1.8534E-04     1.8534E-04    -7.6701E-05
+    5        -7.248197229854E+01     1.4160E-04     1.4160E-04    -5.0404E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.24819722985406E+01  Eh
+     Estimated bandgap           =   4.7262E-02  Eh
+     RMS occupancy error         =   1.4719E-09
+     [H,K] commutator            =   1.4160E-04
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.9966E-03 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.39540198698850E+01 Eh
+   Predicted gain in energy  =      -1.47204757134436E+00 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.394670140721E+01     6.0803E-03     6.0803E-03
+    2        -7.397194298865E+01     7.3849E-04     7.3849E-04    -2.5242E-02
+    3        -7.397245231692E+01     3.7428E-04     3.7428E-04    -5.0933E-04
+    4        -7.397257305142E+01     1.6540E-04     1.6540E-04    -1.2073E-04
+    5        -7.397260546436E+01     9.3974E-05     9.3974E-05    -3.2413E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.39726054643567E+01  Eh
+     Estimated bandgap           =   4.3866E-02  Eh
+     RMS occupancy error         =   1.8909E-10
+     [H,K] commutator            =   9.3974E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.7858E-03 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.40468896505284E+01 Eh
+   Predicted gain in energy  =      -7.42841861716954E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.404613877949E+01     7.3081E-04     7.3081E-04
+    2        -7.404655345714E+01     1.5838E-04     1.5838E-04    -4.1468E-04
+    3        -7.404658308327E+01     9.7888E-05     9.7888E-05    -2.9626E-05
+    4        -7.404659370150E+01     6.3996E-05     6.3996E-05    -1.0618E-05
+    5        -7.404659913775E+01     3.9246E-05     3.9246E-05    -5.4363E-06
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.40465991377531E+01  Eh
+     Estimated bandgap           =   4.1097E-02  Eh
+     RMS occupancy error         =   3.9312E-11
+     [H,K] commutator            =   3.9246E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.5414E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.40501215379320E+01 Eh
+   Predicted gain in energy  =      -3.52240017888050E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.405009167967E+01     1.4771E-04     1.4771E-04
+    2        -7.405011298567E+01     6.3826E-05     6.3826E-05    -2.1306E-05
+    3        -7.405011649626E+01     3.3576E-05     3.3576E-05    -3.5106E-06
+    4        -7.405011843192E+01     2.4077E-05     2.4077E-05    -1.9357E-06
+    5        -7.405011947628E+01     1.8213E-05     1.8213E-05    -1.0444E-06
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.40501194762810E+01  Eh
+     Estimated bandgap           =   4.0347E-02  Eh
+     RMS occupancy error         =   5.0557E-12
+     [H,K] commutator            =   1.8213E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.3693E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.40503933176179E+01 Eh
+   Predicted gain in energy  =      -2.73841336976943E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.405038670252E+01     5.2524E-05     5.2524E-05
+    2        -7.405038964289E+01     2.6513E-05     2.6513E-05    -2.9404E-06
+    3        -7.405039042382E+01     1.5586E-05     1.5586E-05    -7.8092E-07
+    4        -7.405039070089E+01     8.8995E-06     8.8995E-06    -2.7708E-07
+    5        -7.405039081721E+01     6.3501E-06     6.3501E-06    -1.1632E-07
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.40503908172076E+01  Eh
+     Estimated bandgap           =   4.0554E-02  Eh
+     RMS occupancy error         =   3.1948E-14
+     [H,K] commutator            =   6.3501E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.2281E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.40504078459136E+01 Eh
+   Predicted gain in energy  =      -1.70287060257124E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.405040752458E+01     1.2722E-05     1.2722E-05
+    2        -7.405040770886E+01     7.4522E-06     7.4522E-06    -1.8427E-07
+    3        -7.405040778820E+01     4.9276E-06     4.9276E-06    -7.9344E-08
+    4        -7.405040782445E+01     4.1605E-06     4.1605E-06    -3.6251E-08
+    5        -7.405040785184E+01     3.3379E-06     3.3379E-06    -2.7393E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.40504078518449E+01  Eh
+     Estimated bandgap           =   4.0492E-02  Eh
+     RMS occupancy error         =   1.1497E-14
+     [H,K] commutator            =   3.3379E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00006263627218              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       54.23328878934348 |
+           | Pseudopotential (local)    :     -556.72682729219162 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        9.88602093529763 |
+           | Hartree                    :      250.01203599370947 |
+           | Exchange-correlation       :      -25.48551642402227 |
+           | Ewald                      :      194.04974890358847 |
+           | Dispersion Correction      :       -0.01915875757035 |
+           | Total                      :      -74.05040785184522 |
+           --------------------------------------------------------
+           Integrated density           :       60.00000000000002
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00799659324062    -72.48197229854064   0.370150    -73.95401986988500        
+   1     0.00178578081886    -73.97260546435669   0.374546    -74.04688965052839        
+   2     0.00055413807148    -74.04659913775315   0.184446    -74.05012153793203        
+   3     0.00023692635495    -74.05011947628097   0.078440    -74.05039331761795        
+   4     0.00012280922953    -74.05039081720760   0.018155    -74.05040784591363        
+   5     0.00006263627218    -74.05040785184494  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      6
+<QC>           [total_energy]:       -74.050407851845
+<QC>           [rms_gradient]:         0.000062636272
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1     -0.17628009   0.00332203  -0.04707206 *
+*    C       2     -0.02737723  -0.14661917  -0.04855281 *
+*    C       3      0.02434956  -0.14373170  -0.04956148 *
+*    C       4      0.18083420   0.00414858  -0.04848438 *
+*    C       5      0.02152946   0.14534649  -0.05048954 *
+*    C       6     -0.02411319   0.14879826  -0.04983607 *
+*    H       7     -0.00621475   0.00063471  -0.00320227 *
+*    H       8     -0.00054600   0.00870255  -0.00211354 *
+*    H       9     -0.00101816   0.01071785  -0.00246441 *
+*    H      10      0.01123560   0.00084706  -0.00394283 *
+*    H      11      0.00053563  -0.00834301  -0.00270529 *
+*    H      12     -0.00212944  -0.00635949  -0.00219865 *
+*    C      13     -0.18462643   0.00265083   0.04707955 *
+*    C      14     -0.02603533  -0.15254582   0.04933530 *
+*    C      15      0.02821823  -0.15015126   0.04849316 *
+*    C      16      0.17975896   0.00052987   0.04579018 *
+*    C      17      0.02636633   0.14216462   0.04651036 *
+*    C      18     -0.02531326   0.14266081   0.04766093 *
+*    H      19     -0.01306168  -0.00014052   0.00492700 *
+*    H      20      0.00166744   0.00972052   0.00438647 *
+*    H      21     -0.00054204   0.01000202   0.00408191 *
+*    H      22      0.01150749  -0.00011318   0.00463940 *
+*    H      23     -0.00084323  -0.01125094   0.00375194 *
+*    H      24      0.00209793  -0.01099109   0.00396710 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000  -0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:        -0.176280092915
+<QC>       [total_force(1,2)]:        -0.027377230052
+<QC>       [total_force(1,3)]:         0.024349561248
+<QC>       [total_force(1,4)]:         0.180834196830
+<QC>       [total_force(1,5)]:         0.021529462380
+<QC>       [total_force(1,6)]:        -0.024113190174
+<QC>       [total_force(1,7)]:        -0.006214752255
+<QC>       [total_force(1,8)]:        -0.000545999620
+<QC>       [total_force(1,9)]:        -0.001018159621
+<QC>      [total_force(1,10)]:         0.011235595742
+<QC>      [total_force(1,11)]:         0.000535634189
+<QC>      [total_force(1,12)]:        -0.002129442336
+<QC>      [total_force(1,13)]:        -0.184626425171
+<QC>      [total_force(1,14)]:        -0.026035331979
+<QC>      [total_force(1,15)]:         0.028218227556
+<QC>      [total_force(1,16)]:         0.179758955558
+<QC>      [total_force(1,17)]:         0.026366333823
+<QC>      [total_force(1,18)]:        -0.025313261860
+<QC>      [total_force(1,19)]:        -0.013061677440
+<QC>      [total_force(1,20)]:         0.001667441050
+<QC>      [total_force(1,21)]:        -0.000542040833
+<QC>      [total_force(1,22)]:         0.011507490564
+<QC>      [total_force(1,23)]:        -0.000843227527
+<QC>      [total_force(1,24)]:         0.002097932843
+<QC>       [total_force(2,1)]:         0.003322025908
+<QC>       [total_force(2,2)]:        -0.146619169854
+<QC>       [total_force(2,3)]:        -0.143731698084
+<QC>       [total_force(2,4)]:         0.004148577544
+<QC>       [total_force(2,5)]:         0.145346488753
+<QC>       [total_force(2,6)]:         0.148798255038
+<QC>       [total_force(2,7)]:         0.000634712019
+<QC>       [total_force(2,8)]:         0.008702545738
+<QC>       [total_force(2,9)]:         0.010717847042
+<QC>      [total_force(2,10)]:         0.000847061530
+<QC>      [total_force(2,11)]:        -0.008343006948
+<QC>      [total_force(2,12)]:        -0.006359487690
+<QC>      [total_force(2,13)]:         0.002650833540
+<QC>      [total_force(2,14)]:        -0.152545822316
+<QC>      [total_force(2,15)]:        -0.150151261687
+<QC>      [total_force(2,16)]:         0.000529871584
+<QC>      [total_force(2,17)]:         0.142164615063
+<QC>      [total_force(2,18)]:         0.142660806548
+<QC>      [total_force(2,19)]:        -0.000140521785
+<QC>      [total_force(2,20)]:         0.009720519463
+<QC>      [total_force(2,21)]:         0.010002019073
+<QC>      [total_force(2,22)]:        -0.000113184213
+<QC>      [total_force(2,23)]:        -0.011250935817
+<QC>      [total_force(2,24)]:        -0.010991090451
+<QC>       [total_force(3,1)]:        -0.047072057023
+<QC>       [total_force(3,2)]:        -0.048552807024
+<QC>       [total_force(3,3)]:        -0.049561477546
+<QC>       [total_force(3,4)]:        -0.048484378949
+<QC>       [total_force(3,5)]:        -0.050489536761
+<QC>       [total_force(3,6)]:        -0.049836067419
+<QC>       [total_force(3,7)]:        -0.003202265990
+<QC>       [total_force(3,8)]:        -0.002113542457
+<QC>       [total_force(3,9)]:        -0.002464412765
+<QC>      [total_force(3,10)]:        -0.003942829342
+<QC>      [total_force(3,11)]:        -0.002705288045
+<QC>      [total_force(3,12)]:        -0.002198645800
+<QC>      [total_force(3,13)]:         0.047079554906
+<QC>      [total_force(3,14)]:         0.049335299814
+<QC>      [total_force(3,15)]:         0.048493159083
+<QC>      [total_force(3,16)]:         0.045790182886
+<QC>      [total_force(3,17)]:         0.046510356613
+<QC>      [total_force(3,18)]:         0.047660925089
+<QC>      [total_force(3,19)]:         0.004927002938
+<QC>      [total_force(3,20)]:         0.004386466586
+<QC>      [total_force(3,21)]:         0.004081912716
+<QC>      [total_force(3,22)]:         0.004639403706
+<QC>      [total_force(3,23)]:         0.003751941480
+<QC>      [total_force(3,24)]:         0.003967103301
+  
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |    Step    |   lambda    |   F.delta   |    enthalpy     | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |  previous  |    0.000000 |    0.727695 |      -73.869720 | <-- min BFGS
+ | trial step |    1.000000 |   -0.267330 |      -74.050408 | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+  
+ BFGS: finished iteration   1  with enthalpy= -7.405040785184E+001 Ha
+  
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+ | Parameter |      value      |    tolerance    |    units   | OK? | <-- BFGS
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+ |  dE/ion   |   7.528674E-003 |   1.000000E-006 |         Ha | No  | <-- BFGS
+ |  |F|max   |   1.905530E-001 |   2.000000E-003 |    Ha/Bohr | No  | <-- BFGS
+ |  |dR|max  |   2.412972E-001 |   5.000000E-003 |       Bohr | No  | <-- BFGS
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+  
+
+================================================================================
+ Starting BFGS iteration    2 ...
+================================================================================
+ Writing xyz coordinates to file "benzene_dimer_vdw.xyz" ... done
+
+ Writing continuation file "benzene_dimer_vdw.continuation" ...done
+  
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |    Step    |   lambda    |   F.delta   |    enthalpy     | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |  previous  |    0.000000 |    0.281928 |      -74.050408 | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+  
+
+--------------------------------------------------------------------------------
+ BFGS: starting iteration   2 with trial guess (lambda=    1.000000)
+--------------------------------------------------------------------------------
+ 
+                           -------------------------------
+                                     Cell Contents
+                           -------------------------------
+ 
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            x  Element    Atom      Absolute co-ordinates of atoms     x
+            x            Number        x           y           z       x
+            x----------------------------------------------------------x
+            x    C         1       12.130308   14.824168   12.394220   x
+            x    C         2       13.362795   12.551621   12.393590   x
+            x    C         3       16.030383   12.559249   12.387977   x
+            x    C         4       17.310415   14.824662   12.382540   x
+            x    C         5       16.022317   17.054160   12.380950   x
+            x    C         6       13.370557   17.062174   12.385046   x
+            x    H         7        9.963578   14.790736   12.568361   x
+            x    H         8       12.328303   10.722887   12.569851   x
+            x    H         9       17.087890   10.725026   12.568782   x
+            x    H        10       19.470299   14.791245   12.565809   x
+            x    H        11       17.089075   18.861954   12.566607   x
+            x    H        12       12.327183   18.864200   12.568435   x
+            x    C        13       11.933681   14.648684   16.908629   x
+            x    C        14       13.213862   12.401332   16.911234   x
+            x    C        15       15.878852   12.399688   16.907487   x
+            x    C        16       17.146717   14.647955   16.898333   x
+            x    C        17       15.877309   16.882434   16.898277   x
+            x    C        18       13.215241   16.879599   16.903429   x
+            x    H        19        9.792083   14.647498   16.739800   x
+            x    H        20       12.172008   10.578031   16.739950   x
+            x    H        21       16.930117   10.578184   16.738413   x
+            x    H        22       19.303032   14.647483   16.737760   x
+            x    H        23       16.928999   18.717823   16.737154   x
+            x    H        24       12.173074   18.718093   16.737989   x
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              182.566373 Hartree
+Model : Elstner
+Dispersion Correction Energy: -0.19120055E-01 Hartree
+<QC>      [Dispersion Energy]:        -0.019120055168
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+................................................................................
+<<<<<<<<<<<<<<<< Penalty functional density kernel optimisation >>>>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+iter|       energy      |   rms grad  |  commutator |LScoef|CGcoef|      Ne    |
+ 1    -72.75411973613976 0.12114395080 0.00199476020 0.0244  0.000   60.00000000
+ 2    -74.04309497046795 0.09513904543 0.00183892192 0.4260 -0.785   60.00000000
+WARNING: internal_polak_cg_coeff =  5.01084
+WARNING: setting internal_polak_cg_coeff to zero
+ 3    -74.05259845214654 0.09528274287 0.00227515239 0.0691  0.000   60.00000000
+
+======================== Penalty functional minimisation =======================
+   Final total energy     :     -76.912443950763
+   Final penalty energy   :       1.578702038480
+   RMS occupancy error    :       0.081104
+   Occupancy bounds       : [-0.136, 1.129]
+================================================================================
+
+Finished density kernel iterations (   3)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.275558415610E+01     1.3486E-03     1.3486E-03
+    2        -7.275689164133E+01     5.2897E-04     5.2897E-04    -1.3075E-03
+    3        -7.275720705440E+01     3.4857E-04     3.4857E-04    -3.1541E-04
+    4        -7.275738555202E+01     3.0131E-04     3.0131E-04    -1.7850E-04
+    5        -7.275751908891E+01     2.0969E-04     2.0969E-04    -1.3354E-04
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.27575190889087E+01  Eh
+     Estimated bandgap           =   4.2929E-02  Eh
+     RMS occupancy error         =   2.4174E-08
+     [H,K] commutator            =   2.0969E-04
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.8101E-03 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.41628577844458E+01 Eh
+   Predicted gain in energy  =      -1.40533869553705E+00 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.416231204358E+01     4.9060E-03     4.9060E-03
+    2        -7.417951087336E+01     6.9560E-04     6.9560E-04    -1.7199E-02
+    3        -7.418005530668E+01     3.4981E-04     3.4981E-04    -5.4443E-04
+    4        -7.418016140958E+01     1.5698E-04     1.5698E-04    -1.0610E-04
+    5        -7.418019971778E+01     1.0648E-04     1.0648E-04    -3.8308E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.41801997177805E+01  Eh
+     Estimated bandgap           =   4.7861E-02  Eh
+     RMS occupancy error         =   5.6365E-10
+     [H,K] commutator            =   1.0648E-04
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.7301E-03 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.42498610999606E+01 Eh
+   Predicted gain in energy  =      -6.96613821800582E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.424948501059E+01     7.3437E-04     7.3437E-04
+    2        -7.424991610688E+01     1.5015E-04     1.5015E-04    -4.3110E-04
+    3        -7.424994705469E+01     8.9733E-05     8.9733E-05    -3.0948E-05
+    4        -7.424995781163E+01     6.6231E-05     6.6231E-05    -1.0757E-05
+    5        -7.424996354198E+01     4.2041E-05     4.2041E-05    -5.7304E-06
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.42499635419783E+01  Eh
+     Estimated bandgap           =   4.6117E-02  Eh
+     RMS occupancy error         =   6.2461E-11
+     [H,K] commutator            =   4.2041E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.4279E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.42535291554690E+01 Eh
+   Predicted gain in energy  =      -3.56561349072138E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.425346056673E+01     1.4031E-04     1.4031E-04
+    2        -7.425348188620E+01     5.0843E-05     5.0843E-05    -2.1319E-05
+    3        -7.425348455309E+01     3.3036E-05     3.3036E-05    -2.6669E-06
+    4        -7.425348635391E+01     2.5334E-05     2.5334E-05    -1.8008E-06
+    5        -7.425348748550E+01     1.8777E-05     1.8777E-05    -1.1316E-06
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.42534874855023E+01  Eh
+     Estimated bandgap           =   4.5517E-02  Eh
+     RMS occupancy error         =   5.0115E-12
+     [H,K] commutator            =   1.8777E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.2267E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.42537313930023E+01 Eh
+   Predicted gain in energy  =      -2.43907500035334E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.425371749920E+01     6.2566E-05     6.2566E-05
+    2        -7.425372126018E+01     2.5005E-05     2.5005E-05    -3.7610E-06
+    3        -7.425372227492E+01     1.3302E-05     1.3302E-05    -1.0147E-06
+    4        -7.425372249848E+01     8.6056E-06     8.6056E-06    -2.2356E-07
+    5        -7.425372259507E+01     6.1209E-06     6.1209E-06    -9.6595E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.42537225950725E+01  Eh
+     Estimated bandgap           =   4.5678E-02  Eh
+     RMS occupancy error         =   2.0390E-14
+     [H,K] commutator            =   6.1209E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.1446E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.42537373101105E+01 Eh
+   Predicted gain in energy  =      -1.47150380058747E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.425373664922E+01     1.3381E-05     1.3381E-05
+    2        -7.425373683774E+01     7.0060E-06     7.0060E-06    -1.8852E-07
+    3        -7.425373692674E+01     4.9982E-06     4.9982E-06    -8.8999E-08
+    4        -7.425373695874E+01     4.0036E-06     4.0036E-06    -3.1998E-08
+    5        -7.425373698762E+01     3.1813E-06     3.1813E-06    -2.8879E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.42537369876187E+01  Eh
+     Estimated bandgap           =   4.5624E-02  Eh
+     RMS occupancy error         =   1.0356E-14
+     [H,K] commutator            =   3.1813E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00005750064941              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       52.69303275799122 |
+           | Pseudopotential (local)    :     -533.11282749861732 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        9.71690952484222 |
+           | Hartree                    :      239.02297219152217 |
+           | Exchange-correlation       :      -25.12107664330786 |
+           | Ewald                      :      182.56637273511842 |
+           | Dispersion Correction      :       -0.01912005516759 |
+           | Total                      :      -74.25373698761875 |
+           --------------------------------------------------------
+           Integrated density           :       59.99999999999995
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00781012266499    -72.75751908890871   0.370451    -74.16285778444576        
+   1     0.00173006838806    -74.18019971778054   0.374223    -74.24986109996060        
+   2     0.00054279182368    -74.24996354197832   0.194596    -74.25352915546904        
+   3     0.00022267310189    -74.25348748550230   0.079096    -74.25373139300234        
+   4     0.00011445527037    -74.25372259507247   0.018062    -74.25373731011048        
+   5     0.00005750064941    -74.25373698761874  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      6
+<QC>           [total_energy]:       -74.253736987619
+<QC>           [rms_gradient]:         0.000057500649
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1     -0.05815109   0.00034901  -0.04073363 *
+*    C       2     -0.04284801  -0.04402278  -0.04154173 *
+*    C       3      0.04386794  -0.04417223  -0.04123029 *
+*    C       4      0.04822756   0.00019289  -0.04230850 *
+*    C       5      0.04542003   0.05359216  -0.04206575 *
+*    C       6     -0.04483355   0.05399292  -0.04241585 *
+*    H       7     -0.01693208  -0.00022497  -0.00377674 *
+*    H       8     -0.00531623  -0.00507124  -0.00273047 *
+*    H       9      0.00280214  -0.00188870  -0.00345629 *
+*    H      10      0.01867681  -0.00005395  -0.00477984 *
+*    H      11      0.00476183   0.00218611  -0.00319295 *
+*    H      12     -0.00751624   0.00550388  -0.00244739 *
+*    C      13     -0.05221728  -0.00448619   0.04325545 *
+*    C      14     -0.04262870  -0.04319766   0.04337712 *
+*    C      15      0.04407849  -0.04547015   0.04270396 *
+*    C      16      0.05764650  -0.00322235   0.04105378 *
+*    C      17      0.04516303   0.04537226   0.04039306 *
+*    C      18     -0.04298655   0.04464831   0.04108758 *
+*    H      19     -0.02352870  -0.00122990   0.00360353 *
+*    H      20     -0.00353525  -0.00509046   0.00298357 *
+*    H      21      0.00532995  -0.00414407   0.00294999 *
+*    H      22      0.02268123  -0.00126448   0.00344925 *
+*    H      23      0.00374439  -0.00146679   0.00284798 *
+*    H      24     -0.00190623  -0.00083160   0.00297416 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000  -0.00000000  -0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:        -0.058151094796
+<QC>       [total_force(1,2)]:        -0.042848006813
+<QC>       [total_force(1,3)]:         0.043867941330
+<QC>       [total_force(1,4)]:         0.048227556082
+<QC>       [total_force(1,5)]:         0.045420032802
+<QC>       [total_force(1,6)]:        -0.044833551445
+<QC>       [total_force(1,7)]:        -0.016932081519
+<QC>       [total_force(1,8)]:        -0.005316229357
+<QC>       [total_force(1,9)]:         0.002802142765
+<QC>      [total_force(1,10)]:         0.018676811672
+<QC>      [total_force(1,11)]:         0.004761832128
+<QC>      [total_force(1,12)]:        -0.007516238674
+<QC>      [total_force(1,13)]:        -0.052217276526
+<QC>      [total_force(1,14)]:        -0.042628697096
+<QC>      [total_force(1,15)]:         0.044078489223
+<QC>      [total_force(1,16)]:         0.057646498671
+<QC>      [total_force(1,17)]:         0.045163033569
+<QC>      [total_force(1,18)]:        -0.042986546485
+<QC>      [total_force(1,19)]:        -0.023528704982
+<QC>      [total_force(1,20)]:        -0.003535252050
+<QC>      [total_force(1,21)]:         0.005329949522
+<QC>      [total_force(1,22)]:         0.022681232967
+<QC>      [total_force(1,23)]:         0.003744388360
+<QC>      [total_force(1,24)]:        -0.001906229349
+<QC>       [total_force(2,1)]:         0.000349010777
+<QC>       [total_force(2,2)]:        -0.044022784235
+<QC>       [total_force(2,3)]:        -0.044172232742
+<QC>       [total_force(2,4)]:         0.000192891537
+<QC>       [total_force(2,5)]:         0.053592162801
+<QC>       [total_force(2,6)]:         0.053992920808
+<QC>       [total_force(2,7)]:        -0.000224971661
+<QC>       [total_force(2,8)]:        -0.005071237787
+<QC>       [total_force(2,9)]:        -0.001888695543
+<QC>      [total_force(2,10)]:        -0.000053952532
+<QC>      [total_force(2,11)]:         0.002186109864
+<QC>      [total_force(2,12)]:         0.005503875608
+<QC>      [total_force(2,13)]:        -0.004486194467
+<QC>      [total_force(2,14)]:        -0.043197663654
+<QC>      [total_force(2,15)]:        -0.045470149065
+<QC>      [total_force(2,16)]:        -0.003222354845
+<QC>      [total_force(2,17)]:         0.045372256897
+<QC>      [total_force(2,18)]:         0.044648307206
+<QC>      [total_force(2,19)]:        -0.001229895418
+<QC>      [total_force(2,20)]:        -0.005090464402
+<QC>      [total_force(2,21)]:        -0.004144068678
+<QC>      [total_force(2,22)]:        -0.001264483606
+<QC>      [total_force(2,23)]:        -0.001466785860
+<QC>      [total_force(2,24)]:        -0.000831601007
+<QC>       [total_force(3,1)]:        -0.040733631866
+<QC>       [total_force(3,2)]:        -0.041541728857
+<QC>       [total_force(3,3)]:        -0.041230294031
+<QC>       [total_force(3,4)]:        -0.042308502660
+<QC>       [total_force(3,5)]:        -0.042065746666
+<QC>       [total_force(3,6)]:        -0.042415845185
+<QC>       [total_force(3,7)]:        -0.003776740294
+<QC>       [total_force(3,8)]:        -0.002730473132
+<QC>       [total_force(3,9)]:        -0.003456292675
+<QC>      [total_force(3,10)]:        -0.004779838284
+<QC>      [total_force(3,11)]:        -0.003192951474
+<QC>      [total_force(3,12)]:        -0.002447387381
+<QC>      [total_force(3,13)]:         0.043255452888
+<QC>      [total_force(3,14)]:         0.043377115172
+<QC>      [total_force(3,15)]:         0.042703963764
+<QC>      [total_force(3,16)]:         0.041053780766
+<QC>      [total_force(3,17)]:         0.040393063755
+<QC>      [total_force(3,18)]:         0.041087578390
+<QC>      [total_force(3,19)]:         0.003603526707
+<QC>      [total_force(3,20)]:         0.002983567811
+<QC>      [total_force(3,21)]:         0.002949989263
+<QC>      [total_force(3,22)]:         0.003449254896
+<QC>      [total_force(3,23)]:         0.002847982756
+<QC>      [total_force(3,24)]:         0.002974156337
+  
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |    Step    |   lambda    |   F.delta   |    enthalpy     | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |  previous  |    0.000000 |    0.281928 |      -74.050408 | <-- min BFGS
+ | trial step |    1.000000 |    0.128671 |      -74.253737 | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+  
+
+--------------------------------------------------------------------------------
+ BFGS: improving iteration   2 with line minimization (lambda=    1.839581)
+--------------------------------------------------------------------------------
+ 
+                           -------------------------------
+                                     Cell Contents
+                           -------------------------------
+ 
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            x  Element    Atom      Absolute co-ordinates of atoms     x
+            x            Number        x           y           z       x
+            x----------------------------------------------------------x
+            x    C         1       12.020793   14.831740   12.328491   x
+            x    C         2       13.339817   12.458458   12.326713   x
+            x    C         3       16.047493   12.469523   12.319343   x
+            x    C         4       17.428278   14.832902   12.313632   x
+            x    C         5       16.035951   17.148960   12.310349   x
+            x    C         6       13.351311   17.160885   12.315670   x
+            x    H         7        9.902414   14.790154   12.565885   x
+            x    H         8       12.298222   10.686153   12.568412   x
+            x    H         9       17.117447   10.690094   12.566899   x
+            x    H        10       19.538847   14.790901   12.562339   x
+            x    H        11       17.119939   18.897520   12.564147   x
+            x    H        12       12.295795   18.901568   12.566671   x
+            x    C        13       11.811161   14.649894   16.975046   x
+            x    C        14       13.193586   12.302892   16.979709   x
+            x    C        15       15.899931   12.302598   16.974671   x
+            x    C        16       17.262823   14.647553   16.961917   x
+            x    C        17       15.896813   16.969833   16.962351   x
+            x    C        18       13.195728   16.966814   16.969272   x
+            x    H        19        9.723683   14.646546   16.745157   x
+            x    H        20       12.143850   10.541871   16.744959   x
+            x    H        21       16.960111   10.542246   16.742922   x
+            x    H        22       19.370089   14.646542   16.742533   x
+            x    H        23       16.958577   18.751368   16.741196   x
+            x    H        24       12.145420   18.751871   16.742337   x
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              173.654489 Hartree
+Model : Elstner
+Dispersion Correction Energy: -0.19175433E-01 Hartree
+<QC>      [Dispersion Energy]:        -0.019175433271
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+................................................................................
+<<<<<<<<<<<<<<<< Penalty functional density kernel optimisation >>>>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+iter|       energy      |   rms grad  |  commutator |LScoef|CGcoef|      Ne    |
+ 1    -72.88057236625858 0.11546588698 0.00216931767 0.0262  0.000   60.00000000
+ 2    -74.13632672345994 0.08887590023 0.00192642904 0.3606 -0.769   60.00000000
+ 3    -74.14485556420190 0.08901334970 0.00252088795 0.0738  4.434   60.00000000
+
+======================== Penalty functional minimisation =======================
+   Final total energy     :     -76.873222989159
+   Final penalty energy   :       1.596773183864
+   RMS occupancy error    :       0.081567
+   Occupancy bounds       : [-0.125, 1.125]
+================================================================================
+
+Finished density kernel iterations (   3)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.288248510536E+01     1.3694E-03     1.3694E-03
+    2        -7.288381150537E+01     5.3431E-04     5.3431E-04    -1.3264E-03
+    3        -7.288419698997E+01     3.8207E-04     3.8207E-04    -3.8548E-04
+    4        -7.288440967466E+01     3.3111E-04     3.3111E-04    -2.1268E-04
+    5        -7.288458052052E+01     2.2792E-04     2.2792E-04    -1.7085E-04
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.28845805205229E+01  Eh
+     Estimated bandgap           =   5.4162E-02  Eh
+     RMS occupancy error         =   4.7641E-08
+     [H,K] commutator            =   2.2792E-04
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.6557E-03 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.42357001243357E+01 Eh
+   Predicted gain in energy  =      -1.35111960381279E+00 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.423915685831E+01     4.0540E-03     4.0540E-03
+    2        -7.425141744627E+01     6.6831E-04     6.6831E-04    -1.2261E-02
+    3        -7.425197219472E+01     2.8746E-04     2.8746E-04    -5.5475E-04
+    4        -7.425204541003E+01     1.4178E-04     1.4178E-04    -7.3215E-05
+    5        -7.425207410161E+01     8.5403E-05     8.5403E-05    -2.8692E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.42520741016089E+01  Eh
+     Estimated bandgap           =   5.4382E-02  Eh
+     RMS occupancy error         =   2.4635E-10
+     [H,K] commutator            =   8.5403E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.6829E-03 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.43177497575119E+01 Eh
+   Predicted gain in energy  =      -6.56756559030214E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.431739975623E+01     7.3245E-04     7.3245E-04
+    2        -7.431783993755E+01     1.4692E-04     1.4692E-04    -4.4018E-04
+    3        -7.431787126443E+01     7.9922E-05     7.9922E-05    -3.1327E-05
+    4        -7.431787966378E+01     5.3651E-05     5.3651E-05    -8.3994E-06
+    5        -7.431788340269E+01     3.5394E-05     3.5394E-05    -3.7389E-06
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.43178834026900E+01  Eh
+     Estimated bandgap           =   5.2233E-02  Eh
+     RMS occupancy error         =   1.9256E-11
+     [H,K] commutator            =   3.5394E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.2812E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.43213439422509E+01 Eh
+   Predicted gain in energy  =      -3.46053956093328E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.432124104821E+01     1.4951E-04     1.4951E-04
+    2        -7.432126504208E+01     5.1651E-05     5.1651E-05    -2.3994E-05
+    3        -7.432126850851E+01     3.0818E-05     3.0818E-05    -3.4664E-06
+    4        -7.432126999295E+01     2.4916E-05     2.4916E-05    -1.4844E-06
+    5        -7.432127089211E+01     1.7960E-05     1.7960E-05    -8.9916E-07
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.43212708921126E+01  Eh
+     Estimated bandgap           =   5.1787E-02  Eh
+     RMS occupancy error         =   2.9982E-12
+     [H,K] commutator            =   1.7960E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.1217E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.43214904140931E+01 Eh
+   Predicted gain in energy  =      -2.19521980497461E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.432147228210E+01     6.7353E-05     6.7353E-05
+    2        -7.432147656986E+01     2.5216E-05     2.5216E-05    -4.2878E-06
+    3        -7.432147765694E+01     1.3328E-05     1.3328E-05    -1.0871E-06
+    4        -7.432147786647E+01     9.3290E-06     9.3290E-06    -2.0952E-07
+    5        -7.432147799725E+01     6.8732E-06     6.8732E-06    -1.3078E-07
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.43214779972476E+01  Eh
+     Estimated bandgap           =   5.1825E-02  Eh
+     RMS occupancy error         =   4.1650E-14
+     [H,K] commutator            =   6.8732E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.0881E-04 >  1.0000E-04  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.43214911538310E+01 Eh
+   Predicted gain in energy  =      -1.31565834067260E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdw.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.432149027389E+01     1.5037E-05     1.5037E-05
+    2        -7.432149050514E+01     7.4214E-06     7.4214E-06    -2.3124E-07
+    3        -7.432149061825E+01     5.0562E-06     5.0562E-06    -1.1311E-07
+    4        -7.432149065019E+01     4.2415E-06     4.2415E-06    -3.1936E-08
+    5        -7.432149069128E+01     3.4683E-06     3.4683E-06    -4.1094E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdw.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.43214906912796E+01  Eh
+     Estimated bandgap           =   5.2404E-02  Eh
+     RMS occupancy error         =   1.8806E-14
+     [H,K] commutator            =   3.4683E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00005427316611              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       51.62338045905759 |
+           | Pseudopotential (local)    :     -514.76746343961270 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        9.64593379499212 |
+           | Hartree                    :      230.39398321159425 |
+           | Exchange-correlation       :      -24.85263816131262 |
+           | Ewald                      :      173.65448887727246 |
+           | Dispersion Correction      :       -0.01917543327075 |
+           | Total                      :      -74.32149069127969 |
+           --------------------------------------------------------
+           Integrated density           :       59.99999999999996
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00765566365524    -72.88458052052295   0.370675    -74.23570012433574        
+   1     0.00168291644474    -74.25207410160886   0.372859    -74.31774975751188        
+   2     0.00052812476973    -74.31788340269001   0.199497    -74.32134394225095        
+   3     0.00021217363718    -74.32127089211257   0.078408    -74.32149041409306        
+   4     0.00010880552268    -74.32147799724756   0.017869    -74.32149115383096        
+   5     0.00005427316611    -74.32149069127965  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      6
+<QC>           [total_energy]:       -74.321490691280
+<QC>           [rms_gradient]:         0.000054273166
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1      0.02118090  -0.00203570  -0.03801396 *
+*    C       2     -0.04499970   0.01935327  -0.03753037 *
+*    C       3      0.04915844   0.01570854  -0.03633670 *
+*    C       4     -0.04369643  -0.00276401  -0.04009298 *
+*    C       5      0.05596762  -0.00116615  -0.03738347 *
+*    C       6     -0.05214624  -0.00419464  -0.03854199 *
+*    H       7     -0.02559202  -0.00107791  -0.00344273 *
+*    H       8     -0.00975384  -0.01609932  -0.00254001 *
+*    H       9      0.00631273  -0.01178270  -0.00365353 *
+*    H      10      0.02502787  -0.00102547  -0.00402754 *
+*    H      11      0.00832671   0.01060229  -0.00305763 *
+*    H      12     -0.01216621   0.01503080  -0.00196063 *
+*    C      13      0.04245303  -0.00621755   0.04298812 *
+*    C      14     -0.04410672   0.01989934   0.04031668 *
+*    C      15      0.04619926   0.01573096   0.03975916 *
+*    C      16     -0.02924147  -0.00410567   0.04007259 *
+*    C      17      0.05108655  -0.01017746   0.03733364 *
+*    C      18     -0.04771938  -0.01143710   0.03788689 *
+*    H      19     -0.03188844  -0.00219357   0.00120505 *
+*    H      20     -0.00858057  -0.01742342   0.00113117 *
+*    H      21      0.01071314  -0.01593184   0.00120572 *
+*    H      22      0.03110419  -0.00227826   0.00176730 *
+*    H      23      0.00779197   0.00626524   0.00149328 *
+*    H      24     -0.00543140   0.00732032   0.00142192 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000   0.00000000  -0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:         0.021180899286
+<QC>       [total_force(1,2)]:        -0.044999701471
+<QC>       [total_force(1,3)]:         0.049158443932
+<QC>       [total_force(1,4)]:        -0.043696429139
+<QC>       [total_force(1,5)]:         0.055967624119
+<QC>       [total_force(1,6)]:        -0.052146240304
+<QC>       [total_force(1,7)]:        -0.025592022911
+<QC>       [total_force(1,8)]:        -0.009753835824
+<QC>       [total_force(1,9)]:         0.006312728959
+<QC>      [total_force(1,10)]:         0.025027869440
+<QC>      [total_force(1,11)]:         0.008326713342
+<QC>      [total_force(1,12)]:        -0.012166207132
+<QC>      [total_force(1,13)]:         0.042453026336
+<QC>      [total_force(1,14)]:        -0.044106719396
+<QC>      [total_force(1,15)]:         0.046199264041
+<QC>      [total_force(1,16)]:        -0.029241467161
+<QC>      [total_force(1,17)]:         0.051086546127
+<QC>      [total_force(1,18)]:        -0.047719376403
+<QC>      [total_force(1,19)]:        -0.031888441981
+<QC>      [total_force(1,20)]:        -0.008580572346
+<QC>      [total_force(1,21)]:         0.010713139358
+<QC>      [total_force(1,22)]:         0.031104187920
+<QC>      [total_force(1,23)]:         0.007791974002
+<QC>      [total_force(1,24)]:        -0.005431402792
+<QC>       [total_force(2,1)]:        -0.002035698828
+<QC>       [total_force(2,2)]:         0.019353271626
+<QC>       [total_force(2,3)]:         0.015708537159
+<QC>       [total_force(2,4)]:        -0.002764009403
+<QC>       [total_force(2,5)]:        -0.001166153944
+<QC>       [total_force(2,6)]:        -0.004194643455
+<QC>       [total_force(2,7)]:        -0.001077906400
+<QC>       [total_force(2,8)]:        -0.016099317559
+<QC>       [total_force(2,9)]:        -0.011782698767
+<QC>      [total_force(2,10)]:        -0.001025471022
+<QC>      [total_force(2,11)]:         0.010602286895
+<QC>      [total_force(2,12)]:         0.015030802534
+<QC>      [total_force(2,13)]:        -0.006217550605
+<QC>      [total_force(2,14)]:         0.019899343159
+<QC>      [total_force(2,15)]:         0.015730960899
+<QC>      [total_force(2,16)]:        -0.004105674315
+<QC>      [total_force(2,17)]:        -0.010177464666
+<QC>      [total_force(2,18)]:        -0.011437095907
+<QC>      [total_force(2,19)]:        -0.002193565538
+<QC>      [total_force(2,20)]:        -0.017423415416
+<QC>      [total_force(2,21)]:        -0.015931837816
+<QC>      [total_force(2,22)]:        -0.002278262305
+<QC>      [total_force(2,23)]:         0.006265244635
+<QC>      [total_force(2,24)]:         0.007320319037
+<QC>       [total_force(3,1)]:        -0.038013956300
+<QC>       [total_force(3,2)]:        -0.037530367452
+<QC>       [total_force(3,3)]:        -0.036336699615
+<QC>       [total_force(3,4)]:        -0.040092979697
+<QC>       [total_force(3,5)]:        -0.037383467276
+<QC>       [total_force(3,6)]:        -0.038541986180
+<QC>       [total_force(3,7)]:        -0.003442731629
+<QC>       [total_force(3,8)]:        -0.002540013182
+<QC>       [total_force(3,9)]:        -0.003653525963
+<QC>      [total_force(3,10)]:        -0.004027542368
+<QC>      [total_force(3,11)]:        -0.003057627762
+<QC>      [total_force(3,12)]:        -0.001960630454
+<QC>      [total_force(3,13)]:         0.042988120468
+<QC>      [total_force(3,14)]:         0.040316678865
+<QC>      [total_force(3,15)]:         0.039759159505
+<QC>      [total_force(3,16)]:         0.040072588663
+<QC>      [total_force(3,17)]:         0.037333640391
+<QC>      [total_force(3,18)]:         0.037886894814
+<QC>      [total_force(3,19)]:         0.001205048276
+<QC>      [total_force(3,20)]:         0.001131173318
+<QC>      [total_force(3,21)]:         0.001205717687
+<QC>      [total_force(3,22)]:         0.001767299538
+<QC>      [total_force(3,23)]:         0.001493282906
+<QC>      [total_force(3,24)]:         0.001421923447
+  
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |    Step    |   lambda    |   F.delta   |    enthalpy     | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+ |  previous  |    0.000000 |    0.281928 |      -74.050408 | <-- min BFGS
+ | trial step |    1.000000 |    0.128671 |      -74.253737 | <-- min BFGS
+ |  line step |    1.839581 |    0.031940 |      -74.321491 | <-- min BFGS
+ +------------+-------------+-------------+-----------------+ <-- min BFGS
+  
+ BFGS: finished iteration   2  with enthalpy= -7.432149069128E+001 Ha
+  
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+ | Parameter |      value      |    tolerance    |    units   | OK? | <-- BFGS
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+ |  dE/ion   |   1.129512E-002 |   1.000000E-006 |         Ha | No  | <-- BFGS
+ |  |F|max   |   6.731462E-002 |   2.000000E-003 |    Ha/Bohr | No  | <-- BFGS
+ |  |dR|max  |   3.053677E-001 |   5.000000E-003 |       Bohr | No  | <-- BFGS
+ +-----------+-----------------+-----------------+------------+-----+ <-- BFGS
+  
+ BFGS : Geometry optimization failed to converge after            2  steps
+
+================================================================================
+ BFGS : Final Configuration:
+================================================================================
+ 
+                           -------------------------------
+                                     Cell Contents
+                           -------------------------------
+ 
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            x  Element    Atom      Absolute co-ordinates of atoms     x
+            x            Number        x           y           z       x
+            x----------------------------------------------------------x
+            x    C         1       12.020793   14.831740   12.328491   x
+            x    C         2       13.339817   12.458458   12.326713   x
+            x    C         3       16.047493   12.469523   12.319343   x
+            x    C         4       17.428278   14.832902   12.313632   x
+            x    C         5       16.035951   17.148960   12.310349   x
+            x    C         6       13.351311   17.160885   12.315670   x
+            x    H         7        9.902414   14.790154   12.565885   x
+            x    H         8       12.298222   10.686153   12.568412   x
+            x    H         9       17.117447   10.690094   12.566899   x
+            x    H        10       19.538847   14.790901   12.562339   x
+            x    H        11       17.119939   18.897520   12.564147   x
+            x    H        12       12.295795   18.901568   12.566671   x
+            x    C        13       11.811161   14.649894   16.975046   x
+            x    C        14       13.193586   12.302892   16.979709   x
+            x    C        15       15.899931   12.302598   16.974671   x
+            x    C        16       17.262823   14.647553   16.961917   x
+            x    C        17       15.896813   16.969833   16.962351   x
+            x    C        18       13.195728   16.966814   16.969272   x
+            x    H        19        9.723683   14.646546   16.745157   x
+            x    H        20       12.143850   10.541871   16.744959   x
+            x    H        21       16.960111   10.542246   16.742922   x
+            x    H        22       19.370089   14.646542   16.742533   x
+            x    H        23       16.958577   18.751368   16.741196   x
+            x    H        24       12.145420   18.751871   16.742337   x
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+ BFGS : Final Enthalpy     = -7.43214907E+001 Ha
+ Writing xyz coordinates to file "benzene_dimer_vdw.xyz" ... done
+
+ Writing continuation file "benzene_dimer_vdw.continuation" ...done
+
+ Removing NGWF backup file "benzene_dimer_vdw.tightbox_ngwfs.bfgs_back" ... done
+ Removing density kernel backup file "benzene_dimer_vdw.dkn.bfgs_back" ... done
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      28.594s on      4 proc(s)                                    
+TOTAL TIME:        28.594s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 09:56 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

@@ -1,0 +1,1693 @@
+==================================================================================
+It's Wed Sep 21 10:38:10 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 4857 4858 4859 4860)...
+    - ONETEP arguments: C-chain.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test38
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test38/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test38/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack C-chain.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:38 (+0100)
+ 
+Reading parameters from file "C-chain.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+               1 threads for loops over batched FFT box operations.
+               1 threads in other parallel regions.
+... done
+
+Basic input checks...... done
+
+Reading geometry and species blocks from file "C-chain.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+
+WARNING: Problem with lead  1:
+The principle layer periodic length is shorter than the maximum NGWF
+diameter and so does not form a complete principle layer. Increase the
+number of primitive unit cells to avoid truncation errors.
+
+The minimum principle layer size for the NGWF radii is 22.68 Angstrom
+The current principle layer size is 19.86 Angstrom
+
+
+WARNING: Problem with lead  2:
+The principle layer periodic length is shorter than the maximum NGWF
+diameter and so does not form a complete principle layer. Increase the
+number of primitive unit cells to avoid truncation errors.
+
+The minimum principle layer size for the NGWF radii is 22.68 Angstrom
+The current principle layer size is 19.86 Angstrom
+
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                 : singlepoint                                              
+cutoff_energy        : 500 eV                                                   
+maxit_pen            : 0                                                        
+maxit_ngwf_cg        : 0                                                        
+output_detail        : NORMAL                                                   
+print_qc             : T                                                        
+timings_level        : 2                                                        
+write_denskern       : F                                                        
+write_tightbox_ngwfs : F                                                        
+do_properties        : T                                                        
+write_density_plot   : F                                                        
+homo_plot            : -1                                                       
+lumo_plot            : -1                                                       
+homo_dens_plot       : -1                                                       
+lumo_dens_plot       : -1                                                       
+dos_smear            : -0.1 eV                                                  
+popn_calculate       : F                                                        
+etrans_lcr               : T                                                    
+etrans_bulk              : T                                                    
+etrans_emin              : -10.0 eV                                             
+etrans_emax              :  10.0 eV                                             
+etrans_enum              :  101                                                 
+etrans_eref_method       : LEADS                                                
+etrans_num_eigchan       : 4                                                    
+etrans_plot_eigchan      : T                                                    
+etrans_lead_size_check   : F                                                    
+threads_max 1                                                                   
+threads_num_fftboxes 1                                                          
+%block etrans_setup                                                             
+1   24                                                                          
+%endblock etrans_setup                                                          
+%block etrans_leads                                                             
+1    4    5   8                                                                 
+21  24   17  20                                                                 
+%endblock etrans_leads                                                          
+%block etrans_plot_eigchan_energies                                             
+eV                                                                              
+0.15                                                                            
+%endblock etrans_plot_eigchan_energies                                          
+%block  lattice_cart                                                            
+ang                                                                             
+12.000    0.000    0.000                                                        
+0.000   12.000    0.000                                                         
+0.000    0.000   32.580                                                         
+%endblock  lattice_cart                                                         
+%block  species                                                                 
+bohr                                                                            
+C     C   6  4  6.0                                                             
+H     H   1  1  6.0                                                             
+%endblock  species                                                              
+%block  species_pot                                                             
+C     "../../pseudo/carbon.recpot"                                              
+H     "../../pseudo/hydrogen.recpot"                                            
+%endblock  species_pot                                                          
+%block  positions_abs                                                           
+     Hash =  -000009212863055920978211
+%endblock  positions_abs                                                        
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+WARNING in pseudopotentials_read_species: string "GGA" found in pseudopotential
+file "../../pseudo/carbon.recpot", yet xc_functional = "LDA".
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C         22        88        22
+  H          2         2         0
+.......   ......    ......    ......
+Totals:     24        90        22
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   35 x  35 x  96
+                              FFT-box:   35 x  35 x  63
+                                  PPD:    5 x   5 x   1
+Grid space d1=  0.647906103286a0 (KE cutoff=  18.09589Eh = 492.41412eV)
+Grid space d2=  0.647906103286a0 (KE cutoff=  18.09589Eh = 492.41412eV)
+Grid space d3=  0.641325806924a0 (KE cutoff=  18.46914Eh = 502.57075eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     35    35    96
+          Real-space ('12') slabs/proc (min max mean):     24    24    24
+         Recip-space ('23') slabs/proc (min max mean):      4     5     4
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:     70    70   192
+          Real-space ('12') slabs/proc (min max mean):     48    48    48
+         Recip-space ('23') slabs/proc (min max mean):      9     9     9
+********************************************************************************
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  37 iterations to a total energy of     -5.30502275
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  35 iterations to a total energy of     -0.42770106
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              101.456864 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.230942317376E+02     6.3509E-03     6.3509E-03
+    2        -1.231400628824E+02     2.0643E-03     2.0643E-03    -4.5831E-02
+    3        -1.231478414177E+02     7.4672E-04     7.4672E-04    -7.7785E-03
+    4        -1.231491310192E+02     4.2095E-04     4.2095E-04    -1.2896E-03
+    5        -1.231495988259E+02     2.6860E-04     2.6860E-04    -4.6781E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.23149598825894E+02  Eh
+     Estimated bandgap           =   1.8781E-01  Eh
+     RMS occupancy error         =   1.0814E-08
+     [H,K] commutator            =   2.6860E-04
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.2716E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+WARNING: maximum number of NGWF CG iterations (   0) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+  -1     0.00527161672110   -123.14959882589443  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      0
+<QC>           [total_energy]:      -123.149598825894
+<QC>           [rms_gradient]:         0.005271616721
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:      90
+   Number of occupied orbitals:      45.000000000
+   Occupancy sum (eigenvalues):      45.000000000
+                 HOMO-LUMO gap:       0.136708572 Eh
+                 Mid-gap level:      -0.197726744 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.801418031   1.0000000
+                        .......   ...........   .........
+                           36    -0.317527156   0.9999932
+                           37    -0.317513408   0.9999932
+                           38    -0.302888185   0.9999836
+                           39    -0.302873992   0.9999836
+                           40    -0.288800987   0.9999576
+                           41    -0.288786098   0.9999576
+                           42    -0.275217914   0.9999004
+                           43    -0.275202348   0.9999004
+                           44    -0.266097204   0.9999719
+                           45    -0.266081030   0.9999719
+                        .......   --- gap ---   .........
+                           46    -0.129372458   0.0000440
+                           47    -0.129349144   0.0000440
+                           48    -0.113406250   0.0000325
+                           49    -0.113381820   0.0000325
+                           50    -0.089973282   0.0000644
+                           51    -0.089948510   0.0000644
+                           52    -0.061755462   0.0000486
+                           53    -0.061729293   0.0000486
+                           54    -0.055498089   0.0000009
+                           55    -0.046375883   0.0000029
+                        .......   ...........   .........
+                           90     1.140023185   0.0000043
+ 
+<QC>    [energy_eigenvalue_1]:        -0.801418031258
+<QC>    [energy_eigenvalue_n]:         1.140023184664
+<QC>            [occupancy_1]:         0.999999987884
+<QC>            [occupancy_n]:         0.000004311866
+
+================================================================================
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                              Electronic Transport
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ Computing blocking scheme for tridiagonal matrix inversion ...NL: Populating neighbour list: ham... done.
+ done
+
+ Information on tri-diagonal blocking scheme:
+ Number of blocks found:        5
+ Maximum block size (atoms, orbitals):        7      28
+ Tridiagonal sparsity   21.654 %
+ 
+ +----------------------------------------------------+
+ |  Electronic Transport                              |
+ |  Estimated memory requirement per MPI rank         |
+ +----------------------------------------------------+
+ |  LCR arrays                          :  203.69 kB  |
+ |  Lead arrays                         :   88.00 kB  |
+ +----------------------------------------------------+
+ |  Estimated peak total per MPI rank   :  291.69 kB  |
+ +----------------------------------------------------+
+ Writing xyz coordinates to file "C-chain_device.xyz" ... done
+ Writing xyz coordinates to file "C-chain_lead01.xyz" ... done
+ Writing xyz coordinates to file "C-chain_lead_pl01.xyz" ... done
+ Writing xyz coordinates to file "C-chain_lead02.xyz" ... done
+ Writing xyz coordinates to file "C-chain_lead_pl02.xyz" ... done
+ 
+
+ Gathering lead matrix elements  ... done
+
+
+=== Summary of system
+
+  Bulk lead (01) :
+         atoms [00001,00004]
+      orbitals [00001,00016]
+       E_fermi :  -5.416 eV
+     elec popn :  16.003
+    ion charge :  16.000
+
+  Bulk lead (02) :
+         atoms [00021,00024]
+      orbitals [00075,00090]
+       E_fermi :  -5.402 eV
+     elec popn :  15.993
+    ion charge :  16.000
+
+  Total device :
+         atoms [00001,00024]
+      orbitals [00001,00090]
+
+ Reference energy:   -5.409 eV
+ Energy range = [-15.4088,  4.5912] eV
+ Number of energy points =    101
+ Number of energy point per proc (max, min)  = (   26    25 )
+
+=== Calculating DOS and transmission coefficients 
+
+ + --------------------------------------------
+ + Root done.
+ + Waiting for other procs to complete...
+ + --------------------------------------------
+
+===
+
+
+=== Writing results to file
+
+====================== Computing eigenchannel wavefunctions ======================
+(P)ZHEEVX in subroutine dense_normal_eigensolve returned info=    2
+ ifail=           0           0
+ 
+| Source lead     1,   Energy (eV) =     0.15000
+| Channel   transmission    Norm
+|-------------------------------------
+|  1        0.022200914     173.86166
+|  2        0.000899001      97.95696
+|  3        0.000896895      97.91815
+|  4        0.000000000       0.00000
+ 
+| Source lead     2,   Energy (eV) =     0.15000
+| Channel   transmission    Norm
+|-------------------------------------
+|  1        0.022200913     147.60537
+|  2        0.000899001     104.34932
+|  3        0.000896894     104.29076
+|  4       -0.000000000       0.00000
+ 
+<QC>       [echan_T(1,1,1,1)]:         0.022200913508
+<QC> [echan_c(1,1,1,1,00001)]:         7.974724557742
+<QC> [echan_c(1,1,1,1,00002)]:         0.042628206233
+<QC> [echan_c(1,1,1,1,00003)]:         1.579064406064
+<QC> [echan_c(1,1,1,1,00004)]:         0.042628206233
+<QC> [echan_c(1,1,1,1,00005)]:         7.228678502229
+<QC> [echan_c(1,1,1,1,00006)]:         0.094295990947
+<QC> [echan_c(1,1,1,1,00007)]:         0.725268658341
+<QC> [echan_c(1,1,1,1,00008)]:         0.094295990947
+<QC> [echan_c(1,1,1,1,00009)]:         4.196767029195
+<QC> [echan_c(1,1,1,1,00010)]:         0.130600048274
+<QC> [echan_c(1,1,1,1,00011)]:         4.184489552009
+<QC> [echan_c(1,1,1,1,00012)]:         0.130600048274
+<QC> [echan_c(1,1,1,1,00013)]:         3.252882439581
+<QC> [echan_c(1,1,1,1,00014)]:         0.096347742503
+<QC> [echan_c(1,1,1,1,00015)]:         4.009557341332
+<QC> [echan_c(1,1,1,1,00016)]:         0.096347742504
+<QC> [echan_c(1,1,1,1,00017)]:         6.505758450327
+<QC> [echan_c(1,1,1,1,00018)]:         0.038550655713
+<QC> [echan_c(1,1,1,1,00019)]:         0.253463826672
+<QC> [echan_c(1,1,1,1,00020)]:         0.038550655713
+<QC> [echan_c(1,1,1,1,00021)]:         8.166082254196
+<QC> [echan_c(1,1,1,1,00022)]:         0.105144731665
+<QC> [echan_c(1,1,1,1,00023)]:         2.102535171057
+<QC> [echan_c(1,1,1,1,00024)]:         0.105144731665
+<QC> [echan_c(1,1,1,1,00025)]:         6.483109159367
+<QC> [echan_c(1,1,1,1,00026)]:         0.159463598211
+<QC> [echan_c(1,1,1,1,00027)]:         4.062151832084
+<QC> [echan_c(1,1,1,1,00028)]:         0.159463598211
+<QC> [echan_c(1,1,1,1,00029)]:         0.124730474515
+<QC> [echan_c(1,1,1,1,00030)]:         0.126112763181
+<QC> [echan_c(1,1,1,1,00031)]:         3.200124234450
+<QC> [echan_c(1,1,1,1,00032)]:         0.126112763181
+<QC> [echan_c(1,1,1,1,00033)]:         4.220496487259
+<QC> [echan_c(1,1,1,1,00034)]:         0.028415729394
+<QC> [echan_c(1,1,1,1,00035)]:         1.425609025111
+<QC> [echan_c(1,1,1,1,00036)]:         0.028415729394
+<QC> [echan_c(1,1,1,1,00037)]:         8.555227128227
+<QC> [echan_c(1,1,1,1,00038)]:         0.108344349477
+<QC> [echan_c(1,1,1,1,00039)]:         3.332126564454
+<QC> [echan_c(1,1,1,1,00040)]:         0.108344349477
+<QC> [echan_c(1,1,1,1,00041)]:         8.157845603152
+<QC> [echan_c(1,1,1,1,00042)]:         0.185690651228
+<QC> [echan_c(1,1,1,1,00043)]:         3.766055926505
+<QC> [echan_c(1,1,1,1,00044)]:         0.185690651228
+<QC> [echan_c(1,1,1,1,00045)]:         3.321504637076
+<QC> [echan_c(1,1,1,1,00046)]:         0.154699328769
+<QC> [echan_c(1,1,1,1,00047)]:         1.803962087299
+<QC> [echan_c(1,1,1,1,00048)]:         0.154699328769
+<QC> [echan_c(1,1,1,1,00049)]:         1.287850605104
+<QC> [echan_c(1,1,1,1,00050)]:         0.470859887524
+<QC> [echan_c(1,1,1,1,00051)]:         0.650651907385
+<QC> [echan_c(1,1,1,1,00052)]:         0.012694809349
+<QC> [echan_c(1,1,1,1,00053)]:         0.288686951355
+<QC> [echan_c(1,1,1,1,00054)]:         0.012694809349
+<QC> [echan_c(1,1,1,1,00055)]:         0.686813080194
+<QC> [echan_c(1,1,1,1,00056)]:         0.015975117034
+<QC> [echan_c(1,1,1,1,00057)]:         0.286586208831
+<QC> [echan_c(1,1,1,1,00058)]:         0.015975117034
+<QC> [echan_c(1,1,1,1,00059)]:         0.652724664146
+<QC> [echan_c(1,1,1,1,00060)]:         0.010324663641
+<QC> [echan_c(1,1,1,1,00061)]:         0.369189733877
+<QC> [echan_c(1,1,1,1,00062)]:         0.010324663641
+<QC> [echan_c(1,1,1,1,00063)]:         0.594781775969
+<QC> [echan_c(1,1,1,1,00064)]:         0.003382049513
+<QC> [echan_c(1,1,1,1,00065)]:         0.336586324020
+<QC> [echan_c(1,1,1,1,00066)]:         0.003382049513
+<QC> [echan_c(1,1,1,1,00067)]:         0.635024846027
+<QC> [echan_c(1,1,1,1,00068)]:         0.011902006011
+<QC> [echan_c(1,1,1,1,00069)]:         0.293085056958
+<QC> [echan_c(1,1,1,1,00070)]:         0.011902006011
+<QC> [echan_c(1,1,1,1,00071)]:         0.696597684657
+<QC> [echan_c(1,1,1,1,00072)]:         0.015663138346
+<QC> [echan_c(1,1,1,1,00073)]:         0.329203856208
+<QC> [echan_c(1,1,1,1,00074)]:         0.015663138346
+<QC> [echan_c(1,1,1,1,00075)]:         0.693453089331
+<QC> [echan_c(1,1,1,1,00076)]:         0.011725737680
+<QC> [echan_c(1,1,1,1,00077)]:         0.330552090621
+<QC> [echan_c(1,1,1,1,00078)]:         0.011725737680
+<QC> [echan_c(1,1,1,1,00079)]:         0.612382103543
+<QC> [echan_c(1,1,1,1,00080)]:         0.005246391560
+<QC> [echan_c(1,1,1,1,00081)]:         0.309074099744
+<QC> [echan_c(1,1,1,1,00082)]:         0.005246391560
+<QC> [echan_c(1,1,1,1,00083)]:         0.603058537066
+<QC> [echan_c(1,1,1,1,00084)]:         0.010216347161
+<QC> [echan_c(1,1,1,1,00085)]:         0.315507017458
+<QC> [echan_c(1,1,1,1,00086)]:         0.010216347161
+<QC> [echan_c(1,1,1,1,00087)]:         0.686566628594
+<QC> [echan_c(1,1,1,1,00088)]:         0.014776801676
+<QC> [echan_c(1,1,1,1,00089)]:         0.343147972274
+<QC> [echan_c(1,1,1,1,00090)]:         0.014776801676
+<QC>       [echan_T(1,1,1,2)]:         0.000899001227
+<QC> [echan_c(1,1,1,2,00001)]:         0.000000000019
+<QC> [echan_c(1,1,1,2,00002)]:         0.556543840874
+<QC> [echan_c(1,1,1,2,00003)]:         0.000000000007
+<QC> [echan_c(1,1,1,2,00004)]:         0.556543840824
+<QC> [echan_c(1,1,1,2,00005)]:         0.000000000010
+<QC> [echan_c(1,1,1,2,00006)]:         1.311515029138
+<QC> [echan_c(1,1,1,2,00007)]:         0.000000000006
+<QC> [echan_c(1,1,1,2,00008)]:         1.311515029021
+<QC> [echan_c(1,1,1,2,00009)]:         0.000000000002
+<QC> [echan_c(1,1,1,2,00010)]:         3.670054961438
+<QC> [echan_c(1,1,1,2,00011)]:         0.000000000006
+<QC> [echan_c(1,1,1,2,00012)]:         3.670054961112
+<QC> [echan_c(1,1,1,2,00013)]:         0.000000000011
+<QC> [echan_c(1,1,1,2,00014)]:         3.423515028535
+<QC> [echan_c(1,1,1,2,00015)]:         0.000000000007
+<QC> [echan_c(1,1,1,2,00016)]:         3.423515028230
+<QC> [echan_c(1,1,1,2,00017)]:         0.000000000014
+<QC> [echan_c(1,1,1,2,00018)]:         0.362781091165
+<QC> [echan_c(1,1,1,2,00019)]:         0.000000000004
+<QC> [echan_c(1,1,1,2,00020)]:         0.362781091132
+<QC> [echan_c(1,1,1,2,00021)]:         0.000000000009
+<QC> [echan_c(1,1,1,2,00022)]:         1.495091807239
+<QC> [echan_c(1,1,1,2,00023)]:         0.000000000001
+<QC> [echan_c(1,1,1,2,00024)]:         1.495091807106
+<QC> [echan_c(1,1,1,2,00025)]:         0.000000000004
+<QC> [echan_c(1,1,1,2,00026)]:         3.685779042138
+<QC> [echan_c(1,1,1,2,00027)]:         0.000000000005
+<QC> [echan_c(1,1,1,2,00028)]:         3.685779041810
+<QC> [echan_c(1,1,1,2,00029)]:         0.000000000005
+<QC> [echan_c(1,1,1,2,00030)]:         3.316985399571
+<QC> [echan_c(1,1,1,2,00031)]:         0.000000000004
+<QC> [echan_c(1,1,1,2,00032)]:         3.316985399276
+<QC> [echan_c(1,1,1,2,00033)]:         0.000000000007
+<QC> [echan_c(1,1,1,2,00034)]:         0.076046482971
+<QC> [echan_c(1,1,1,2,00035)]:         0.000000000001
+<QC> [echan_c(1,1,1,2,00036)]:         0.076046482964
+<QC> [echan_c(1,1,1,2,00037)]:         0.000000000007
+<QC> [echan_c(1,1,1,2,00038)]:         1.752920010755
+<QC> [echan_c(1,1,1,2,00039)]:         0.000000000001
+<QC> [echan_c(1,1,1,2,00040)]:         1.752920010599
+<QC> [echan_c(1,1,1,2,00041)]:         0.000000000006
+<QC> [echan_c(1,1,1,2,00042)]:         3.712360811915
+<QC> [echan_c(1,1,1,2,00043)]:         0.000000000003
+<QC> [echan_c(1,1,1,2,00044)]:         3.712360811585
+<QC> [echan_c(1,1,1,2,00045)]:         0.000000000001
+<QC> [echan_c(1,1,1,2,00046)]:         3.179523096535
+<QC> [echan_c(1,1,1,2,00047)]:         0.000000000001
+<QC> [echan_c(1,1,1,2,00048)]:         3.179523096252
+<QC> [echan_c(1,1,1,2,00049)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00050)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00051)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00052)]:         0.052927476914
+<QC> [echan_c(1,1,1,2,00053)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00054)]:         0.052927476909
+<QC> [echan_c(1,1,1,2,00055)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00056)]:         0.058430388267
+<QC> [echan_c(1,1,1,2,00057)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00058)]:         0.058430388262
+<QC> [echan_c(1,1,1,2,00059)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00060)]:         0.053981790019
+<QC> [echan_c(1,1,1,2,00061)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00062)]:         0.053981790015
+<QC> [echan_c(1,1,1,2,00063)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00064)]:         0.052347118633
+<QC> [echan_c(1,1,1,2,00065)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00066)]:         0.052347118628
+<QC> [echan_c(1,1,1,2,00067)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00068)]:         0.056604651568
+<QC> [echan_c(1,1,1,2,00069)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00070)]:         0.056604651563
+<QC> [echan_c(1,1,1,2,00071)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00072)]:         0.057477056349
+<QC> [echan_c(1,1,1,2,00073)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00074)]:         0.057477056344
+<QC> [echan_c(1,1,1,2,00075)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00076)]:         0.053076584175
+<QC> [echan_c(1,1,1,2,00077)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00078)]:         0.053076584170
+<QC> [echan_c(1,1,1,2,00079)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00080)]:         0.052434657302
+<QC> [echan_c(1,1,1,2,00081)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00082)]:         0.052434657297
+<QC> [echan_c(1,1,1,2,00083)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00084)]:         0.057035930487
+<QC> [echan_c(1,1,1,2,00085)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00086)]:         0.057035930482
+<QC> [echan_c(1,1,1,2,00087)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00088)]:         0.057563207255
+<QC> [echan_c(1,1,1,2,00089)]:         0.000000000000
+<QC> [echan_c(1,1,1,2,00090)]:         0.057563207250
+<QC>       [echan_T(1,1,1,3)]:         0.000896894766
+<QC> [echan_c(1,1,1,3,00001)]:         0.284142348490
+<QC> [echan_c(1,1,1,3,00002)]:         0.562036221096
+<QC> [echan_c(1,1,1,3,00003)]:         0.112638255344
+<QC> [echan_c(1,1,1,3,00004)]:         0.562036221145
+<QC> [echan_c(1,1,1,3,00005)]:         0.142651551010
+<QC> [echan_c(1,1,1,3,00006)]:         1.305447115652
+<QC> [echan_c(1,1,1,3,00007)]:         0.044614830842
+<QC> [echan_c(1,1,1,3,00008)]:         1.305447115768
+<QC> [echan_c(1,1,1,3,00009)]:         0.015712340546
+<QC> [echan_c(1,1,1,3,00010)]:         3.666874737082
+<QC> [echan_c(1,1,1,3,00011)]:         0.100648996822
+<QC> [echan_c(1,1,1,3,00012)]:         3.666874737407
+<QC> [echan_c(1,1,1,3,00013)]:         0.174992465015
+<QC> [echan_c(1,1,1,3,00014)]:         3.422923501898
+<QC> [echan_c(1,1,1,3,00015)]:         0.109124954925
+<QC> [echan_c(1,1,1,3,00016)]:         3.422923502201
+<QC> [echan_c(1,1,1,3,00017)]:         0.211481668423
+<QC> [echan_c(1,1,1,3,00018)]:         0.366623262963
+<QC> [echan_c(1,1,1,3,00019)]:         0.066908843368
+<QC> [echan_c(1,1,1,3,00020)]:         0.366623262995
+<QC> [echan_c(1,1,1,3,00021)]:         0.140855428885
+<QC> [echan_c(1,1,1,3,00022)]:         1.490277913424
+<QC> [echan_c(1,1,1,3,00023)]:         0.010512968136
+<QC> [echan_c(1,1,1,3,00024)]:         1.490277913556
+<QC> [echan_c(1,1,1,3,00025)]:         0.062100430172
+<QC> [echan_c(1,1,1,3,00026)]:         3.682253259726
+<QC> [echan_c(1,1,1,3,00027)]:         0.079473797750
+<QC> [echan_c(1,1,1,3,00028)]:         3.682253260052
+<QC> [echan_c(1,1,1,3,00029)]:         0.072590765498
+<QC> [echan_c(1,1,1,3,00030)]:         3.315196400809
+<QC> [echan_c(1,1,1,3,00031)]:         0.068701741514
+<QC> [echan_c(1,1,1,3,00032)]:         3.315196401102
+<QC> [echan_c(1,1,1,3,00033)]:         0.115250008076
+<QC> [echan_c(1,1,1,3,00034)]:         0.078122048738
+<QC> [echan_c(1,1,1,3,00035)]:         0.020470178800
+<QC> [echan_c(1,1,1,3,00036)]:         0.078122048745
+<QC> [echan_c(1,1,1,3,00037)]:         0.113275284663
+<QC> [echan_c(1,1,1,3,00038)]:         1.749454840742
+<QC> [echan_c(1,1,1,3,00039)]:         0.018246224572
+<QC> [echan_c(1,1,1,3,00040)]:         1.749454840897
+<QC> [echan_c(1,1,1,3,00041)]:         0.085105050044
+<QC> [echan_c(1,1,1,3,00042)]:         3.708370619786
+<QC> [echan_c(1,1,1,3,00043)]:         0.050260113169
+<QC> [echan_c(1,1,1,3,00044)]:         3.708370620114
+<QC> [echan_c(1,1,1,3,00045)]:         0.022890041096
+<QC> [echan_c(1,1,1,3,00046)]:         3.176468891892
+<QC> [echan_c(1,1,1,3,00047)]:         0.018956336996
+<QC> [echan_c(1,1,1,3,00048)]:         3.176468892174
+<QC> [echan_c(1,1,1,3,00049)]:         0.004201186263
+<QC> [echan_c(1,1,1,3,00050)]:         0.002869478338
+<QC> [echan_c(1,1,1,3,00051)]:         0.002348068106
+<QC> [echan_c(1,1,1,3,00052)]:         0.052840255604
+<QC> [echan_c(1,1,1,3,00053)]:         0.002838124393
+<QC> [echan_c(1,1,1,3,00054)]:         0.052840255609
+<QC> [echan_c(1,1,1,3,00055)]:         0.002651030733
+<QC> [echan_c(1,1,1,3,00056)]:         0.058317032096
+<QC> [echan_c(1,1,1,3,00057)]:         0.001811126180
+<QC> [echan_c(1,1,1,3,00058)]:         0.058317032101
+<QC> [echan_c(1,1,1,3,00059)]:         0.004142741718
+<QC> [echan_c(1,1,1,3,00060)]:         0.053900873134
+<QC> [echan_c(1,1,1,3,00061)]:         0.000681605510
+<QC> [echan_c(1,1,1,3,00062)]:         0.053900873139
+<QC> [echan_c(1,1,1,3,00063)]:         0.006242915230
+<QC> [echan_c(1,1,1,3,00064)]:         0.052299170972
+<QC> [echan_c(1,1,1,3,00065)]:         0.001950361116
+<QC> [echan_c(1,1,1,3,00066)]:         0.052299170977
+<QC> [echan_c(1,1,1,3,00067)]:         0.005246792762
+<QC> [echan_c(1,1,1,3,00068)]:         0.056530225524
+<QC> [echan_c(1,1,1,3,00069)]:         0.003155203339
+<QC> [echan_c(1,1,1,3,00070)]:         0.056530225529
+<QC> [echan_c(1,1,1,3,00071)]:         0.001231762267
+<QC> [echan_c(1,1,1,3,00072)]:         0.057368506233
+<QC> [echan_c(1,1,1,3,00073)]:         0.002660528265
+<QC> [echan_c(1,1,1,3,00074)]:         0.057368506238
+<QC> [echan_c(1,1,1,3,00075)]:         0.003564040588
+<QC> [echan_c(1,1,1,3,00076)]:         0.052985893555
+<QC> [echan_c(1,1,1,3,00077)]:         0.001093718172
+<QC> [echan_c(1,1,1,3,00078)]:         0.052985893560
+<QC> [echan_c(1,1,1,3,00079)]:         0.006507955303
+<QC> [echan_c(1,1,1,3,00080)]:         0.052384843819
+<QC> [echan_c(1,1,1,3,00081)]:         0.002386134536
+<QC> [echan_c(1,1,1,3,00082)]:         0.052384843824
+<QC> [echan_c(1,1,1,3,00083)]:         0.005873208172
+<QC> [echan_c(1,1,1,3,00084)]:         0.056976226366
+<QC> [echan_c(1,1,1,3,00085)]:         0.003108311117
+<QC> [echan_c(1,1,1,3,00086)]:         0.056976226371
+<QC> [echan_c(1,1,1,3,00087)]:         0.001548198100
+<QC> [echan_c(1,1,1,3,00088)]:         0.057464442195
+<QC> [echan_c(1,1,1,3,00089)]:         0.002230042480
+<QC> [echan_c(1,1,1,3,00090)]:         0.057464442200
+<QC>       [echan_T(1,1,1,4)]:         0.000000000287
+<QC>       [echan_T(1,1,2,1)]:         0.022200913466
+<QC> [echan_c(1,1,2,1,00001)]:         0.623123803420
+<QC> [echan_c(1,1,2,1,00002)]:         0.007620172441
+<QC> [echan_c(1,1,2,1,00003)]:         0.320193830284
+<QC> [echan_c(1,1,2,1,00004)]:         0.007620172441
+<QC> [echan_c(1,1,2,1,00005)]:         0.664816460538
+<QC> [echan_c(1,1,2,1,00006)]:         0.012782793736
+<QC> [echan_c(1,1,2,1,00007)]:         0.325782491938
+<QC> [echan_c(1,1,2,1,00008)]:         0.012782793736
+<QC> [echan_c(1,1,2,1,00009)]:         0.660431468871
+<QC> [echan_c(1,1,2,1,00010)]:         0.013652257081
+<QC> [echan_c(1,1,2,1,00011)]:         0.327537777787
+<QC> [echan_c(1,1,2,1,00012)]:         0.013652257081
+<QC> [echan_c(1,1,2,1,00013)]:         0.626130704282
+<QC> [echan_c(1,1,2,1,00014)]:         0.009057962622
+<QC> [echan_c(1,1,2,1,00015)]:         0.313617073472
+<QC> [echan_c(1,1,2,1,00016)]:         0.009057962622
+<QC> [echan_c(1,1,2,1,00017)]:         0.616733949433
+<QC> [echan_c(1,1,2,1,00018)]:         0.005646659229
+<QC> [echan_c(1,1,2,1,00019)]:         0.322182687411
+<QC> [echan_c(1,1,2,1,00020)]:         0.005646659229
+<QC> [echan_c(1,1,2,1,00021)]:         0.640764248476
+<QC> [echan_c(1,1,2,1,00022)]:         0.011498055131
+<QC> [echan_c(1,1,2,1,00023)]:         0.341819320780
+<QC> [echan_c(1,1,2,1,00024)]:         0.011498055131
+<QC> [echan_c(1,1,2,1,00025)]:         0.677669557866
+<QC> [echan_c(1,1,2,1,00026)]:         0.014509543748
+<QC> [echan_c(1,1,2,1,00027)]:         0.304871674236
+<QC> [echan_c(1,1,2,1,00028)]:         0.014509543748
+<QC> [echan_c(1,1,2,1,00029)]:         0.665812046462
+<QC> [echan_c(1,1,2,1,00030)]:         0.010808195487
+<QC> [echan_c(1,1,2,1,00031)]:         0.309933036917
+<QC> [echan_c(1,1,2,1,00032)]:         0.010808195487
+<QC> [echan_c(1,1,2,1,00033)]:         0.644468527162
+<QC> [echan_c(1,1,2,1,00034)]:         0.003591705684
+<QC> [echan_c(1,1,2,1,00035)]:         0.333939701036
+<QC> [echan_c(1,1,2,1,00036)]:         0.003591705684
+<QC> [echan_c(1,1,2,1,00037)]:         0.642414739803
+<QC> [echan_c(1,1,2,1,00038)]:         0.009899221376
+<QC> [echan_c(1,1,2,1,00039)]:         0.349009701772
+<QC> [echan_c(1,1,2,1,00040)]:         0.009899221376
+<QC> [echan_c(1,1,2,1,00041)]:         0.642907437436
+<QC> [echan_c(1,1,2,1,00042)]:         0.015173763611
+<QC> [echan_c(1,1,2,1,00043)]:         0.285653781808
+<QC> [echan_c(1,1,2,1,00044)]:         0.015173763611
+<QC> [echan_c(1,1,2,1,00045)]:         0.606521264833
+<QC> [echan_c(1,1,2,1,00046)]:         0.012214968471
+<QC> [echan_c(1,1,2,1,00047)]:         0.287491680948
+<QC> [echan_c(1,1,2,1,00048)]:         0.012214968471
+<QC> [echan_c(1,1,2,1,00049)]:         0.437875799107
+<QC> [echan_c(1,1,2,1,00050)]:         1.333090220999
+<QC> [echan_c(1,1,2,1,00051)]:         3.532540794583
+<QC> [echan_c(1,1,2,1,00052)]:         0.151448404471
+<QC> [echan_c(1,1,2,1,00053)]:         1.930845927295
+<QC> [echan_c(1,1,2,1,00054)]:         0.151448404471
+<QC> [echan_c(1,1,2,1,00055)]:         8.534919547497
+<QC> [echan_c(1,1,2,1,00056)]:         0.181202828923
+<QC> [echan_c(1,1,2,1,00057)]:         3.808216612133
+<QC> [echan_c(1,1,2,1,00058)]:         0.181202828923
+<QC> [echan_c(1,1,2,1,00059)]:         8.708390806203
+<QC> [echan_c(1,1,2,1,00060)]:         0.101560735436
+<QC> [echan_c(1,1,2,1,00061)]:         3.566698355615
+<QC> [echan_c(1,1,2,1,00062)]:         0.101560735436
+<QC> [echan_c(1,1,2,1,00063)]:         4.068136675361
+<QC> [echan_c(1,1,2,1,00064)]:         0.021061541478
+<QC> [echan_c(1,1,2,1,00065)]:         1.533313434505
+<QC> [echan_c(1,1,2,1,00066)]:         0.021061541478
+<QC> [echan_c(1,1,2,1,00067)]:         0.050890583658
+<QC> [echan_c(1,1,2,1,00068)]:         0.127765793132
+<QC> [echan_c(1,1,2,1,00069)]:         3.156290839182
+<QC> [echan_c(1,1,2,1,00070)]:         0.127765793132
+<QC> [echan_c(1,1,2,1,00071)]:         6.821764610251
+<QC> [echan_c(1,1,2,1,00072)]:         0.158185497760
+<QC> [echan_c(1,1,2,1,00073)]:         4.393484896269
+<QC> [echan_c(1,1,2,1,00074)]:         0.158185497760
+<QC> [echan_c(1,1,2,1,00075)]:         8.778901470531
+<QC> [echan_c(1,1,2,1,00076)]:         0.099180725657
+<QC> [echan_c(1,1,2,1,00077)]:         2.193020800998
+<QC> [echan_c(1,1,2,1,00078)]:         0.099180725657
+<QC> [echan_c(1,1,2,1,00079)]:         6.964185660804
+<QC> [echan_c(1,1,2,1,00080)]:         0.033693902232
+<QC> [echan_c(1,1,2,1,00081)]:         0.206663953547
+<QC> [echan_c(1,1,2,1,00082)]:         0.033693902232
+<QC> [echan_c(1,1,2,1,00083)]:         3.492004481895
+<QC> [echan_c(1,1,2,1,00084)]:         0.094056518090
+<QC> [echan_c(1,1,2,1,00085)]:         4.146203982725
+<QC> [echan_c(1,1,2,1,00086)]:         0.094056518090
+<QC> [echan_c(1,1,2,1,00087)]:         4.153225113946
+<QC> [echan_c(1,1,2,1,00088)]:         0.122838658868
+<QC> [echan_c(1,1,2,1,00089)]:         4.249946968822
+<QC> [echan_c(1,1,2,1,00090)]:         0.122838658869
+<QC>       [echan_T(1,1,2,2)]:         0.000899000858
+<QC> [echan_c(1,1,2,2,00001)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00002)]:         0.054473549096
+<QC> [echan_c(1,1,2,2,00003)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00004)]:         0.054473549091
+<QC> [echan_c(1,1,2,2,00005)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00006)]:         0.054664870256
+<QC> [echan_c(1,1,2,2,00007)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00008)]:         0.054664870251
+<QC> [echan_c(1,1,2,2,00009)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00010)]:         0.055475034834
+<QC> [echan_c(1,1,2,2,00011)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00012)]:         0.055475034829
+<QC> [echan_c(1,1,2,2,00013)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00014)]:         0.055286315395
+<QC> [echan_c(1,1,2,2,00015)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00016)]:         0.055286315390
+<QC> [echan_c(1,1,2,2,00017)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00018)]:         0.054459263581
+<QC> [echan_c(1,1,2,2,00019)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00020)]:         0.054459263576
+<QC> [echan_c(1,1,2,2,00021)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00022)]:         0.054600946498
+<QC> [echan_c(1,1,2,2,00023)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00024)]:         0.054600946493
+<QC> [echan_c(1,1,2,2,00025)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00026)]:         0.055384331097
+<QC> [echan_c(1,1,2,2,00027)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00028)]:         0.055384331092
+<QC> [echan_c(1,1,2,2,00029)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00030)]:         0.055097217794
+<QC> [echan_c(1,1,2,2,00031)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00032)]:         0.055097217789
+<QC> [echan_c(1,1,2,2,00033)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00034)]:         0.054463706144
+<QC> [echan_c(1,1,2,2,00035)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00036)]:         0.054463706139
+<QC> [echan_c(1,1,2,2,00037)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00038)]:         0.055275638272
+<QC> [echan_c(1,1,2,2,00039)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00040)]:         0.055275638267
+<QC> [echan_c(1,1,2,2,00041)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00042)]:         0.056220977073
+<QC> [echan_c(1,1,2,2,00043)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00044)]:         0.056220977068
+<QC> [echan_c(1,1,2,2,00045)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00046)]:         0.051589296169
+<QC> [echan_c(1,1,2,2,00047)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00048)]:         0.051589296164
+<QC> [echan_c(1,1,2,2,00049)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00050)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00051)]:         0.000000000002
+<QC> [echan_c(1,1,2,2,00052)]:         3.318424198975
+<QC> [echan_c(1,1,2,2,00053)]:         0.000000000002
+<QC> [echan_c(1,1,2,2,00054)]:         3.318424198677
+<QC> [echan_c(1,1,2,2,00055)]:         0.000000000007
+<QC> [echan_c(1,1,2,2,00056)]:         3.854706279829
+<QC> [echan_c(1,1,2,2,00057)]:         0.000000000004
+<QC> [echan_c(1,1,2,2,00058)]:         3.854706279483
+<QC> [echan_c(1,1,2,2,00059)]:         0.000000000008
+<QC> [echan_c(1,1,2,2,00060)]:         1.743976852238
+<QC> [echan_c(1,1,2,2,00061)]:         0.000000000002
+<QC> [echan_c(1,1,2,2,00062)]:         1.743976852081
+<QC> [echan_c(1,1,2,2,00063)]:         0.000000000007
+<QC> [echan_c(1,1,2,2,00064)]:         0.178748443533
+<QC> [echan_c(1,1,2,2,00065)]:         0.000000000001
+<QC> [echan_c(1,1,2,2,00066)]:         0.178748443517
+<QC> [echan_c(1,1,2,2,00067)]:         0.000000000004
+<QC> [echan_c(1,1,2,2,00068)]:         3.491807741204
+<QC> [echan_c(1,1,2,2,00069)]:         0.000000000004
+<QC> [echan_c(1,1,2,2,00070)]:         3.491807740891
+<QC> [echan_c(1,1,2,2,00071)]:         0.000000000005
+<QC> [echan_c(1,1,2,2,00072)]:         3.818920890948
+<QC> [echan_c(1,1,2,2,00073)]:         0.000000000006
+<QC> [echan_c(1,1,2,2,00074)]:         3.818920890605
+<QC> [echan_c(1,1,2,2,00075)]:         0.000000000010
+<QC> [echan_c(1,1,2,2,00076)]:         1.433060851467
+<QC> [echan_c(1,1,2,2,00077)]:         0.000000000000
+<QC> [echan_c(1,1,2,2,00078)]:         1.433060851339
+<QC> [echan_c(1,1,2,2,00079)]:         0.000000000014
+<QC> [echan_c(1,1,2,2,00080)]:         0.505089485935
+<QC> [echan_c(1,1,2,2,00081)]:         0.000000000004
+<QC> [echan_c(1,1,2,2,00082)]:         0.505089485889
+<QC> [echan_c(1,1,2,2,00083)]:         0.000000000012
+<QC> [echan_c(1,1,2,2,00084)]:         3.611552074516
+<QC> [echan_c(1,1,2,2,00085)]:         0.000000000007
+<QC> [echan_c(1,1,2,2,00086)]:         3.611552074192
+<QC> [echan_c(1,1,2,2,00087)]:         0.000000000002
+<QC> [echan_c(1,1,2,2,00088)]:         3.795808885674
+<QC> [echan_c(1,1,2,2,00089)]:         0.000000000007
+<QC> [echan_c(1,1,2,2,00090)]:         3.795808885333
+<QC>       [echan_T(1,1,2,3)]:         0.000896894376
+<QC> [echan_c(1,1,2,3,00001)]:         0.006101992739
+<QC> [echan_c(1,1,2,3,00002)]:         0.054416831430
+<QC> [echan_c(1,1,2,3,00003)]:         0.002869830160
+<QC> [echan_c(1,1,2,3,00004)]:         0.054416831434
+<QC> [echan_c(1,1,2,3,00005)]:         0.002245204990
+<QC> [echan_c(1,1,2,3,00006)]:         0.054583224697
+<QC> [echan_c(1,1,2,3,00007)]:         0.001863774483
+<QC> [echan_c(1,1,2,3,00008)]:         0.054583224702
+<QC> [echan_c(1,1,2,3,00009)]:         0.001992427772
+<QC> [echan_c(1,1,2,3,00010)]:         0.055367266124
+<QC> [echan_c(1,1,2,3,00011)]:         0.002003918535
+<QC> [echan_c(1,1,2,3,00012)]:         0.055367266129
+<QC> [echan_c(1,1,2,3,00013)]:         0.006006035515
+<QC> [echan_c(1,1,2,3,00014)]:         0.055203024346
+<QC> [echan_c(1,1,2,3,00015)]:         0.002947979660
+<QC> [echan_c(1,1,2,3,00016)]:         0.055203024351
+<QC> [echan_c(1,1,2,3,00017)]:         0.006308426000
+<QC> [echan_c(1,1,2,3,00018)]:         0.054412046342
+<QC> [echan_c(1,1,2,3,00019)]:         0.002615021028
+<QC> [echan_c(1,1,2,3,00020)]:         0.054412046346
+<QC> [echan_c(1,1,2,3,00021)]:         0.002787125193
+<QC> [echan_c(1,1,2,3,00022)]:         0.054529314116
+<QC> [echan_c(1,1,2,3,00023)]:         0.001587186949
+<QC> [echan_c(1,1,2,3,00024)]:         0.054529314121
+<QC> [echan_c(1,1,2,3,00025)]:         0.001547365936
+<QC> [echan_c(1,1,2,3,00026)]:         0.055268147768
+<QC> [echan_c(1,1,2,3,00027)]:         0.002250297492
+<QC> [echan_c(1,1,2,3,00028)]:         0.055268147773
+<QC> [echan_c(1,1,2,3,00029)]:         0.005809340635
+<QC> [echan_c(1,1,2,3,00030)]:         0.055004638407
+<QC> [echan_c(1,1,2,3,00031)]:         0.003188663475
+<QC> [echan_c(1,1,2,3,00032)]:         0.055004638412
+<QC> [echan_c(1,1,2,3,00033)]:         0.006570213578
+<QC> [echan_c(1,1,2,3,00034)]:         0.054429197357
+<QC> [echan_c(1,1,2,3,00035)]:         0.002322165714
+<QC> [echan_c(1,1,2,3,00036)]:         0.054429197362
+<QC> [echan_c(1,1,2,3,00037)]:         0.003580007911
+<QC> [echan_c(1,1,2,3,00038)]:         0.055218781112
+<QC> [echan_c(1,1,2,3,00039)]:         0.001135231998
+<QC> [echan_c(1,1,2,3,00040)]:         0.055218781117
+<QC> [echan_c(1,1,2,3,00041)]:         0.001676346746
+<QC> [echan_c(1,1,2,3,00042)]:         0.056099292268
+<QC> [echan_c(1,1,2,3,00043)]:         0.001657157846
+<QC> [echan_c(1,1,2,3,00044)]:         0.056099292273
+<QC> [echan_c(1,1,2,3,00045)]:         0.002793419644
+<QC> [echan_c(1,1,2,3,00046)]:         0.051484074240
+<QC> [echan_c(1,1,2,3,00047)]:         0.002409224786
+<QC> [echan_c(1,1,2,3,00048)]:         0.051484074244
+<QC> [echan_c(1,1,2,3,00049)]:         0.002685899472
+<QC> [echan_c(1,1,2,3,00050)]:         0.003956467910
+<QC> [echan_c(1,1,2,3,00051)]:         0.027526660522
+<QC> [echan_c(1,1,2,3,00052)]:         3.316297508285
+<QC> [echan_c(1,1,2,3,00053)]:         0.023724316215
+<QC> [echan_c(1,1,2,3,00054)]:         3.316297508585
+<QC> [echan_c(1,1,2,3,00055)]:         0.100479892503
+<QC> [echan_c(1,1,2,3,00056)]:         3.851781101665
+<QC> [echan_c(1,1,2,3,00057)]:         0.055900001347
+<QC> [echan_c(1,1,2,3,00058)]:         3.851781102012
+<QC> [echan_c(1,1,2,3,00059)]:         0.124485830660
+<QC> [echan_c(1,1,2,3,00060)]:         1.740929739563
+<QC> [echan_c(1,1,2,3,00061)]:         0.027672475979
+<QC> [echan_c(1,1,2,3,00062)]:         1.740929739720
+<QC> [echan_c(1,1,2,3,00063)]:         0.111348852751
+<QC> [echan_c(1,1,2,3,00064)]:         0.180908209506
+<QC> [echan_c(1,1,2,3,00065)]:         0.013901822205
+<QC> [echan_c(1,1,2,3,00066)]:         0.180908209522
+<QC> [echan_c(1,1,2,3,00067)]:         0.065113591137
+<QC> [echan_c(1,1,2,3,00068)]:         3.490882737525
+<QC> [echan_c(1,1,2,3,00069)]:         0.068401925813
+<QC> [echan_c(1,1,2,3,00070)]:         3.490882737839
+<QC> [echan_c(1,1,2,3,00071)]:         0.078578521766
+<QC> [echan_c(1,1,2,3,00072)]:         3.816212253254
+<QC> [echan_c(1,1,2,3,00073)]:         0.090339947999
+<QC> [echan_c(1,1,2,3,00074)]:         3.816212253598
+<QC> [echan_c(1,1,2,3,00075)]:         0.161086487516
+<QC> [echan_c(1,1,2,3,00076)]:         1.428288549723
+<QC> [echan_c(1,1,2,3,00077)]:         0.003145717542
+<QC> [echan_c(1,1,2,3,00078)]:         1.428288549853
+<QC> [echan_c(1,1,2,3,00079)]:         0.222702918978
+<QC> [echan_c(1,1,2,3,00080)]:         0.509370502807
+<QC> [echan_c(1,1,2,3,00081)]:         0.064932045962
+<QC> [echan_c(1,1,2,3,00082)]:         0.509370502853
+<QC> [echan_c(1,1,2,3,00083)]:         0.177957775189
+<QC> [echan_c(1,1,2,3,00084)]:         3.612021452111
+<QC> [echan_c(1,1,2,3,00085)]:         0.116006453225
+<QC> [echan_c(1,1,2,3,00086)]:         3.612021452436
+<QC> [echan_c(1,1,2,3,00087)]:         0.025895544681
+<QC> [echan_c(1,1,2,3,00088)]:         3.793734052157
+<QC> [echan_c(1,1,2,3,00089)]:         0.107953740685
+<QC> [echan_c(1,1,2,3,00090)]:         3.793734052499
+<QC>       [echan_T(1,1,2,4)]:        -0.000000000225
+=================================================================================
+
+<QC>                   [eref]:        -0.198769288259
+<QC>   [lead(1,1,000)_efermi]:        -0.199021082829
+<QC>      [lead(1,1,001)_dos]:         9.349440880611
+<QC>      [lead(1,1,001)_trc]:         0.999941172273
+<QC>      [lead(1,1,002)_dos]:         9.273116784939
+<QC>      [lead(1,1,002)_trc]:         0.999941736686
+<QC>      [lead(1,1,003)_dos]:         9.719978513260
+<QC>      [lead(1,1,003)_trc]:         0.999938929493
+<QC>      [lead(1,1,004)_dos]:        10.389458316656
+<QC>      [lead(1,1,004)_trc]:         0.999934723334
+<QC>      [lead(1,1,005)_dos]:        11.418044167275
+<QC>      [lead(1,1,005)_trc]:         0.999928260932
+<QC>      [lead(1,1,006)_dos]:        13.104519650692
+<QC>      [lead(1,1,006)_trc]:         0.999917665115
+<QC>      [lead(1,1,007)_dos]:        16.330000595245
+<QC>      [lead(1,1,007)_trc]:         0.999897399929
+<QC>      [lead(1,1,008)_dos]:        25.951047347682
+<QC>      [lead(1,1,008)_trc]:         0.999836949502
+<QC>      [lead(1,1,009)_dos]:         0.005268333383
+<QC>      [lead(1,1,009)_trc]:         0.000000006689
+<QC>      [lead(1,1,010)_dos]:         0.000834167182
+<QC>      [lead(1,1,010)_trc]:         0.000000000164
+<QC>      [lead(1,1,011)_dos]:         0.000417628841
+<QC>      [lead(1,1,011)_trc]:         0.000000000027
+<QC>      [lead(1,1,012)_dos]:         0.000285931973
+<QC>      [lead(1,1,012)_trc]:         0.000000000008
+<QC>      [lead(1,1,013)_dos]:         0.000228311745
+<QC>      [lead(1,1,013)_trc]:         0.000000000003
+<QC>      [lead(1,1,014)_dos]:         0.000200223086
+<QC>      [lead(1,1,014)_trc]:         0.000000000001
+<QC>      [lead(1,1,015)_dos]:         0.000187321479
+<QC>      [lead(1,1,015)_trc]:         0.000000000001
+<QC>      [lead(1,1,016)_dos]:         0.000184015608
+<QC>      [lead(1,1,016)_trc]:         0.000000000000
+<QC>      [lead(1,1,017)_dos]:         0.000188109579
+<QC>      [lead(1,1,017)_trc]:         0.000000000000
+<QC>      [lead(1,1,018)_dos]:         0.000199152020
+<QC>      [lead(1,1,018)_trc]:         0.000000000000
+<QC>      [lead(1,1,019)_dos]:         0.000217990105
+<QC>      [lead(1,1,019)_trc]:         0.000000000000
+<QC>      [lead(1,1,020)_dos]:         0.000246952523
+<QC>      [lead(1,1,020)_trc]:         0.000000000000
+<QC>      [lead(1,1,021)_dos]:         0.000290727669
+<QC>      [lead(1,1,021)_trc]:         0.000000000000
+<QC>      [lead(1,1,022)_dos]:         0.000358651153
+<QC>      [lead(1,1,022)_trc]:         0.000000000000
+<QC>      [lead(1,1,023)_dos]:         0.000470866871
+<QC>      [lead(1,1,023)_trc]:         0.000000000001
+<QC>      [lead(1,1,024)_dos]:         0.000677897533
+<QC>      [lead(1,1,024)_trc]:         0.000000000004
+<QC>      [lead(1,1,025)_dos]:         0.001143264101
+<QC>      [lead(1,1,025)_trc]:         0.000000000021
+<QC>      [lead(1,1,026)_dos]:         0.002741998109
+<QC>      [lead(1,1,026)_trc]:         0.000000000236
+<QC>      [lead(1,1,027)_dos]:         0.040368979577
+<QC>      [lead(1,1,027)_trc]:         0.000000061949
+<QC>      [lead(1,1,028)_dos]:        61.464807412514
+<QC>      [lead(1,1,028)_trc]:         1.999613828073
+<QC>      [lead(1,1,029)_dos]:        41.814190337286
+<QC>      [lead(1,1,029)_trc]:         1.999737287442
+<QC>      [lead(1,1,030)_dos]:        34.187051956446
+<QC>      [lead(1,1,030)_trc]:         1.999785206065
+<QC>      [lead(1,1,031)_dos]:        29.951094341605
+<QC>      [lead(1,1,031)_trc]:         1.999811818927
+<QC>      [lead(1,1,032)_dos]:        27.308710127961
+<QC>      [lead(1,1,032)_trc]:         1.999828415339
+<QC>      [lead(1,1,033)_dos]:        25.338055374076
+<QC>      [lead(1,1,033)_trc]:         1.999840802727
+<QC>      [lead(1,1,034)_dos]:        24.027144722858
+<QC>      [lead(1,1,034)_trc]:         1.999849038692
+<QC>      [lead(1,1,035)_dos]:        23.135217863913
+<QC>      [lead(1,1,035)_trc]:         1.999854642316
+<QC>      [lead(1,1,036)_dos]:        22.598454779942
+<QC>      [lead(1,1,036)_trc]:         1.999858014565
+<QC>      [lead(1,1,037)_dos]:        22.419227475062
+<QC>      [lead(1,1,037)_trc]:         1.999859140479
+<QC>      [lead(1,1,038)_dos]:        22.672134019343
+<QC>      [lead(1,1,038)_trc]:         1.999857551316
+<QC>      [lead(1,1,039)_dos]:        23.564847338739
+<QC>      [lead(1,1,039)_trc]:         1.999851942197
+<QC>      [lead(1,1,040)_dos]:        25.658273239623
+<QC>      [lead(1,1,040)_trc]:         1.999838788686
+<QC>      [lead(1,1,041)_dos]:        30.950197490889
+<QC>      [lead(1,1,041)_trc]:         1.999805536769
+<QC>      [lead(1,1,042)_dos]:        58.942982748671
+<QC>      [lead(1,1,042)_trc]:         1.999629548437
+<QC>      [lead(1,1,043)_dos]:         0.004085397441
+<QC>      [lead(1,1,043)_trc]:         0.000000007482
+<QC>      [lead(1,1,044)_dos]:         0.001219553525
+<QC>      [lead(1,1,044)_trc]:         0.000000000766
+<QC>      [lead(1,1,045)_dos]:         0.000683207546
+<QC>      [lead(1,1,045)_trc]:         0.000000000224
+<QC>      [lead(1,1,046)_dos]:         0.000478769642
+<QC>      [lead(1,1,046)_trc]:         0.000000000099
+<QC>      [lead(1,1,047)_dos]:         0.000377887723
+<QC>      [lead(1,1,047)_trc]:         0.000000000056
+<QC>      [lead(1,1,048)_dos]:         0.000321899306
+<QC>      [lead(1,1,048)_trc]:         0.000000000037
+<QC>      [lead(1,1,049)_dos]:         0.000289705285
+<QC>      [lead(1,1,049)_trc]:         0.000000000028
+<QC>      [lead(1,1,050)_dos]:         0.000272249881
+<QC>      [lead(1,1,050)_trc]:         0.000000000024
+<QC>      [lead(1,1,051)_dos]:         0.000265386747
+<QC>      [lead(1,1,051)_trc]:         0.000000000023
+<QC>      [lead(1,1,052)_dos]:         0.000267476598
+<QC>      [lead(1,1,052)_trc]:         0.000000000025
+<QC>      [lead(1,1,053)_dos]:         0.000278635303
+<QC>      [lead(1,1,053)_trc]:         0.000000000029
+<QC>      [lead(1,1,054)_dos]:         0.000300907614
+<QC>      [lead(1,1,054)_trc]:         0.000000000038
+<QC>      [lead(1,1,055)_dos]:         0.000339647102
+<QC>      [lead(1,1,055)_trc]:         0.000000000058
+<QC>      [lead(1,1,056)_dos]:         0.000408090854
+<QC>      [lead(1,1,056)_trc]:         0.000000000104
+<QC>      [lead(1,1,057)_dos]:         0.000544672407
+<QC>      [lead(1,1,057)_trc]:         0.000000000238
+<QC>      [lead(1,1,058)_dos]:         0.000910369222
+<QC>      [lead(1,1,058)_trc]:         0.000000000848
+<QC>      [lead(1,1,059)_dos]:         0.003310960445
+<QC>      [lead(1,1,059)_trc]:         0.000000010616
+<QC>      [lead(1,1,060)_dos]:        32.076409601351
+<QC>      [lead(1,1,060)_trc]:         1.999798430914
+<QC>      [lead(1,1,061)_dos]:        19.082066266628
+<QC>      [lead(1,1,061)_trc]:         1.999880105175
+<QC>      [lead(1,1,062)_dos]:        15.655906526490
+<QC>      [lead(1,1,062)_trc]:         1.999901633773
+<QC>      [lead(1,1,063)_dos]:        13.989924275207
+<QC>      [lead(1,1,063)_trc]:         1.999912101903
+<QC>      [lead(1,1,064)_dos]:        12.996740353289
+<QC>      [lead(1,1,064)_trc]:         1.999918342699
+<QC>      [lead(1,1,065)_dos]:        12.339808113641
+<QC>      [lead(1,1,065)_trc]:         1.999922470960
+<QC>      [lead(1,1,066)_dos]:        11.878110856253
+<QC>      [lead(1,1,066)_trc]:         1.999925372952
+<QC>      [lead(1,1,067)_dos]:        11.541724625233
+<QC>      [lead(1,1,067)_trc]:         1.999927488579
+<QC>      [lead(1,1,068)_dos]:        11.292204670971
+<QC>      [lead(1,1,068)_trc]:         1.999929061430
+<QC>      [lead(1,1,069)_dos]:        11.108449222828
+<QC>      [lead(1,1,069)_trc]:         1.999930239289
+<QC>      [lead(1,1,070)_dos]:       120.641337425665
+<QC>      [lead(1,1,070)_trc]:         2.999240716816
+<QC>      [lead(1,1,071)_dos]:        43.591437066497
+<QC>      [lead(1,1,071)_trc]:         2.999726121099
+<QC>      [lead(1,1,072)_dos]:        34.944759100275
+<QC>      [lead(1,1,072)_trc]:         2.999780446803
+<QC>      [lead(1,1,073)_dos]:        31.085843976560
+<QC>      [lead(1,1,073)_trc]:         2.999804690800
+<QC>      [lead(1,1,074)_dos]:        28.868339077195
+<QC>      [lead(1,1,074)_trc]:         2.999818622371
+<QC>      [lead(1,1,075)_dos]:        27.454239505204
+<QC>      [lead(1,1,075)_trc]:         2.999827506434
+<QC>      [lead(1,1,076)_dos]:        26.511344690383
+<QC>      [lead(1,1,076)_trc]:         2.999833430019
+<QC>      [lead(1,1,077)_dos]:        25.875728912561
+<QC>      [lead(1,1,077)_trc]:         2.999837422864
+<QC>      [lead(1,1,078)_dos]:        25.448131096448
+<QC>      [lead(1,1,078)_trc]:         2.999840108061
+<QC>      [lead(1,1,079)_dos]:        25.134948681390
+<QC>      [lead(1,1,079)_trc]:         2.999842060693
+<QC>      [lead(1,1,080)_dos]:        25.602053830745
+<QC>      [lead(1,1,080)_trc]:         2.999838903653
+<QC>      [lead(1,1,081)_dos]:        11.579054763149
+<QC>      [lead(1,1,081)_trc]:         1.999960059544
+<QC>      [lead(1,1,082)_dos]:        27.244143482187
+<QC>      [lead(1,1,082)_trc]:         2.999828802273
+<QC>      [lead(1,1,083)_dos]:        27.178551704641
+<QC>      [lead(1,1,083)_trc]:         2.999829233235
+<QC>      [lead(1,1,084)_dos]:        27.665993357547
+<QC>      [lead(1,1,084)_trc]:         2.999826173874
+<QC>      [lead(1,1,085)_dos]:        28.455495897727
+<QC>      [lead(1,1,085)_trc]:         2.999821214704
+<QC>      [lead(1,1,086)_dos]:        29.539822041382
+<QC>      [lead(1,1,086)_trc]:         2.999814402697
+<QC>      [lead(1,1,087)_dos]:        30.976623771983
+<QC>      [lead(1,1,087)_trc]:         2.999805376008
+<QC>      [lead(1,1,088)_dos]:        32.882111886225
+<QC>      [lead(1,1,088)_trc]:         2.999793404660
+<QC>      [lead(1,1,089)_dos]:        35.468678625828
+<QC>      [lead(1,1,089)_trc]:         2.999777154343
+<QC>      [lead(1,1,090)_dos]:        39.153887862649
+<QC>      [lead(1,1,090)_trc]:         2.999754001704
+<QC>      [lead(1,1,091)_dos]:        44.908639883827
+<QC>      [lead(1,1,091)_trc]:         2.999717846831
+<QC>      [lead(1,1,092)_dos]:        55.889525372743
+<QC>      [lead(1,1,092)_trc]:         2.999648855573
+<QC>      [lead(1,1,093)_dos]:       101.776861743545
+<QC>      [lead(1,1,093)_trc]:         2.999360305107
+<QC>      [lead(1,1,094)_dos]:        26.112939280372
+<QC>      [lead(1,1,094)_trc]:         1.999836016922
+<QC>      [lead(1,1,095)_dos]:        37.022793858351
+<QC>      [lead(1,1,095)_trc]:         1.999767398961
+<QC>      [lead(1,1,096)_dos]:         0.199987186081
+<QC>      [lead(1,1,096)_trc]:         0.000002665246
+<QC>      [lead(1,1,097)_dos]:         0.003649755105
+<QC>      [lead(1,1,097)_trc]:         0.000000003138
+<QC>      [lead(1,1,098)_dos]:         0.001686195758
+<QC>      [lead(1,1,098)_trc]:         0.000000000574
+<QC>      [lead(1,1,099)_dos]:         0.001074986319
+<QC>      [lead(1,1,099)_trc]:         0.000000000208
+<QC>      [lead(1,1,100)_dos]:         0.000775602976
+<QC>      [lead(1,1,100)_trc]:         0.000000000101
+<QC>      [lead(1,1,101)_dos]:         0.000598096894
+<QC>      [lead(1,1,101)_trc]:         0.000000000057
+<QC>   [lead(2,1,000)_efermi]:        -0.198517493689
+<QC>      [lead(2,1,001)_dos]:         9.042585477834
+<QC>      [lead(2,1,001)_trc]:         0.999943182358
+<QC>      [lead(2,1,002)_dos]:         9.194276579028
+<QC>      [lead(2,1,002)_trc]:         0.999942231190
+<QC>      [lead(2,1,003)_dos]:         9.586328176779
+<QC>      [lead(2,1,003)_trc]:         0.999939769134
+<QC>      [lead(2,1,004)_dos]:        10.193858432241
+<QC>      [lead(2,1,004)_trc]:         0.999935952240
+<QC>      [lead(2,1,005)_dos]:        11.118703682712
+<QC>      [lead(2,1,005)_trc]:         0.999930141632
+<QC>      [lead(2,1,006)_dos]:        12.596851745895
+<QC>      [lead(2,1,006)_trc]:         0.999920854703
+<QC>      [lead(2,1,007)_dos]:        15.267987141313
+<QC>      [lead(2,1,007)_trc]:         0.999904072418
+<QC>      [lead(2,1,008)_dos]:        21.899690135027
+<QC>      [lead(2,1,008)_trc]:         0.999862405665
+<QC>      [lead(2,1,009)_dos]:         0.031969977285
+<QC>      [lead(2,1,009)_trc]:         0.000000134271
+<QC>      [lead(2,1,010)_dos]:         0.001123152919
+<QC>      [lead(2,1,010)_trc]:         0.000000000312
+<QC>      [lead(2,1,011)_dos]:         0.000483969357
+<QC>      [lead(2,1,011)_trc]:         0.000000000040
+<QC>      [lead(2,1,012)_dos]:         0.000312453032
+<QC>      [lead(2,1,012)_trc]:         0.000000000010
+<QC>      [lead(2,1,013)_dos]:         0.000241812290
+<QC>      [lead(2,1,013)_trc]:         0.000000000004
+<QC>      [lead(2,1,014)_dos]:         0.000208044059
+<QC>      [lead(2,1,014)_trc]:         0.000000000002
+<QC>      [lead(2,1,015)_dos]:         0.000192182902
+<QC>      [lead(2,1,015)_trc]:         0.000000000001
+<QC>      [lead(2,1,016)_dos]:         0.000187116897
+<QC>      [lead(2,1,016)_trc]:         0.000000000000
+<QC>      [lead(2,1,017)_dos]:         0.000190031071
+<QC>      [lead(2,1,017)_trc]:         0.000000000000
+<QC>      [lead(2,1,018)_dos]:         0.000200172321
+<QC>      [lead(2,1,018)_trc]:         0.000000000000
+<QC>      [lead(2,1,019)_dos]:         0.000218204407
+<QC>      [lead(2,1,019)_trc]:         0.000000000000
+<QC>      [lead(2,1,020)_dos]:         0.000246299727
+<QC>      [lead(2,1,020)_trc]:         0.000000000000
+<QC>      [lead(2,1,021)_dos]:         0.000288943425
+<QC>      [lead(2,1,021)_trc]:         0.000000000000
+<QC>      [lead(2,1,022)_dos]:         0.000355093664
+<QC>      [lead(2,1,022)_trc]:         0.000000000000
+<QC>      [lead(2,1,023)_dos]:         0.000463989366
+<QC>      [lead(2,1,023)_trc]:         0.000000000001
+<QC>      [lead(2,1,024)_dos]:         0.000663391954
+<QC>      [lead(2,1,024)_trc]:         0.000000000003
+<QC>      [lead(2,1,025)_dos]:         0.001105032060
+<QC>      [lead(2,1,025)_trc]:         0.000000000019
+<QC>      [lead(2,1,026)_dos]:         0.002567606578
+<QC>      [lead(2,1,026)_trc]:         0.000000000197
+<QC>      [lead(2,1,027)_dos]:         0.027603634456
+<QC>      [lead(2,1,027)_trc]:         0.000000031170
+<QC>      [lead(2,1,028)_dos]:        63.780851590196
+<QC>      [lead(2,1,028)_trc]:         1.999599276720
+<QC>      [lead(2,1,029)_dos]:        42.515766526974
+<QC>      [lead(2,1,029)_trc]:         1.999732879711
+<QC>      [lead(2,1,030)_dos]:        34.567964375479
+<QC>      [lead(2,1,030)_trc]:         1.999782812945
+<QC>      [lead(2,1,031)_dos]:        30.211965080172
+<QC>      [lead(2,1,031)_trc]:         1.999810180014
+<QC>      [lead(2,1,032)_dos]:        27.587103211750
+<QC>      [lead(2,1,032)_trc]:         1.999826666281
+<QC>      [lead(2,1,033)_dos]:        25.600548870871
+<QC>      [lead(2,1,033)_trc]:         1.999839152955
+<QC>      [lead(2,1,034)_dos]:        24.193482161005
+<QC>      [lead(2,1,034)_trc]:         1.999847993650
+<QC>      [lead(2,1,035)_dos]:        23.283450731888
+<QC>      [lead(2,1,035)_trc]:         1.999853711013
+<QC>      [lead(2,1,036)_dos]:        22.741984330139
+<QC>      [lead(2,1,036)_trc]:         1.999857112806
+<QC>      [lead(2,1,037)_dos]:        22.567088170459
+<QC>      [lead(2,1,037)_trc]:         1.999858211504
+<QC>      [lead(2,1,038)_dos]:        22.834788456069
+<QC>      [lead(2,1,038)_trc]:         1.999856529391
+<QC>      [lead(2,1,039)_dos]:        23.759760449140
+<QC>      [lead(2,1,039)_trc]:         1.999850717590
+<QC>      [lead(2,1,040)_dos]:        25.926301536208
+<QC>      [lead(2,1,040)_trc]:         1.999837104685
+<QC>      [lead(2,1,041)_dos]:        31.447108411989
+<QC>      [lead(2,1,041)_trc]:         1.999802414536
+<QC>      [lead(2,1,042)_dos]:        62.662446592602
+<QC>      [lead(2,1,042)_trc]:         1.999606147841
+<QC>      [lead(2,1,043)_dos]:         0.003871682276
+<QC>      [lead(2,1,043)_trc]:         0.000000006661
+<QC>      [lead(2,1,044)_dos]:         0.001198461854
+<QC>      [lead(2,1,044)_trc]:         0.000000000720
+<QC>      [lead(2,1,045)_dos]:         0.000677428066
+<QC>      [lead(2,1,045)_trc]:         0.000000000213
+<QC>      [lead(2,1,046)_dos]:         0.000476417243
+<QC>      [lead(2,1,046)_trc]:         0.000000000095
+<QC>      [lead(2,1,047)_dos]:         0.000376617682
+<QC>      [lead(2,1,047)_trc]:         0.000000000053
+<QC>      [lead(2,1,048)_dos]:         0.000320991687
+<QC>      [lead(2,1,048)_trc]:         0.000000000036
+<QC>      [lead(2,1,049)_dos]:         0.000288859490
+<QC>      [lead(2,1,049)_trc]:         0.000000000027
+<QC>      [lead(2,1,050)_dos]:         0.000271290406
+<QC>      [lead(2,1,050)_trc]:         0.000000000023
+<QC>      [lead(2,1,051)_dos]:         0.000264160038
+<QC>      [lead(2,1,051)_trc]:         0.000000000022
+<QC>      [lead(2,1,052)_dos]:         0.000265790311
+<QC>      [lead(2,1,052)_trc]:         0.000000000023
+<QC>      [lead(2,1,053)_dos]:         0.000276186265
+<QC>      [lead(2,1,053)_trc]:         0.000000000027
+<QC>      [lead(2,1,054)_dos]:         0.000297142003
+<QC>      [lead(2,1,054)_trc]:         0.000000000035
+<QC>      [lead(2,1,055)_dos]:         0.000333410044
+<QC>      [lead(2,1,055)_trc]:         0.000000000052
+<QC>      [lead(2,1,056)_dos]:         0.000396542951
+<QC>      [lead(2,1,056)_trc]:         0.000000000092
+<QC>      [lead(2,1,057)_dos]:         0.000518856307
+<QC>      [lead(2,1,057)_trc]:         0.000000000202
+<QC>      [lead(2,1,058)_dos]:         0.000825807214
+<QC>      [lead(2,1,058)_trc]:         0.000000000662
+<QC>      [lead(2,1,059)_dos]:         0.002410822241
+<QC>      [lead(2,1,059)_trc]:         0.000000005943
+<QC>      [lead(2,1,060)_dos]:        39.352612301144
+<QC>      [lead(2,1,060)_trc]:         1.999752667206
+<QC>      [lead(2,1,061)_dos]:        20.039096184536
+<QC>      [lead(2,1,061)_trc]:         1.999874091437
+<QC>      [lead(2,1,062)_dos]:        16.067178024893
+<QC>      [lead(2,1,062)_trc]:         1.999899049614
+<QC>      [lead(2,1,063)_dos]:        14.227620321908
+<QC>      [lead(2,1,063)_trc]:         1.999910608388
+<QC>      [lead(2,1,064)_dos]:        13.154408016959
+<QC>      [lead(2,1,064)_trc]:         1.999917352000
+<QC>      [lead(2,1,065)_dos]:        12.452990006777
+<QC>      [lead(2,1,065)_trc]:         1.999921759722
+<QC>      [lead(2,1,066)_dos]:        11.963548719214
+<QC>      [lead(2,1,066)_trc]:         1.999924835917
+<QC>      [lead(2,1,067)_dos]:        11.608417380900
+<QC>      [lead(2,1,067)_trc]:         1.999927068999
+<QC>      [lead(2,1,068)_dos]:        11.345364048745
+<QC>      [lead(2,1,068)_trc]:         1.999928725657
+<QC>      [lead(2,1,069)_dos]:        11.150330147983
+<QC>      [lead(2,1,069)_trc]:         1.999929964301
+<QC>      [lead(2,1,070)_dos]:        11.038185892586
+<QC>      [lead(2,1,070)_trc]:         1.999930988592
+<QC>      [lead(2,1,071)_dos]:        51.714180265485
+<QC>      [lead(2,1,071)_trc]:         2.999675085359
+<QC>      [lead(2,1,072)_dos]:        38.227097682161
+<QC>      [lead(2,1,072)_trc]:         2.999759825752
+<QC>      [lead(2,1,073)_dos]:        33.195055708738
+<QC>      [lead(2,1,073)_trc]:         2.999791439873
+<QC>      [lead(2,1,074)_dos]:        30.498935536137
+<QC>      [lead(2,1,074)_trc]:         2.999808378216
+<QC>      [lead(2,1,075)_dos]:        28.864188895262
+<QC>      [lead(2,1,075)_trc]:         2.999818648381
+<QC>      [lead(2,1,076)_dos]:        27.845205999843
+<QC>      [lead(2,1,076)_trc]:         2.999825049834
+<QC>      [lead(2,1,077)_dos]:        27.259591114384
+<QC>      [lead(2,1,077)_trc]:         2.999828728235
+<QC>      [lead(2,1,078)_dos]:        27.067408755559
+<QC>      [lead(2,1,078)_trc]:         2.999829933489
+<QC>      [lead(2,1,079)_dos]:        27.583522622847
+<QC>      [lead(2,1,079)_trc]:         2.999826662098
+<QC>      [lead(2,1,080)_dos]:        31.182307571297
+<QC>      [lead(2,1,080)_trc]:         2.999803579340
+<QC>      [lead(2,1,081)_dos]:        11.414488229995
+<QC>      [lead(2,1,081)_trc]:         1.999928880286
+<QC>      [lead(2,1,082)_dos]:        24.644751659511
+<QC>      [lead(2,1,082)_trc]:         2.999845154288
+<QC>      [lead(2,1,083)_dos]:        25.601171069274
+<QC>      [lead(2,1,083)_trc]:         2.999839146472
+<QC>      [lead(2,1,084)_dos]:        26.430128936312
+<QC>      [lead(2,1,084)_trc]:         2.999833939243
+<QC>      [lead(2,1,085)_dos]:        27.338503513916
+<QC>      [lead(2,1,085)_trc]:         2.999828232629
+<QC>      [lead(2,1,086)_dos]:        28.426143577463
+<QC>      [lead(2,1,086)_trc]:         2.999821399546
+<QC>      [lead(2,1,087)_dos]:        29.778794393848
+<QC>      [lead(2,1,087)_trc]:         2.999812901391
+<QC>      [lead(2,1,088)_dos]:        31.506929092216
+<QC>      [lead(2,1,088)_trc]:         2.999802044153
+<QC>      [lead(2,1,089)_dos]:        33.784639466334
+<QC>      [lead(2,1,089)_trc]:         2.999787734102
+<QC>      [lead(2,1,090)_dos]:        36.926754779023
+<QC>      [lead(2,1,090)_trc]:         2.999767993290
+<QC>      [lead(2,1,091)_dos]:        41.601248945904
+<QC>      [lead(2,1,091)_trc]:         2.999738624988
+<QC>      [lead(2,1,092)_dos]:        49.649017851895
+<QC>      [lead(2,1,092)_trc]:         2.999688062481
+<QC>      [lead(2,1,093)_dos]:        70.407372407169
+<QC>      [lead(2,1,093)_trc]:         2.999557616543
+<QC>      [lead(2,1,094)_dos]:        25.539706314629
+<QC>      [lead(2,1,094)_trc]:         1.999839807045
+<QC>      [lead(2,1,095)_dos]:        35.326319017405
+<QC>      [lead(2,1,095)_trc]:         1.999778067452
+<QC>      [lead(2,1,096)_dos]:       192.263978079173
+<QC>      [lead(2,1,096)_trc]:         1.998780884105
+<QC>      [lead(2,1,097)_dos]:         0.004131759032
+<QC>      [lead(2,1,097)_trc]:         0.000000004031
+<QC>      [lead(2,1,098)_dos]:         0.001796005476
+<QC>      [lead(2,1,098)_trc]:         0.000000000671
+<QC>      [lead(2,1,099)_dos]:         0.001119976615
+<QC>      [lead(2,1,099)_trc]:         0.000000000237
+<QC>      [lead(2,1,100)_dos]:         0.000798088944
+<QC>      [lead(2,1,100)_trc]:         0.000000000113
+<QC>      [lead(2,1,101)_dos]:         0.000610449371
+<QC>      [lead(2,1,101)_trc]:         0.000000000064
+<QC>       [lcr(1,1,001)_dos]:        61.771057406232
+<QC>       [lcr(1,1,001)_trc]:         0.086306612941
+<QC>       [lcr(1,1,002)_dos]:        59.241638586415
+<QC>       [lcr(1,1,002)_trc]:         0.068096036981
+<QC>       [lcr(1,1,003)_dos]:        64.064237001327
+<QC>       [lcr(1,1,003)_trc]:         0.067739306045
+<QC>       [lcr(1,1,004)_dos]:        68.036194302798
+<QC>       [lcr(1,1,004)_trc]:         0.063528380874
+<QC>       [lcr(1,1,005)_dos]:        75.250535405765
+<QC>       [lcr(1,1,005)_trc]:         0.054818979263
+<QC>       [lcr(1,1,006)_dos]:        88.899195676861
+<QC>       [lcr(1,1,006)_trc]:         0.041530841503
+<QC>       [lcr(1,1,007)_dos]:        95.187751328751
+<QC>       [lcr(1,1,007)_trc]:         0.028033357031
+<QC>       [lcr(1,1,008)_dos]:       147.001155026698
+<QC>       [lcr(1,1,008)_trc]:         0.019733530468
+<QC>       [lcr(1,1,009)_dos]:         0.053404498059
+<QC>       [lcr(1,1,009)_trc]:         0.000000000002
+<QC>       [lcr(1,1,010)_dos]:         0.005879112934
+<QC>       [lcr(1,1,010)_trc]:         0.000000000000
+<QC>       [lcr(1,1,011)_dos]:         0.002803527836
+<QC>       [lcr(1,1,011)_trc]:         0.000000000000
+<QC>       [lcr(1,1,012)_dos]:         0.001848459907
+<QC>       [lcr(1,1,012)_trc]:         0.000000000000
+<QC>       [lcr(1,1,013)_dos]:         0.001426353738
+<QC>       [lcr(1,1,013)_trc]:         0.000000000000
+<QC>       [lcr(1,1,014)_dos]:         0.001212535404
+<QC>       [lcr(1,1,014)_trc]:         0.000000000000
+<QC>       [lcr(1,1,015)_dos]:         0.001103387672
+<QC>       [lcr(1,1,015)_trc]:         0.000000000000
+<QC>       [lcr(1,1,016)_dos]:         0.001058110379
+<QC>       [lcr(1,1,016)_trc]:         0.000000000000
+<QC>       [lcr(1,1,017)_dos]:         0.001059689448
+<QC>       [lcr(1,1,017)_trc]:         0.000000000000
+<QC>       [lcr(1,1,018)_dos]:         0.001102721838
+<QC>       [lcr(1,1,018)_trc]:         0.000000000000
+<QC>       [lcr(1,1,019)_dos]:         0.001189642507
+<QC>       [lcr(1,1,019)_trc]:         0.000000000000
+<QC>       [lcr(1,1,020)_dos]:         0.001330856266
+<QC>       [lcr(1,1,020)_trc]:         0.000000000000
+<QC>       [lcr(1,1,021)_dos]:         0.001548439577
+<QC>       [lcr(1,1,021)_trc]:         0.000000000000
+<QC>       [lcr(1,1,022)_dos]:         0.001886250936
+<QC>       [lcr(1,1,022)_trc]:         0.000000000000
+<QC>       [lcr(1,1,023)_dos]:         0.002436583256
+<QC>       [lcr(1,1,023)_trc]:         0.000000000000
+<QC>       [lcr(1,1,024)_dos]:         0.003420906235
+<QC>       [lcr(1,1,024)_trc]:         0.000000000000
+<QC>       [lcr(1,1,025)_dos]:         0.005505640623
+<QC>       [lcr(1,1,025)_trc]:         0.000000000000
+<QC>       [lcr(1,1,026)_dos]:         0.011784445795
+<QC>       [lcr(1,1,026)_trc]:         0.000000000000
+<QC>       [lcr(1,1,027)_dos]:         0.085108619013
+<QC>       [lcr(1,1,027)_trc]:         0.000000000000
+<QC>       [lcr(1,1,028)_dos]:       394.767578122069
+<QC>       [lcr(1,1,028)_trc]:         0.000203869335
+<QC>       [lcr(1,1,029)_dos]:       274.981122097930
+<QC>       [lcr(1,1,029)_trc]:         0.000730441449
+<QC>       [lcr(1,1,030)_dos]:       210.513890187708
+<QC>       [lcr(1,1,030)_trc]:         0.001052763060
+<QC>       [lcr(1,1,031)_dos]:       178.639820465449
+<QC>       [lcr(1,1,031)_trc]:         0.001306450271
+<QC>       [lcr(1,1,032)_dos]:       163.955941289255
+<QC>       [lcr(1,1,032)_trc]:         0.001601137034
+<QC>       [lcr(1,1,033)_dos]:       150.455354411791
+<QC>       [lcr(1,1,033)_trc]:         0.001814810791
+<QC>       [lcr(1,1,034)_dos]:       149.023833737391
+<QC>       [lcr(1,1,034)_trc]:         0.002105224154
+<QC>       [lcr(1,1,035)_dos]:       141.211859845399
+<QC>       [lcr(1,1,035)_trc]:         0.002327304161
+<QC>       [lcr(1,1,036)_dos]:       133.259354902177
+<QC>       [lcr(1,1,036)_trc]:         0.002449776108
+<QC>       [lcr(1,1,037)_dos]:       139.503693787677
+<QC>       [lcr(1,1,037)_trc]:         0.002422788214
+<QC>       [lcr(1,1,038)_dos]:       148.794832157671
+<QC>       [lcr(1,1,038)_trc]:         0.002232497272
+<QC>       [lcr(1,1,039)_dos]:       139.383214398063
+<QC>       [lcr(1,1,039)_trc]:         0.001923575460
+<QC>       [lcr(1,1,040)_dos]:       136.068906937417
+<QC>       [lcr(1,1,040)_trc]:         0.001568076061
+<QC>       [lcr(1,1,041)_dos]:       214.425921541635
+<QC>       [lcr(1,1,041)_trc]:         0.001172545396
+<QC>       [lcr(1,1,042)_dos]:       314.185222934821
+<QC>       [lcr(1,1,042)_trc]:         0.000439265397
+<QC>       [lcr(1,1,043)_dos]:         0.013843777823
+<QC>       [lcr(1,1,043)_trc]:         0.000000000000
+<QC>       [lcr(1,1,044)_dos]:         0.005202977209
+<QC>       [lcr(1,1,044)_trc]:         0.000000000000
+<QC>       [lcr(1,1,045)_dos]:         0.003105659423
+<QC>       [lcr(1,1,045)_trc]:         0.000000000000
+<QC>       [lcr(1,1,046)_dos]:         0.002218503241
+<QC>       [lcr(1,1,046)_trc]:         0.000000000000
+<QC>       [lcr(1,1,047)_dos]:         0.001751185058
+<QC>       [lcr(1,1,047)_trc]:         0.000000000000
+<QC>       [lcr(1,1,048)_dos]:         0.001477414090
+<QC>       [lcr(1,1,048)_trc]:         0.000000000000
+<QC>       [lcr(1,1,049)_dos]:         0.001310397864
+<QC>       [lcr(1,1,049)_trc]:         0.000000000000
+<QC>       [lcr(1,1,050)_dos]:         0.001211215641
+<QC>       [lcr(1,1,050)_trc]:         0.000000000000
+<QC>       [lcr(1,1,051)_dos]:         0.001161429560
+<QC>       [lcr(1,1,051)_trc]:         0.000000000000
+<QC>       [lcr(1,1,052)_dos]:         0.001153430474
+<QC>       [lcr(1,1,052)_trc]:         0.000000000000
+<QC>       [lcr(1,1,053)_dos]:         0.001187275550
+<QC>       [lcr(1,1,053)_trc]:         0.000000000000
+<QC>       [lcr(1,1,054)_dos]:         0.001271190288
+<QC>       [lcr(1,1,054)_trc]:         0.000000000000
+<QC>       [lcr(1,1,055)_dos]:         0.001426484481
+<QC>       [lcr(1,1,055)_trc]:         0.000000000000
+<QC>       [lcr(1,1,056)_dos]:         0.001702868549
+<QC>       [lcr(1,1,056)_trc]:         0.000000000000
+<QC>       [lcr(1,1,057)_dos]:         0.002229849989
+<QC>       [lcr(1,1,057)_trc]:         0.000000000000
+<QC>       [lcr(1,1,058)_dos]:         0.003451848889
+<QC>       [lcr(1,1,058)_trc]:         0.000000000000
+<QC>       [lcr(1,1,059)_dos]:         0.008393235887
+<QC>       [lcr(1,1,059)_trc]:         0.000000000000
+<QC>       [lcr(1,1,060)_dos]:       141.394016743497
+<QC>       [lcr(1,1,060)_trc]:         0.000099454604
+<QC>       [lcr(1,1,061)_dos]:       159.151589694878
+<QC>       [lcr(1,1,061)_trc]:         0.000377997667
+<QC>       [lcr(1,1,062)_dos]:       121.606349421965
+<QC>       [lcr(1,1,062)_trc]:         0.000630313438
+<QC>       [lcr(1,1,063)_dos]:        91.727333859085
+<QC>       [lcr(1,1,063)_trc]:         0.000842279491
+<QC>       [lcr(1,1,064)_dos]:        77.860046170367
+<QC>       [lcr(1,1,064)_trc]:         0.001010466835
+<QC>       [lcr(1,1,065)_dos]:        74.621480939623
+<QC>       [lcr(1,1,065)_trc]:         0.001139335517
+<QC>       [lcr(1,1,066)_dos]:        75.076359109785
+<QC>       [lcr(1,1,066)_trc]:         0.001236725354
+<QC>       [lcr(1,1,067)_dos]:        74.857026310983
+<QC>       [lcr(1,1,067)_trc]:         0.001310745930
+<QC>       [lcr(1,1,068)_dos]:        72.577041299379
+<QC>       [lcr(1,1,068)_trc]:         0.001368299830
+<QC>       [lcr(1,1,069)_dos]:        68.823428903435
+<QC>       [lcr(1,1,069)_trc]:         0.001414672546
+<QC>       [lcr(1,1,070)_dos]:       156.931539142547
+<QC>       [lcr(1,1,070)_trc]:         0.001453638797
+<QC>       [lcr(1,1,071)_dos]:       208.454473436606
+<QC>       [lcr(1,1,071)_trc]:         0.002780726423
+<QC>       [lcr(1,1,072)_dos]:       142.364087179834
+<QC>       [lcr(1,1,072)_trc]:         0.005550453736
+<QC>       [lcr(1,1,073)_dos]:       140.569407084698
+<QC>       [lcr(1,1,073)_trc]:         0.009354884817
+<QC>       [lcr(1,1,074)_dos]:       137.380911460946
+<QC>       [lcr(1,1,074)_trc]:         0.012866020353
+<QC>       [lcr(1,1,075)_dos]:       123.329545773775
+<QC>       [lcr(1,1,075)_trc]:         0.014965301864
+<QC>       [lcr(1,1,076)_dos]:       113.766548740640
+<QC>       [lcr(1,1,076)_trc]:         0.016142637516
+<QC>       [lcr(1,1,077)_dos]:       110.815482567127
+<QC>       [lcr(1,1,077)_trc]:         0.017545179207
+<QC>       [lcr(1,1,078)_dos]:       111.515389478431
+<QC>       [lcr(1,1,078)_trc]:         0.020147801246
+<QC>       [lcr(1,1,079)_dos]:       118.916006475818
+<QC>       [lcr(1,1,079)_trc]:         0.025543492362
+<QC>       [lcr(1,1,080)_dos]:       124.063247563381
+<QC>       [lcr(1,1,080)_trc]:         0.043015717325
+<QC>       [lcr(1,1,081)_dos]:        62.249392785444
+<QC>       [lcr(1,1,081)_trc]:         0.001548046833
+<QC>       [lcr(1,1,082)_dos]:       106.774495347155
+<QC>       [lcr(1,1,082)_trc]:         0.022882642126
+<QC>       [lcr(1,1,083)_dos]:       114.756038657078
+<QC>       [lcr(1,1,083)_trc]:         0.031407714671
+<QC>       [lcr(1,1,084)_dos]:       115.953708844615
+<QC>       [lcr(1,1,084)_trc]:         0.034954351241
+<QC>       [lcr(1,1,085)_dos]:       113.885544533090
+<QC>       [lcr(1,1,085)_trc]:         0.034403666417
+<QC>       [lcr(1,1,086)_dos]:       113.710804769119
+<QC>       [lcr(1,1,086)_trc]:         0.031099377078
+<QC>       [lcr(1,1,087)_dos]:       119.172963645871
+<QC>       [lcr(1,1,087)_trc]:         0.026871206362
+<QC>       [lcr(1,1,088)_dos]:       129.803528141137
+<QC>       [lcr(1,1,088)_trc]:         0.023073995200
+<QC>       [lcr(1,1,089)_dos]:       140.980841405382
+<QC>       [lcr(1,1,089)_trc]:         0.020342464148
+<QC>       [lcr(1,1,090)_dos]:       146.444548682366
+<QC>       [lcr(1,1,090)_trc]:         0.018849033416
+<QC>       [lcr(1,1,091)_dos]:       147.246997662906
+<QC>       [lcr(1,1,091)_trc]:         0.018443170207
+<QC>       [lcr(1,1,092)_dos]:       182.466376775311
+<QC>       [lcr(1,1,092)_trc]:         0.017673973397
+<QC>       [lcr(1,1,093)_dos]:       304.299304427914
+<QC>       [lcr(1,1,093)_trc]:         0.008865978483
+<QC>       [lcr(1,1,094)_dos]:       133.273564300245
+<QC>       [lcr(1,1,094)_trc]:         0.000365718966
+<QC>       [lcr(1,1,095)_dos]:       226.005060479412
+<QC>       [lcr(1,1,095)_trc]:         0.000226019784
+<QC>       [lcr(1,1,096)_dos]:        42.117494442256
+<QC>       [lcr(1,1,096)_trc]:         0.000000006519
+<QC>       [lcr(1,1,097)_dos]:         0.009241473920
+<QC>       [lcr(1,1,097)_trc]:         0.000000000000
+<QC>       [lcr(1,1,098)_dos]:         0.004448506611
+<QC>       [lcr(1,1,098)_trc]:         0.000000000000
+<QC>       [lcr(1,1,099)_dos]:         0.002855407994
+<QC>       [lcr(1,1,099)_trc]:         0.000000000000
+<QC>       [lcr(1,1,100)_dos]:         0.002074350999
+<QC>       [lcr(1,1,100)_trc]:         0.000000000000
+<QC>       [lcr(1,1,101)_dos]:         0.001618616554
+<QC>       [lcr(1,1,101)_trc]:         0.000000000000
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:       5.179s on      4 proc(s)                                    
+TOTAL TIME:         5.179s on      4 proc(s)                                    
+==================== AVERAGE TIMINGS FROM ALL PROCS (SELF) =====================
+++ TAG                                    #calls    cpu time   %total  Gflops ++
+++ sparse_set_to_garbage                :     4        0.00s   0.000%  ------ ++
+++ neighbour_list_populate              :     1        0.00s   0.002%  ------ ++
+++ pseudopotentials_nonlocal_mat        :     1        0.00s   0.002%  ------ ++
+++ onetep.F90 final imbalance           :     1        0.00s   0.003%  ------ ++
+++ ngwf_gradient_coeffs                 :     1        0.00s   0.005%  ------ ++
+++ sparse_embed_hotelling_invert_embed  :     1        0.00s   0.006%  ------ ++
+++ greenf_init_blocking                 :     1        0.00s   0.008%  ------ ++
+++ density_fftbox_deposit_to_cell       :   240        0.00s   0.012%  ------ ++
+++ greenf_get_block                     :    25        0.00s   0.014%  ------ ++
+++ basis_extract_function_from_box      :    45        0.00s   0.025%  ------ ++
+++ onetep.F90 main loop imbalance       :     1        0.00s   0.032%  ------ ++
+++ greenf_dos                           :    25        0.00s   0.033%  ------ ++
+++ eigenstates_calculate                :     1        0.00s   0.034%  ------ ++
+++ kernel_fix                           :     5        0.00s   0.044%  ------ ++
+++ greenf_init_matrices                 :     1        0.00s   0.056%  ------ ++
+++ lnv_gradient_norm                    :     5        0.00s   0.060%  ------ ++
+++ properties_calculate                 :     1        0.00s   0.062%  ------ ++
+++ projectors_func_ovlp_box             :     1        0.00s   0.062%  ------ ++
+++ greenf_prepare_inverse               :    25        0.00s   0.072%  ------ ++
+++ hartree_on_grid                      :    11        0.00s   0.083%  ------ ++
+++ kernel_purify                        :    16        0.00s   0.086%  ------ ++
+++ sparse_init                          :     1        0.01s   0.098%  ------ ++
+++ linalg_zgeev                         :    50        0.01s   0.100%  ------ ++
+++ integrals_locpot_dbl_grid            :     7        0.01s   0.101%  ------ ++
+++ etrans_calculate_lead_potential      :     2        0.01s   0.118%  ------ ++
+++ projectors_init_fftbox_recip         :     3        0.01s   0.126%  ------ ++
+++ function_ops_brappd_ketppd           :     1        0.01s   0.128%  ------ ++
+++ dense_eigensolve                     :     1        0.01s   0.130%  ------ ++
+++ etrans_eigchan_coeffs_dem            :     1        0.01s   0.163%  ------ ++
+++ sparse_trace                         :   212        0.01s   0.176%  ------ ++
+++ pseudopotentials_local_on_grid       :     1        0.01s   0.218%  ------ ++
+++ palser_mano_kernel_optimise          :     1        0.01s   0.229%  ------ ++
+++ integrals_kinetic                    :     1        0.01s   0.233%  ------ ++
+++ dense_normal_eigensolve              :     5        0.01s   0.279%  ------ ++
+++ pseudo_make_structure_factor         :     1        0.02s   0.366%  ------ ++
+++ lnv_denskernel_optimise_cg           :     1        0.02s   0.409%  ------ ++
+++ energy_and_force_calculate           :     1        0.02s   0.468%  ------ ++
+++ fourier_apply_box_pair               :    56        0.03s   0.615%  44.485 ++
+++ basis_copy_function_to_box           :   405        0.03s   0.621%  ------ ++
+++ ewald_calculate_energy               :     1        0.03s   0.621%  ------ ++
+++ ngwf_gradient_lnv                    :     1        0.03s   0.647%  ------ ++
+++ density_batch_interp_deposit         :    20        0.03s   0.649%  ------ ++
+++ etrans_calculate                     :     1        0.03s   0.656%  ------ ++
+++ density_batch_row_sums               :    20        0.04s   0.685%  ------ ++
+++ density_init_guess_real              :     1        0.04s   0.797%  ------ ++
+++ ngwf_cg_optimise                     :     1        0.05s   0.877%  ------ ++
+++ sparse_product                       :   313        0.05s   0.929%  ------ ++
+++ fourier_apply_cell_backward          :    12        0.05s   0.987%  11.178 ++
+++ fourier_apply_cell_forward           :    11        0.05s   1.053%   9.598 ++
+++ projectors_gradient_batch            :     2        0.06s   1.065%  ------ ++
+++ ngwfs_initialise_from_radial         :     1        0.07s   1.316%  ------ ++
+++ density_on_dbl_grid                  :    10        0.08s   1.548%  ------ ++
+++ cell_grid_extract_box_real           :   192        0.09s   1.814%  ------ ++
+++ energy_and_force_init_cell           :     1        0.10s   1.985%  ------ ++
+++ xc_energy_potential                  :    11        0.10s   1.993%  ------ ++
+++ integrals_locpot_mat_els_batch       :    14        0.10s   2.017%  ------ ++
+++ basis_dot_function_with_box          :  6036        0.11s   2.038%  ------ ++
+++ cell_grid_deposit_box_real           :   246        0.11s   2.087%  ------ ++
+++ ngwf_gradient_batch                  :     2        0.12s   2.260%  ------ ++
+++ ngwf_gradient_build_batch            :     2        0.15s   2.816%  ------ ++
+++ basis_add_function_to_box            : 11046        0.16s   3.104%  ------ ++
+++ hamiltonian_lhxc_calculate           :    10        0.18s   3.421%  ------ ++
+++ main_program_(onetep.F90)            :     1        0.36s   6.972%  ------ ++
+++ potential_apply_to_ngwf_batch        :    14        0.52s   9.979%  ------ ++
+++ density_fftbox_interpolate_multiply  :   240        0.62s  12.023%  ------ ++
+++ fourier_apply_box                    :   947        1.57s  30.362%  73.324 ++
+================================================================================
+Overhead of generating timer report: 
+- 0 ms averaging over threads,
+- 0 ms ensuring consistency across MPI ranks,
+- 0 ms printing in order.
+
+Job completed: 21-09-2022 10:38 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

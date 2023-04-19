@@ -1,0 +1,73 @@
+TASK TRANSITIONSTATESEARCH
+CUTOFF_ENERGY 300.000000 eV
+tssearch_method : NEB
+
+num_images : 2
+neb_update_method : FIRE
+neb_ci_delay : -2
+neb_max_iter : 2
+
+use_space_filling_curve F
+
+output_detail VERBOSE
+print_qc : T
+
+maxit_ngwf_cg : 4
+
+write_xyz T
+write_denskern F
+write_tightbox_ngwfs F
+
+xc_functional : PBE
+
+%block lattice_cart
+37.794526259999998      0.000000000000000       0.000000000000000
+0.000000000000000       37.794526259999998      0.000000000000000
+0.000000000000000       0.000000000000000       37.794526259999998
+%endblock lattice_cart
+
+%block species_constraints
+C1 FIXED
+%endblock species_constraints
+
+%block species
+C1 C 6 4 8
+C2 C 6 4 8
+O1 O 8 4 8
+H1 H 1 1 8
+%endblock species
+
+%block species_pot
+C1 "../../pseudo/carbon.recpot"
+C2 "../../pseudo/carbon.recpot"
+O1 "../../pseudo/oxygen.recpot"
+H1 "../../pseudo/hydrogen.recpot"
+%endblock species_pot
+
+%BLOCK POSITIONS_ABS
+ang
+C1    10.743619    9.991524    8.290049
+C2     9.294952   10.153656    8.131321
+O1     9.854796    9.824178    9.419093
+O1     9.614409   12.484887   10.431765
+H1    11.373553   10.881270    8.338787
+H1    11.219906    9.069402    7.953781
+H1     8.700685    9.361556    7.670871
+H1     8.880538   11.164216    8.064278
+H1    10.352122   12.779385   10.994912
+H1     9.736573   11.518574   10.339450
+%ENDBLOCK POSITIONS_ABS
+
+%BLOCK POSITIONS_ABS_PRODUCT
+ang
+C1    10.743618    9.991523    8.290048
+C2     9.257676   10.148578    8.001786
+O1     8.515565    9.349703    8.922931
+O1    11.085846   10.723562    9.470280
+H1    11.310790   10.376324    7.422704
+H1    10.971950    8.918387    8.406064
+H1     9.062188    9.838146    6.957195
+H1     9.005708   11.219316    8.103951
+H1    11.766609   10.235735    9.956380
+H1     7.601825    9.673334    8.949047
+%ENDBLOCK POSITIONS_ABS_PRODUCT

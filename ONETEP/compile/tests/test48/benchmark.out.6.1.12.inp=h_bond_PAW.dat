@@ -1,0 +1,2533 @@
+==================================================================================
+It's Wed Sep 21 10:47:58 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 9740 9741 9742 9743)...
+    - ONETEP arguments: h_bond_PAW.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test48
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test48/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test48/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack h_bond_PAW.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:48 (+0100)
+ 
+Reading parameters from file "h_bond_PAW.dat" ...
+
+WARNING: "cutoff_energy" not specified, using a default of  544.22769eV.
+
+... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+   Determining the default number of threads...
+      No default threads set at compilation time: defaulting to 1.
+      OpenMP library call suggests 10 threads.
+      Hybrid MPI-OpenMP compilation detected.
+      Number of MPI processes > 1.
+      OMP_NUM_THREADS environment variable present and
+      its value matches the one obtained from the OpenMP library call.
+      Using this value as default.
+      Default threads: 10
+      Default applies to threads_max and threads_num_fftboxes.
+      Settings in the input file override this default.
+   ... done
+
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     P  P  P     |
+BC: | Local pseudopotential | pspot_bc [3]    |     P  P  P     |
+BC: | Van der Waals         | vdw_bc          |     P  P  P     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "h_bond_PAW.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+    
+  Number of PPD points along a3 set to 1.  This is 
+  the default value, it may have been provided also in the input file.
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                 :  SINGLEPOINT COND                                        
+print_qc             :  T                                                       
+output_detail        :  VERBOSE                                                 
+PAW                  :  T                                                       
+timings_level        :  0                                                       
+write_denskern       :  T                                                       
+write_tightbox_ngwfs :  T                                                       
+fine_grid_scale      :  3.0                                                     
+maxit_pen            :  0                                                       
+maxit_ngwf_cg        :  2                                                       
+homo_plot            : 0                                                        
+lumo_plot            : 0                                                        
+cube_format          : F                                                        
+cond_num_states      :  4                                                       
+cond_num_extra_states:  2                                                       
+cond_num_extra_its   :  2                                                       
+cond_calc_eels       :  T                                                       
+%block   lattice_cart                                                           
+51.00     0.00     0.00                                                         
+0.00    52.00     0.00                                                          
+0.00     0.00    46.20                                                          
+%endblock  lattice_cart                                                         
+%block  positions_abs                                                           
+     Hash =  -000007680475679851995160
+%endblock  positions_abs                                                        
+%block species                                                                  
+O    O    8    4    7.5                                                         
+C    C    6    4    7.5                                                         
+H    H    1    1    7.5                                                         
+%endblock species                                                               
+%block species_cond                                                             
+O    O    8    4    7.5                                                         
+C    C    6    4    7.5                                                         
+H    H    1    1    7.5                                                         
+%endblock species_cond                                                          
+%block species_pot                                                              
+O    "../../pseudo/oxygen.paw"                                                  
+C    "../../pseudo/carbon.paw"                                                  
+H    "../../pseudo/hydrogen.paw"                                                
+%endblock species_pot                                                           
+%block species_core_wf                                                          
+O    NONE                                                                       
+C    "../../pseudo/carbon.core_wf"                                              
+H    NONE                                                                       
+%endblock species_core_wf                                                       
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<<<< PAW Dataset information >>>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/oxygen.paw; rc = 1.31 bohr; shape type =  3; rshape = 1.31 bohr;
+  Atomic number:  8;  ionic charge:  6.000000
+    Partial Wave 1: l = 0
+    Partial Wave 2: l = 0
+    Partial Wave 3: l = 1
+    Partial Wave 4: l = 1
+  Core charge supplied for Nonlinear Core Corrections
+File: ../../pseudo/carbon.paw; rc = 1.40 bohr; shape type =  3; rshape = 1.30 bohr;
+  Atomic number:  6;  ionic charge:  4.000000
+    Partial Wave 1: l = 0
+    Partial Wave 2: l = 0
+    Partial Wave 3: l = 1
+    Partial Wave 4: l = 1
+  Core charge supplied for Nonlinear Core Corrections
+File: ../../pseudo/hydrogen.paw; rc = 0.90 bohr; shape type =  3; rshape = 0.90 bohr;
+  Atomic number:  1;  ionic charge:  1.000000
+    Partial Wave 1: l = 0
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms  Nvalngwfs Ncondngwfs  Nprojs
+  O          2         8         8        16
+  C          1         4         4         8
+  H          4         4         4         4
+.......   ......    ......    ......    ......
+Totals:      7        16        16        28
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   84 x  84 x  75
+                              FFT-box:   81 x  81 x  75
+                                  PPD:    6 x   6 x   1
+Grid space d1=  0.607142857143a0 (KE cutoff=  20.60735Eh = 560.75462eV)
+Grid space d2=  0.619047619048a0 (KE cutoff=  19.82238Eh = 539.39452eV)
+Grid space d3=  0.616000000000a0 (KE cutoff=  20.01901Eh = 544.74496eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     84    84    75
+          Real-space ('12') slabs/proc (min max mean):     18    19    18
+         Recip-space ('23') slabs/proc (min max mean):     10    11    10
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    168   168   150
+          Real-space ('12') slabs/proc (min max mean):     37    38    37
+         Recip-space ('23') slabs/proc (min max mean):     21    22    21
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+         Fine grid (whole simulation cell) dimensions:    252   252   226
+          Real-space ('12') slabs/proc (min max mean):     56    57    56
+         Recip-space ('23') slabs/proc (min max mean):     31    32    31
+********************************************************************************
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax):  929    0.0080818966    7.5000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   36    2  120.0000000000
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -9.3250758388   -7.6661650022   10.1554401425   -1.9146867623
+  2        -14.2171432471   -2.9183447191   13.8356397187   -1.9042693502
+  3        -15.0660442626   -3.1264850809   13.6371888771   -2.1001307209
+  4        -15.5652826813   -3.0498204616   13.7249424240   -2.1905517700
+  5        -15.7228902881   -3.0714601531   13.7041772844   -2.2272225381
+  6        -15.8005656217   -3.0660275873   13.7108584111   -2.2430742678
+  7        -15.8281584730   -3.0684732094   13.7086555608   -2.2495108926
+  8        -15.8405999476   -3.0682226087   13.7090987031   -2.2522291428
+  9        -15.8453106386   -3.0685428575   13.7088372860   -2.2533412564
+ 10        -15.8473373741   -3.0685663825   13.7088473442   -2.2538058510
+ 11        -15.8481316791   -3.0686150459   13.7088110779   -2.2539967575
+ 12        -15.8484650195   -3.0686259869   13.7088062138   -2.2540760432
+ 13        -15.8485981069   -3.0686341610   13.7088004675   -2.2541086810
+ 14        -15.8486532220   -3.0686367978   13.7087989368   -2.2541221871
+ 15        -15.8486754463   -3.0686382403   13.7087979509   -2.2541277488
+ 16        -15.8486845845   -3.0686387813   13.7087976102   -2.2541300446
+ 17        -15.8486882888   -3.0686390405   13.7087974348   -2.2541309896
+ 18        -15.8486898060   -3.0686391443   13.7087973670   -2.2541313789
+ 19        -15.8486904227   -3.0686391909   13.7087973354   -2.2541315391
+ 20        -15.8486906748   -3.0686392102   13.7087973226   -2.2541316050
+ 21        -15.8486907774   -3.0686392185   13.7087973169   -2.2541316320
+ 22        -15.8486908193   -3.0686392220   13.7087973145   -2.2541316432
+Atom SCF converged after  22 iterations to a total energy of    -15.84869082
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax):  929    0.0080818966    7.5000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   36    2  120.0000000000
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -5.1565440741   -1.2702631078    4.5135289522   -1.3596681301
+  2         -5.3206294649   -1.2936544893    4.4880864565   -1.3419198670
+  3         -5.3523966967   -1.3239166561    4.4549049268   -1.3321605689
+  4         -5.3693112385   -1.3337832801    4.4440645606   -1.3293825995
+  5         -5.3765668562   -1.3376536041    4.4398106716   -1.3285071176
+  6         -5.3796442559   -1.3391951569    4.4381159062   -1.3282404024
+  7         -5.3809385108   -1.3398157339    4.4374335305   -1.3281647458
+  8         -5.3814806858   -1.3400667347    4.4371574966   -1.3281465000
+  9         -5.3817072127   -1.3401685504    4.4370455137   -1.3281439281
+ 10         -5.3818016712   -1.3402099380    4.4369999884   -1.3281447715
+ 11         -5.3818409948   -1.3402267915    4.4369814480   -1.3281458527
+ 12         -5.3818573421   -1.3402336655    4.4369738853   -1.3281465813
+ 13         -5.3818641293   -1.3402364734    4.4369707958   -1.3281469906
+ 14         -5.3818669441   -1.3402376220    4.4369695319   -1.3281472013
+ 15         -5.3818681102   -1.3402380925    4.4369690141   -1.3281473043
+ 16         -5.3818685929   -1.3402382855    4.4369688017   -1.3281473530
+ 17         -5.3818687925   -1.3402383647    4.4369687144   -1.3281473755
+ 18         -5.3818688750   -1.3402383973    4.4369686786   -1.3281473856
+Atom SCF converged after  18 iterations to a total energy of     -5.38186887
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Real-space Grid (nr,dr,rmax):  929    0.0080818966    7.5000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   36    1  120.0000000000
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+  1         -0.3042244753   -0.2284524728    0.2820955595   -0.2294787404
+  2         -0.3906714436   -0.2254554753    0.2886621846   -0.2331041108
+  3         -0.4240990081   -0.2243266104    0.2906500660   -0.2347462634
+  4         -0.4361511173   -0.2242649010    0.2909008412   -0.2351209820
+  5         -0.4404887705   -0.2244048875    0.2907824744   -0.2351352983
+  6         -0.4420773383   -0.2245193344    0.2906590326   -0.2350911595
+  7         -0.4426721197   -0.2245851537    0.2905839194   -0.2350562637
+  8         -0.4428996824   -0.2246183844    0.2905451025   -0.2350363889
+  9         -0.4429884349   -0.2246341018    0.2905265213   -0.2350263812
+ 10         -0.4430236135   -0.2246412629    0.2905179962   -0.2350216461
+ 11         -0.4430377418   -0.2246444512    0.2905141841   -0.2350194847
+ 12         -0.4430434755   -0.2246458496    0.2905125072   -0.2350185198
+ 13         -0.4430458216   -0.2246464570    0.2905117776   -0.2350180953
+ 14         -0.4430467876   -0.2246467190    0.2905114624   -0.2350179103
+ 15         -0.4430471873   -0.2246468314    0.2905113270   -0.2350178303
+ 16         -0.4430473533   -0.2246468796    0.2905112690   -0.2350177958
+ 17         -0.4430474224   -0.2246469002    0.2905112442   -0.2350177810
+Atom SCF converged after  17 iterations to a total energy of     -0.44304742
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax):  929    0.0080818966    7.5000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   36    2  120.0000000000
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -9.3250758388   -7.6661650022   10.1554401425   -1.9146867623
+  2        -14.2171432471   -2.9183447191   13.8356397187   -1.9042693502
+  3        -15.0660442626   -3.1264850809   13.6371888771   -2.1001307209
+  4        -15.5652826813   -3.0498204616   13.7249424240   -2.1905517700
+  5        -15.7228902881   -3.0714601531   13.7041772844   -2.2272225381
+  6        -15.8005656217   -3.0660275873   13.7108584111   -2.2430742678
+  7        -15.8281584730   -3.0684732094   13.7086555608   -2.2495108926
+  8        -15.8405999476   -3.0682226087   13.7090987031   -2.2522291428
+  9        -15.8453106386   -3.0685428575   13.7088372860   -2.2533412564
+ 10        -15.8473373741   -3.0685663825   13.7088473442   -2.2538058510
+ 11        -15.8481316791   -3.0686150459   13.7088110779   -2.2539967575
+ 12        -15.8484650195   -3.0686259869   13.7088062138   -2.2540760432
+ 13        -15.8485981069   -3.0686341610   13.7088004675   -2.2541086810
+ 14        -15.8486532220   -3.0686367978   13.7087989368   -2.2541221871
+ 15        -15.8486754463   -3.0686382403   13.7087979509   -2.2541277488
+ 16        -15.8486845845   -3.0686387813   13.7087976102   -2.2541300446
+ 17        -15.8486882888   -3.0686390405   13.7087974348   -2.2541309896
+ 18        -15.8486898060   -3.0686391443   13.7087973670   -2.2541313789
+ 19        -15.8486904227   -3.0686391909   13.7087973354   -2.2541315391
+ 20        -15.8486906748   -3.0686392102   13.7087973226   -2.2541316050
+ 21        -15.8486907774   -3.0686392185   13.7087973169   -2.2541316320
+ 22        -15.8486908193   -3.0686392220   13.7087973145   -2.2541316432
+Atom SCF converged after  22 iterations to a total energy of    -15.84869082
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax):  929    0.0080818966    7.5000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   36    2  120.0000000000
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -5.1565440741   -1.2702631078    4.5135289522   -1.3596681301
+  2         -5.3206294649   -1.2936544893    4.4880864565   -1.3419198670
+  3         -5.3523966967   -1.3239166561    4.4549049268   -1.3321605689
+  4         -5.3693112385   -1.3337832801    4.4440645606   -1.3293825995
+  5         -5.3765668562   -1.3376536041    4.4398106716   -1.3285071176
+  6         -5.3796442559   -1.3391951569    4.4381159062   -1.3282404024
+  7         -5.3809385108   -1.3398157339    4.4374335305   -1.3281647458
+  8         -5.3814806858   -1.3400667347    4.4371574966   -1.3281465000
+  9         -5.3817072127   -1.3401685504    4.4370455137   -1.3281439281
+ 10         -5.3818016712   -1.3402099380    4.4369999884   -1.3281447715
+ 11         -5.3818409948   -1.3402267915    4.4369814480   -1.3281458527
+ 12         -5.3818573421   -1.3402336655    4.4369738853   -1.3281465813
+ 13         -5.3818641293   -1.3402364734    4.4369707958   -1.3281469906
+ 14         -5.3818669441   -1.3402376220    4.4369695319   -1.3281472013
+ 15         -5.3818681102   -1.3402380925    4.4369690141   -1.3281473043
+ 16         -5.3818685929   -1.3402382855    4.4369688017   -1.3281473530
+ 17         -5.3818687925   -1.3402383647    4.4369687144   -1.3281473755
+ 18         -5.3818688750   -1.3402383973    4.4369686786   -1.3281473856
+Atom SCF converged after  18 iterations to a total energy of     -5.38186887
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Real-space Grid (nr,dr,rmax):  929    0.0080818966    7.5000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   36    1  120.0000000000
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+  1         -0.3042244753   -0.2284524728    0.2820955595   -0.2294787404
+  2         -0.3906714436   -0.2254554753    0.2886621846   -0.2331041108
+  3         -0.4240990081   -0.2243266104    0.2906500660   -0.2347462634
+  4         -0.4361511173   -0.2242649010    0.2909008412   -0.2351209820
+  5         -0.4404887705   -0.2244048875    0.2907824744   -0.2351352983
+  6         -0.4420773383   -0.2245193344    0.2906590326   -0.2350911595
+  7         -0.4426721197   -0.2245851537    0.2905839194   -0.2350562637
+  8         -0.4428996824   -0.2246183844    0.2905451025   -0.2350363889
+  9         -0.4429884349   -0.2246341018    0.2905265213   -0.2350263812
+ 10         -0.4430236135   -0.2246412629    0.2905179962   -0.2350216461
+ 11         -0.4430377418   -0.2246444512    0.2905141841   -0.2350194847
+ 12         -0.4430434755   -0.2246458496    0.2905125072   -0.2350185198
+ 13         -0.4430458216   -0.2246464570    0.2905117776   -0.2350180953
+ 14         -0.4430467876   -0.2246467190    0.2905114624   -0.2350179103
+ 15         -0.4430471873   -0.2246468314    0.2905113270   -0.2350178303
+ 16         -0.4430473533   -0.2246468796    0.2905112690   -0.2350177958
+ 17         -0.4430474224   -0.2246469002    0.2905112442   -0.2350177810
+Atom SCF converged after  17 iterations to a total energy of     -0.44304742
+
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     P  P  P     |
+BC: | Local pseudopotential | pspot_bc [3]    |     P  P  P     |
+BC: | Van der Waals         | vdw_bc          |     P  P  P     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...
+... using space-filling curve
+... NGWF load balancing: max      5;  min      2;  average      4
+... Projector load balancing: max      9;  min      2;  average      7
+... done
+Calculating Ewald energy ...
+              Ewald: real-space energy =           27.216224
+        Ewald: reciprocal-space energy =            1.685107
+         Ewald: (sum_charge)**2 energy =            2.105033
+         Ewald: (sum_charge**2) energy =            2.561921
+                          Ewald energy =           24.234378
+Basis initialisation ...... NGWF spheres initialised
+... Projector spheres initialised
+... Core spheres initialised
+... NGWF tight boxes initialised
+... Projector tight boxes initialised
+... Core tight boxes initialised
+... Tight-boxes gathered
+... NGWF basis size (local,global):         15931        52920
+... PAW projector initialisation
+... done
+
+============================= Charge Augmentation ==============================
+                           Aug box size:   15 x  15 x  15
+================================================================================
+
+========================== Sparse matrix information ===========================
+                        Overlap matrix filling: 100.00%
+                        Density kernel filling: 100.00%
+              NGWF-Proj overlap matrix filling:  90.62%
+                    Aug Overlap matrix filling: 100.00%
+              NGWF-Core overlap matrix filling: 100.00%
+                    Hamiltonian matrix filling: 100.00%
+                  NGWF diagonal matrix filling:  20.31%
+                             KS matrix filling: 100.00% 
+                           KSKS matrix filling: 100.00% 
+================================================================================
+
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.33501855E+01     0.86337553E+00
+               2       0.29763708E+01     0.75035678E+00
+               3       0.25455871E+01     0.59223950E+00
+               4       0.21311962E+01     0.55620611E+00
+               5       0.17746481E+01     0.51168608E+00
+               6       0.14007899E+01     0.43700590E+00
+               7       0.95173848E+00     0.32474590E+00
+               8       0.51109244E+00     0.18771480E+00
+               9       0.17511168E+00     0.67439120E-01
+              10       0.22106791E-01     0.91500295E-02
+              11       0.37404456E-03     0.17003153E-03
+              12       0.12116961E-06     0.58742861E-07
+              13       0.14012624E-13     0.68833828E-14
+================================================================================
+Calculating core density ...
+================================= Core Density =================================
+               Core den box size:   25 x  25 x  25
+================================================================================
+ ... done
+Up spin density kernel initialisation ... 
+======= Optimisation of K by Palser-Manolopoulos canonical purification ======== 
+         Iteration  |  Band structure energy |    c_n   
+               1          -4.35581249016992    0.5657939
+               2          -4.56313788440191    0.5572032
+               3          -4.80501072664798    0.5540108
+               4          -5.05296901431056    0.5680329
+               5          -5.24789027120658    0.6139968
+               6          -5.35258581377827    0.6762339
+               7          -5.39389617212628    0.6830054
+               8          -5.41621116189928    0.6324154
+               9          -5.43613117167054    0.5714771
+              10          -5.45140991456938    0.5233220
+              11          -5.45829359261404    0.5027341
+              12          -5.45936380060109    0.5000391
+              13          -5.45938653154015    0.5000000
+              14          -5.45938654215071    0.5675161
+              15          -5.45938654215071    0.5675161
+Termination criterion satisfied: band energy change below threshold.
+Final occupancy bounds: [   -0.00000000000000:    1.00000000000000]
+Closest occupancy to 0.5:     1.00000000000000
+================================================================================
+... done
+
+Writing density kernel to file "h_bond_PAW.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:      20.00000000
+     Final electron number for spin 1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.346150064546
+             Q0:         -39.393427145391
+             G0:      -0.977966874363
+   RMS gradient:       0.061807629812
+    Initial Ne1:      20.00000000
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000839 (step -0.4982 Ne1=     20.0000)
+ RMS occupancy error at iteration   2:  0.000000 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    1        -3.939342714539E+01     6.1808E-02     4.9446E-02
+      ideal mu1:      -0.382670190885
+             Q0:         -39.477267713478
+             G0:      -0.865180693031
+   RMS gradient:       0.044418122647
+     Trial step:       0.500000000000
+             Q1:         -39.368213574777
+ Quadratic coef:       0.541644485215
+ Linear coef   :      -0.432590346515
+           Qmin:         -39.563640977217
+Quadratic minimum step length (  0.199665259374) accepted
+    Initial Ne1:      20.00000000
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.006848 (step -0.4854 Ne1=     20.0000)
+ RMS occupancy error at iteration   2:  0.000033 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    2        -3.947726771348E+01     4.4418E-02     3.5534E-02    -8.3841E-02
+      ideal mu1:      -0.463517180482
+             Q0:         -39.563068476155
+             G0:      -0.046095281934
+   RMS gradient:       0.013484894319
+     Trial step:       0.315963019492
+             Q1:         -39.572583401819
+ Quadratic coef:       0.005049478800
+ Linear coef   :      -0.014564404464
+           Qmin:         -39.573570643101
+Quadratic minimum step length (  0.455672099451) accepted
+    Initial Ne1:      19.99999985
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.003288 (step -0.4929 Ne1=     20.0000)
+ RMS occupancy error at iteration   2:  0.000010 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    3        -3.956306847615E+01     1.3485E-02     1.0788E-02    -8.5801E-02
+      ideal mu1:      -0.483997907363
+             Q0:         -39.573793899379
+             G0:      -0.015763255732
+   RMS gradient:       0.007760452213
+     Trial step:       0.379441079011
+             Q1:         -39.576771823859
+ Quadratic coef:       0.003003302284
+ Linear coef   :      -0.005981226764
+           Qmin:         -39.576771877470
+Quadratic minimum step length (  0.377837946815) accepted
+    Initial Ne1:      19.99999995
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.001368 (step -0.4972 Ne1=     20.0000)
+ RMS occupancy error at iteration   2:  0.000002 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    4        -3.957379389938E+01     7.7605E-03     6.2084E-03    -1.0725E-02
+      ideal mu1:      -0.479550031265
+    5        -3.957682477986E+01     4.4282E-03     3.5426E-03    -3.0309E-03
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "h_bond_PAW.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.95768247798647E+01  Eh
+     Estimated bandgap           =  -3.3083E-03  Eh
+     RMS occupancy error         =   9.3650E-12
+     [H,K] commutator            =   3.5426E-03
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.8024E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.86312152E-02     0.37293757E-02
+               2       0.20089198E-04     0.12457576E-04
+               3       0.19857089E-09     0.15112767E-09
+               4       0.17166760E-14     0.66613381E-15
+================================================================================
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.23447247E-01     0.92059446E-02
+               2       0.16909431E-03     0.84929994E-04
+               3       0.12194484E-07     0.72362107E-08
+               4       0.15169844E-14     0.55511151E-15
+================================================================================
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00380239923567
+Trial step length           =               0.122474
+Gradient along search dir.  =         -1.75997263232
+Functional at step 0        =     -39.57682477986467
+Functional at step 1        =     -39.75521473803784
+Functional predicted        =     -39.88939421147450
+Selected quadratic step     =               0.355198
+Conjugate gradients coeff.  =               0.000000
+--------------------------- NGWF line search finished --------------------------
+                                               
+Writing NGWFs to file "h_bond_PAW.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:      20.12029587
+     Final electron number for spin 1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.004021 (step -0.4921 Ne1=     20.0000)
+ RMS occupancy error at iteration   2:  0.000021 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.510562156724
+             Q0:         -39.889743851955
+             G0:      -0.093515589966
+   RMS gradient:       0.019112699268
+     Trial step:       0.378638664469
+             Q1:         -39.907122782616
+ Quadratic coef:       0.018029687431
+ Linear coef   :      -0.035408618092
+           Qmin:         -39.907128654658
+Quadratic minimum step length (  0.371805443555) accepted
+    Initial Ne1:      19.99999996
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.001251 (step -0.4967 Ne1=     20.0000)
+ RMS occupancy error at iteration   2:  0.000002 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    1        -3.988974385196E+01     1.9113E-02     1.5290E-02
+      ideal mu1:      -0.477339265124
+             Q0:         -39.907166068433
+             G0:      -0.007338046258
+   RMS gradient:       0.005336749180
+     Trial step:       0.375206498597
+             Q1:         -39.908848936042
+ Quadratic coef:       0.001070415034
+ Linear coef   :      -0.002753282643
+           Qmin:         -39.908936541818
+Quadratic minimum step length (  0.482546258793) accepted
+    Initial Ne1:      20.00000000
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000362 (step -0.4991 Ne1=     20.0000)
+ RMS occupancy error at iteration   2:  0.000000 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    2        -3.990716606843E+01     5.3367E-03     4.2694E-03    -1.7422E-02
+      ideal mu1:      -0.475094850948
+             Q0:         -39.908939648066
+             G0:      -0.001215922921
+   RMS gradient:       0.002177368143
+     Trial step:       0.425504984898
+             Q1:         -39.909258586098
+ Quadratic coef:       0.000198443232
+ Linear coef   :      -0.000517381264
+           Qmin:         -39.909276877219
+Quadratic minimum step length (  0.554688373392) accepted
+    Initial Ne1:      20.00000000
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000134 (step -0.4997 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    3        -3.990893964807E+01     2.1774E-03     1.7419E-03    -1.7736E-03
+      ideal mu1:      -0.476357718491
+             Q0:         -39.909277368789
+             G0:      -0.000371922677
+   RMS gradient:       0.001204304304
+     Trial step:       0.485821642111
+             Q1:         -39.909398528297
+ Quadratic coef:       0.000059528578
+ Linear coef   :      -0.000180688086
+           Qmin:         -39.909414480179
+Quadratic minimum step length (  0.737311264192) accepted
+    Initial Ne1:      20.00000067
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000091 (step -0.4998 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    4        -3.990927736879E+01     1.2043E-03     9.6344E-04    -3.3772E-04
+      ideal mu1:      -0.477218863612
+    5        -3.990941463439E+01     4.2651E-04     3.4121E-04    -1.3727E-04
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "h_bond_PAW.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.99094146343938E+01  Eh
+     Estimated bandgap           =   3.0947E-02  Eh
+     RMS occupancy error         =   1.3526E-08
+     [H,K] commutator            =   3.4121E-04
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.5928E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.14070124E-01     0.69424426E-02
+               2       0.84576984E-04     0.48720111E-04
+               3       0.42187758E-08     0.27784257E-08
+               4       0.14301185E-14     0.66613381E-15
+================================================================================
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.24172646E-01     0.11219917E-01
+               2       0.23181185E-03     0.12627863E-03
+               3       0.28814293E-07     0.17589493E-07
+               4       0.17924664E-14     0.66613381E-15
+================================================================================
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00159281093255
+Trial step length           =               0.208573
+Gradient along search dir.  =         -0.32502161807
+Functional at step 0        =     -39.90941463439383
+Functional at step 1        =     -39.96322762986391
+Functional predicted        =     -39.99160931568317
+Selected quadratic step     =               0.505780
+Conjugate gradients coeff.  =               0.175474
+--------------------------- NGWF line search finished --------------------------
+                                               
+Writing NGWFs to file "h_bond_PAW.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:      20.15712069
+     Final electron number for spin 1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.006211 (step -0.4854 Ne1=     20.0000)
+ RMS occupancy error at iteration   2:  0.000068 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.473182906968
+             Q0:         -39.991298801461
+             G0:      -0.011026166435
+   RMS gradient:       0.006562847144
+     Trial step:       0.598499598259
+             Q1:         -39.992545951055
+ Quadratic coef:       0.005352006588
+ Linear coef   :      -0.006599156182
+           Qmin:         -39.993333032062
+Quadratic minimum step length (  0.368982386194) accepted
+    Initial Ne1:      19.99999965
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000135 (step -0.4997 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    1        -3.999129880146E+01     6.5628E-03     5.2503E-03
+      ideal mu1:      -0.463412798956
+             Q0:         -39.993327833112
+             G0:      -0.001108945893
+   RMS gradient:       0.002081648233
+     Trial step:       0.469931707700
+             Q1:         -39.993592084607
+ Quadratic coef:       0.000256877343
+ Linear coef   :      -0.000521128837
+           Qmin:         -39.993592137529
+Quadratic minimum step length (  0.476676848418) accepted
+    Initial Ne1:      20.00000035
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000053 (step -0.4999 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    2        -3.999332783311E+01     2.0816E-03     1.6653E-03    -2.0290E-03
+      ideal mu1:      -0.462360032820
+             Q0:         -39.993592215052
+             G0:      -0.000159708149
+   RMS gradient:       0.000789606938
+     Trial step:       0.473292262136
+             Q1:         -39.993639682055
+ Quadratic coef:       0.000028121628
+ Linear coef   :      -0.000075588631
+           Qmin:         -39.993643009063
+Quadratic minimum step length (  0.636085402432) accepted
+    Initial Ne1:      20.00000010
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000020 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    3        -3.999359221505E+01     7.8961E-04     6.3169E-04    -2.6438E-04
+      ideal mu1:      -0.462530523238
+             Q0:         -39.993643019824
+             G0:      -0.000058074464
+   RMS gradient:       0.000476229997
+     Trial step:       0.548684152340
+             Q1:         -39.993663988766
+ Quadratic coef:       0.000010895597
+ Linear coef   :      -0.000031864538
+           Qmin:         -39.993666317052
+Quadratic minimum step length (  0.802322619850) accepted
+    Initial Ne1:      19.99999996
+      Final Ne1:      20.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000017 (step -0.5000 Ne1=     20.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=     20.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    4        -3.999364301982E+01     4.7623E-04     3.8098E-04    -5.0805E-05
+      ideal mu1:      -0.462313513115
+    5        -3.999366632671E+01     2.0959E-04     1.6767E-04    -2.3307E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "h_bond_PAW.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.99936663267073E+01  Eh
+     Estimated bandgap           =   5.2715E-02  Eh
+     RMS occupancy error         =   1.3225E-09
+     [H,K] commutator            =   1.6767E-04
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       16.04023461964318 |
+           | Core Hartree               :     -137.09726133336687 |
+           | CoreHart (non-coul chg cor):        0.00000000000000
+           | Hartree                    :       57.79178884913249 |
+           | Exchange-correlation       :       -7.41949583089166 |
+           | Ewald                      :       24.23437845403755 |
+           | Dij0                       :        9.64037645012727 |
+           | Dijhartree                 :       -0.07204573334577 |
+           | Exc [AE core]              :      -19.26323585436074 |
+           | Exc DC [AE core]           :       -9.54359395594899 |
+           | Exc [PS core]              :       -4.56658603445676 |
+           | Exc DC [PS core]           :       -5.97586766516080 |
+           | Exc [Core]                 :      -11.58500801785899 |
+           | Total [Sphere]             :        6.45668891473652 |
+           | Total                      :      -39.99366632670878 |
+           --------------------------------------------------------
+           ------ LOCAL ENERGY COMPONENTS FROM MATRIX TRACES ------
+           | Core Hartree               :     -137.09726133336051 |
+           | Hartree (Valence)          :       57.79178884912925 |
+           --------------------------------------------------------
+           Integrated compensation chrg.:        2.42880732309213
+           Integrated density           :       19.99999999999961
+           Integrated density tr(KS)    :       20.00000000000000
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00380239923567    -39.57682477986467   0.355198    -39.88939421147450        
+   1     0.00159281093255    -39.99366632670735  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -39.993666326707
+<QC>           [rms_gradient]:         0.001592810933
+
+WARNING: read_denskern overridden to T because of task COND.
+
+
+WARNING: read_tightbox_ngwfs overridden to T because of task COND.
+
+
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     P  P  P     |
+BC: | Local pseudopotential | pspot_bc [3]    |     P  P  P     |
+BC: | Van der Waals         | vdw_bc          |     P  P  P     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...
+... using space-filling curve
+... NGWF load balancing: max      5;  min      2;  average      4
+... Projector load balancing: max      9;  min      2;  average      7
+... Conduction NGWF load balancing: max      5;  min      2;  average      4
+... Joint NGWF load balancing: max     10;  min      4;  average      8
+... done
+Basis initialisation ...... NGWF spheres initialised
+... Projector spheres initialised
+... Core spheres initialised
+... Conduction NGWF spheres initialised
+... NGWF tight boxes initialised
+... Projector tight boxes initialised
+... Core tight boxes initialised
+... Conduction NGWF tight boxes initialised
+... Joint NGWF tight boxes initialised
+... Tight-boxes gathered
+... NGWF basis size (local,global):         15931        52920
+... Conduction NGWF basis size (local,global):         15931        52920
+... Joint NGWF basis size (local,global):         31722       105280
+... PAW projector initialisation
+... done
+
+============================= Charge Augmentation ==============================
+                           Aug box size:   15 x  15 x  15
+================================================================================
+
+========================== Sparse matrix information ===========================
+                        Overlap matrix filling: 100.00%
+                        Density kernel filling: 100.00%
+              NGWF-Proj overlap matrix filling:  90.62%
+                    Aug Overlap matrix filling: 100.00%
+              NGWF-Core overlap matrix filling: 100.00%
+                    Hamiltonian matrix filling: 100.00%
+                  NGWF diagonal matrix filling:  20.31%
+                             KS matrix filling: 100.00% 
+                           KSKS matrix filling: 100.00% 
+================================================================================
+
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "h_bond_PAW.tightbox_ngwfs" ...  done
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.33399331E+01     0.86091806E+00
+               2       0.29626242E+01     0.74612877E+00
+               3       0.25316413E+01     0.58997642E+00
+               4       0.21221781E+01     0.55423825E+00
+               5       0.17705290E+01     0.50971981E+00
+               6       0.13965647E+01     0.43506350E+00
+               7       0.94615966E+00     0.32280661E+00
+               8       0.50525572E+00     0.18581686E+00
+               9       0.17121474E+00     0.66104369E-01
+              10       0.21159740E-01     0.87896005E-02
+              11       0.34389997E-03     0.15688241E-03
+              12       0.10300182E-06     0.50004454E-07
+              13       0.10175625E-13     0.46629367E-14
+================================================================================
+Calculating core density ...
+================================= Core Density =================================
+               Core den box size:   25 x  25 x  25
+================================================================================
+ ... done
+
+Reading density kernel from file "h_bond_PAW.dkn" ... done
+
+===================== Conduction Sparse matrix information =====================
+                        Overlap matrix filling: 100.00%
+                        Density kernel filling: 100.00%
+              NGWF-Proj overlap matrix filling:  90.62%
+                    Aug Overlap matrix filling: 100.00%
+              NGWF-Core overlap matrix filling: 100.00%
+                    Hamiltonian matrix filling: 100.00%
+              NGWF-COND overlap matrix filling: 100.00%
+         Aug Trans Cross Overlap matrix filling: 100.00%
+              Aug Cross Overlap matrix filling: 100.00%
+        Proj. Cond. Hamiltonian matrix filling: 100.00%
+                  NGWF diagonal matrix filling:  20.31%
+                             KS matrix filling: 100.00% 
+                           KSKS matrix filling: 100.00% 
+================================================================================
+
+Conduction NGWF sparse matrix initialisation ... done
+Conduction NGWF initialisation ...... done
++------------------------------------------------------------------------------+
+|                   Starting conduction NGWF optimisation                      |
++------------------------------------------------------------------------------+
+
+Starting conduction NGWF pre-optimisation process
+
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.33501855E+01     0.86337553E+00
+               2       0.29763708E+01     0.75035678E+00
+               3       0.25455871E+01     0.59223950E+00
+               4       0.21311962E+01     0.55620611E+00
+               5       0.17746481E+01     0.51168608E+00
+               6       0.14007899E+01     0.43700590E+00
+               7       0.95173848E+00     0.32474590E+00
+               8       0.51109244E+00     0.18771480E+00
+               9       0.17511168E+00     0.67439120E-01
+              10       0.22106791E-01     0.91500295E-02
+              11       0.37404456E-03     0.17003153E-03
+              12       0.12116961E-06     0.58742861E-07
+              13       0.14012624E-13     0.68833828E-14
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.22420529668150    0.00000000000000
+
+Conduction shift updated:        0.32420529668150
+Generating conduction density kernel for     3 'occupied' orbitals
+Up spin density kernel initialisation ... 
+======= Optimisation of K by Palser-Manolopoulos canonical purification ======== 
+         Iteration  |  Band structure energy |    c_n   
+               1           0.19216340566330    0.3585975
+               2           0.12505280987038    0.3777314
+               3           0.08040278538748    0.3984795
+               4           0.05251246948184    0.4307912
+               5           0.02968666095878    0.4581309
+               6           0.01114789606462    0.4713081
+               7          -0.00081662127103    0.4812318
+               8          -0.00740381795000    0.4960042
+               9          -0.01090393609391    0.4998951
+              10          -0.01189041918992    0.4999999
+              11          -0.01195161618081    0.5000000
+              12          -0.01195183083522    0.5000324
+              13          -0.01195183083784    0.5000324
+Termination criterion satisfied: band energy change below threshold.
+Final occupancy bounds: [    0.00000000000000:    1.00000000000000]
+Closest occupancy to 0.5:     1.00000000000000
+================================================================================
+... done
+
+Writing density kernel to file "h_bond_PAW.dkn_cond" ... done
+
+Conduction Hamiltonian max eigenvalue, shift:    0.22420532961126    0.32420529668150
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       6.00000000
+     Final electron number for spin 1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.003983943613
+    1        -2.390366167568E-02      9.968E-16      4.211E-16
+
+                 ..............................................
+                 | RMS LNV GRADIENT=    0.00000000000000      |
+                 | LNV density kernel optimisation converged! |
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Writing density kernel to file "h_bond_PAW.dkn_cond" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -2.39036616756820E-02  Eh
+     Estimated gap above Kc      =   5.2665E-02  Eh
+     RMS occupancy error         =   1.4227E-16
+     [H,K] commutator            =   9.9682E-16
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+######################### COND NGWF CG iteration  001 ##########################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.4220E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.54867026E-02     0.15349323E-02
+               2       0.14584211E-04     0.43973421E-05
+               3       0.14228311E-09     0.42658321E-10
+               4       0.13098239E-14     0.44408921E-15
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.21702342218056    0.32420529668150
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.26673458E-01     0.75203205E-02
+               2       0.37999780E-03     0.12589522E-03
+               3       0.93952378E-07     0.31334392E-07
+               4       0.65209632E-14     0.19428903E-14
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.19923973028877    0.32420529668150
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00242204771488
+Trial step length           =               0.122474
+Gradient along search dir.  =         -0.71409480853
+Functional at step 0        =      -0.02390366167568
+Functional at step 1        =      -0.09967189611358
+Functional predicted        =      -0.18748077002014
+Selected quadratic step     =               0.458138
+Conjugate gradients coeff.  =               0.000000
+--------------------------- NGWF line search finished --------------------------
+                                               
+Writing NGWFs to file "h_bond_PAW.tightbox_ngwfs_cond"....  done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       6.08665262
+     Final electron number for spin 1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.005981 (step -0.4821 Ne1=      6.0000)
+ RMS occupancy error at iteration   2:  0.000058 (step -0.4999 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.031228219545
+             Q0:          -0.187369317268
+             G0:      -0.006035411233
+   RMS gradient:       0.004855494324
+     Trial step:       0.500000000000
+             Q1:          -0.189934478698
+ Quadratic coef:       0.000452544186
+ Linear coef   :      -0.003017705616
+           Qmin:          -0.192400067557
+Quadratic minimum step length (  1.667077882494) accepted
+    Initial Ne1:       5.99999879
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.002308 (step -0.4912 Ne1=      6.0000)
+ RMS occupancy error at iteration   2:  0.000008 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    1        -1.873693172683E-01     4.8555E-03     1.2948E-02
+      ideal mu1:      -0.032067091280
+             Q0:          -0.192402547678
+             G0:      -0.000312366118
+   RMS gradient:       0.001101688253
+     Trial step:       0.912983538322
+             Q1:          -0.192620549859
+ Quadratic coef:       0.000067182943
+ Linear coef   :      -0.000285185124
+           Qmin:          -0.192705193526
+Quadratic minimum step length (  1.937763610252) accepted
+    Initial Ne1:       5.99999990
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000386 (step -0.4986 Ne1=      6.0000)
+ RMS occupancy error at iteration   2:  0.000000 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    2        -1.924025476780E-01     1.1017E-03     2.9378E-03    -5.0332E-03
+      ideal mu1:      -0.032117751998
+             Q0:          -0.192706511986
+             G0:      -0.000135426824
+   RMS gradient:       0.000725448444
+     Trial step:       1.330092582236
+             Q1:          -0.192835709514
+ Quadratic coef:       0.000050932686
+ Linear coef   :      -0.000180130214
+           Qmin:          -0.192865775597
+Quadratic minimum step length (  2.352024610598) accepted
+    Initial Ne1:       5.99999995
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000422 (step -0.4984 Ne1=      6.0000)
+ RMS occupancy error at iteration   2:  0.000000 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    3        -1.927065119862E-01     7.2545E-04     1.9345E-03    -3.0396E-04
+      ideal mu1:      -0.032144449548
+             Q0:          -0.192866697287
+             G0:      -0.000010432476
+   RMS gradient:       0.000201165253
+     Trial step:       1.768731321539
+             Q1:          -0.192876039587
+ Quadratic coef:       0.000009109948
+ Linear coef   :      -0.000018452247
+           Qmin:          -0.192876041068
+Quadratic minimum step length (  1.791287306125) accepted
+    Initial Ne1:       6.00000000
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000037 (step -0.4999 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    4        -1.928666972873E-01     2.0117E-04     5.3644E-04    -1.6019E-04
+      ideal mu1:      -0.032146007860
+             Q0:          -0.192876047157
+             G0:      -0.000000419261
+   RMS gradient:       0.000040453872
+     Trial step:       1.779973585259
+             Q1:          -0.192876671014
+ Quadratic coef:       0.000000122416
+ Linear coef   :      -0.000000746273
+           Qmin:          -0.192877184514
+WARNING in lnv_denskernel_optimise_cg: setting quadratic optimal_step to safe
+value (Calculated optimal quadratic step=  5.425534145149)
+    Initial Ne1:       6.00000000
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    5        -1.928760471570E-01     4.0454E-05     1.0788E-04    -9.3499E-06
+      ideal mu1:      -0.032146018196
+             Q0:          -0.192876109177
+             G0:      -0.000000781730
+   RMS gradient:       0.000039340149
+     Trial step:       0.516716593297
+             Q1:          -0.192876474278
+ Quadratic coef:       0.000000038832
+ Linear coef   :      -0.000000403933
+           Qmin:          -0.192877159622
+Quadratic minimum step length (  2.687487338329) accepted
+    Initial Ne1:       6.00000006
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000004 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    6        -1.928761091769E-01     3.9340E-05     1.0491E-04    -6.2020E-08
+      ideal mu1:      -0.032146193275
+             Q0:          -0.192877159649
+             G0:      -0.000000130440
+   RMS gradient:       0.000022572015
+     Trial step:       1.178418135464
+             Q1:          -0.192877266874
+ Quadratic coef:       0.000000046489
+ Linear coef   :      -0.000000153713
+           Qmin:          -0.192877286711
+Quadratic minimum step length (  1.948194825078) accepted
+    Initial Ne1:       6.00000001
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000001 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    7        -1.928771596491E-01     2.2572E-05     6.0192E-05    -1.0505E-06
+      ideal mu1:      -0.032146214452
+             Q0:          -0.192877286712
+             G0:      -0.000000046284
+   RMS gradient:       0.000013445929
+     Trial step:       1.515185834573
+             Q1:          -0.192877328402
+ Quadratic coef:       0.000000028438
+ Linear coef   :      -0.000000070128
+           Qmin:          -0.192877329946
+Quadratic minimum step length (  1.868215338994) accepted
+    Initial Ne1:       6.00000000
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000001 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    8        -1.928772867120E-01     1.3446E-05     3.5856E-05    -1.2706E-07
+      ideal mu1:      -0.032146221658
+             Q0:          -0.192877329946
+             G0:      -0.000000010801
+   RMS gradient:       0.000006495574
+     Trial step:       1.682466468484
+             Q1:          -0.192877340596
+ Quadratic coef:       0.000000007523
+ Linear coef   :      -0.000000018173
+           Qmin:          -0.192877340921
+Quadratic minimum step length (  2.032182980000) accepted
+    Initial Ne1:       6.00000000
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    9        -1.928773299462E-01     6.4956E-06     1.7322E-05    -4.3234E-08
+      ideal mu1:      -0.032146223487
+   10        -1.928773409213E-01     3.2497E-06     8.6659E-06    -1.0975E-08
+Finished density kernel iterations (  10)
+
+Writing density kernel to file "h_bond_PAW.dkn_cond" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.92877340921326E-01  Eh
+     Estimated gap above Kc      =   6.6507E-02  Eh
+     RMS occupancy error         =   1.9516E-13
+     [H,K] commutator            =   8.6659E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+######################### COND NGWF CG iteration  002 ##########################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.3804E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.17758088E-01     0.54173353E-02
+               2       0.15452718E-03     0.57690250E-04
+               3       0.14233800E-07     0.57806405E-08
+               4       0.14417651E-14     0.88817842E-15
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.18650486630244    0.32420529668150
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.55289490E-01     0.15564280E-01
+               2       0.15675331E-02     0.53546790E-03
+               3       0.15368290E-05     0.53337714E-06
+               4       0.17520422E-11     0.53651528E-12
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.16407692340335    0.32420529668150
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00138036786392
+Trial step length           =               0.236876
+Gradient along search dir.  =         -0.23671853143
+Functional at step 0        =      -0.19287734092133
+Functional at step 1        =      -0.24016159964934
+Functional predicted        =      -0.28231545837409
+Selected quadratic step     =               0.755649
+Conjugate gradients coeff.  =               0.324806
+--------------------------- NGWF line search finished --------------------------
+                                               
+Writing NGWFs to file "h_bond_PAW.tightbox_ngwfs_cond"....  done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       6.20885828
+     Final electron number for spin 1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.014228 (step -0.4622 Ne1=      6.0000)
+ RMS occupancy error at iteration   2:  0.000252 (step -0.4999 Ne1=      6.0000)
+ RMS occupancy error at iteration   3:  0.000000 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.047155866186
+             Q0:          -0.282935197115
+             G0:      -0.000817944723
+   RMS gradient:       0.001787483307
+     Trial step:       1.849075369387
+             Q1:          -0.283906710027
+ Quadratic coef:       0.000540928528
+ Linear coef   :      -0.001512441441
+           Qmin:          -0.283992397369
+Quadratic minimum step length (  2.585016383151) accepted
+    Initial Ne1:       6.00000000
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000845 (step -0.4965 Ne1=      6.0000)
+ RMS occupancy error at iteration   2:  0.000001 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    1        -2.829351971146E-01     1.7875E-03     4.7666E-03
+      ideal mu1:      -0.047332594693
+             Q0:          -0.283995568160
+             G0:      -0.000337167133
+   RMS gradient:       0.001144897725
+     Trial step:       2.186295982603
+             Q1:          -0.284411425268
+ Quadratic coef:       0.000321290041
+ Linear coef   :      -0.000737147148
+           Qmin:          -0.284418383879
+Quadratic minimum step length (  2.508048247757) accepted
+    Initial Ne1:       6.00000000
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.001073 (step -0.4956 Ne1=      6.0000)
+ RMS occupancy error at iteration   2:  0.000001 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    2        -2.839955681602E-01     1.1449E-03     3.0531E-03    -1.0604E-03
+      ideal mu1:      -0.047403887493
+             Q0:          -0.284423324961
+             G0:      -0.000111580401
+   RMS gradient:       0.000655502052
+     Trial step:       2.341652367079
+             Q1:          -0.284498096923
+ Quadratic coef:       0.000186510549
+ Linear coef   :      -0.000261282511
+           Qmin:          -0.284514832587
+Quadratic minimum step length (  1.640209665742) accepted
+    Initial Ne1:       6.00000000
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000372 (step -0.4985 Ne1=      6.0000)
+ RMS occupancy error at iteration   2:  0.000000 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    3        -2.844233249608E-01     6.5550E-04     1.7480E-03    -4.2776E-04
+      ideal mu1:      -0.047419208649
+             Q0:          -0.284515251896
+             G0:      -0.000014075671
+   RMS gradient:       0.000233843847
+     Trial step:       1.959796123654
+             Q1:          -0.284536719432
+ Quadratic coef:       0.000006117909
+ Linear coef   :      -0.000027585446
+           Qmin:          -0.284546347356
+WARNING in lnv_denskernel_optimise_cg: setting quadratic optimal_step to safe
+value (Calculated optimal quadratic step=  4.418327259678)
+    Initial Ne1:       6.00000000
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000005 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    4        -2.845152518955E-01     2.3384E-04     6.2358E-04    -9.1927E-05
+      ideal mu1:      -0.047419554578
+             Q0:          -0.284517327466
+             G0:      -0.000025745428
+   RMS gradient:       0.000225860426
+     Trial step:       0.542189467390
+             Q1:          -0.284529456795
+ Quadratic coef:       0.000001829571
+ Linear coef   :      -0.000013958900
+           Qmin:          -0.284543952682
+Quadratic minimum step length (  2.068345244294) accepted
+    Initial Ne1:       5.99999999
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000088 (step -0.4996 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    5        -2.845173274657E-01     2.2586E-04     6.0229E-04    -2.0756E-06
+      ideal mu1:      -0.047423994572
+             Q0:          -0.284543967430
+             G0:      -0.000006523440
+   RMS gradient:       0.000159508418
+     Trial step:       1.058978284188
+             Q1:          -0.284548574915
+ Quadratic coef:       0.000002300697
+ Linear coef   :      -0.000006908182
+           Qmin:          -0.284549153139
+Quadratic minimum step length (  1.589869218810) accepted
+    Initial Ne1:       5.99999980
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000051 (step -0.4998 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    6        -2.845439674305E-01     1.5951E-04     4.2536E-04    -2.6640E-05
+      ideal mu1:      -0.047424859372
+             Q0:          -0.284549156233
+             G0:      -0.000001669909
+   RMS gradient:       0.000080735663
+     Trial step:       1.297550375677
+             Q1:          -0.284550279323
+ Quadratic coef:       0.000001043702
+ Linear coef   :      -0.000002166792
+           Qmin:          -0.284550280832
+Quadratic minimum step length (  1.346898296535) accepted
+    Initial Ne1:       5.99999990
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000013 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    7        -2.845491562332E-01     8.0736E-05     2.1530E-04    -5.1888E-06
+      ideal mu1:      -0.047425046844
+             Q0:          -0.284550281065
+             G0:      -0.000000561652
+   RMS gradient:       0.000046834364
+     Trial step:       1.321994096306
+             Q1:          -0.284550734960
+ Quadratic coef:       0.000000288605
+ Linear coef   :      -0.000000742501
+           Qmin:          -0.284550758626
+Quadratic minimum step length (  1.700560082988) accepted
+    Initial Ne1:       5.99999990
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000006 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    8        -2.845502810646E-01     4.6834E-05     1.2489E-04    -1.1248E-06
+      ideal mu1:      -0.047425126449
+             Q0:          -0.284550758692
+             G0:      -0.000000293117
+   RMS gradient:       0.000033835121
+     Trial step:       1.499376667193
+             Q1:          -0.284550998798
+ Quadratic coef:       0.000000199387
+ Linear coef   :      -0.000000439493
+           Qmin:          -0.284551000877
+Quadratic minimum step length (  1.652479706782) accepted
+    Initial Ne1:       5.99999994
+      Final Ne1:       6.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000003 (step -0.5000 Ne1=      6.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      6.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    9        -2.845507586918E-01     3.3835E-05     9.0227E-05    -4.7763E-07
+      ideal mu1:      -0.047425166817
+   10        -2.845510009009E-01     1.8537E-05     4.9431E-05    -2.4221E-07
+Finished density kernel iterations (  10)
+
+Writing density kernel to file "h_bond_PAW.dkn_cond" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -2.84551000900945E-01  Eh
+     Estimated gap above Kc      =   6.2995E-02  Eh
+     RMS occupancy error         =   7.7693E-11
+     [H,K] commutator            =   4.9431E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00242204771488     -0.02390366167568   0.458138     -0.18748077002014        
+   1     0.00138036786392     -0.28455100090095  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:        -0.284551000901
+<QC>           [rms_gradient]:         0.001380367864
+
+Conduction NGWF pre-optimisation process complete.
+Proceeding with the main conduction NGWF optimisation process.
+
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.17520422E-11     0.53651528E-12
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.16407683556757    0.00000000000000
+
+Conduction shift updated:        0.26407683556757
+Generating conduction density kernel for     2 'occupied' orbitals
+Up spin density kernel initialisation ... 
+======= Optimisation of K by Palser-Manolopoulos canonical purification ======== 
+         Iteration  |  Band structure energy |    c_n   
+               1           0.00479898115042    0.3235743
+               2          -0.03383591349485    0.3473656
+               3          -0.07388334609877    0.3592283
+               4          -0.10997155404557    0.3479114
+               5          -0.13359345589024    0.3348661
+               6          -0.14504339829607    0.3637530
+               7          -0.15300629524567    0.4139420
+               8          -0.15982917778353    0.4629567
+               9          -0.16508100694144    0.4927514
+              10          -0.16894933819821    0.4997183
+              11          -0.17148586241984    0.4999996
+              12          -0.17232721722130    0.5000000
+              13          -0.17239362663843    0.5000000
+              14          -0.17239399334575    0.5005504
+              15          -0.17239399335682    0.5005504
+Termination criterion satisfied: band energy change below threshold.
+Final occupancy bounds: [   -0.00000000000000:    0.99999999999934]
+Closest occupancy to 0.5:     1.00000000000000
+================================================================================
+... done
+
+Writing density kernel to file "h_bond_PAW.dkn_cond" ... done
+
+Conduction Hamiltonian max eigenvalue, shift:    0.16407691806008    0.26407683556757
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       4.00000000
+     Final electron number for spin 1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.086196996678
+    1        -3.447879867137E-01      3.329E-14      8.309E-15
+
+                 ..............................................
+                 | RMS LNV GRADIENT=    0.00000000000001      |
+                 | LNV density kernel optimisation converged! |
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Writing density kernel to file "h_bond_PAW.dkn_cond" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.44787986713658E-01  Eh
+     Estimated gap above Kc      =   3.6433E-02  Eh
+     RMS occupancy error         =   1.1800E-16
+     [H,K] commutator            =   3.3286E-14
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+######################### COND NGWF CG iteration  001 ##########################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  8.1589E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.20714997E-02     0.81140729E-03
+               2       0.19348012E-05     0.10959414E-05
+               3       0.28188981E-11     0.16072699E-11
+               4       0.15045920E-14     0.99920072E-15
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.16156013325661    0.26407683556757
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.53215302E-02     0.19017651E-02
+               2       0.12859397E-04     0.66271223E-05
+               3       0.11606651E-09     0.63450578E-10
+               4       0.14730570E-14     0.44408921E-15
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.15576120712693    0.26407683556757
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00081588560750
+Trial step length           =               0.122474
+Gradient along search dir.  =         -0.08103059554
+Functional at step 0        =      -0.34478798671366
+Functional at step 1        =      -0.35325529018537
+Functional predicted        =      -0.36168875294744
+Selected quadratic step     =               0.417145
+Conjugate gradients coeff.  =               0.000000
+--------------------------- NGWF line search finished --------------------------
+                                               
+Writing NGWFs to file "h_bond_PAW.tightbox_ngwfs_cond"....  done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       4.00217818
+     Final electron number for spin 1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000189 (step -0.4992 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.090419332034
+             Q0:          -0.361677328134
+             G0:      -0.000005791453
+   RMS gradient:       0.000150408984
+     Trial step:       1.574067824256
+             Q1:          -0.361684598206
+ Quadratic coef:       0.000001846067
+ Linear coef   :      -0.000009116139
+           Qmin:          -0.361688582328
+WARNING in lnv_denskernel_optimise_cg: setting quadratic optimal_step to safe
+value (Calculated optimal quadratic step=  3.886483690032)
+    Initial Ne1:       4.00000024
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    1        -3.616773281343E-01     1.5041E-04     6.0164E-04
+      ideal mu1:      -0.090419545022
+             Q0:          -0.361678180089
+             G0:      -0.000010516262
+   RMS gradient:       0.000144719435
+     Trial step:       0.485911693251
+             Q1:          -0.361682688365
+ Quadratic coef:       0.000000601698
+ Linear coef   :      -0.000005109975
+           Qmin:          -0.361689029316
+Quadratic minimum step length (  2.063323790990) accepted
+    Initial Ne1:       4.00000303
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000015 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    2        -3.616781800889E-01     1.4472E-04     5.7888E-04    -8.5195E-07
+      ideal mu1:      -0.090422257296
+             Q0:          -0.361689029182
+             G0:      -0.000005729407
+   RMS gradient:       0.000149597452
+     Trial step:       1.001295739033
+             Q1:          -0.361693291186
+ Quadratic coef:       0.000001474827
+ Linear coef   :      -0.000005736831
+           Qmin:          -0.361694608009
+Quadratic minimum step length (  1.947436092567) accepted
+    Initial Ne1:       4.00000299
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000049 (step -0.4998 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    3        -3.616890291825E-01     1.4960E-04     5.9839E-04    -1.0849E-05
+      ideal mu1:      -0.090423653826
+             Q0:          -0.361694615305
+             G0:      -0.000007779890
+   RMS gradient:       0.000174200011
+     Trial step:       1.396409489200
+             Q1:          -0.361698825477
+ Quadratic coef:       0.000006653741
+ Linear coef   :      -0.000010863912
+           Qmin:          -0.361699049826
+Quadratic minimum step length (  1.139995600164) accepted
+    Initial Ne1:       4.00000238
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000067 (step -0.4997 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    4        -3.616946153053E-01     1.7420E-04     6.9680E-04    -5.5861E-06
+      ideal mu1:      -0.090424764723
+             Q0:          -0.361699058893
+             G0:      -0.000003925332
+   RMS gradient:       0.000123694296
+     Trial step:       1.261705462347
+             Q1:          -0.361700658541
+ Quadratic coef:       0.000003352964
+ Linear coef   :      -0.000004952613
+           Qmin:          -0.361700887750
+Quadratic minimum step length (  0.931822989184) accepted
+    Initial Ne1:       4.00000097
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000035 (step -0.4999 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    5        -3.616990588927E-01     1.2369E-04     4.9478E-04    -4.4436E-06
+      ideal mu1:      -0.090425222304
+             Q0:          -0.361700889217
+             G0:      -0.000001370299
+   RMS gradient:       0.000073130409
+     Trial step:       1.084290623124
+             Q1:          -0.361701487734
+ Quadratic coef:       0.000000887286
+ Linear coef   :      -0.000001485802
+           Qmin:          -0.361701511229
+Quadratic minimum step length (  0.907848018824) accepted
+    Initial Ne1:       4.00000032
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000013 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    6        -3.617008892175E-01     7.3130E-05     2.9252E-04    -1.8303E-06
+      ideal mu1:      -0.090425377847
+             Q0:          -0.361701511387
+             G0:      -0.000000539138
+   RMS gradient:       0.000045891273
+     Trial step:       0.992154773224
+             Q1:          -0.361701972657
+ Quadratic coef:       0.000000073638
+ Linear coef   :      -0.000000534909
+           Qmin:          -0.361702482779
+WARNING in lnv_denskernel_optimise_cg: setting quadratic optimal_step to safe
+value (Calculated optimal quadratic step=  3.603498621658)
+    Initial Ne1:       4.00000000
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    7        -3.617015113867E-01     4.5891E-05     1.8357E-04    -6.2217E-07
+      ideal mu1:      -0.090425397644
+             Q0:          -0.361701590574
+             G0:      -0.000000970965
+   RMS gradient:       0.000044008229
+     Trial step:       0.385776121583
+             Q1:          -0.361701927000
+ Quadratic coef:       0.000000038149
+ Linear coef   :      -0.000000374575
+           Qmin:          -0.361702510042
+Quadratic minimum step length (  1.893927334638) accepted
+    Initial Ne1:       3.99999995
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000001 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    8        -3.617015905743E-01     4.4008E-05     1.7603E-04    -7.9188E-08
+      ideal mu1:      -0.090425627510
+             Q0:          -0.361702510041
+             G0:      -0.000000341892
+   RMS gradient:       0.000036544647
+     Trial step:       0.854770110449
+             Q1:          -0.361702729466
+ Quadratic coef:       0.000000072814
+ Linear coef   :      -0.000000292239
+           Qmin:          -0.361702803266
+Quadratic minimum step length (  1.715309984835) accepted
+    Initial Ne1:       3.99999997
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000002 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    9        -3.617025100410E-01     3.6545E-05     1.4618E-04    -9.1947E-07
+      ideal mu1:      -0.090425700821
+   10        -3.617028032822E-01     3.1506E-05     1.2603E-04    -2.9324E-07
+Finished density kernel iterations (  10)
+
+Writing density kernel to file "h_bond_PAW.dkn_cond" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.61702803282194E-01  Eh
+     Estimated gap above Kc      =   3.8118E-02  Eh
+     RMS occupancy error         =   3.3831E-11
+     [H,K] commutator            =   1.2603E-04
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+######################### COND NGWF CG iteration  002 ##########################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.7966E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.55729451E-02     0.20653319E-02
+               2       0.13458933E-04     0.55780451E-05
+               3       0.10455071E-09     0.50461968E-10
+               4       0.14873209E-14     0.66613381E-15
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.15042838805693    0.26407683556757
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.18000767E-01     0.61856137E-02
+               2       0.13687117E-03     0.47266314E-04
+               3       0.94844514E-08     0.37641842E-08
+               4       0.18376631E-14     0.13322676E-14
+================================================================================
+
+Conduction Hamiltonian max eigenvalue, shift:    0.13751849644686    0.26407683556757
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00047966298223
+Trial step length           =               0.226030
+Gradient along search dir.  =         -0.02801363079
+Functional at step 0        =      -0.36170280328219
+Functional at step 1        =      -0.36718371151552
+Functional predicted        =      -0.37348083427937
+Selected quadratic step     =               0.840879
+Conjugate gradients coeff.  =               0.345632
+--------------------------- NGWF line search finished --------------------------
+                                               
+Writing NGWFs to file "h_bond_PAW.tightbox_ngwfs_cond"....  done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       4.03361307
+     Final electron number for spin 1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.003031 (step -0.4870 Ne1=      4.0000)
+ RMS occupancy error at iteration   2:  0.000022 (step -0.4999 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+      ideal mu1:      -0.093390916600
+             Q0:          -0.373563666400
+             G0:      -0.000017126234
+   RMS gradient:       0.000258649091
+     Trial step:       1.210865684207
+             Q1:          -0.373580237115
+ Quadratic coef:       0.000004166855
+ Linear coef   :      -0.000020737569
+           Qmin:          -0.373589468042
+WARNING in lnv_denskernel_optimise_cg: setting quadratic optimal_step to safe
+value (Calculated optimal quadratic step=  3.013113291360)
+    Initial Ne1:       3.99999999
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    1        -3.735636664004E-01     2.5865E-04     1.0346E-03
+      ideal mu1:      -0.093391542849
+             Q0:          -0.373566171396
+             G0:      -0.000030234233
+   RMS gradient:       0.000246086360
+     Trial step:       0.426180539949
+             Q1:          -0.373577365998
+ Quadratic coef:       0.000001690640
+ Linear coef   :      -0.000012885242
+           Qmin:          -0.373590722665
+Quadratic minimum step length (  1.624070899841) accepted
+    Initial Ne1:       3.99999989
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000024 (step -0.4999 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    2        -3.735661713965E-01     2.4609E-04     9.8435E-04    -2.5050E-06
+      ideal mu1:      -0.093397680444
+             Q0:          -0.373590721777
+             G0:      -0.000016035929
+   RMS gradient:       0.000250278514
+     Trial step:       0.831953972891
+             Q1:          -0.373600903442
+ Quadratic coef:       0.000003159490
+ Linear coef   :      -0.000013341155
+           Qmin:          -0.373604805252
+Quadratic minimum step length (  1.756490069183) accepted
+    Initial Ne1:       3.99999990
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000095 (step -0.4996 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    3        -3.735907217768E-01     2.5028E-04     1.0011E-03    -2.4550E-05
+      ideal mu1:      -0.093401208132
+             Q0:          -0.373604832528
+             G0:      -0.000025640414
+   RMS gradient:       0.000316111273
+     Trial step:       1.208850235307
+             Q1:          -0.373616877011
+ Quadratic coef:       0.000018950938
+ Linear coef   :      -0.000030995421
+           Qmin:          -0.373617506256
+Quadratic minimum step length (  0.988574330941) accepted
+    Initial Ne1:       4.00000003
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000159 (step -0.4993 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    4        -3.736048325279E-01     3.1611E-04     1.2644E-03    -1.4111E-05
+      ideal mu1:      -0.093404393297
+             Q0:          -0.373617573189
+             G0:      -0.000014152242
+   RMS gradient:       0.000234469644
+     Trial step:       1.093178079078
+             Q1:          -0.373622856774
+ Quadratic coef:       0.000010187335
+ Linear coef   :      -0.000015470920
+           Qmin:          -0.373623446888
+Quadratic minimum step length (  0.830073394860) accepted
+    Initial Ne1:       4.00000016
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000098 (step -0.4996 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    5        -3.736175731887E-01     2.3447E-04     9.3788E-04    -1.2741E-05
+      ideal mu1:      -0.093405866000
+             Q0:          -0.373623464001
+             G0:      -0.000006563441
+   RMS gradient:       0.000159875784
+     Trial step:       0.952584924973
+             Q1:          -0.373626353221
+ Quadratic coef:       0.000003363015
+ Linear coef   :      -0.000006252235
+           Qmin:          -0.373626369908
+Quadratic minimum step length (  0.885482839492) accepted
+    Initial Ne1:       4.00000010
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000055 (step -0.4998 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [ -0.0000,  1.0000]
+================================================================================
+
+    6        -3.736234640012E-01     1.5988E-04     6.3950E-04    -5.8908E-06
+      ideal mu1:      -0.093406593384
+             Q0:          -0.373626373535
+             G0:      -0.000003364392
+   RMS gradient:       0.000114639247
+     Trial step:       0.918421256409
+             Q1:          -0.373628773396
+ Quadratic coef:       0.000000690068
+ Linear coef   :      -0.000003089929
+           Qmin:          -0.373629832490
+Quadratic minimum step length (  2.056214271521) accepted
+    Initial Ne1:       3.99999997
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000002 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    7        -3.736263735348E-01     1.1464E-04     4.5856E-04    -2.9095E-06
+      ideal mu1:      -0.093407458124
+             Q0:          -0.373629832495
+             G0:      -0.000001396053
+   RMS gradient:       0.000073846502
+     Trial step:       1.374216465734
+             Q1:          -0.373631251600
+ Quadratic coef:       0.000000499375
+ Linear coef   :      -0.000001918479
+           Qmin:          -0.373631675080
+Quadratic minimum step length (  2.639706464700) accepted
+    Initial Ne1:       3.99999998
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000004 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    8        -3.736298324955E-01     7.3847E-05     2.9539E-04    -3.4590E-06
+      ideal mu1:      -0.093407918792
+             Q0:          -0.373631675166
+             G0:      -0.000000202459
+   RMS gradient:       0.000028121352
+     Trial step:       1.904607069318
+             Q1:          -0.373632023026
+ Quadratic coef:       0.000000037745
+ Linear coef   :      -0.000000385606
+           Qmin:          -0.373632659998
+WARNING in lnv_denskernel_optimise_cg: setting quadratic optimal_step to safe
+value (Calculated optimal quadratic step=  9.728682790050)
+    Initial Ne1:       4.00000000
+      Final Ne1:       4.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      4.0000)
+            Final RMS occupancy error   :  0.000000 (Ne1=      4.0000)
+               Final occupancy bounds   : [  0.0000,  1.0000]
+================================================================================
+
+    9        -3.736316751660E-01     2.8121E-05     1.1249E-04    -1.8427E-06
+      ideal mu1:      -0.093407926325
+   10        -3.736317053008E-01     2.7688E-05     1.1075E-04    -3.0135E-08
+Finished density kernel iterations (  10)
+
+Writing density kernel to file "h_bond_PAW.dkn_cond" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.73631705300824E-01  Eh
+     Estimated gap above Kc      =   3.8132E-02  Eh
+     RMS occupancy error         =   2.1335E-14
+     [H,K] commutator            =   1.1075E-04
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00081588560750     -0.34478798671366   0.417145     -0.36168875294744        
+   1     0.00047966298223     -0.37363170530082  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:        -0.373631705301
+<QC>           [rms_gradient]:         0.000479662982
++------------------------------------------------------------------------------+
+|                    Conduction NGWF optimisation complete                     |
++------------------------------------------------------------------------------+
+
++------------------------------------------------------------------------------+
+|                  Starting conduction properties calculation                  |
++------------------------------------------------------------------------------+
+
+
+
+=========================== Valence diagonalisation ============================
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:      16
+   Number of occupied orbitals:      10.000000000
+   Occupancy sum (eigenvalues):      10.000000000
+                 HOMO-LUMO gap:       0.052747285 Eh
+                 Mid-gap level:      -0.187302126 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.874497733   0.9999998
+                            2    -0.842687451   0.9999999
+                            3    -0.618027586   0.9999999
+                            4    -0.438569053   1.0000000
+                            5    -0.417945486   0.9999996
+                            6    -0.375569714   0.9999992
+                            7    -0.319389832   0.9999999
+                            8    -0.286811743   0.9999992
+                            9    -0.235976523   0.9999996
+                           10    -0.213675769   0.9997235
+                        .......   --- gap ---   .........
+                           11    -0.160928483   0.0002770
+                           12     0.025280238   0.0000006
+                           13     0.063686752   0.0000007
+                           14     0.112810106   0.0000001
+                           15     0.148190688   0.0000009
+                           16     0.182176381   0.0000000
+ 
+<QC>    [energy_eigenvalue_1]:        -0.874497732542
+<QC>    [energy_eigenvalue_n]:         0.182176380908
+<QC>            [occupancy_1]:         0.999999840996
+<QC>            [occupancy_n]:         0.000000030532
+
+================================================================================
+
+===== Calculation of matrix elements between core orbitals and eigenstates =====
+Writing "h_bond_PAW_val_grad.elnes_bin" ...done
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "h_bond_PAW_valence_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "h_bond_PAW.val_bands" ... done
+ 
+
+============= Joint Valence + Conduction Sparse matrix information =============
+                        Overlap matrix filling: 100.00%
+                        Density kernel filling: 100.00%
+              NGWF-Proj overlap matrix filling:  90.62%
+                    Aug Overlap matrix filling: 100.00%
+              NGWF-Core overlap matrix filling: 100.00%
+                    Hamiltonian matrix filling: 100.00%
+              NGWF-COND overlap matrix filling: 100.00%
+         Aug Trans Cross Overlap matrix filling: 100.00%
+              Aug Cross Overlap matrix filling: 100.00%
+              NGWF-COND overlap matrix filling: 100.00%
+         Aug Trans Cross Overlap matrix filling: 100.00%
+              Aug Cross Overlap matrix filling: 100.00%
+                  NGWF diagonal matrix filling:  20.31%
+                             KS matrix filling: 100.00% 
+                           KSKS matrix filling: 100.00% 
+================================================================================
+
+Joint Valence + Conduction NGWF sparse matrix initialisation ... done
+Joint Valence + Conduction NGWF initialisation ...... done
+
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.52116084E+01     0.93067862E+00
+               2       0.49771689E+01     0.87345381E+00
+               3       0.47313879E+01     0.79618682E+00
+               4       0.45237568E+01     0.77767676E+00
+               5       0.43691276E+01     0.75458764E+00
+               6       0.42315038E+01     0.71624531E+00
+               7       0.41063385E+01     0.65936482E+00
+               8       0.40294602E+01     0.59145370E+00
+               9       0.40018883E+01     0.53660257E+00
+              10       0.39971753E+01     0.51185708E+00
+              11       0.39942874E+01     0.50828190E+00
+              12       0.39886892E+01     0.50714493E+00
+              13       0.39778247E+01     0.50496638E+00
+              14       0.39573470E+01     0.50447767E+00
+              15       0.39208446E+01     0.50427868E+00
+              16       0.38619863E+01     0.50388096E+00
+              17       0.37806162E+01     0.50308655E+00
+              18       0.36834619E+01     0.50150183E+00
+              19       0.35672750E+01     0.49834868E+00
+              20       0.34155438E+01     0.49468937E+00
+              21       0.32146018E+01     0.48969453E+00
+              22       0.29792071E+01     0.48167876E+00
+              23       0.27249907E+01     0.46941858E+00
+              24       0.24333484E+01     0.44998408E+00
+              25       0.20951894E+01     0.42474312E+00
+              26       0.17507416E+01     0.41517947E+00
+              27       0.14678522E+01     0.40013128E+00
+              28       0.12425268E+01     0.37244985E+00
+              29       0.10115928E+01     0.32307593E+00
+              30       0.72157465E+00     0.24347125E+00
+              31       0.38336069E+00     0.13882078E+00
+              32       0.11798447E+00     0.45650229E-01
+              33       0.12817804E-01     0.50607143E-02
+              34       0.16296836E-03     0.64118651E-04
+              35       0.26557219E-07     0.10440801E-07
+              36       0.21145927E-11     0.93969277E-12
+================================================================================
+
+
+
+================= Joint valence and conduction diagonalisation =================
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:      32
+   Number of occupied orbitals:      10.000000000
+   Occupancy sum (eigenvalues):      10.000000000
+ Num of occupied cond orbitals:       2
+            Cond Occupancy sum:       2.000000000
+                 HOMO-LUMO gap:       0.043651958 Eh
+                 Mid-gap level:      -0.191914873 Eh
+
+                        Orbital | Energy (Eh) | Occupancy | Cond Occupancy
+                            1    -0.874548681   0.9999725   0.0000005
+                            2    -0.842802715   0.9999281   0.0000023
+                            3    -0.618293653   0.9997659   0.0000162
+                            4    -0.439399561   0.9991635   0.0000000
+                            5    -0.418121331   0.9998157   0.0000380
+                            6    -0.376105086   0.9993500   0.0002089
+                            7    -0.319669025   0.9998294   0.0000196
+                            8    -0.287004014   0.9997112   0.0001759
+                            9    -0.236851911   0.9990477   0.0000011
+                           10    -0.213740852   0.9988938   0.0012531
+                        .......   --- gap ---   .........
+                           11    -0.170088894   0.0010769   0.9979711
+                           12    -0.020911820   0.0002222   0.9920066
+                           13     0.013925232   0.0000639   0.0004490
+                           14     0.059150733   0.0000445   0.0000025
+                           15     0.107950082   0.0000255   0.0000360
+                           16     0.111731671   0.0000892   0.0000087
+                           17     0.476803869   0.0000803   0.0007826
+                           18     0.500964904   0.0005194   0.0048254
+                           19     0.517583628   0.0001458   0.0015403
+                           20     0.545995481   0.0012394   0.0000371
+                        .......   ...........   .........
+                           32     2.250401963   0.0000953   0.0000001
+ 
+<QC>    [energy_eigenvalue_1]:        -0.874548680793
+<QC>    [energy_eigenvalue_n]:         2.250401962621
+<QC>            [occupancy_1]:         0.999972527739
+<QC>            [occupancy_n]:         0.000095278316
+<QC>       [cond_occupancy_1]:         0.000000502481
+<QC>       [cond_occupancy_n]:         0.000000102256
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO     -5.81618453  1.000000 | 
+| LUMO     -4.62835431  1.000000 | 
+================================================================================
+
+===== Calculation of matrix elements between core orbitals and eigenstates =====
+Writing "h_bond_PAW_joint_grad.elnes_bin" ...done
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "h_bond_PAW_joint_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "h_bond_PAW.joint_bands" ... done
++------------------------------------------------------------------------------+
+|                  Conduction properties calculation complete                  |
++------------------------------------------------------------------------------+
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      67.826s on      4 proc(s)                                    
+TOTAL TIME:        67.826s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 10:49 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

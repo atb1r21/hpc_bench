@@ -1,0 +1,490 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Embedded Mean-Field Theory &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Correlation and Constrained DFT" href="index_correlation_constrained.html" />
+    <link rel="prev" title="Species Dependent Scissor Shifts" href="scissor_operator.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="embedded-mean-field-theory">
+<h1>Embedded Mean-Field Theory<a class="headerlink" href="#embedded-mean-field-theory" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Robert J. Charlton, Imperial College London</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Joseph C.A. Prentice, Imperial College London</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">January 2019</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">Updated by J.C.A. Prentice October 2021</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="embedded-mean-field-theory-emft">
+<h2>Embedded Mean-Field Theory (EMFT)<a class="headerlink" href="#embedded-mean-field-theory-emft" title="Permalink to this headline">¶</a></h2>
+<p>Often in simulations of materials we wish to consider the impact of a
+host environment on a system of interest, such as chromophores in
+solvent or doped molecular crystals. While the interesting physics or
+chemistry may be associated with the subsystem, the effects of the
+environment can be significant and warrant description at the quantum
+level of theory. However, the cost of applying accurate quantum methods
+such as hybrid functionals to potentially large environments can be
+restricted by the cost of such methods. Quantum embedding
+[Huang2008], [Gomes2012] methods are intended to combine
+an accurate, high-level description of the subsystem of interest
+(active) with a cheaper, low-level method for the host environment.</p>
+<p>Embedded mean field theory (EMFT) [Fornace2015] is an
+approach to quantum embedding based on the one-electron density matrix.
+To begin, we partition the density matrix into subsystem components,</p>
+<div class="math" id="equation-emft-dm">
+<span class="eqno">(1)<a class="headerlink" href="#equation-emft-dm" title="Permalink to this equation">¶</a></span>\[\begin{split}\rho = \begin{pmatrix}
+        \rho_\text{AA} &amp; \rho_\text{AB}\\
+        \rho_\text{BA} &amp; \rho_\text{BB}
+    \end{pmatrix},\end{split}\]</div>
+<p>where A is the active region and B is the inactive environment. The
+total energy can be written as</p>
+<div class="math">
+\[E{\left[\rho\right]}=\text{tr}{\left[\rho H_0\right]}+G{\left[\rho\right]},\]</div>
+<p>where <span class="math">\(H_0\)</span> contains the one-electron terms of the Hamiltonian
+and <span class="math">\(G{\left[\rho\right]}\)</span> contains all two-electron terms (local,
+Hartree and exchange-correlation effects). In embedded mean-field theory
+(EMFT), the two-electron interaction for the active subsystem A is
+constructed at a higher level of theory to the rest of the system,</p>
+<div class="math" id="equation-emft-en">
+<span class="eqno">(2)<a class="headerlink" href="#equation-emft-en" title="Permalink to this equation">¶</a></span>\[E^\text{EMFT}{\left[\rho\right]}=
+        \text{tr}{\left[\rho H_0\right]}+G^\text{low}{\left[\rho\right]}+\left(G^\text{high}{\left[\rho_\text{AA}\right]}-G^\text{low}{\left[\rho_\text{AA}\right]}\right),\]</div>
+<p>where <span class="math">\(G^\text{low}\)</span> and <span class="math">\(G^\text{high}\)</span> are the
+two-electron interaction energies at the lower and higher levels of
+theory, respectively. For example, the low level theory could be LDA
+while the higher level uses a hybrid functional such as B3LYP. We assume
+here that the core Hamiltonian <span class="math">\(H_0\)</span> is the same at both levels of
+theory, though this need not necessarily be the case. The ground state
+of the embedded system can thus be obtained by minimising
+<a class="reference internal" href="#equation-emft-en">(2)</a> with respect to the elements of the density
+matrix.</p>
+<div class="section" id="block-orthogonalisation">
+<h3>Block orthogonalisation<a class="headerlink" href="#block-orthogonalisation" title="Permalink to this headline">¶</a></h3>
+<p>Normalisation is maintained provided the trace of the density matrix
+with the overlap matrix satisfies</p>
+<div class="math">
+\[\text{Tr}\left[\rho\textbf{S}\right]=N.\]</div>
+<p>EMFT partitioning can result in unrealistic charge spillover from the
+low-level to the high-level region, producing large negative results for
+the off-diagonal terms
+<span class="math">\(\text{Tr}\left[\rho_\text{AB}\textbf{S}_\text{BA}\right]\)</span> and
+<span class="math">\(\text{Tr}\left[\rho_\text{BA}\textbf{S}_\text{AB}\right]\)</span>. One
+possible remedy is to impose a block-orthogonalisation (BO) between the
+subsystem orbitals [Ding2017],</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+    {\lvert\tilde{\phi_i^\text{B}}\rangle}&amp;
+        =\left(1-\hat{P}^\text{A}\right){\lvert\phi_i^\text{B}\rangle}, \\
+    \hat{P}^\text{A}&amp;
+        =\sum_{j,k\in\text{A}}{\lvert\phi_j^\text{A}\rangle}
+        \left(\textbf{S}^\text{AA}\right)_{jk}^\text{-1}{\langle\phi_k^\text{A}\rvert}.\end{aligned}\end{split}\]</div>
+<p>By construction
+<span class="math">\(\text{Tr}\left[\rho_\text{AB}\textbf{S}_\text{BA}\right]\)</span> and
+<span class="math">\(\text{Tr}\left[\rho_\text{BA}\textbf{S}_\text{AB}\right]\)</span> are
+strictly zero and all electrons are associated with the diagonal blocks.</p>
+</div>
+</div>
+<div class="section" id="implementation-in-onetep">
+<h2>Implementation in ONETEP<a class="headerlink" href="#implementation-in-onetep" title="Permalink to this headline">¶</a></h2>
+<p>Quantum embedding as implemented in ONETEP is based around
+EMFT [Prentice2020]. Here we denote the active system
+NGWFs as <span class="math">\({\lvert\chi_i^\text{A}\rangle}\)</span> and the environment NGWFs as
+<span class="math">\({\lvert\phi_j^\text{B}\rangle}\)</span>. The fundamental quantity of interest is
+the Hamiltonian,</p>
+<div class="math">
+\[\begin{split}\textbf{H}^\text{EMFT}=\begin{pmatrix}
+        \textbf{H}^\text{high}_\text{AA} &amp; \textbf{H}^\text{low}_\text{AB} \\
+        \textbf{H}^\text{low}_\text{BA} &amp; \textbf{H}^\text{low}_\text{BB}
+    \end{pmatrix},
+    \label{eq:emft_ham}\end{split}\]</div>
+<p>where the high- and low-level Hamiltonian operators are given as</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+    \hat{H}^\text{high}=&amp;\hat{T}+\hat{V}_\text{local}+\hat{V}_\text{Hartree}+\hat{V}_\text{XC}^\text{high},\\
+    \hat{H}^\text{low}=&amp;\hat{T}+\hat{V}_\text{local}+\hat{V}_\text{Hartree}+\hat{V}_\text{XC}^\text{low}.\end{aligned}\end{split}\]</div>
+<p>The total energy can thus be found by minimising the quantity</p>
+<div class="math">
+\[E^\text{EMFT}=
+    \min_{\left\{K^{\alpha\beta}\right\},\left\{\chi_\alpha\right\}}
+    \text{Tr}\left[\textbf{K}\textbf{H}^\text{EMFT}\right],
+    \label{eq:emft_energy}\]</div>
+<p>with respect to the NGWFs and elements of the density kernel
+<span class="math">\(\textbf{K}\)</span>, using the conventional methods available in ONETEP.
+The Hamiltonian is constructed as follows,</p>
+<ol class="arabic">
+<li><p class="first">The total electron density <span class="math">\(n{\left(\mathbf{r}\right)}\)</span> is
+constructed from the full system NGWFs and kernel, from which
+<span class="math">\(V_\text{XC}^\text{low}{\left(\mathbf{r}\right)}\)</span> is
+calculated.</p>
+</li>
+<li><p class="first">The active subsystem density
+<span class="math">\(n^\text{AA}{\left(\mathbf{r}\right)}\)</span> is constructed using the
+subsystem terms and the subsystem XC potentials
+<span class="math">\(V_\text{XC}^\text{low,A}{\left(\mathbf{r}\right)}\)</span> and
+<span class="math">\(V_\text{XC}^\text{high,A}{\left(\mathbf{r}\right)}\)</span>
+calculated.</p>
+</li>
+<li><p class="first">Final EMFT potential can be written as</p>
+<div class="math">
+\[V_\text{XC}^\text{high}{\left(\mathbf{r}\right)}
+            =V_\text{XC}^\text{low}{\left(\mathbf{r}\right)}+\left(V_\text{XC}^\text{high,A}{\left(\mathbf{r}\right)}-V_\text{XC}^\text{low,A}{\left(\mathbf{r}\right)}\right).\]</div>
+<p>with which we can construct the high-level Hamiltonian.</p>
+</li>
+</ol>
+<p>Although block orthogonalisation is found to work when just the density
+kernel is being optimised, it does not do so generally for the
+optimisation of the NGWFs. Because of this, there is an option to
+optimise the NGWFs at the lower level of theory first (in all regions),
+and then fix them for an optimisation of the kernel under EMFT.</p>
+<p>If you would like to use hybrid functionals with embedding, there are
+two things to bear in mind. Firstly, only hybrid-in-semi local DFT
+calculations are currently supported – hybrid-in-hybrid calculations are
+not possible. Secondly, the species in the <code class="docutils literal"><span class="pre">species_swri-[swri</span> <span class="pre">name]</span></code>
+block must match the species in the active region exactly. Anything else
+will give incorrect results. Otherwise, the set-up of the hybrid
+functional calculation is identical to a normal ONETEP calculation.</p>
+<p>LR-TDDFT calculations can be performed with embedding
+(TD-EMFT) [Ding2017-2], and this is also implemented
+within ONETEP [Prentice2022]. If you would like to
+perform a TD-EMFT calculation, it may be advisable to restrict the
+excitations to the active region, using the <code class="docutils literal"><span class="pre">species_tddft_kernel</span></code>
+block.</p>
+<p>It is also possible to place the quantum embedding system within
+implicit solvent, giving multi-level embedding
+capability [Prentice2022]. This should work very
+similarly to standard implicit solvent calculations, although there are
+a couple of additional keywords (see below). The main difference is
+whether the cavity is constructed using the density kernel optimised
+solely at the low level of theory, or optimised using EMFT. This only
+makes a difference if the active region is close to the edge of the
+cavity.</p>
+</div>
+<div class="section" id="keywords">
+<h2>Keywords<a class="headerlink" href="#keywords" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">species_ngwf_regions</span></code> (block): This block defines which species
+are in which region. Each line of the block corresponds to a distinct
+region. The species within each region do not necessarily have to be
+physically next to one another. If this block is not defined, it is
+assumed that there is only one region, containing all the species in
+the system.</li>
+<li><code class="docutils literal"><span class="pre">do_fandt</span></code> (logical): Controls whether a freeze-and-thaw (F+T)
+optimisation of the NGWFs is performed or not. This is a cruder form
+of embedding, where all regions are treated at the same level of
+theory, but each region’s NGWFs are optimised in turn, with the
+others frozen. Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">freeze_switch_steps</span></code> (integer): How many NGWF CG optimisation
+steps should be spent on each region before moving onto the next in a
+F+T calculation. <code class="docutils literal"><span class="pre">maxit_ngwf_cg</span></code> represents the total number of
+NGWF optimisation steps across all regions. A value less than 0 means
+that all NGWFs are optimised together i.e. no F+T takes place.
+Default <code class="docutils literal"><span class="pre">-1</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">use_emft</span></code> (logical): Controls whether an EMFT calculation is
+performed, as described above. Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">active_region</span></code> (integer): Defines which region is the active
+region – 1 means the species on the first line in the
+<code class="docutils literal"><span class="pre">species_ngwf_regions</span></code> block constitute the active region, 2 means
+the second line, and so on. Default <code class="docutils literal"><span class="pre">1</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">active_xc_functional</span></code> (string): Defines what functional is used as
+the higher level of theory within EMFT. Default is the value of
+<code class="docutils literal"><span class="pre">xc_functional</span></code> i.e. no difference between the regions.</li>
+<li><code class="docutils literal"><span class="pre">freeze_envir_ngwfs</span></code> (logical): Controls whether the environment
+NGWFs should ever be optimised or not. Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">use_emft_follow</span></code> (logical): Controls whether the EMFT calculation
+is only performed after a regular calculation, so the NGWFs are
+optimised at the lower level of theory first, before applying EMFT.
+Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">use_emft_lnv_only</span></code> (logical): Controls whether only the kernel is
+optimised within EMFT, with the NGWFs optimised at the lower level of
+theory and then fixed. Usually used in conjunction with
+<code class="docutils literal"><span class="pre">use_emft_follow</span></code>. Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">emft_lnv_steps</span></code> (integer): Controls the number of LNV kernel
+optimisation steps to be used in conjunction with
+<code class="docutils literal"><span class="pre">use_emft_lnv_only</span></code>. Default <code class="docutils literal"><span class="pre">10</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">block_orthogonalise</span></code> (logical): Controls whether the environment
+NGWFs are orthogonalised with respect to the active region NGWFs, as
+described above. Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">parallel_scheme</span></code> (string): Defines the parallel scheme used for
+the calculation. See Appendix for more information. Default <code class="docutils literal"><span class="pre">NONE</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">read_sub_denskern</span></code> (logical): Controls whether only diagonal
+blocks of the density kernel are read in when restarting. This is
+useful for starting an embedding calculation from two separate
+calculations on the individual regions, so you only have the diagonal
+blocks of the density kernel. Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">embed_debug</span></code> (logical): Turns on verbose printing for debugging of
+embedding functionalities. Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">is_restart_vac_from_vac</span></code> (logical): Decides whether the vacuum
+calculation in an autosolvation implicit solvent calculation should
+be restarted from the vacuum_ files or not. Useful for restarting
+autosolvation calculations if they time-out or similar. Default
+<code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">is_emft_cavity</span></code> (logical): Decides whether the cavity used in
+implicit solvent calculations is determined using the low-level
+density kernel (<code class="docutils literal"><span class="pre">F</span></code>), or the EMFT-optimised density kernel (<code class="docutils literal"><span class="pre">T</span></code>).
+Default <code class="docutils literal"><span class="pre">F</span></code>.</li>
+</ul>
+<p>The most reliable way to run EMFT calculations is to have <code class="docutils literal"><span class="pre">use_emft</span></code>,
+<code class="docutils literal"><span class="pre">use_emft_follow</span></code>, <code class="docutils literal"><span class="pre">use_emft_lnv_only</span></code> and <code class="docutils literal"><span class="pre">block_orthogonalise</span></code>
+all set to <code class="docutils literal"><span class="pre">T</span></code>. These can be set to <code class="docutils literal"><span class="pre">F</span></code> (most sensibly in reverse
+order i.e. <code class="docutils literal"><span class="pre">block_orthogonalise</span></code> first), but the calculation may
+become more unstable, depending on the system, the regions chosen and
+the functionals chosen.</p>
+</div>
+<div class="section" id="example-input-file">
+<h2>Example input file<a class="headerlink" href="#example-input-file" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span>!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! O2 and H2 form the embedded system to be treated   !
+! at the higher level of theory, O1 and H1 are the   !
+! environment treated at the low-level.              !
+!====================================================!
+
+%block species_ngwf_regions
+O2 H2
+O1 H1
+%endblock species_ngwf_regions
+
+task: SINGLEPOINT
+cutoff_energy 1000 eV
+write_forces: T
+xc_functional: LDA
+active_xc_functional: PBE
+
+use_emft: T
+use_emft_follow: T
+use_emft_lnv_only: T
+block_orthogonalise : T
+parallel_scheme: HOUSE
+
+%block species_atomic_set
+H1 &quot;SOLVE&quot;
+O1 &quot;SOLVE&quot;
+H2 &quot;SOLVE&quot;
+O2 &quot;SOLVE&quot;
+%endblock species_atomic_set
+
+%block species
+H1 H 1 1 7.0
+O1 O 8 4 7.0
+H2 H 1 1 7.0
+O2 O 8 4 7.0
+%endblock species
+
+%block species_pot
+H1 &quot;pseudo/hydrogen.recpot&quot;
+O1 &quot;pseudo/oxygen.recpot&quot;
+H2 &quot;pseudo/hydrogen.recpot&quot;
+O2 &quot;pseudo/oxygen.recpot&quot;
+%endblock species_pot
+
+%block lattice_cart
+     30.000000000       0.000000000       0.000000000
+      0.000000000      30.000000000       0.000000000
+      0.000000000       0.000000000      30.000000000
+%endblock lattice_cart
+
+%block positions_abs
+O1       16.203224001     15.100000000     11.536063353
+H1       15.100000000     15.100000000     10.100000000
+H1       15.100000000     15.100000000     12.991451046
+O2       12.600158789     15.100000000     17.306583960
+H2       13.051873252     13.656398529     18.308114239
+H2       13.051873252     16.543601471     18.308114239
+%endblock positions_abs
+</pre></div>
+</div>
+</div>
+<div class="section" id="interaction-with-other-functionalities">
+<h2>Interaction with other functionalities<a class="headerlink" href="#interaction-with-other-functionalities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fully-tested">
+<h3>Fully tested<a class="headerlink" href="#fully-tested" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Energy and forces calculations</li>
+<li>Hybrid-in-semi local DFT</li>
+<li>Restarting calculations</li>
+<li>LR-TDDFT</li>
+<li>Implicit solvent</li>
+</ul>
+</div>
+<div class="section" id="should-work-not-thoroughly-tested">
+<h3>Should work, not thoroughly tested<a class="headerlink" href="#should-work-not-thoroughly-tested" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Geometry optimisation</li>
+<li>Finite displacement phonons</li>
+<li>Molecular dynamics</li>
+<li>Conduction NGWF optimisation</li>
+<li>Ensemble DFT</li>
+<li>Kernel DIIS</li>
+<li>QNTO</li>
+<li>NAO</li>
+<li>Cutoff Coulomb</li>
+<li>Spin polarised calculations</li>
+<li>Some properties calculations (eigenstates, Mulliken charges,
+plotting, DoS)</li>
+</ul>
+</div>
+<div class="section" id="not-compatible-with-embedding">
+<h3>Not compatible with embedding<a class="headerlink" href="#not-compatible-with-embedding" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Hubbard calculations</li>
+<li>DMFT</li>
+<li>PAW</li>
+<li>cDFT</li>
+<li>Bandstructure calculations</li>
+<li>DMA</li>
+<li>EDA</li>
+<li>Electronic transport</li>
+<li>Hybrid-in-hybrid DFT</li>
+<li>NEB</li>
+<li>EELS</li>
+<li>Polarisable embedding</li>
+<li>Transition state searching</li>
+<li>DDEC</li>
+</ul>
+<p>Any functionalities missed above are likely to not work with embedding.</p>
+</div>
+</div>
+<div class="section" id="appendix-parallel-strategies-with-embedding">
+<h2>Appendix: Parallel strategies with embedding<a class="headerlink" href="#appendix-parallel-strategies-with-embedding" title="Permalink to this headline">¶</a></h2>
+<p>In a normal ONETEP calculation, atoms are distributed across the
+available MPI processes according to a ‘parallel strategy’. This
+determines how resources such as matrix elements will be spread across
+the MPI environment in order to reduce the communication between nodes
+and maximise the efficiency of the calculation. Details on maximising
+parallel efficiency are available via the ONETEP documentation and
+website.</p>
+<p>As part of the embedding infrastructure, each subsystem is given its own
+parallel strategy. This contains all information relating to the
+distribution of resources across the MPI nodes available to the
+calculation, which are determined by the parameter <code class="docutils literal"><span class="pre">PARALLEL_SCHEME</span></code>.
+There are three settings for the distribution of resources during an
+embedding calculation:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">NONE</span></code>: All subsystems are treated completely independently, with
+atoms distributed across all available processors as though the other
+subsystems do not exist. The number of MPI processes cannot be
+greater than the number of atoms in the smallest subsystem. For
+example, if there are 8 processors available then each will hold
+atoms and data from all subsystems, though the calculation will fail
+if any subsystem has less than 8 atoms (or possibly slightly more if
+the space-filling curve is in use). This is the default setting for
+testing but is not recommended for practical calculations due to the
+constraint on the number of processors.</li>
+<li><code class="docutils literal"><span class="pre">SENATE</span></code>: Nodes are partitioned evenly between all subsystems. For
+example, if there are 8 processors and 2 subsystems, then each will
+be allocated 4 processors, regardless of the number of atoms in each
+subsystem. Unlike the <code class="docutils literal"><span class="pre">NONE</span></code> setting, there is no upper bound on
+the number of processors which may be used, so user discretion is
+advised.</li>
+<li><code class="docutils literal"><span class="pre">HOUSE</span></code>: Divides the processors proportionally between all
+subsystems, with a minimum of 1 processor per subsystem. For example,
+if we have two subsystems consisting of 15 and 5 atoms each, then
+with 8 processors each subsystem will be allocated 6 and 2 nodes
+respectively. At a minimum all subsystems are granted 1 processor —
+if we had two subsystems with 1 and 100 atoms in our 8 processor
+example, then they will receive 1 and 7 processor respectively. Like
+<code class="docutils literal"><span class="pre">SENATE</span></code>, there is no upper bound on the number of processors that
+can be allocated and finding a sensible setting is left to the user.</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">HOUSE</span></code> is the recommended setting for running calculations, the
+others are mainly of use for testing. Since they should all produce the
+same results, any significant differences may be a sign of an underlying
+problem, so comparing them is a useful consistency check.</p>
+<p>[Ding2017-2] F. Ding, T. Tsuchiya, F. R. Manby and T. F. Miller, <em>J. Chem. Theory Comput.</em>, <strong>13</strong>, 4216–4227, (2017).</p>
+<p>[Prentice2020] J. C. A. Prentice, R. J. Charlton, A. A. Mostofi and P. D. Haynes, <em>J. Chem. Theory Comput.</em>, <strong>16</strong>, 354–365, (2020).</p>
+<p>[Prentice2022] J. C. A. Prentice, <em>J. Chem. Theory Comput.</em>, <strong>18</strong>, 1542-1554 (2022).</p>
+<p>[Huang2008] P. Huang and E. M. Carter, <em>Annu. Rev. Phys. Chem.</em>, <strong>59</strong>, 261–290, (2008).</p>
+<p>[Gomes2012] A. S. P. Gomes and C. R. Jacob, <em>Annu. Rep. Prog. Chem., Sect. C: Phys. Chem.</em>, <strong>108</strong>, 222–277, (2012).</p>
+<p>[Fornace2015] M. E. Fornace, J. Lee, M. Kaito, F. R. Manby, T. F. Miller, <em>J. Chem. Theory Comput.</em>, <strong>11</strong>, 568–580, (2015).</p>
+<p>[Ding2017] F. Ding, F. R. Manby and T. F. Miller, <em>J. Chem. Theory Comput.</em>, <strong>13</strong>, 1605–1615, (2017).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="scissor_operator.html" title="previous chapter">Species Dependent Scissor Shifts</a></li>
+      <li>Next: <a href="index_correlation_constrained.html" title="next chapter">Correlation and Constrained DFT</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/EMFT_in_ONETEP.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

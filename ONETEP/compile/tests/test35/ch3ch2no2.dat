@@ -1,0 +1,113 @@
+ !============================================================!
+ ! ~~~~~~~ Quality control test for the ONETEP program ~~~~~~~!
+ !------------------------------------------------------------!
+ ! Molecule: Nitroethane                                      !
+ ! no. of H   :            5                                  !
+ ! no. of C   :            2                                  !
+ ! no. of N   :            1                                  !
+ ! no. of O   :            2                                  !
+ ! total atoms:           10                                  !
+ !------------------------------------------------------------!
+ ! Aim: QC test for DDEC module.                              !
+ !------------------------------------------------------------!
+ ! Created by L. P. Lee on 07-Oct-2013.                       !
+ !============================================================!
+
+ print_qc             : TRUE
+
+ task                 : SINGLEPOINT
+ cutoff_energy        : 1000 eV
+ write_forces         : T
+ write_xyz            : F
+ xc_functional        : PBE
+ 
+ homo_plot            : -1
+ lumo_plot            : -1
+ homo_dens_plot       : -1
+ lumo_dens_plot       : -1
+ dos_smear            : -1 eV
+ num_eigenvalues      : -1
+ write_density_plot   : F
+ 
+ maxit_pen            : 0
+ 
+ minit_lnv            : 3
+ maxit_lnv            : 3
+ maxit_ngwf_cg        : 2
+ 
+ output_detail        : NORMAL
+ 
+ dispersion           : 1
+ 
+ read_tightbox_ngwfs  : F
+ read_denskern        : F
+ 
+ write_tightbox_ngwfs : F
+ write_denskern       : F
+ 
+ charge               : 0
+ spin_polarized       : F
+ 
+ do_properties        : T
+ ddec_calculate       : T
+ ddec_maxit           : 5
+ ddec_moment          : 3
+ 
+ cube_format          : F
+ grd_format           : F
+   
+ %block species_atomic_set
+ C   SOLVE
+ H   SOLVE
+ N   SOLVE
+ O   SOLVE
+ %endblock species_atomic_set
+ 
+ %block species
+  C C  6 4 10.0
+  H H  1 1 10.0
+  N N  7 4 10.0
+  O O  8 4 10.0
+ %endblock species
+ 
+ %block species_pot
+  C   "../../pseudo/carbon_spd.recpot"
+  H   "../../pseudo/hydrogen_coul.recpot"
+  N   "../../pseudo/nitrogen.recpot"
+  O   "../../pseudo/oxygen_spd.recpot"
+ %endblock species_pot
+
+  %block lattice_cart
+ "ang"
+ 15 0 0
+ 0 15 0
+ 0 0 15
+ %endblock lattice_cart
+
+ %block positions_abs
+ "ang"
+ C         8.3222870009     6.9406555979     7.0533688706
+ N         6.9455887489     7.4981542466     7.4219441348
+ O         5.9782284842     6.8612112577     7.0064672148
+ O         6.8984551048     8.5397189625     8.0753202611
+ C         9.4488983685     7.5668800441     7.8491493404
+ H         8.4056983240     7.1304514468     5.9724487105
+ H         8.2262942943     5.8563190195     7.1965766133
+ H         9.3397673074     7.3642319239     8.9235593352
+ H         9.4749886928     8.6548698168     7.7075390095
+ H        10.4077049504     7.1443681551     7.5123591467
+ %endblock positions_abs
+
+ddec_refdens_path : "../../c2_refdens/"
+
+%block ddec_rcomp
+C ALL  "C_c2.refconf"
+C CORE "C_c2.coreconf"
+N CORE "N_c2.coreconf"
+N ALL  "N_c2.refconf"
+O CORE "O_c2.coreconf"
+O ALL  "O_c2.refconf"
+H ALL  "H_c2.refconf"
+%endblock ddec_rcomp
+
+

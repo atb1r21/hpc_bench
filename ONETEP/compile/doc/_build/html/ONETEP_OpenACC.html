@@ -1,0 +1,426 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>GPU Accelerated Implementation &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="QM/MM (TINKTEP) and Polarisable Embedding" href="index_qmmm.html" />
+    <link rel="prev" title="GPU Accelerated Code" href="index_gpu.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="gpu-accelerated-implementation">
+<h1>GPU Accelerated Implementation<a class="headerlink" href="#gpu-accelerated-implementation" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Karl A. Wilkinson, University of Cape Town <a class="footnote-reference" href="#id2" id="id1">[1]</a></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>An OpenACC implementation of ONETEP is available to allow execution on
+machines containing graphic processing units based accelerators (GPUs).
+GPUs are highly parallel and are well suited to algorithms such as the
+fast fourier transforms (FFTs) within ONETEP during the calculation of
+properties such as the local potential integrals and the charge density.</p>
+<p>However, the connection of the accelerators to the host machine through
+the peripheral component interconnect express (PCIe) bus introduces a
+bottleneck when large amounts of data are transferred. Currently, this
+is an issue when moving the fine grid FFT boxes from the accelerator to
+the host machine but future generations of hardware, and developments
+within ONETEP are expected to reduce this issue and improve performance
+significantly.</p>
+<p>This work has been published in the Journal of Computational Chemistry.
+More detailed information is available in this publication:
+<a class="reference external" href="http://onlinelibrary.wiley.com/doi/10.1002/jcc.23410/abstract">http://onlinelibrary.wiley.com/doi/10.1002/jcc.23410/abstract</a> It should
+be noted that this feature of the ONETEP package is under development
+and that significant performance improvements have achieved since the
+publication of this article.</p>
+</div>
+<div class="section" id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p>Compilation of the OpenACC implementation of ONETEP is only currently
+supported by the compilers from the Portland Group International (PGI).
+Relatively few changes are required in order to perform the compilation:
+The flag:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DGPU_PGI</span>
+</pre></div>
+</div>
+<p>should be used and additional variable describing the flags and
+libraries need to be defined:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ACCFLAGS</span> <span class="o">=</span> <span class="o">-</span><span class="n">ta</span><span class="o">=</span><span class="n">nvidia</span> <span class="o">-</span><span class="n">Mcuda</span><span class="o">=</span><span class="mf">6.5</span>
+<span class="n">ACCLIBS</span> <span class="o">=</span> <span class="o">-</span><span class="n">lcufft</span> <span class="o">-</span><span class="n">lcudart</span>
+</pre></div>
+</div>
+<p>Here, we are utilising the CUDA 6.5 runtime libraries as they are the
+most up to date version available on the TITAN supercomputer at the Oak
+Ridge National laboratories, your local machine may have a more up to
+data version available.</p>
+<p>Further examples of complete config files for the desktops at the
+University of Southampton and the Wilkes cluster at the University of
+Cambridge follow:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>################  Southampton desktop ################
+F90 = pgf90
+MPIROOT=/local/scratch/kaw2e11/software/openmpi_1.6.4/pgi/
+FFTWROOT=/local/scratch/kaw2e11/software/fftw/pgi/
+FFLAGS = -DGPU_PGI -DFFTW3 -DMPI -I$(MPIROOT)include -I$(FFTWROOT)include -I$(MPIROOT)lib/
+OPTFLAGS = -O3 -fast
+DEBUGFLAGS = -g -C
+MPILIBS= -L$(MPIROOT)lib/ -lmpi_f90 -lmpi_f77 -lmpi -lopen-rte -lopen-pal -ldl -Wl,
+--export-dynamic -lnsl -lutil -ldl
+ACCFLAGS = -ta=nvidia -Mcuda=6.5
+ACCLIBS = -L/usr/lib64/nvidia -L$(CUDAROOT)/lib64/ -lcufft -lcudart
+LIBS = $(MPILIBS) -llapack -lblas -L$(FFTWROOT)lib/ -lfftw3_omp -lfftw3 -lm
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>################ WILKES ################
+FC := mpif90
+F90 := $(FC)
+FFLAGS = -DGPU_PGI -DFFTW3_NO_OMP -DMPI -DNOMPIIO -Mdalign
+MKLPATH=${MKLROOT}/lib/intel64
+LIBS=  -L$(MKLROOT)/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_sequential -lpthread -lm
+OPTFLAGS = -O3 -m64
+WARNINGFLAGS = -Wall -Wextra
+DEBUGFLAGS =
+COMPILER = PORTLAND-pgf90-on-LINUX
+ACCFLAGS = -acc -ta=nvidia:cc35 -Mcuda=6.5
+ACCLIBS = -lcufft -lcudart
+</pre></div>
+</div>
+<p><strong>Unfortunately, attention should be paid to to the version of the
+compilers and libraries used as, due to the speed at which the OpenACC
+approach is evolving, it is a common for functionality to break. As
+such, this document will be regularly updated with details of
+combinations of compiler and library versions that are known to be
+stable.</strong></p>
+<div class="section" id="known-working-configurations">
+<h3>Known Working Configurations<a class="headerlink" href="#known-working-configurations" title="Permalink to this headline">¶</a></h3>
+<p>The following combinations of machine, PGI compiler and CUDA libraries
+have been tested successfully.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="31%" />
+<col width="39%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Machine</strong></td>
+<td><strong>Compiler</strong></td>
+<td><strong>CUDA library</strong></td>
+</tr>
+<tr class="row-even"><td>Wilkes</td>
+<td>PGI 15.3</td>
+<td>6.5</td>
+</tr>
+<tr class="row-odd"><td>Wilkes</td>
+<td>PGI 15.9</td>
+<td>7.5</td>
+</tr>
+<tr class="row-even"><td>Titan</td>
+<td>Cray</td>
+<td>6.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="execution">
+<h2>Execution<a class="headerlink" href="#execution" title="Permalink to this headline">¶</a></h2>
+<p>Use of the OpenACC implementation of ONETEP does not require any changes
+to the ONETEP input files. However, job submission does change
+significantly in some platforms.</p>
+<div class="section" id="cuda-multi-process-service">
+<h3>CUDA Multi Process Service<a class="headerlink" href="#cuda-multi-process-service" title="Permalink to this headline">¶</a></h3>
+<p>The CUDA Multi Process Service (MPS) daemon controls the way MPI
+processes see GPUs and allows multiple MPI processes to use a single GPU
+wherein the hyperqueue scheduler is used to utilise the hardware much
+more efficiently than when a single process is used per GPU. As, in the
+case of a single MPI process does not provide sufficient computation to
+fully utilize a GPU, it is critical to use this technology to achieve
+optimal performance.</p>
+<p>However, attention must be paid to ensure that GPU memory is not
+exhausted. Currently, the usage is reported but these safety checks need
+to be extended to allow a graceful exit should the total memory be
+exhausted.</p>
+<p>Below are examples for the usage of MPS during job submission on Wilkes
+and TITAN:</p>
+<div class="section" id="wilkes">
+<h4>Wilkes<a class="headerlink" href="#wilkes" title="Permalink to this headline">¶</a></h4>
+<p>On Wilkes, job submission is performed using: sbatch slurm_submit.tesla</p>
+<p>where: slurm_submit.tesla is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>#!/bin/bash
+#SBATCH -J MPS_test
+#SBATCH -A SKYLARIS-GPU
+#SBATCH --nodes=1
+#SBATCH --ntasks=4
+#SBATCH --time=00:30:00
+#SBATCH --no-requeue
+#SBATCH -p tesla
+
+. /etc/profile.d/modules.sh
+module purge
+module load default-wilkes
+module unload intel/impi intel/cce intel/fce cuda
+module load pgi/14.7
+module load mvapich2/2.0/pgi-14
+ulimit -s unlimited
+
+numnodes=$SLURM_JOB_NUM_NODES
+numtasks=$SLURM_NTASKS
+mpi_tasks_per_node=$(echo &quot;$SLURM_TASKS_PER_NODE&quot; | sed -e  &#39;s/^\([0-9][0-9]*\).*$/\1/&#39;)
+JOBID=$SLURM_JOB_ID
+
+cd $SLURM_SUBMIT_DIR
+
+application=&quot;onetep.wilkes.gpu.cuda55&quot;
+
+echo &quot;JobID: $JOBID&quot;
+echo &quot;Time: `date`&quot;
+echo &quot;Running on master node: `hostname`&quot;
+echo &quot;Current directory: `pwd`&quot;
+
+if [ &quot;$SLURM_JOB_NODELIST&quot; ]; then
+       #! Create a machine file:
+       export NODEFILE=`generate_pbs_nodefile`
+       cat $NODEFILE | uniq &gt; machine.file.$JOBID
+       echo -e &quot;\nNodes allocated:\n================&quot;
+       echo `cat machine.file.$JOBID | sed -e &#39;s/\..*$//g&#39;`
+fi
+
+echo -e &quot;\nnumtasks=$numtasks, numnodes=$numnodes, \
+mpi_tasks_per_node=$mpi_tasks_per_node (OMP_NUM_THREADS=$OMP_NUM_THREADS)\n&quot;
+
+# Start MPS deamons...
+srun -N$SLURM_JOB_NUM_NODES -n$SLURM_JOB_NUM_NODES ./run_MPS.sh
+
+echo -e &quot;\nExecuting program:\n==================\n\n&quot;
+
+mpirun -np ${SLURM_NTASKS} -ppn ${mpi_tasks_per_node} --genvall \
+-genv MV2_RAIL_SHARING_LARGE_MSG_THRESHOLD 1G -genv MV2_ENABLE_AFFINITY 1 \
+-genv MV2_CPU_BINDING_LEVEL SOCKET -genv MV2_CPU_BINDING_POLICY SCATTER \
+-genv MV2_SHOW_CPU_BINDING 1 ./run_app.sh ../${application} onetep.dat 2&gt;&amp;1 \
+| tee onetep.out
+
+
+echo -e &quot;\n\n&gt;&gt;&gt; Program terminated! &lt;&lt;&lt;\n&quot;
+echo -e &quot;Time: `date` \n\n&quot;
+
+# Kill MPS deamons
+srun -N$SLURM_JOB_NUM_NODES -n$SLURM_JOB_NUM_NODES ./kill_MPS.sh
+</pre></div>
+</div>
+<p>This file, and the following files, were obtained from the Wilkes
+systems administrators. It is advisable to contact system administrators
+if you have any questions regarding the submission process.</p>
+<p>Here, the files: run_MPS.sh and kill_MPS.sh manage the initialisation
+and termination of the MPS deamon and the run_app.sh controls the
+allocation of MPI processes to the correct GPUs. For reference, the
+contents of those files are as follows, again, it is advisable to speak
+with your systems administrator about equivalent scripts for other
+machines (For example, run_app.sh assumes the use of MVAPICH2).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>#####run_MPS.sh
+#!/bin/bash
+
+# Number of gpus with compute_capability 3.5  per server
+NGPUS=2
+
+# Start the MPS server for each GPU
+for ((i=0; i&lt; $NGPUS; i++))
+do
+ echo &quot;[CUDA-PROXY] Setting MPS on `hostname` for GPU $i...&quot;
+ mkdir /tmp/mps_$i
+ mkdir /tmp/mps_log_$i
+ export CUDA_VISIBLE_DEVICES=$i
+ export CUDA_MPS_PIPE_DIRECTORY=/tmp/mps_$i
+ export CUDA_MPS_LOG_DIRECTORY=/tmp/mps_log_$i
+ nvidia-cuda-mps-control -d
+done
+
+exit 0
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>###/run_app.sh
+#!/bin/bash
+
+# Important note: it works properly when MV2_CPU_BINDING_LEVEL=SOCKET &amp;&amp;
+# MV2_CPU_BINDING_POLICY=SCATTER
+
+lrank=$MV2_COMM_WORLD_LOCAL_RANK
+grank=$MV2_COMM_WORLD_RANK
+
+case ${lrank} in
+0|2|4|6|8|10)
+  export CUDA_MPS_PIPE_DIRECTORY=/tmp/mps_0
+  export MV2_NUM_HCAS=1
+  export MV2_NUM_PORTS=1
+  export MV2_IBA_HCA=mlx5_0
+  echo &quot;[CUDA-PROXY] I am globally rank $grank (locally $lrank ) on \
+  `hostname` and I am using GPU 0&quot;
+  &quot;$@&quot;
+  ;;
+1|3|5|7|9|11)
+  export CUDA_MPS_PIPE_DIRECTORY=/tmp/mps_1
+  export MV2_NUM_HCAS=1
+  export MV2_NUM_PORTS=1
+  export MV2_IBA_HCA=mlx5_1
+  echo &quot;[CUDA-PROXY] I am globally rank $grank (locally $lrank ) on \
+  `hostname` and I am using GPU 1&quot;
+  &quot;$@&quot;
+  ;;
+esac
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">##kill_MPS.sh</span>
+<span class="c1">#!/bin/bash</span>
+
+<span class="n">echo</span> <span class="s2">&quot;[CUDA-PROXY] Kill nvidia-cuda-mps-control on `hostname`...&quot;</span>
+<span class="n">killall</span> <span class="o">-</span><span class="mi">9</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">cuda</span><span class="o">-</span><span class="n">mps</span><span class="o">-</span><span class="n">control</span>
+
+<span class="c1"># this waiting time is to let killall have effect...</span>
+<span class="n">sleep</span> <span class="mi">3</span>
+
+<span class="n">echo</span> <span class="s2">&quot;[CUDA-PROXY] Clean /tmp on `hostname`...&quot;</span>
+<span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">mps_</span><span class="o">*</span>
+<span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">mps_log_</span><span class="o">*</span>
+
+<span class="n">exit</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="titan">
+<h4>TITAN<a class="headerlink" href="#titan" title="Permalink to this headline">¶</a></h4>
+<p>Job submission on TITAN is somewhat more straightforward and the
+following script may be used directly. The important line is:
+<code class="docutils literal"><span class="pre">export</span> <span class="pre">CRAY_CUDA_PROXY=1</span></code> which enables the use of MPS.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>#!/bin/bash
+#PBS -A CODENAME
+#PBS -N MgMOF74_111_SP
+#PBS -j oe
+#PBS -l walltime=1:30:00,nodes=XNUMNODES
+#PBS -l gres=atlas1%atlas2
+
+PROJECT=chm113
+
+source $MODULESHOME/init/bash
+module load cudatoolkit
+#module swap PrgEnv-pgi/5.2.40 PrgEnv-intel/5.2.40
+
+export CRAY_CUDA_PROXY=1
+
+EXEDIR=/lustre/atlas/scratch/kaw2e11/chm113/binaries
+#EXE=onetep.4313.titan.cpu.intel
+EXE=onetep.4313.titan.gpu.pgi
+
+##########################################
+SOURCEDIR=/ccs/home/kaw2e11/BENCHMARKS/PGI_GPU/benchmark-XTOTALMPI-\
+XNUMNODES-XMPIPERNUMANODE
+INPUT=G_222_80_D2.dat
+INFO=PGI_GPU-XTOTALMPI-XNUMNODES-XMPIPERNUMANODE
+##########################################
+
+BASENAME=`basename $INPUT`-$INFO
+OUTPUT=$BASENAME.out
+
+cd $MEMBERWORK/$PROJECT/
+mkdir dir-$BASENAME
+cd dir-$BASENAME
+
+cp $SOURCEDIR/* $MEMBERWORK/$PROJECT/dir-$BASENAME
+
+aprun -n XTOTALMPI -S XMPIPERNUMANODE -j 2 $EXEDIR/$EXE $INPUT &amp;&gt; $OUTPUT
+
+cd ..
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="mailto:karl&#46;wilkinson&#37;&#52;&#48;uct&#46;ac&#46;za">karl<span>&#46;</span>wilkinson<span>&#64;</span>uct<span>&#46;</span>ac<span>&#46;</span>za</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_gpu.html">GPU Accelerated Code</a><ul>
+      <li>Previous: <a href="index_gpu.html" title="previous chapter">GPU Accelerated Code</a></li>
+      <li>Next: <a href="index_qmmm.html" title="next chapter">QM/MM (TINKTEP) and Polarisable Embedding</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/ONETEP_OpenACC.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

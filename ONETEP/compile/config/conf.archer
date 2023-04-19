@@ -1,0 +1,84 @@
+# This is the config file for ARCHER (Cray XC30 ARCHER system)
+#
+# The compiler flags are selected according to the loaded
+# programing environment PrgEnv-<cray,intel,gnu>
+#
+# MKL libraries can be used if USE_MKL is defined e.g.
+# `module swap PrgEnv-cray PrgEnv-intel && make onetep USE_MKL=T
+#
+# NOTES : 1. make clean is necessary if the compiler environment is changed !
+#         2. the module fftw needs to loaded except USE_MKL is defined
+#         3. MKL library works only with PrgEnv-intel,
+#            if USE_MKL is defined with another PrgEnv-<> it will be
+#            ignored and a warning message is printed.
+#
+# Lucian Anton
+# November 2014
+
+# default values
+BUILD=opt
+FC := ftn
+
+# trap misspelled BUILD values
+ifeq (,$(filter opt debug,$(BUILD)))
+  $(error ERROR: unknown value for BUILD, try 'opt' or 'debug')
+endif
+
+# set compiler flags according to PE_ENV value
+ifeq ($(strip $(PE_ENV)),GNU)
+  COMPILER = GNU-gfortran-on-LINUX
+  PFLAGS = -DMPI -DSCALAPACK
+  ifdef USE_MKL
+    $(warning MKL cannot be used with GNU compiler environment)
+  endif
+  FLAGS_opt = $(FLAGS_common) -DFFTW3 -Ofast -ffree-line-length-0 -fopenmp
+  FLAGS_debug = $(FLAGS_common) -DFFTW3 -g -fcheck=all -finit-real=snan \
+                -Wall -Wtabs -Wno-unused \
+                -fbacktrace -ffpe-trap=invalid,zero,overflow -fsignaling-nans \
+                 -fdump-core -ffree-line-length-0 -fopenmp
+
+else ifeq ($(strip $(PE_ENV)),INTEL)
+  COMPILER := INTEL-ifort-on-LINUX
+  PFLAGS := -DMPI
+  # Default to using MKL
+  ifndef USE_MKL
+    USE_MKL=T
+  endif
+  ifeq ($(USE_MKL),T)
+    # Explicit link to MKL libraries, since otherwise you get sequential or
+    # non-Scalapack versions
+    PFLAGS += -DSCALAPACK
+    LIBS = ${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group \
+           ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a \
+           ${MKLROOT}/lib/intel64/libmkl_core.a \
+           ${MKLROOT}/lib/intel64/libmkl_intel_thread.a \
+           ${MKLROOT}/lib/intel64/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group
+    FLAGS_common = -I$(MKLROOT)/include -I$(MKLROOT)/include/intel64/lp64 -DMKL_FFTW3
+  else
+    # Will need FFTW3 module loaded for this path to work
+    FLAGS_common = -DFFTW3
+  endif
+  FLAGS_common += -openmp  -diag-disable 8290,8291 -no-ipo
+  FLAGS_opt := $(FLAGS_common) -xHOST -O3 -ip -no-prec-div
+  FLAGS_debug := $(FLAGS_common) -g -C -check all -traceback -warn-all
+
+else ifeq ($(strip $(PE_ENV)),CRAY)
+  COMPILER := CRAY-crayftn-on-LINUX
+  ifdef USE_MKL
+    $(warning MKL cannont be used with CRAY compiler environment)
+  endif
+  LIBS =
+  FC := ftn
+  PFLAGS = -DMPI -DSCALAPACK
+  FLAGS_common :=  -DFFTW3 -em
+  FLAGS_opt :=  $(FLAGS_common) -O ipa0
+  FLAGS_debug :=  $(FLAGS_common) -e D
+  UPPERCASE_MODULE = yes
+else
+  $(error unknown value of  $(PE_ENV))
+endif
+
+# the flags are:
+FFLAGS = $(PFLAGS) $(FLAGS_$(BUILD))
+
+F90 := $(FC)

@@ -1,0 +1,50 @@
+#!/bin/bash -l
+#SBATCH --nodes=1
+#SBATCH --time=60
+#SBATCH --exclusive
+#SBATCH --partition=AMD_7763_2s_64c_2t_hdr100_256GB_3200
+#
+
+comp=intel
+case $comp in
+intel) module use ~martynf/PrgEnv/etc/modulefiles
+       module load compilers/intel/19.5.281 openmpi/intel/4.0.5.2
+       ;;
+gnu) module load openmpi/gnu/4.0.5.2
+     ;;
+*) 
+     echo "wrong compiler $comp" ; exit 1
+     ;;
+esac
+module list
+
+(cd .. && make PLATFORM=parallel_generic BUILD=opt COMP=$comp clean test)
+[ $? = 0 ] || { echo "build failed" ; exit 1 ; }
+
+export DL_MG_DEBUG_PRINT=1
+#export DL_MG_USE_CG=y
+#export DL_MG_USE_CG_PRECON=y,2
+#export OMP_STACKSIZE=1G
+mask=mask_cpu:FF
+for ((i=1;i<16;++i)); do mask="$mask",$(echo "obase=16;ibase=16;FF*2^(8*$i)" | bc); done
+
+echo '======================== no CG =============================================================='
+
+bash ../utils/test_suite.sh -mpiexec=srun -mpiopts="-v --cpu-bind=v,$mask" -use_cg=F -v -grid=97,97,129
+
+#exit 0
+
+echo '========================  CG   =============================================================='
+
+bash ../utils/test_suite.sh -mpiexec=srun -mpiopts="-v --cpu-bind=v,$mask" -use_cg=T -v -grid=97,97,129
+
+#exit 0
+
+echo '======================== no-MPI no CG ========================================================'
+
+(cd .. && make PLATFORM=serial_gnu  BUILD=opt COMP=gnu clean test)
+[ $? = 0 ] || { echo "build failed" ; exit 1 ; }
+
+bash ../utils/test_suite.sh -mpiexec=srun -mpiopts="-v --cpu-bind=v,$mask" -use_cg=F -v -grid=97,97,129 -par-mode=omp
+echo '======================== no-MPI    CG ========================================================'
+bash ../utils/test_suite.sh -mpiexec=srun -mpiopts="-v --cpu-bind=v,$mask" -use_cg=T -v -grid=97,97,129 -par-mode=omp

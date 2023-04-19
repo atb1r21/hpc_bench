@@ -1,0 +1,1331 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Spherical wave resolution of identity (SWRI), Hartree-Fock exchange (HFx), hybrid functionals and distributed multipole analysis (DMA) &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cut-off Coulomb" href="cutoff_coulomb.html" />
+    <link rel="prev" title="Solvent and Electrolyte Model" href="implicit_solvation_v3.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="spherical-wave-resolution-of-identity-swri-hartree-fock-exchange-hfx-hybrid-functionals-and-distributed-multipole-analysis-dma">
+<h1>Spherical wave resolution of identity (SWRI), Hartree-Fock exchange (HFx), hybrid functionals and distributed multipole analysis (DMA)<a class="headerlink" href="#spherical-wave-resolution-of-identity-swri-hartree-fock-exchange-hfx-hybrid-functionals-and-distributed-multipole-analysis-dma" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Jacek Dziedzic, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">James C. Womack, University of Southampton</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">June 2020</td>
+</tr>
+</tbody>
+</table>
+<p>This manual pertains to ONETEP versions v5.3.4.0 and later.</p>
+<div class="section" id="the-basics">
+<h2>The basics<a class="headerlink" href="#the-basics" title="Permalink to this headline">¶</a></h2>
+<p>ONETEP offers linear-scaling calculation of Hartree-Fock exchange (HFx)
+and linear-scaling distributed multipole analysis (DMA) through a
+variant of density fitting. In this approach products of two NGWFs are
+approximated (fitted) using an auxiliary basis of spherical waves
+centred on the atoms on which the two NGWFs reside. Before the expansion
+can be performed, an overlap matrix between spherical waves on all
+centres whose NGWFs overlap needs to be calculated. The resultant matrix
+will be termed the <em>metric matrix</em>, and the process through which it is
+obtained will be termed <em>spherical wave resolution of identity (SWRI)</em>.
+Understanding the keywords controlling SWRI is thus essential for any
+calculation involving HFx or DMA.</p>
+</div>
+<div class="section" id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
+<p>All calculations using SWRI have these limitations:</p>
+<ul class="simple">
+<li>Open boundary conditions (OBCs) are assumed in all uses of SWRI. If
+your calculation uses OBCs (via cut-off Coulomb, Martyna-Tuckerman or
+multigrid [Hine2011]), this is a non-issue. If&nbsp;your
+calculation technically uses PBCs, but you have sufficient vacuum
+padding in every direction (effectively making it approximately OBC),
+this is a non-issue. If your system is truly extended in any
+direction (at least one NGWF sphere sticks out of the cell and wraps
+around), this is an issue, as neither HFx nor DMA will work
+(producing nonsense). This is not checked!</li>
+<li>All species must have identical NGWF radii. Without this
+simplification the numerical methods used in SWRI would get ugly.
+Typically this is a non-issue, just increase the NGWF radii to the
+largest value. This might admittedly be an issue if you have a single
+species that requires a large NGWF radius. This is checked against
+and ONETEP will not let you do SWRI unless all NGWF radii are
+identical.</li>
+<li>Although well-controllable, density fitting is an approximation.
+Using settings that are too crude can lead to inaccurate results and
+poor NGWF convergence.</li>
+<li>HFx is incompatible with PAW and ONETEP will refuse to use both
+simultaneously.</li>
+<li>HFx and DMA are incompatible with complex NGWFs and ONETEP will
+refuse to use both.</li>
+<li>HFx does not work with atoms that have 0 NGWFs, although this is
+hardly a limitation.</li>
+</ul>
+</div>
+<div class="section" id="spherical-wave-resolution-of-identity">
+<h2>Spherical wave resolution of identity<a class="headerlink" href="#spherical-wave-resolution-of-identity" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="generating-the-metric-matrix">
+<h3>Generating the metric matrix<a class="headerlink" href="#generating-the-metric-matrix" title="Permalink to this headline">¶</a></h3>
+<p>Calculation of the metric matrix [Dziedzic2013] (Sec. II.D.1) is
+challenging. This is because products of spherical waves (SWs) and
+products of a spherical wave with a potential of a spherical wave
+(SWpot) oscillate rapidly and cannot be reliably integrated on a
+Cartesian or radial grid. ONETEP calculates the elements of the metric
+matrix by a piecewise approximation of SWs and SWpots with high-order
+Chebyshev polynomials. Once this is done, their overlaps can be
+calculated by overlapping a large number of polynomials, which is easy,
+but time consuming.</p>
+<p>For a fixed set of atomic positions and chosen NGWF radii the metric
+matrix needs only be calculated once, this is done during
+initialisation. The metric matrix does not depend on the NGWFs
+themselves or even the number of NGWFs per atom.</p>
+<p>In ONETEP versions prior to 5.1.2.3, metric matrix elements are
+evaluated using the method described in Ref. [Dziedzic2013] (section II.D.1), i.e. by
+3-D integration over piecewise expansions of SWs/SWpots in Chebyshev
+polynomials. This is the “3-D Chebyshev” (3Dc) scheme.</p>
+<p>For versions <span class="math">\(\ge\)</span> 5.1.2.3, an alternative metric matrix scheme is
+available in which metric matrix elements are decomposed into products
+of 2-D numerical and 1-D analytic integrals. This is the “2-D numerical,
+1-D analytic” (2Dn-1Da) scheme.</p>
+<p>The separation of the 3-D integral in the 2Dn-1Da scheme is made
+possible by expressing metric matrix elements for each atom pair in a
+<em>molecular</em> coordinate frame with the <span class="math">\(z\)</span>-axis pointing along the
+vector between atomic centres and with a set of SWs aligned in this
+coordinate system. When expressed in spherical polar coordinates, the
+1-D integration (over the azimuthal angle, <span class="math">\(\phi\)</span>) is simple to
+evaluate analytically. The integration over <span class="math">\((r,\theta)\)</span> can be
+performed by the same approach used in the 3Dc method, i.e.&nbsp;evaluating
+integrals over piecewise expansions of the <span class="math">\((r,\theta)\)</span>-dependent
+parts of the SWs and SWpots in Chebyshev polynomials.</p>
+<p>To obtain the metric matrix in the original set of SWs, which are
+aligned parallel to the <span class="math">\(z\)</span>-axis of a <em>global</em> (simulation cell)
+coordinate frame, the SWs in the molecular coordinate frame must be
+represented in terms of the SWs in the global coordinate frame. This is
+achieved by applying a rotation matrix to the real-spherical harmonic
+(RSH) components of the SWs/SWpots associated with each atom pair.</p>
+<p>For versions <span class="math">\(\ge\)</span> 5.1.5.0, the 2Dn-1Da scheme is the default for
+evaluating the electrostatic metric matrix. The 3Dc scheme remains the
+default for the overlap metric matrix (<code class="docutils literal"><span class="pre">O</span></code>), since overlap metric
+matrix evaluation is not currently supported in the 2Dn-1Da scheme.</p>
+<p>Use of the 2Dn-1Da scheme to evaluate the electrostatic metric matrix is
+strongly recommended, as it reduces the computational cost (in terms of
+memory and execution time) of evaluating the matrix by orders of
+magnitude compared to the 3Dc scheme (with no apparent loss of
+accuracy).</p>
+<p>To set up SWRI (for both 2Dn-1Da and 3Dc schemes), define the following
+block:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>%block swri
+  *myname* :math:`l_{\textrm{max}}` :math:`q_{\textrm{max}}` *metric* :math:`N_{\textrm{i}}` :math:`N_{\textrm{o}}` *flags*
+%endblock swri
+</pre></div>
+</div>
+<p>Replace <em>``myname``</em> with a user-readable name for the SWRI, you will
+use it later to tell HFx or DMA which SWRI to use (as you can have more
+than one SWRI).</p>
+<p>[lmax] <span class="math">\(l_{\textrm{max}}\)</span> is the maximum angular momentum in the
+SW basis. Supported values are 0&nbsp;(s-like SWs only), 1&nbsp;(s-&nbsp;and SWs),
+2&nbsp;(s-,&nbsp;p- and d-like SWs), 3&nbsp;(s-,&nbsp;p-,&nbsp;d- and f-like SWs) and 4 (you get
+the idea). For HFx choose 2 for a crude calculation, 3 for good quality,
+and 4 for extreme quality. 0 and 1 will likely be too crude to fully
+NGWF-converge. Expect 2 to recover more than 99% of HFx energy, and 3 to
+recover about 99.7%. See [Dziedzic2013] (Fig. 8) for an
+illustrative guide. For DMA choose 0 if you’re only interested in atomic
+charges, 1 if you want charges and dipoles, and 2 if you want charges,
+dipoles and quadrupoles. There is no point in using 3 or 4 for DMA. Be
+aware that the computational cost grows as
+<span class="math">\({\mathcal{O}}(l^4_{\textrm{max}})\)</span> (for the entire calculation),
+and the memory requirement grows as
+<span class="math">\({\mathcal{O}}(l^4_{\textrm{max}})\)</span> (for the entire calculation).</p>
+<p>[qmax] <span class="math">\(q_{\textrm{max}}\)</span> is the number of Bessel (radial)
+functions in the SW basis. Adding more Bessel functions increases the
+size of the basis (linearly) and improves quality. However, each
+subsequent Bessel function oscillates more rapidly and beyond a certain
+point (at about 15 Bessel functions) they become difficult to represent
+on Cartesian grids of typical fineness. As a guide, use 7 for a crude
+calculation, 10 for reasonable accuracy and 14 for extreme accuracy.
+Again, see [Dziedzic2013] (Fig. 8) to see a graphical
+representation of the impact of this setting on accuracy. There is no
+upper limit on the value of this parameter; however, ONETEP will refuse
+to include Bessel functions that oscillate too rapidly for your KE
+cutoff – you will get a warning and high-numbered Bessel functions will
+be removed from the basis. The computational cost grows as
+<span class="math">\({\mathcal{O}}(q^2_{\textrm{max}})\)</span>, and so does the memory
+requirement. Replace <em>``metric``</em> with <code class="docutils literal"><span class="pre">V</span></code> to use the electrostatic
+metric in the SWRI, or with <code class="docutils literal"><span class="pre">O</span></code> to use the overlap metric. Specifying
+<code class="docutils literal"><span class="pre">VO</span></code> or <code class="docutils literal"><span class="pre">OV</span></code> will generate both metric matrices, although that is
+not usually done. In general, prefer the electrostatic metric – the
+error in the energy due to the density fitting approximation is then
+second-order in the fitting error, while for the overlap metric it is
+first-order.</p>
+<p>As mentioned above, for ONETEP versions <span class="math">\(\ge 5.1.5.0\)</span> the
+electrostatic metric (<code class="docutils literal"><span class="pre">V</span></code>) is evaluated by default using the more
+efficient 2Dn-1Da scheme. The overlap metric (<code class="docutils literal"><span class="pre">O</span></code>) cannot (currently)
+be evaluated using this scheme, so is evaluated using the more costly
+3Dc scheme. Since only a single metric matrix scheme may be used at a
+time, if both metric matrices are requested (<code class="docutils literal"><span class="pre">VO</span></code> or <code class="docutils literal"><span class="pre">OV</span></code>) then
+ONETEP will fall back to the 3Dc scheme. In this situation, it is worth
+considering whether your calculation can be run with only the
+electrostatic metric in order to take advantage of the more efficient
+2Dn-1Da scheme.</p>
+<p><span class="math">\(N_{\textrm{i}}\)</span> is the number of intervals into which the
+integration domain will be divided along each axis for the purpose of
+Chebyshev interpolation. In the 3Dc scheme, this is the localisation
+sphere of an SW (an NGWF sphere, see
+[Dziedzic2013] (Sec. II.D.1)), while in the 2Dn-1Da scheme this
+is a half-disc with the same radius. For 3Dc, 8 is the bare minimum, 10
+is crude, 12 is accurate and 14 is extremely accurate. You should
+avoiding going overboard (recommended value is 12), since the
+computational cost grows as <span class="math">\({\mathcal{O}}(N^3_{\textrm{i}})\)</span>
+(only for the SWRI stage, the remainder of the calculation is not
+sensitive to this value). The memory requirement grows as
+<span class="math">\({\mathcal{O}}(N^3_{\textrm{i}})\)</span> (only for the SWRI stage). See
+[Dziedzic2013] (Fig. 5) to see how the accuracy of the metric
+matrix depends on this parameter when using the 3Dc scheme. For 2Dn-1Da,
+the computational cost (<span class="math">\({\mathcal{O}}(N^{2}_{\textrm{i}})\)</span>) and
+memory requirements (<span class="math">\({\mathcal{O}}(N^{2}_{\textrm{i}})\)</span>) are
+considerably lower, so it is practical to use <span class="math">\(N_{\textrm{i}}=14\)</span>
+or larger for routine calculations. In this case, it is recommended to
+use 12 or greater. In particular, very crude (less than 10) values
+should be avoided when using 2Dn-1Da. Testing of DMA with the 2Dn-1Da
+scheme suggests that the 2Dn-1Da scheme is more sensitive than 3Dc to
+lower values of <span class="math">\(N_{\textrm{i}}\)</span> (i.e. larger errors are produced
+in multipole moments compared to values converged with respect to
+<span class="math">\(N_{\textrm{i}}\)</span> and <span class="math">\(N_{\textrm{o}}\)</span>).
+<span class="math">\(N_{\textrm{o}}\)</span> is the order of Chebyshev polynomials used in the
+interpolation. Just like for <span class="math">\(N_{\textrm{i}}\)</span>, for the 3Dc scheme
+8 is the bare minimum, 10 is crude, 12 is accurate and 14 is extremely
+accurate. Again, you should avoid going overboard (recommended
+value <a class="footnote-reference" href="#id21" id="id7">[1]</a> is 12), since the computational cost grows as
+<span class="math">\({\mathcal{O}}(N^4_{\textrm{o}})\)</span> (only for the SWRI stage, the
+remainder of the calculation is not sensitive to this value). The memory
+requirement grows as <span class="math">\({\mathcal{O}}(N^3_{\textrm{o}})\)</span> (only for
+the SWRI stage). See [Dziedzic2013] (Fig. 5) to see how the
+accuracy of the metric matrix depends on this parameter when using the
+3Dc scheme. For 2Dn-1Da, the computational cost
+(<span class="math">\({\mathcal{O}}(N^{3}_{\textrm{o}})\)</span>) and memory requirements
+(<span class="math">\({\mathcal{O}}(N^{2}_{\textrm{o}})\)</span>) are again considerably
+lower, so it is practical to use <span class="math">\(N_{\textrm{o}}=14\)</span> or larger for
+routine calculations. In this case, it is recommended to use 12 or
+greater. For the reasons outlined above for <span class="math">\(N_{\textrm{i}}\)</span>, very
+crude (less than 10) values of <span class="math">\(N_{\textrm{o}}\)</span> should be avoided
+when using 2Dn-1Da. For DMA, which is performed during a properties
+calculation <a class="footnote-reference" href="#id22" id="id9">[2]</a>, crude settings will simply lead to less accurate
+multipoles. In HFx, on the other hand, settings that are too crude would
+prevent convergence because the exchange matrix would not be
+sufficiently symmetric. ONETEP will abort your calculation if the
+exchange matrix is later found to not be symmetric to at least 3.4
+digits. To avoid frustration, do not go below <span class="math">\(N_{\textrm{i}}=10\)</span>,
+<span class="math">\(N_{\textrm{o}}=10\)</span>.</p>
+<p>For the 2Dn-1Da scheme, the cost of evaluating the metric matrix is
+typically significantly smaller than the overall cost of the subsequent
+calculation. In this case, it is practical to routinely use higher
+<span class="math">\(N_{\textrm{i}}\)</span> and <span class="math">\(N_{\textrm{o}}\)</span> values
+(e.g.&nbsp;<span class="math">\(N_{\textrm{i}} = N_{\textrm{o}} = 14\)</span> or <span class="math">\(16\)</span>).</p>
+<p>Generating the metric matrix can be costly (particularly when using the
+3Dc scheme). When restarting calculations that crashed, ran out of
+walltime, for restarts to do properties, or re-runs with different
+settings it makes sense to save the metric matrix to a file and re-use
+it during restarts. A metric matrix can be reused as long as the
+positions of the atoms and the NGWF radii did not change. <em>``flags``</em> is
+a combination of one or more letters or numbers: <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">P</span></code>,
+<code class="docutils literal"><span class="pre">Q</span></code>, <code class="docutils literal"><span class="pre">X</span></code>, <code class="docutils literal"><span class="pre">E</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">2</span></code>, <code class="docutils literal"><span class="pre">3</span></code>, controlling the behaviour of
+ONETEP during SWRI. The following flags instruct ONETEP to perform
+particular actions:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">W</span></code> – writes the metric matrix to a file, once it has been
+calculated in its entirety. The file will have the extension
+<code class="docutils literal"><span class="pre">.vmatrix</span></code> for the electrostatic metric matrix, and <code class="docutils literal"><span class="pre">.omatrix</span></code>
+for the overlap metric matrix. This is highly recommended.</li>
+<li><code class="docutils literal"><span class="pre">R</span></code> – reads the metric matrix from a file, instead of calculating
+it. The file will have the extension <code class="docutils literal"><span class="pre">.vmatrix</span></code> for the
+electrostatic metric matrix, and <code class="docutils literal"><span class="pre">.omatrix</span></code> for the overlap metric
+matrix. This is highly recommended for restart calculations. ONETEP
+will not allow you to use this flag when it knows the ions will move
+(<code class="docutils literal"><span class="pre">TASK</span> <span class="pre">:</span> <span class="pre">GEOMETRYOPTIMIZATION,</span> <span class="pre">TRANSITIONSTATESEARCH,</span> <span class="pre">MOLECULARDYNAMICS,</span>
+<span class="pre">PHONON,</span> <span class="pre">FORCETEST</span></code>), as the metric matrix gets invalidated once an ion
+moves.</li>
+<li><code class="docutils literal"><span class="pre">P</span></code> – will instruct ONETEP to print the metric matrix in text form
+straight to the output. This can be useful for visual inspection and
+debugging, although be aware that for larger systems the output can
+be bulky.</li>
+<li><code class="docutils literal"><span class="pre">Q</span></code> – will instruct ONETEP to quit immediately after the metric
+matrix is calculated (and potentially written and/or printed). This
+can be useful if the SWRI stage is run separately from the main
+calculation, e.g.&nbsp;on a large number of CPU cores that would be
+excessive for the main calculation.</li>
+<li><code class="docutils literal"><span class="pre">X</span></code> – means “none of the above” and should be used if you don’t
+intend to write, read, print the metric matrix and you don’t want
+ONETEP to quit at this stage.</li>
+</ul>
+<p>The remaining flags change how the SWRI is performed:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">2</span></code> – forces use of the 2Dn-1Da metric matrix evaluation scheme,
+overriding the default selection. Note that the 2Dn-1Da scheme is
+currently only available for evaluation of the electrostatic metric
+matrix (<code class="docutils literal"><span class="pre">V</span></code>) and ONETEP will abort with an error if the <code class="docutils literal"><span class="pre">2</span></code> flag
+is used in combination with the overlap metric matrix (<code class="docutils literal"><span class="pre">O</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">3</span></code> – forces use of the 3Dc metric matrix evaluation scheme,
+overriding the default selection.</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">2</span></code> and <code class="docutils literal"><span class="pre">3</span></code> flags only have effect when computing the metric
+matrix. When reading the matrix from disk in full (<code class="docutils literal"><span class="pre">R</span></code> flag), the
+flags have no effect, as the matrix has already been precomputed. When
+reading the matrix in part from atomblocks (see below), the flags will
+only affect atomblocks that are not read from disk (i.e. need to be
+computed).</p>
+<p>By using <code class="docutils literal"><span class="pre">W</span></code> and <code class="docutils literal"><span class="pre">R</span></code> you can re-use a fully calculated metric
+matrix. For large jobs which take many CPU-core-hours you may want to
+re-use <em>partial</em> results simply because you may not have enough walltime
+to run the SWRI calculation to completion. By default ONETEP writes
+partial results (metric matrix atomblocks) to files
+(<code class="docutils literal"><span class="pre">*.[vo]matrixblock</span></code>) as it churns through the calculation. These
+matrixblocks will be automatically read from files if they can be found
+– i.e. before starting to calculate a block, ONETEP will always first
+look for a corresponding file to try and avoid the calculation,
+regardless of your <em>``flags``</em>. Thus, if your SWRI calculation is
+interrupted, retain the matrixblock files to make the next run complete
+faster. If you wrote the completed matrix to a file, there is no point
+in keeping the matrixblock files and you should delete them to save disk
+space. If you would rather not have to delete them manually, specify
+<code class="docutils literal"><span class="pre">E</span></code> (for “erase”) in <em>``flags``</em> and they will not be kept (or indeed
+written to). Each matrixblock file encodes the position of the two atoms
+between which it is calculated in the filename. This proves useful in
+TASK PHONON calculations and TASK GEOMETRYOPTIMIZATION calculations with
+some atoms fixed – atomblocks between pairs of atoms that did not move
+will not be recalculated needlessly, but rather reloaded from files,
+unless you specify <code class="docutils literal"><span class="pre">E</span></code>. Finally, the expert option <code class="docutils literal"><span class="pre">D</span></code> instructs
+ONETEP to disassemble the fully calculated metric matrix into atomblocks
+(best used in combination with <code class="docutils literal"><span class="pre">R</span></code> and <code class="docutils literal"><span class="pre">Q</span></code>). This can be useful if
+you saved the metric matrix to a file, deleted the matrixblock files,
+and later change your mind.</p>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<hr class="docutils" />
+<p>This creates an SWRI called <code class="docutils literal"><span class="pre">for_hfx</span></code>, with an expansion up to
+<span class="math">\(l\)</span>=3, 10 Bessel functions, using the electrostatic metric.
+Chebyshev interpolation will use 12 intervals and 12-order polynomials.
+The metric matrix will be written to a file. That would be standard for
+a HFx calculation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">swri</span>
+  <span class="n">for_hfx</span> <span class="mi">3</span> <span class="mi">10</span> <span class="n">V</span> <span class="mi">12</span> <span class="mi">12</span> <span class="n">W</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">swri</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>Like above, but will read the metric matrix from a file instead of
+calculating it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">swri</span>
+  <span class="n">for_hfx</span> <span class="mi">3</span> <span class="mi">10</span> <span class="n">V</span> <span class="mi">12</span> <span class="mi">12</span> <span class="n">R</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">swri</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>This creates an SWRI called <code class="docutils literal"><span class="pre">for_dma</span></code>, with an expansion up to
+<span class="math">\(l\)</span>=2, 12 Bessel functions, using the electrostatic metric.
+Chebyshev interpolation will use 10 intervals and 12-order polynomials.
+The metric matrix will not be written to a file. That would be standard
+for a DMA calculation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">swri</span>
+  <span class="n">for_dma</span> <span class="mi">2</span> <span class="mi">12</span> <span class="n">V</span> <span class="mi">10</span> <span class="mi">12</span> <span class="n">X</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">swri</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>This creates an SWRI called <code class="docutils literal"><span class="pre">hiqh_qual</span></code>, with an expansion up to
+<span class="math">\(l\)</span>=4, 16 Bessel functions (extremely large and accurate SW
+basis set), using the overlap metric (not the best choice). Chebyshev
+interpolation will use 60 intervals and 2-order polynomials (parabolas).
+The metric matrix will be written to a file, printed out in text form,
+the matrixblock files will be erased, and ONETEP will quit.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">swri</span>
+  <span class="n">high_qual</span> <span class="mi">4</span> <span class="mi">16</span> <span class="n">O</span> <span class="mi">60</span> <span class="mi">2</span> <span class="n">WPEQ</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">swri</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>This creates an SWRI called <code class="docutils literal"><span class="pre">for_hfx_and_dma</span></code>, with an expansion up to
+<span class="math">\(l\)</span>=2, 9 Bessel functions, using the electrostatic metric.
+Chebyshev interpolation will use 14 intervals and 14-order polynomials.
+The 2Dn-1Da metric matrix evaluation scheme has been explicitly selected
+(for versions <span class="math">\(\ge\)</span> 5.1.5.0, this would not be necessary, as
+2Dn-1Da is the default for the electrostatic metric). The resulting
+metric matrix will be written to a file and the matrixblock files will
+be erased.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">swri</span>
+  <span class="n">for_hfx_and_dma</span> <span class="mi">2</span> <span class="mi">9</span> <span class="n">V</span> <span class="mi">14</span> <span class="mi">14</span> <span class="n">WE2</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">swri</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>As above, but with the 3Dc metric matrix scheme explicitly selected.
+This will likely be very costly compared to using the 2Dn-1Da scheme.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">swri</span>
+  <span class="n">for_hfx_and_dma</span> <span class="mi">2</span> <span class="mi">9</span> <span class="n">V</span> <span class="mi">14</span> <span class="mi">14</span> <span class="n">WE3</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">swri</span>
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="choosing-which-species-participate-in-a-swri">
+<h3>Choosing which species participate in a SWRI<a class="headerlink" href="#choosing-which-species-participate-in-a-swri" title="Permalink to this headline">¶</a></h3>
+<p>For every SWRI defined like above you need to specify which atomic
+species participate in it. This allows performing an SWRI for a
+subsystem, e.g.&nbsp;doing DMA only for atoms of a solute in the presence of
+a solvent, but not for atoms of the solvent itself. In such a scenario
+atomblocks only need to be calculated between atoms such that at least
+one atom belongs to the SWRI. For HFx this is less meaningful, and you
+will want to list all your species in the block. Note how the block name
+<strong>includes the name</strong> of the SWRI defined above and may look like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_swri</span><span class="o">-</span><span class="n">for_hfx</span>
+<span class="n">H</span>
+<span class="n">O</span>
+<span class="n">C</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_swri</span><span class="o">-</span><span class="n">for_hfx</span>
+</pre></div>
+</div>
+<p>if your SWRI was called <code class="docutils literal"><span class="pre">for_hfx</span></code> and your system is composed of
+species H, O and C.</p>
+</div>
+<div class="section" id="advanced-swri-options">
+<h3>Advanced SWRI options<a class="headerlink" href="#advanced-swri-options" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">swri_verbose</span> <span class="pre">(logical)</span></code> – set this to <code class="docutils literal"><span class="pre">T</span></code> to get detailed
+information on matrixblock I/O. Useful when you want to know where
+ONETEP is looking for matrixblock files and whether each file was
+succesfully loaded or not. This is output from all MPI ranks, so can
+make the output cluttered. Default: <code class="docutils literal"><span class="pre">F</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">swri_cheb_batchsize</span> <span class="pre">(integer)</span></code> – sets the size of the batches in
+which SWs are processed in the calculation of the metric matrix. For the
+3Dc scheme, the default is 12. Increasing this value can improve
+efficiency (by better balancing threads), but will increase memory load.
+Keep this divisible by the number of OMP threads for best performance.
+For the 2Dn-1Da scheme, batching has little benefit and can lead to
+significant load imbalance across MPI processes for larger systems.
+Thus, the default for 2Dn-1Da is the number of SWs in the auxiliary
+basis set. For both schemes, if this value is set larger than the number
+of SWs in the auxiliary basis set, it will be capped accordingly.</p>
+<p><code class="docutils literal"><span class="pre">swri_assembly_prefix</span> <span class="pre">(string)</span></code> – sets the prefix for the matrixblock
+files that are assembled into the metric matrix. The default is the
+rootname of your ONETEP input. Adjusting this can be useful if you keep
+a large number of matrixblock files in one directory and have multiple
+calculations, in different directories, using these matrixblock files.</p>
+<p><code class="docutils literal"><span class="pre">swri_proximity_sort_point</span> <span class="pre">(string</span> <span class="pre">of</span> <span class="pre">three</span> <span class="pre">values</span> <span class="pre">in</span> <span class="pre">bohr)</span></code> – metric
+matrix blocks are evaluated in order, with blocks between atoms closest
+to a predefined point done first. This is useful if you have a giant
+SWRI calculation (say for a solute and a few solvation shells) and would
+like other calculations to start using first matrix blocks as soon as
+possible (e.g.&nbsp;for calculations on just the solute). Using this keyword
+you can choose the point for sorting the atomblocks. The default is
+<code class="docutils literal"><span class="pre">0.0</span> <span class="pre">0.0</span> <span class="pre">0.0</span></code>. A unit of bohr is implicitly added (do not specify it).</p>
+<p><code class="docutils literal"><span class="pre">swri_swop_smoothing,</span> <span class="pre">swri_overlap_indirect,</span> <span class="pre">swri_improve_inverse</span></code> –
+these are experimental features, do not use these.</p>
+</div>
+</div>
+<div class="section" id="hartree-fock-exchange">
+<h2>Hartree-Fock exchange<a class="headerlink" href="#hartree-fock-exchange" title="Permalink to this headline">¶</a></h2>
+<p>Now that you have SWRI set up, a basic HFx (or hybrid functional)
+calculation should be simple to set up. The following three keywords are
+mandatory and do not provide defaults:</p>
+<p><code class="docutils literal"><span class="pre">hfx_use_ri</span> <span class="pre">(string)</span></code> – tells HFx which SWRI to use. Specify the name
+used in the SWRI block, e.g.&nbsp;<code class="docutils literal"><span class="pre">hfx_use_ri</span> <span class="pre">for_hfx</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">hfx_max_l</span> <span class="pre">(integer)</span></code> – specifies the maximum angular momentum in the
+SW basis. In most scenarios this will be equal to
+<span class="math">\(l_{\textrm{max}}\)</span> that you specified in the SWRI block. Read the
+description of <span class="math">\(l_{\textrm{max}}\)</span> (Sec.&nbsp;[lmax]) to understand the
+meaning of this parameter. You can use a <em>lower</em> value than the one
+specified in the SWRI block if you want to use only a subset of the SW
+basis set (e.g.&nbsp;for benchmarking, or doing DMA with a lower
+<span class="math">\(l_{\textrm{max}}\)</span> than you use for HFx), but not for HFx (where
+you must use the same value that you used in the SWRI block).</p>
+<p><code class="docutils literal"><span class="pre">hfx_max_q</span> <span class="pre">(integer)</span></code> – specifies the number of Bessel functions in
+the SW basis for each angular momentum channel. In most scenarios this
+will be equal to <span class="math">\(q_{\textrm{max}}\)</span> that you specified in the SWRI
+block. Read the description of <span class="math">\(q_{\textrm{max}}\)</span> (Sec.&nbsp;[qmax]) to
+understand the meaning of this parameter. You can use a <em>lower</em> value
+than the one specified in the SWRI block if you want to use only a
+subset of the SW basis set (e.g.&nbsp;for benchmarking, or doing DMA with a
+lower <span class="math">\(q_{\textrm{max}}\)</span> than you use for HFx), but not for HFx
+(where you must use the same value that you used in the SWRI block).</p>
+<p>With the above set up, the last step is to choose a suitable functional
+through <code class="docutils literal"><span class="pre">xc_functional</span></code>. The following hybrid functionals use HFx:
+<code class="docutils literal"><span class="pre">B1LYP</span></code>, <code class="docutils literal"><span class="pre">B1PW91</span></code>, <code class="docutils literal"><span class="pre">B3LYP</span></code>, <code class="docutils literal"><span class="pre">B3PW91</span></code>, <code class="docutils literal"><span class="pre">PBE0</span></code>, <code class="docutils literal"><span class="pre">X3LYP</span></code>. For a
+pure Hartree-Fock calculation use <code class="docutils literal"><span class="pre">HF</span></code>.</p>
+<div class="line-block">
+<div class="line">The following two keywords might be handy:</div>
+<div class="line"><code class="docutils literal"><span class="pre">hfx_cutoff</span> <span class="pre">(physical)</span></code> – specifies the distance-based cutoff for
+all HFx interactions. The default is 1000 bohr, which effectively
+corresponds to no truncation. In the absence of truncation ONETEP’s
+HFx implementation scales as <span class="math">\({\mathcal{O}}(N^2)\)</span>, so you are
+advised to use HFx truncation even if you do not use density kernel
+truncation. Exchange interactions are rather short-ranged, and for
+systems with a band-gap it should be safe to truncate them at
+20<span class="math">\(a_0\)</span>. See [Dziedzic2013] (Figs. 19, 20) for more
+details. Do not use a value smaller than twice the NGWF radius.</div>
+</div>
+<p><code class="docutils literal"><span class="pre">hfx_metric</span> <span class="pre">(string)</span></code> – selects the metric actually used for HFx
+calculations. The default is <code class="docutils literal"><span class="pre">electrostatic</span></code>. The other option is
+<code class="docutils literal"><span class="pre">overlap</span></code>. The appropriate metric matrix must have been included at
+the SWRI stage (<code class="docutils literal"><span class="pre">V</span></code> or <code class="docutils literal"><span class="pre">O</span></code>, respectively).</p>
+<p>Other HFx-related keywords (<code class="docutils literal"><span class="pre">hfx_nlpp_for_exchange</span></code>,
+<code class="docutils literal"><span class="pre">hfx_read_xmatrix</span></code> and <code class="docutils literal"><span class="pre">hfx_write_xmatrix</span></code>) correspond to
+experimental features and should not be used.</p>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>The following is a bare-bones example for a reasonably good-quality HFx
+calculation on a slightly distorted water molecule. That should converge
+in 11 NGWF iterations within 1.5 minute on a desktop machine (2&nbsp;MPI
+ranks, 4 OMP threads each), requiring about 4&nbsp;GiB of RAM.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xc_functional</span> <span class="n">B3LYP</span>
+<span class="n">cutoff_energy</span> <span class="mi">800</span> <span class="n">eV</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">swri</span>
+  <span class="n">for_hfx</span> <span class="mi">3</span> <span class="mi">10</span> <span class="n">V</span> <span class="mi">10</span> <span class="mi">10</span> <span class="n">WE</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">swri</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_swri</span><span class="o">-</span><span class="n">for_hfx</span>
+<span class="n">O</span>
+<span class="n">H</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_swri</span><span class="o">-</span><span class="n">for_hfx</span>
+
+<span class="n">hfx_use_ri</span> <span class="n">for_hfx</span>
+<span class="n">hfx_max_l</span> <span class="mi">3</span>
+<span class="n">hfx_max_q</span> <span class="mi">10</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">lattice_cart</span>
+  <span class="mf">25.00</span>     <span class="mf">0.00</span>     <span class="mf">0.00</span>
+   <span class="mf">0.00</span>    <span class="mf">25.00</span>     <span class="mf">0.00</span>
+   <span class="mf">0.00</span>     <span class="mf">0.00</span>    <span class="mf">25.00</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">lattice_cart</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">positions_abs</span>
+<span class="n">ang</span>
+<span class="n">O</span> <span class="mf">5.79564200</span> <span class="mf">7.40742600</span> <span class="mf">6.63194300</span>
+<span class="n">H</span> <span class="mf">5.19938100</span> <span class="mf">8.05407400</span> <span class="mf">6.24141400</span>
+<span class="n">H</span> <span class="mf">5.16429100</span> <span class="mf">6.74016800</span> <span class="mf">6.88482600</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">positions_abs</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species</span>
+<span class="n">O</span> <span class="n">O</span> <span class="mi">8</span> <span class="mi">4</span> <span class="mf">8.0</span>
+<span class="n">H</span> <span class="n">H</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mf">8.0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_pot</span>
+<span class="n">O</span> <span class="s2">&quot;oxygen.recpot&quot;</span>
+<span class="n">H</span> <span class="s2">&quot;hydrogen.recpot&quot;</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="dma">
+<h2>DMA<a class="headerlink" href="#dma" title="Permalink to this headline">¶</a></h2>
+<p>DMA (Distributed Multipole Analysis) is a technique for partitioning
+charge density into single 10000 atom contributions and finding a set of
+point multipoles that most accurately represent this charge density. The
+point multipoles are usually, although not universally, atom-centered –
+this is the case in ONETEP. DMA was proposed by Rein
+[Rein1973] and has been pioneered and popularised by Stone
+[Stone1981] and Alderton
+[Stone1985]. It is typically performed in a
+Gaussian basis set [Stone1998], [Stone2005], but ONETEP uses a
+version adapted to the NGWF basis. More details on our approach can be
+found in Refs. [Dziedzic2016], [Vitale2015].</p>
+<p>DMA in ONETEP first uses SWRI (cf. earlier Sections) to expand NGWF-NGWF
+overlaps (not exactly atom-pair densities, because there is no density
+kernel there) in an auxiliary SW basis set. Depending on the metric,
+this density fitting will strive to either minimise the difference in
+electronic density between the original density and the fit (for the
+overlap metric), or the electrostatic energy of the difference in
+densities interacting with itself (for the electrostatic metric). The
+use of electrostatic metric is preferred. Once the NGWF-NGWF overlaps
+are expressed in an SW basis, owing to certain properties of SWs and to
+the fact that in ONETEP they are chosen to be atom-centered, it becomes
+easy to find atom-centered point multipoles that yield the (exactly)
+equivalent potential. This stage is termed spherical wave expansion
+(SWX) and its result are atom-centered point multipoles that are the
+best fit to the original electronic density (under the assumed metric).
+Apart from calculating electronic multipoles, ONETEP’s DMA also
+calculates total (electronic + ionic core) atom-centered multipoles.
+Also calculated are the total multipoles of the system (e.g..&nbsp;the
+molecular dipole or quadrupole), suitably averaged over all the atoms
+that were part of the SWRI. For non 10000 neutral molecules the value of
+the dipole depends on the point where it is calculated (similarly for
+higher multipoles), and so the total multipoles are calculated <em>at a
+reference point</em> of your choosing.</p>
+<p>DMA in ONETEP is performed in two contexts. The most common is during a
+<code class="docutils literal"><span class="pre">task</span> <span class="pre">properties</span></code> calculation (“properties-DMA”). The other use of DMA
+is in QM/MM calculations using ONETEP and tinker (tinktep approach,
+cf. [Dziedzic2016], “polemb-DMA”). Some DMA keywords
+pertain to both contexts, and some pertain only to one of them – this
+will be carefully highlighted. It is possible to mix the two to a
+reasonable degree (i.e. to perform QM/MM with one set of DMA parameters,
+and properties-DMA at the end of the run, with another set of
+parameters). By “reasonable degree” I mean that some of the parameters
+are shared.</p>
+<div class="section" id="dma-minimal-set-up">
+<h3>DMA: minimal set-up<a class="headerlink" href="#dma-minimal-set-up" title="Permalink to this headline">¶</a></h3>
+<p>To use DMA, first set up SWRI (cf.&nbsp;earlier Sections). Now that you have
+SWRI set up, a basic calculation using DMA should be simple to set up.
+First, specify <code class="docutils literal"><span class="pre">dma_calculate</span> <span class="pre">T</span></code> to enable DMA, as it is off by
+default. Once you’ve done that, the following keywords <strong>become
+mandatory</strong>:</p>
+<p><code class="docutils literal"><span class="pre">dma_use_ri</span> <span class="pre">(string)</span></code> – tells DMA which SWRI to use. Specify the name
+used in the corresponding SWRI block, e.g.&nbsp;<code class="docutils literal"><span class="pre">dma_use_ri</span> <span class="pre">for_dma</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">dma_max_l</span> <span class="pre">(integer)</span></code> – specifies the maximum angular momentum in the
+SW basis used in DMA. In most scenarios this will be equal to
+<span class="math">\(l_{\textrm{max}}\)</span> that you specified in the SWRI block. Read the
+description of <span class="math">\(l_{\textrm{max}}\)</span> (Sec.&nbsp;[lmax]) to understand the
+meaning of this parameter. You can use a lower value than the one
+specified in the SWRI block if you want to use only a subset of the SW
+basis set (e.g.&nbsp;for benchmarking). This keyword only affects
+properties-DMA, the equivalent for polemb-DMA is <code class="docutils literal"><span class="pre">pol_emb_dma_max_l</span></code>.
+This keyword needs to be specified even if you do not plan to use
+properties-DMA (in that case, specify 0). If you only care about
+atom-centered charges, specify 0. If you care about atom-centered
+charges and dipoles, specify 1. If you care about atom-centered charges,
+dipoles and quadrupoles, specify 2.</p>
+<p><code class="docutils literal"><span class="pre">dma_max_q</span> <span class="pre">(integer)</span></code> – specifies the number of Bessel functions in
+the SW basis for each angular momentum channel to be used in DMA. In
+most scenarios this will be equal to <span class="math">\(q_{\textrm{max}}\)</span> that you
+specified in the SWRI block. Read the description of
+<span class="math">\(q_{\textrm{max}}\)</span> (Sec.&nbsp;[qmax]) to understand the meaning of this
+parameter. You can use a lower value than the one specified in the SWRI
+block if you want to use only a subset of the SW basis set (e.g.&nbsp;for
+benchmarking). This keyword only affects properties-DMA, the equivalent
+for polemb-DMA is <code class="docutils literal"><span class="pre">pol_emb_dma_max_q</span></code>. This keyword needs to be
+specified even if you do not plan to use properties-DMA (in that case,
+specify 0).</p>
+</div>
+<div class="section" id="non-mandatory-keywords-affecting-both-properties-dma-and-polemb-dma">
+<h3>Non-mandatory keywords affecting both properties-DMA and polemb-DMA<a class="headerlink" href="#non-mandatory-keywords-affecting-both-properties-dma-and-polemb-dma" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">dma_metric</span> <span class="pre">(string)</span></code> – selects the metric used for DMA calculations.
+The current default is <code class="docutils literal"><span class="pre">electrostatic</span></code>. The other option is
+<code class="docutils literal"><span class="pre">overlap</span></code>. The appropriate metric matrix must have been included at
+the SWRI stage (<code class="docutils literal"><span class="pre">V</span></code>&nbsp;or&nbsp;<code class="docutils literal"><span class="pre">O</span></code>, respectively). This keyword affects both
+properties-DMA and polemb-DMA.</p>
+<p><code class="docutils literal"><span class="pre">dma_bessel_averaging</span> <span class="pre">(boolean)</span></code> – specifies whether all DMA-based
+multipoles are to be averaged over an even-odd pair of
+<span class="math">\(q_{\textrm{max}}\)</span>. Multipoles obtained with DMA display an
+oscillatory behaviour when plotted as a function of
+<span class="math">\(q_{\textrm{max}}\)</span>. This has to do with how the Bessel functions
+sample the radial profile of NGWFs. In essence, for all even
+<span class="math">\(q_{\textrm{max}}\)</span> a particular multipole will be overestimated,
+while for all odd <span class="math">\(q_{\textrm{max}}\)</span> the same multipole will be
+underestimated (or the other way round). Other multipoles will be
+affected similarly (except in reverse) to compensate. This oscillatory
+behaviour decays as the quality of the SW basis is increased, but the
+decay is slow. Much more stable multipoles are obtained by averaging the
+results of two SWX runs – one with the <span class="math">\(q_{\textrm{max}}\)</span> the user
+specified in <code class="docutils literal"><span class="pre">dma_max_q</span></code>, and one with <span class="math">\(q_{\textrm{max}}\)</span> that
+is less by one. This even-odd averaging can be performed automatically
+by specifying <code class="docutils literal"><span class="pre">dma_bessel_averaging</span> <span class="pre">T</span></code>, and this is done by default.
+When this option is enabled, output files include multipoles obtained
+with both SWX qualities, followed by the average, except for the
+<code class="docutils literal"><span class="pre">.dma_multipoles_gdma_like.txt</span></code> file, which will contain only the
+final, averaged multipoles. There is no extra effort associated with
+this option at the SWRI stage, and the effort of the SWX stage (which is
+usually much, much lower) is practically doubled (two separate SWXs have
+to be performed). This keyword affects both properties-DMA and
+polemb-DMA.</p>
+<p><code class="docutils literal"><span class="pre">dma_scale_charge</span> <span class="pre">(boolean)</span></code> – specifies DMA charge-scaling is to be
+performed (default) or not. This an important option. The multipoles
+obtained with DMA are always approximate. The total DMA monopole
+(charge) will be close to, but not exactly equal to, the total charge of
+the system (or its subset, if DMA’s SWRI did not encompass all atoms).
+This means that the total DMA monopole of a nominally neutral system
+will not be exactly zero, but typically a very small fraction of an
+electron. This is inconvenient, because it formally breaks the
+translational invariance of the total dipole, which begins to depend,
+very slightly, on the reference point where it is calculated. The
+easiest workaround is to scale, <em>a posteriori</em>, the DMA monopole by the
+ratio of expected charge to the obtained DMA charge. This scaling is
+factor will be very close to zero (e.g.&nbsp;0.9998), unless your SW basis
+set is very crude (single-digit <span class="math">\(q_{\textrm{max}}\)</span>, etc.). The
+“expected” (electronic) charge either obtained automatically (by
+default), or can be specified manually using
+<code class="docutils literal"><span class="pre">dma_target_num_val_elec</span></code>. When not specified manually, the expected
+electronic charge is determined as follows. If DMA’s SWRI encompasses
+all atoms (“full-system DMA”), it is equal to the total number of
+valence electrons in the system (obtained from
+<span class="math">\(\textrm{Tr}\left[\mathbb{KS}\right]\)</span>). If DMA’s SWRI does not
+encompass all atoms (“subsystem DMA”), Mulliken analysis is performed
+every time charge-scaling needs to be done (essentially at every LNV
+step, or twice per LNV step when Bessel averaging is used), and Mulliken
+charges of all atoms within DMA’s SWRI are summed to obtain the expected
+electronic charge. Using DMA charge-scaling is recommended (hence it’s
+on by default), but care must be taken when using it with polemb-DMA
+(there are no issues with properties-DMA). The following issues and
+limitations arise. (1) In polemb-DMA the DMA multipoles enter LNV and
+NGWF gradient expressions. The quantity
+<span class="math">\(\textrm{Tr}\left[\mathbb{KS}\right]\)</span> is not strictly a constant,
+and has non 10000 zero DKN and NGWF derivatives, leading to additional
+terms in LNV and NGWF gradients when charge-scaling is used. These extra
+terms have been implemented for LNV gradients, but <em>not</em> for NGWF
+gradients, where they become really hairy (these are under development).
+Hence the threefold combination of polemb-DMA, charge-scaling and NGWF
+optimisation is not permitted (will refuse to run). (2) The threefold
+combination of polemb-DMA, charge-scaling and
+<code class="docutils literal"><span class="pre">dma_target_num_val_elec</span></code> is not permitted (will refuse to run),
+regardless of whether NGWF optimisation is used or not. This is because
+the expected number of electrons becomes constant (user-specified value)
+in this scenario, which is incompatible with the charge-scaling
+corrections accounting for <span class="math">\(\textrm{Tr}\left[\mathbb{KS}\right]\)</span>.
+Long story short: use DMA charge-scaling for properties-DMA, but not for
+polemb-DMA. This keyword affects both properties-DMA and polemb-DMA.</p>
+<p><code class="docutils literal"><span class="pre">dma_target_num_val_elec</span> <span class="pre">(integer)</span></code> – specifies the expected number of
+valence electrons for DMA. This keyword should only be used when DMA
+charge-scaling is in effect (see above), and only if the automatic
+determination of the expected number of electrons (see above) in the
+part of your system seen by DMA is not satisfactory. The default is for
+this keyword to be omitted. This keyword affects both properties-DMA and
+polemb-DMA.</p>
+<p><code class="docutils literal"><span class="pre">polarisation_simcell_refpt</span> <span class="pre">(real</span> <span class="pre">real</span> <span class="pre">real)</span></code>. The default is
+<code class="docutils literal"><span class="pre">0.0</span> <span class="pre">0.0</span> <span class="pre">0.0</span></code>. Specifies the reference point in the simulation cell
+(in bohr) at which total DMA multipoles are calculated. This is mostly
+useful if your system (strictly speaking: your DMA subsystem) is not
+charge-neutral and you are interested in the value of the total dipole.
+When the system is non 10000 neutral, the total dipole is not
+translation invariant, and a reference point for calculating it needs to
+be specified. This keyword specifies this reference. Also note that when
+a simcell full-density polarisation calculation is performed (via
+<code class="docutils literal"><span class="pre">task</span> <span class="pre">properties</span></code> and <code class="docutils literal"><span class="pre">polarisation_simcell_calculate</span></code>), this
+keyword also adjusts this calculation’s reference point. This keyword
+affects both properties-DMA and polemb-DMA.</p>
+<p><code class="docutils literal"><span class="pre">dma_precise_gdma_output</span> <span class="pre">(boolean)</span></code>. The default is on (<code class="docutils literal"><span class="pre">T</span></code>). One of
+the files output by DMA is the <code class="docutils literal"><span class="pre">.dma_multipoles_gdma_like.txt</span></code> file,
+which is formatted as to be compatible with the output generated by
+Stone’s GDMA program. This output can be directly used by other programs
+expecting input in this format. The original GDMA format is fixed-form,
+meaning the precision of the output multipoles is rather restricted by
+the number of digits that can be output. In polemb-DMA mode this
+precision is insufficient to accurately drive the MM calculation
+performed by an external program (tinker). Specifying
+<code class="docutils literal"><span class="pre">dma_precise_gdma_output</span> <span class="pre">T</span></code> instructs ONETEP to output multipoles with
+the additional necessary precision, but breaks strict compatibility with
+the GDMA format. If the external program you use to parse the GDMA file
+is aware of that (e.g.&nbsp;tinker can be suitably patched), this is fine. If
+you have no control over the external program and need ONETEP to adhere
+strictly to the GDMA format, use <code class="docutils literal"><span class="pre">dma_precise_gdma_output</span> <span class="pre">F</span></code>.</p>
+<div class="section" id="expert-non-mandatory-keywords-affecting-both-properties-dma-and-polemb-dma">
+<h4>Expert, non-mandatory keywords affecting both properties-DMA and polemb-DMA<a class="headerlink" href="#expert-non-mandatory-keywords-affecting-both-properties-dma-and-polemb-dma" title="Permalink to this headline">¶</a></h4>
+<p>Just don’t. These are used for experimental purposes, particularly in
+QM/MM.</p>
+<p><code class="docutils literal"><span class="pre">dma_multipole_scaling</span> <span class="pre">(real)</span></code> – causes all DMA multipoles to be
+scaled by a constant. This affects both the output multipoles and the
+multipoles used internally in polemb expressions. Whenever necessary
+(during charge-scaling, in gradients) this scaling is temporarily undone
+internally for consistency. This keyword affects both properties-DMA and
+polemb-DMA.</p>
+<p><code class="docutils literal"><span class="pre">dma_dipole_scaling</span> <span class="pre">(real)</span></code> – causes all DMA dipoles to be scaled by a
+constant. This affects both the output dipoles and the dipoles used
+internally in polemb expressions. Whenever necessary (essentially in
+gradients) this scaling is temporarily undone internally for
+consistency. This keyword affects both properties-DMA and polemb-DMA.</p>
+<p><code class="docutils literal"><span class="pre">dma_quadrupole_scaling</span> <span class="pre">(real)</span></code> – causes all DMA quadrupoles to be
+scaled by a constant. This affects both the output quadrupoles and the
+quadrupoles used internally in polemb expressions. Whenever necessary
+(essentially in gradients) this scaling is temporarily undone internally
+for consistency. This keyword affects both properties-DMA and
+polemb-DMA.</p>
+</div>
+</div>
+<div class="section" id="non-mandatory-keywords-affecting-only-properties-dma">
+<h3>Non-mandatory keywords affecting only properties-DMA<a class="headerlink" href="#non-mandatory-keywords-affecting-only-properties-dma" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">dma_output_potential</span> <span class="pre">(boolean)</span></code>. The default is off (<code class="docutils literal"><span class="pre">F</span></code>). When
+turned on (<code class="docutils literal"><span class="pre">T</span></code>), during properties-DMA the electrostatic potential due
+to all DMA <em>electronic</em> multipoles is calculated on the <span class="math">\(z=0\)</span> and
+<span class="math">\(z=z_\textrm{max}\)</span> faces of the simulation cell (on all fine-grid
+points lying on those faces). This potential is output to text files.
+This is useful for assessing the quality of the DMA approximation to the
+full, distributed charge density. If DMA’s SWRI does not span the entire
+system, the output potential is only due to those atoms included in
+DMA’s SWRI. This keyword affects only properties-DMA.</p>
+<p><code class="docutils literal"><span class="pre">dma_output_potential_reference</span> <span class="pre">(boolean)</span></code>. The default is off
+(<code class="docutils literal"><span class="pre">F</span></code>). When turned on (<code class="docutils literal"><span class="pre">T</span></code>) <em>and</em> <code class="docutils literal"><span class="pre">dma_output_potential</span></code> <em>is also
+on</em>, during properties-DMA the reference electrostatic potential due to
+the full, distributed <em>electronic</em> density is calculated on the
+<span class="math">\(z=0\)</span> and <span class="math">\(z=z_\textrm{max}\)</span> faces of the simulation cell
+(on all fine-grid points lying on those faces). This potential is output
+to text files. This is useful to obtain a reference for assessing the
+quality of the DMA approximation to the full, distributed charge density
+(see above). Regardless of whether DMA’s SWRI spans the entire system or
+not, the output potential is due to <em>all</em> electrons in the system. Thus,
+the two sets of potentials are only comparable in full-system DMA. The
+reference potential is calculated by a pointwise integration over the
+entire volume (fine-grid) <em>for every point on the two faces</em>, which is a
+time-consuming process, so use sparingly. This keyword affects only
+properties-DMA.</p>
+</div>
+<div class="section" id="non-mandatory-keywords-affecting-only-polemb-dma">
+<h3>Non-mandatory keywords affecting only polemb-DMA<a class="headerlink" href="#non-mandatory-keywords-affecting-only-polemb-dma" title="Permalink to this headline">¶</a></h3>
+<p>Refer to the separate documentation for polarisable embedding in ONETEP.</p>
+</div>
+<div class="section" id="id19">
+<h3>Example<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>The following is a bare-bones example for a reasonably good-quality
+properties-DMA calculation on a slightly distorted water molecule. That
+should converge in 11 NGWF iterations within 1 minute on a desktop
+machine (2&nbsp;MPI ranks, 4&nbsp;OMP threads each), requiring about 3&nbsp;GB of peak
+RAM.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xc_functional</span> <span class="n">PBE</span>
+<span class="n">cutoff_energy</span> <span class="mi">800</span> <span class="n">eV</span>
+
+<span class="n">do_properties</span> <span class="n">T</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">swri</span>
+  <span class="n">for_dma</span> <span class="mi">2</span> <span class="mi">14</span> <span class="n">V</span> <span class="mi">12</span> <span class="mi">12</span> <span class="n">WE</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">swri</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_swri</span><span class="o">-</span><span class="n">for_dma</span>
+<span class="n">O</span>
+<span class="n">H</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_swri</span><span class="o">-</span><span class="n">for_dma</span>
+
+<span class="n">dma_calculate</span> <span class="n">T</span>
+<span class="n">dma_use_ri</span> <span class="n">for_dma</span>
+<span class="n">dma_metric</span> <span class="n">electrostatic</span>
+<span class="n">dma_max_l</span> <span class="mi">2</span>
+<span class="n">dma_max_q</span> <span class="mi">14</span>
+
+<span class="n">dma_scale_charge</span> <span class="n">T</span>
+<span class="n">dma_bessel_averaging</span> <span class="n">T</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">lattice_cart</span>
+  <span class="mf">25.00</span>     <span class="mf">0.00</span>     <span class="mf">0.00</span>
+   <span class="mf">0.00</span>    <span class="mf">25.00</span>     <span class="mf">0.00</span>
+   <span class="mf">0.00</span>     <span class="mf">0.00</span>    <span class="mf">25.00</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">lattice_cart</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">positions_abs</span>
+<span class="n">ang</span>
+<span class="n">O</span> <span class="mf">5.79564200</span> <span class="mf">7.40742600</span> <span class="mf">6.63194300</span>
+<span class="n">H</span> <span class="mf">5.19938100</span> <span class="mf">8.05407400</span> <span class="mf">6.24141400</span>
+<span class="n">H</span> <span class="mf">5.16429100</span> <span class="mf">6.74016800</span> <span class="mf">6.88482600</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">positions_abs</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species</span>
+<span class="n">O</span> <span class="n">O</span> <span class="mi">8</span> <span class="mi">4</span> <span class="mf">8.0</span>
+<span class="n">H</span> <span class="n">H</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mf">8.0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_pot</span>
+<span class="n">O</span> <span class="s2">&quot;oxygen.recpot&quot;</span>
+<span class="n">H</span> <span class="s2">&quot;hydrogen.recpot&quot;</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pot</span>
+</pre></div>
+</div>
+<p><strong>Expected results</strong>:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="63%" />
+<col width="17%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Description</th>
+<th class="head">Dipole (au)</th>
+<th class="head">Dipole (debye)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Full density (cores + NGWFs)</td>
+<td>0.7564</td>
+<td><strong>1.9226</strong></td>
+</tr>
+<tr class="row-odd"><td>DMA (point multipoles, <span class="math">\(q_{\textrm{max}}\)</span>=14)</td>
+<td>0.7477</td>
+<td>1.9005</td>
+</tr>
+<tr class="row-even"><td>DMA (point multipoles, <span class="math">\(q_{\textrm{max}}\)</span>=13)</td>
+<td>0.7680</td>
+<td>1.9519</td>
+</tr>
+<tr class="row-odd"><td>DMA (point multipoles, Bessel-averaged)</td>
+<td>0.7578</td>
+<td><strong>1.9261</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Table:  Dipole moment of distorted water molecule. Comparison of
+accuracy: full density vs.&nbsp;DMA point multipoles.</p>
+</div>
+</div>
+<div class="section" id="advanced-options">
+<h2>Advanced options<a class="headerlink" href="#advanced-options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="making-hartree-fock-exchange-faster-or-less-memory-hungry">
+<h3>Making Hartree-Fock exchange faster or less memory-hungry<a class="headerlink" href="#making-hartree-fock-exchange-faster-or-less-memory-hungry" title="Permalink to this headline">¶</a></h3>
+<p>Hartree-Fock exchange is not fast, although we’ve made great
+improvements in v5.3.4.0. For small systems (<span class="math">\(&lt;200\)</span>&nbsp; atoms), with
+a bit of luck, it will be an order of magnitude slower than GGA
+calculations. For large systems (<span class="math">\(\approx{}1000\)</span>&nbsp;atoms) expect it
+to be two orders of magnitude slower.</p>
+<p>The main way to improve performance is by using more RAM – this is
+because there are plenty of opportunities for caching some results that
+would otherwise have to be recomputed. If HFx was to cache everything,
+it would quickly exhaust all available RAM, even on well-equipped
+machines. Therefore, there are limits in place for each of the caches.
+These limits are expressed in MiB (1048576 bytes) and are <strong>per MPI rank</strong>.</p>
+<p>Remember that OMP threads can share memory, while MPI ranks cannot. This
+means that the key to obtaining high performance with HFx is to <strong>use as many OMP threads as possible</strong>. In
+most HPC settings this will mean using only 2 MPI ranks per node (one
+MPI rank per NUMA region, most HPC nodes have two NUMA regions). For
+example on Iridis5, with 40 CPU cores on each node, best performance is
+obtained by using 2 MPI ranks, with 20 OMP threads each, on every node.
+This is in contrast to non-HFx calculations, which typically achieve
+peak performance for 4-5 OMP threads. HFx is well-optimised for high
+thread counts. By reducing the number of MPI ranks, you allow each rank
+to use more RAM. This is the key to success. Don’t worry about the drop
+in performance of the non-HFx part, it will be dwarfed by the gain in
+HFx efficiency.</p>
+<p>The easiest way to control how much RAM HFx can use is via the parameter
+<code class="docutils literal"><span class="pre">hfx_memory_limit</span></code>. The default value is 4096, meaning HFx will not
+ask for more than 4 GiB of RAM <strong>per MPI rank</strong>. This is <em>in addition</em> to any memory use
+from the rest of ONETEP. If you can spare more RAM, definitely tell this
+to the HFx engine by saying e.g.</p>
+<p><code class="docutils literal"><span class="pre">hfx_memory_limit</span> <span class="pre">16384!</span> <span class="pre">I</span> <span class="pre">have</span> <span class="pre">16</span> <span class="pre">GiB</span> <span class="pre">per</span> <span class="pre">MPI</span> <span class="pre">rank</span> <span class="pre">to</span> <span class="pre">spare</span></code>.</p>
+<p>The HFx engine will automatically distribute this RAM across the three
+main caches. Or, more specifically, it will first consume the amount of
+RAM absolutely needed for core HFx functionality, and <em>then</em> distribute
+the rest to the three caches. You will get a banner informing you about
+how much memory went into satisfying the minimum requirements:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">+----------------------------------------------------+</span>
+<span class="o">|</span>  <span class="n">HFx</span> <span class="n">TEFCI</span> <span class="n">engine</span><span class="p">:</span> <span class="n">minimum</span> <span class="n">requirements</span>            <span class="o">|</span>
+<span class="o">|</span>  <span class="n">Estimated</span> <span class="n">memory</span> <span class="n">requirement</span> <span class="n">per</span> <span class="n">MPI</span> <span class="n">rank</span>         <span class="o">|</span>
+<span class="o">+----------------------------------------------------+</span>
+<span class="o">|</span>  <span class="n">Radial</span> <span class="n">Bessel</span> <span class="n">lookup</span>                <span class="p">:</span>   <span class="mf">30.52</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">Dd</span> <span class="n">NGWFs</span> <span class="nb">hash</span> <span class="n">table</span>                 <span class="p">:</span>    <span class="mf">1.66</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">All</span> <span class="n">remote</span> <span class="n">NGWFs</span> <span class="nb">hash</span> <span class="n">table</span>         <span class="p">:</span>   <span class="mf">37.38</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">dlists</span> <span class="nb">hash</span> <span class="n">table</span>                   <span class="p">:</span>    <span class="mf">6.53</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">coeffs</span> <span class="nb">hash</span> <span class="n">table</span> <span class="p">(</span><span class="n">estimate</span><span class="p">)</span>        <span class="p">:</span>   <span class="mf">26.93</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">V</span> <span class="n">metric</span> <span class="n">matrix</span> <span class="nb">hash</span> <span class="n">table</span>          <span class="p">:</span>  <span class="mf">377.59</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">f</span> <span class="n">auxiliary</span> <span class="n">term</span>                    <span class="p">:</span>  <span class="mf">131.78</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">P</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">NGWF</span> <span class="n">gradient</span>             <span class="p">:</span>  <span class="mf">131.78</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">Q</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">NGWF</span> <span class="n">gradient</span>             <span class="p">:</span>  <span class="mf">238.88</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">My</span> <span class="n">kets</span> <span class="ow">in</span> <span class="n">NGWF</span> <span class="n">grad</span><span class="o">.</span> <span class="p">(</span><span class="n">estimate</span><span class="p">)</span>    <span class="p">:</span>   <span class="mf">78.09</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">Local</span> <span class="n">kets</span> <span class="ow">in</span> <span class="n">NGWF</span> <span class="n">grad</span><span class="o">.</span> <span class="p">(</span><span class="n">estim</span><span class="o">.</span><span class="p">)</span>   <span class="p">:</span>   <span class="mf">43.20</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">K</span><span class="o">^</span><span class="p">{</span><span class="n">CD</span><span class="p">}</span> <span class="nb">hash</span> <span class="n">table</span>                   <span class="p">:</span>    <span class="mf">3.88</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">K</span><span class="o">^</span><span class="p">{</span><span class="n">AB</span><span class="p">}</span> <span class="nb">hash</span> <span class="n">table</span>                   <span class="p">:</span>    <span class="mf">3.60</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">tcK</span><span class="o">^</span><span class="n">A_B</span> <span class="nb">hash</span> <span class="n">table</span>                  <span class="p">:</span>    <span class="mf">3.60</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">tcK</span><span class="o">^</span><span class="n">B_A</span> <span class="nb">hash</span> <span class="n">table</span>                  <span class="p">:</span>    <span class="mf">3.60</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">+----------------------------------------------------+</span>
+<span class="o">|</span>  <span class="n">Estimated</span> <span class="n">peak</span> <span class="n">total</span> <span class="n">per</span> <span class="n">MPI</span> <span class="n">rank</span>   <span class="p">:</span>    <span class="mf">1.09</span> <span class="n">GB</span>  <span class="o">|</span>
+<span class="o">+----------------------------------------------------+</span>
+</pre></div>
+</div>
+<p>In the event that the memory limit specified with <code class="docutils literal"><span class="pre">hfx_memory_limit</span></code>
+is below even the minimum requirement (1.09 GB in the example above),
+you will get an error message explaining how much more RAM you would
+need to continue. Be aware of two things: (1) calculations with not much
+(or no) memory above the minimum requirement will be very slow, (2) the
+above is only an estimate. Under some circumstances HFx may consume
+slightly more memory, but not much. If you run out of memory, it is
+usually the NGWF gradient calculation (its non-HFx part) that breaks the
+camel’s back.</p>
+<p>Another banner informs you about how the remaining RAM is divided across
+the three caches (“hash tables”). It may look like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HFx</span><span class="p">:</span> <span class="o">-</span> <span class="n">Adjusting</span> <span class="n">cache</span> <span class="n">sizes</span> <span class="n">according</span> <span class="n">to</span> <span class="n">weights</span><span class="p">:</span> <span class="mf">0.6250</span><span class="p">,</span> <span class="mf">0.3125</span><span class="p">,</span> <span class="mf">0.0625</span><span class="o">.</span>
+<span class="o">+----------------------------------------------------+</span>
+<span class="o">|</span>  <span class="n">HFx</span> <span class="n">TEFCI</span> <span class="n">engine</span><span class="p">:</span> <span class="n">user</span><span class="o">-</span><span class="n">adjustable</span> <span class="n">requirements</span>    <span class="o">|</span>
+<span class="o">|</span>  <span class="n">Estimated</span> <span class="n">memory</span> <span class="n">requirement</span> <span class="n">per</span> <span class="n">MPI</span> <span class="n">rank</span>         <span class="o">|</span>
+<span class="o">+----------------------------------------------------+</span>
+<span class="o">|</span>  <span class="n">SWOP</span> <span class="nb">hash</span> <span class="n">table</span>                     <span class="p">:</span>    <span class="mf">3.61</span> <span class="n">GB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">Expansions</span> <span class="nb">hash</span> <span class="n">table</span>               <span class="p">:</span>    <span class="mf">1.81</span> <span class="n">GB</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="n">AD</span> <span class="n">NGWF</span> <span class="n">products</span> <span class="nb">hash</span> <span class="n">table</span>         <span class="p">:</span>  <span class="mf">369.00</span> <span class="n">MB</span>  <span class="o">|</span>
+<span class="o">+----------------------------------------------------+</span>
+<span class="o">|</span>  <span class="n">Estimated</span> <span class="n">peak</span> <span class="n">total</span> <span class="n">per</span> <span class="n">MPI</span> <span class="n">rank</span>   <span class="p">:</span>    <span class="mf">5.77</span> <span class="n">GB</span>  <span class="o">|</span>
+<span class="o">+----------------------------------------------------+</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">-</span> <span class="n">Peak</span> <span class="n">memory</span> <span class="n">use</span> <span class="n">capped</span> <span class="n">at</span> <span class="mf">6998.2</span> <span class="n">MB</span> <span class="n">per</span> <span class="n">MPI</span> <span class="n">rank</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Here the user specified <code class="docutils literal"><span class="pre">hfx_memory_limit</span> <span class="pre">7000</span></code> and HFx distributed
+the remaining 5.77 GB across the three caches with a default set of
+weights that is 10:5:1
+(<span class="math">\(=\frac{10}{16}:\frac{5}{16}:\frac{1}{16}=0.6250:0.3125:0.0625\)</span>).
+This is an empirically determined near-optimal default for valence
+calculations. For conduction calculations the default is to give all
+remaining RAM to the SWOP hash table, because in conduction calculations
+expansions are never re-used and the number of NGWF products is so
+large, that it’s faster to give up on storing them entirely.</p>
+<p>The three caches store, respectively:</p>
+<ul class="simple">
+<li>Spherical waves or potentials thereof (“SWOPs”). Generating SWOPs is
+typically the main bottleneck of any HFx calculation, and increasing
+the size of this cache will lead to significant improvements, with
+returns diminishing after hit ratios exceed 90-95%.</li>
+<li>Spherical wave expansions (potentials of linear combinations of
+spherical waves on a centre). These can help performance too, but
+their size quickly becomes unwieldy.</li>
+<li>NGWF products. Less useful than the above, but cheap to store, except
+in conduction calculations.</li>
+</ul>
+<p>In general, it is best to rely on the default division and to specify
+only <code class="docutils literal"><span class="pre">hfx_memory_limit</span></code>. However, if you feel you can do better, you
+can manually set the maximum for any number of caches, using the
+directives <code class="docutils literal"><span class="pre">cache_limit_for_swops</span></code>, <code class="docutils literal"><span class="pre">cache_limit_for_expansions</span></code>,
+<code class="docutils literal"><span class="pre">cache_limit_for_prods</span></code>. This might be useful if you specifically want
+to disable one or more of the caches (by specifying 0). Remember that
+<code class="docutils literal"><span class="pre">hfx_memory_limit</span></code> is still in effect by default, even if you do not
+specify it, and it will interact with the above. If you want to turn off
+the automatic balancing of memory limits, specify
+<code class="docutils literal"><span class="pre">hfx_memory_limit</span> <span class="pre">-1</span></code>. Once you do this, the specified cache limits
+will be used (with a default of 1024). Finally, if you keep the
+automated balancing, <code class="docutils literal"><span class="pre">hfx_memory_weights</span></code>, which accepts three real
+numbers, can be used to set the desired weights, if you are not
+satisfied with the default. The weights do not need to add to 1, they
+will be automatically rescaled. They cannot all be zero, but some of
+them can be zero (which then turns off the associated cache).</p>
+<p>The utilisation of each cache is reported at some stage of the
+calculation (assuming <code class="docutils literal"><span class="pre">hfx_output_detail</span></code> is at <code class="docutils literal"><span class="pre">NORMAL</span></code> or higher).
+You will see banners like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">+------------------------------------------------------------------------------+</span>
+<span class="o">|</span>    <span class="n">MPI</span> <span class="o">|</span>                           <span class="o">|</span>              <span class="o">|</span>           <span class="o">|</span>              <span class="o">|</span>
+<span class="o">|</span>   <span class="n">rank</span> <span class="o">|</span>       <span class="n">SWOP</span> <span class="n">cache</span> <span class="n">capacity</span> <span class="o">|</span> <span class="n">SWOPs</span> <span class="n">needed</span> <span class="o">|</span> <span class="n">Cacheable</span> <span class="o">|</span>    <span class="n">Hit</span> <span class="n">ratio</span> <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------+</span>
+<span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>       <span class="mi">3691</span> <span class="n">MiB</span> <span class="p">(</span><span class="mi">24189</span> <span class="n">el</span><span class="p">)</span> <span class="o">|</span>    <span class="mi">109140</span> <span class="n">el</span> <span class="o">|</span>    <span class="mf">22.16</span><span class="o">%</span> <span class="o">|</span>       <span class="mf">58.70</span><span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>       <span class="mi">3691</span> <span class="n">MiB</span> <span class="p">(</span><span class="mi">24189</span> <span class="n">el</span><span class="p">)</span> <span class="o">|</span>    <span class="mi">109140</span> <span class="n">el</span> <span class="o">|</span>    <span class="mf">22.16</span><span class="o">%</span> <span class="o">|</span>       <span class="mf">58.85</span><span class="o">%</span> <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<p>This is a breakdown over all MPI ranks (only two in this case),
+informing you that you devoted about 3.7&nbsp;GB per MPI rank to the SWOP
+cache, which enables caching 24189 elements, whereas 109140 elements
+could be stored, if you had more RAM. You were thus able to cache about
+22% of all elements, but because HFx stores the most reusable ones
+first, the cache hit ratio will be about 59% – that is, in 59% of cases
+when HFx will be looking for a SWOP, it will find it in the cache.
+Different SWOPs will be needed on different nodes, hence the hit ratios
+are not exactly equal. Looking up SWOPs in the cache is at least an
+order of magnitude faster than recaculating them, so you should aim for
+a hit ratio of at least <span class="math">\(90\)</span>%.</p>
+<p>Banners for the expansion and NGWF product caches will be printed after
+the first LNV (or EDFT) iteration (for <code class="docutils literal"><span class="pre">hfx_output_detail</span> <span class="pre">VERBOSE</span></code>) or
+after every energy evaluation (for <code class="docutils literal"><span class="pre">hfx_output_detail</span></code> at <code class="docutils literal"><span class="pre">PROLIX</span></code>
+or higher). They look like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">HFx</span><span class="p">:</span> <span class="o">+-----------------------------------------------------------------------+</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">|</span>    <span class="n">MPI</span> <span class="o">|</span>                          <span class="n">Expansion</span> <span class="n">cache</span>                     <span class="o">|</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">|</span>   <span class="n">rank</span> <span class="o">|</span>           <span class="n">hits</span> <span class="o">|</span>         <span class="n">misses</span> <span class="o">|</span>          <span class="n">total</span> <span class="o">|</span> <span class="n">hit</span> <span class="n">ratio</span> <span class="o">|</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">+-----------------------------------------------------------------------+</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>        <span class="mi">1982298</span> <span class="o">|</span>       <span class="mi">13369145</span> <span class="o">|</span>       <span class="mi">15351443</span> <span class="o">|</span>   <span class="mf">12.91</span> <span class="o">%</span> <span class="o">|</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>        <span class="mi">1947916</span> <span class="o">|</span>       <span class="mi">13512601</span> <span class="o">|</span>       <span class="mi">15460517</span> <span class="o">|</span>   <span class="mf">12.60</span> <span class="o">%</span> <span class="o">|</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">+-----------------------------------------------------------------------+</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">+-----------------------------------------------------------------------+</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">|</span>    <span class="n">MPI</span> <span class="o">|</span>                    <span class="n">AD</span> <span class="n">NGWF</span> <span class="n">product</span> <span class="n">cache</span>                     <span class="o">|</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">|</span>   <span class="n">rank</span> <span class="o">|</span>           <span class="n">hits</span> <span class="o">|</span>         <span class="n">misses</span> <span class="o">|</span>          <span class="n">total</span> <span class="o">|</span> <span class="n">hit</span> <span class="n">ratio</span> <span class="o">|</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">+-----------------------------------------------------------------------+</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span>        <span class="mi">1947809</span> <span class="o">|</span>        <span class="mi">7499676</span> <span class="o">|</span>        <span class="mi">9447485</span> <span class="o">|</span>   <span class="mf">20.62</span> <span class="o">%</span> <span class="o">|</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>        <span class="mi">1992291</span> <span class="o">|</span>        <span class="mi">7737078</span> <span class="o">|</span>        <span class="mi">9729369</span> <span class="o">|</span>   <span class="mf">20.48</span> <span class="o">%</span> <span class="o">|</span>
+<span class="n">HFx</span><span class="p">:</span> <span class="o">+-----------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<p>and show you a per-MPI-rank breakdown of how many hits and misses were
+recorded in accessing the cache, and what the hit ratio was. You will be
+able to achieve 100% only for the smallest of systems,</p>
+<p>Changing cache limits only affects the tradeoff between RAM and CPU
+time, it has absolutely no effect on results, only on the time and
+memory it will take to arrive at them. If you are very pressed for RAM,
+you can set all the above cache sizes to 0. This will stop caching
+altogether, conserving memory, but will vastly increase run time, by a
+factor of several.</p>
+<p>A simple, perhaps surprising, way of increasing performance (slightly)
+is by using PPDs that are not flat. By default ONETEP initialises the
+third dimension of a PPD to 1, making them flat. This makes sense in the
+absence of HFx. With HFx the book-keeping of the caching machinery will
+be faster when the PPDs are slightly larger. Preferably use
+<code class="docutils literal"><span class="pre">ppd_npoints</span></code> to make the PPDs <span class="math">\(5\times{}5\times{}5\)</span> or
+<span class="math">\(7\times{}7\times{}7\)</span>. It might be necessary to explicitly set
+<code class="docutils literal"><span class="pre">psinc_spacing</span></code> and carefully choose the box dimensions. An easy
+solution is to choose <code class="docutils literal"><span class="pre">psinc_spacing</span> <span class="pre">0.5</span> <span class="pre">0.5</span> <span class="pre">0.5</span></code> which corresponds to
+a kinetic energy cutoff of 827&nbsp;eV, and to make your box dimensions
+divisible by <span class="math">\(2.5\,a_0\)</span> (for <span class="math">\(5\times{}5\times{}5\)</span> PPDs).</p>
+<p>Finally, you can try omitting some terms in the expansion, if the
+expansion coefficients are below a certain threshold. This will affect
+the accuracy of your results, and so by default nothing is thrown away.
+This can be done via the keyword <code class="docutils literal"><span class="pre">swx_c_threshold</span></code> which takes a real
+number as an argument. Whenever an NGWF-pair expansion coefficient is
+below this value, potentials from this particular SW for this pair of
+NGWFs will not even be generated. This can be used in conjunction with a
+distance-based truncation. A value like 1E-5 will throw away maybe 2-3%
+of the terms. 1E-3 will throw away about 10-15% (so, little gain), and
+this will be enough to impair your NGWF convergence. I do not recommend
+changing this setting.</p>
+</div>
+<div class="section" id="other-advanced-options">
+<h3>Other advanced options<a class="headerlink" href="#other-advanced-options" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">swx_output_detail</span> <span class="pre">(string)</span></code> – controls the verbosity of the spherical
+wave expansion. Allowed options: <code class="docutils literal"><span class="pre">BRIEF</span></code>, <code class="docutils literal"><span class="pre">NORMAL</span></code>, <code class="docutils literal"><span class="pre">VERBOSE</span></code>.
+Defaults to <code class="docutils literal"><span class="pre">NORMAL</span></code>. At <code class="docutils literal"><span class="pre">VERBOSE</span></code> you might feel overwhelmed by the
+output from all MPI ranks letting you know which atom they are working
+on (lines looking like “<code class="docutils literal"><span class="pre">+</span> <span class="pre">A:</span> <span class="pre">1</span></code>” or “<code class="docutils literal"><span class="pre">-</span> <span class="pre">B:</span> <span class="pre">1</span></code>”). This is useful for
+big systems, where it takes a while to get from one LNV iteration to the
+next one, with no output otherwise.</p>
+<p><code class="docutils literal"><span class="pre">hfx_output_detail</span> <span class="pre">(string)</span></code> – controls the verbosity of Hartree Fock
+exchange. Allowed options: <code class="docutils literal"><span class="pre">BRIEF</span></code>, <code class="docutils literal"><span class="pre">NORMAL</span></code>, <code class="docutils literal"><span class="pre">VERBOSE</span></code>,
+<code class="docutils literal"><span class="pre">PROLIX</span></code>, <code class="docutils literal"><span class="pre">MAXIMUM</span></code>. Defaults to the value of <code class="docutils literal"><span class="pre">output_detail</span></code>. At
+<code class="docutils literal"><span class="pre">VERBOSE</span></code> you might feel overwhelmed by the output from all MPI ranks
+letting you know which atom they are working on (lines looking like
+“<code class="docutils literal"><span class="pre">-</span> <span class="pre">B:</span> <span class="pre">1</span> <span class="pre">[0]</span> <span class="pre">(1)</span></code>”). This is useful for big systems, where it takes a
+while to get from one LNV iteration to the next one, with no output
+otherwise. At <code class="docutils literal"><span class="pre">PROLIX</span></code> there is even more feedback. At <code class="docutils literal"><span class="pre">MAXIMUM</span></code>
+even the <span class="math">\(X\)</span> matrix is printed, which will make your output file
+extremely big. This is recommended only when debugging. The recommended
+setting is <code class="docutils literal"><span class="pre">VERBOSE</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">hfx_bessel_rad_nptsx</span> <span class="pre">(integer)</span></code> – specifies how many points are used
+in the radial interpolation of Bessel functions. The default is 100000
+and should be sufficient. Increasing this value (perhaps to 250000 or
+so) improves accuracy, particularly if your simulation cell is large,
+but there is an associated linear memory cost (typically in tens of MB
+per MPI rank).</p>
+<p><code class="docutils literal"><span class="pre">use_sph_harm_rot</span> <span class="pre">(logical)</span></code> – Manually activate the
+<code class="docutils literal"><span class="pre">sph_harm_rotation</span></code> (spherical harmonic rotation) module (used to
+evaluate the metric matrix in the 2Dn-1Da scheme). In normal operation
+this is not necessary, since the module will be activated if it is
+detected that spherical harmonic rotation is required. Setting this is
+to false has no effect, since the option will be overridden if ONETEP
+detects that the module is needed, anyway.</p>
+<p><code class="docutils literal"><span class="pre">swx_dbl_grid</span></code> – experimental functionality, please do not use.</p>
+<div class="section" id="devel-code-values">
+<h4>devel_code values<a class="headerlink" href="#devel-code-values" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">SHROT:DEBUG=[T/F]:SHROT</span></code> – Activate debug mode for the
+<code class="docutils literal"><span class="pre">sph_harm_rotation</span></code> module</p>
+<p><code class="docutils literal"><span class="pre">SHROT:UNIT_TEST=[T/F]:SHROT</span></code> – Activate unit testing for the
+<code class="docutils literal"><span class="pre">sph_harm_rotation</span></code> module</p>
+</div>
+</div>
+</div>
+<div class="section" id="frequently-asked-questions">
+<h2>Frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-hybrid-functionals-are-available-in-onetep">
+<h3>What hybrid functionals are available in ONETEP?<a class="headerlink" href="#what-hybrid-functionals-are-available-in-onetep" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">B1LYP</span></code>, <code class="docutils literal"><span class="pre">B1PW91</span></code>, <code class="docutils literal"><span class="pre">B3LYP</span></code>, <code class="docutils literal"><span class="pre">B3PW91</span></code>, <code class="docutils literal"><span class="pre">PBE0</span></code>, <code class="docutils literal"><span class="pre">X3LYP</span></code>. For a
+pure Hartree-Fock calculation use <code class="docutils literal"><span class="pre">HF</span></code>.</p>
+</div>
+<div class="section" id="how-big-can-my-system-be-when-using-hfx">
+<h3>How big can my system be when using HFx?<a class="headerlink" href="#how-big-can-my-system-be-when-using-hfx" title="Permalink to this headline">¶</a></h3>
+<p>Up to 200 atoms should be a breeze on a desktop machine (64 GB RAM, 16
+cores). About 500-600 atoms will be a limit for a desktop machine, but
+it might take a week or two. Larger systems will be off-limits because
+you will either run out of memory (if using <span class="math">\(&gt;1\)</span>&nbsp;MPI rank), or hit
+<code class="docutils literal"><span class="pre">sparse_mod</span></code> integer overflows (if using 1 MPI rank).</p>
+<p>On a HPC cluster (say, 640 cores) up to 1000 atoms should not be too
+difficult (3-4 days). Current record is 4048 atoms (640 cores, 20 days,
+June 2020). With significant resources (<span class="math">\(5000+\)</span> cores) you should
+be able to do 10000 atoms, but this has not been tried.</p>
+</div>
+<div class="section" id="how-do-i-make-hfx-faster">
+<h3>How do I make HFx faster?<a class="headerlink" href="#how-do-i-make-hfx-faster" title="Permalink to this headline">¶</a></h3>
+<p>Use as many OMP threads as possible, without crossing NUMA regions. On a
+typical HPC system this will mean using only 2 MPI ranks per node, and
+on a desktop machine – only 1 MPI rank. This will minimise the number of
+MPI ranks, allowing you to give much more memory to each of them.
+Increase <code class="docutils literal"><span class="pre">hfx_memory_limit</span></code> from the default value of 4096 to however
+much you can spare. This is the maximum RAM consumption of HFx (on top
+of the rest of ONETEP) per MPI rank. Here it is always the higher the
+better, except you don’t want to run out of memory. Use&nbsp; or for a slight
+efficiency gain.</p>
+</div>
+<div class="section" id="im-running-out-of-memory">
+<h3>I’m running out of memory<a class="headerlink" href="#im-running-out-of-memory" title="Permalink to this headline">¶</a></h3>
+<p>Symptoms: you get error messages like “Killed”, or “Out of memory: Kill
+process <em>nnn</em> (onetep.exe)” in <code class="docutils literal"><span class="pre">dmesg</span></code> output, or your system starts
+<em>thrashing</em> (swapping memory to HDD). What you can do:</p>
+<ul class="simple">
+<li>Reduce the number of MPI ranks per node. In the worst case scenario,
+undersubscribe (leave some cores idle), even to the point of having
+only 1 MPI rank per node.</li>
+<li>Reduce <code class="docutils literal"><span class="pre">hfx_memory_limit</span></code> from the default value of 4096 to
+something smaller.</li>
+<li>Reduce the quality of the SW expansion (<span class="math">\(l_{\textrm{max}}\)</span>,
+<span class="math">\(q_{\textrm{max}}\)</span>) (this will affect the quality of results).</li>
+<li>If you’re running out of memory at the NGWF gradient stage, reduce
+<code class="docutils literal"><span class="pre">threads_num_fftboxes</span></code>. The default is equal to the number of OMP
+threads. Reduce it to 1. This is a component of ONETEP that consumes
+quite a bit of RAM irrespective of whether HFx is used or not.</li>
+<li>Use high-memory nodes. Many HPC facilities provide these.</li>
+<li>Increase the number of compute nodes used in the calculation. Some of
+the necessary data will be distributed across nodes, reducing
+per-node load. With a large number of OMP threads, you can easily use
+much more CPUs than you have atoms in your system.</li>
+</ul>
+</div>
+<div class="section" id="the-hfx-engine-does-not-use-all-the-memory-i-asked-it-it-to-use-why">
+<h3>The HFx engine does not use all the memory I asked it it to use. Why?<a class="headerlink" href="#the-hfx-engine-does-not-use-all-the-memory-i-asked-it-it-to-use-why" title="Permalink to this headline">¶</a></h3>
+<p>If you devote too much memory to one of the caches, only as much will be
+used as is needed to store all that is needed. Perhaps adjust
+<code class="docutils literal"><span class="pre">hfx_memory_weights</span></code> to give this memory to where it is needed more.</p>
+</div>
+<div class="section" id="my-calculation-aborts-with-error-in-sparse-count-ss-integer-overflow-in-sparse-matrix-index-detected-what-now">
+<h3>My calculation aborts with <code class="docutils literal"><span class="pre">Error</span> <span class="pre">in</span> <span class="pre">sparse_count_ss:</span> <span class="pre">Integer</span> <span class="pre">overflow</span> <span class="pre">in</span> <span class="pre">sparse</span> <span class="pre">matrix</span> <span class="pre">index</span> <span class="pre">detected.</span></code> What now?<a class="headerlink" href="#my-calculation-aborts-with-error-in-sparse-count-ss-integer-overflow-in-sparse-matrix-index-detected-what-now" title="Permalink to this headline">¶</a></h3>
+<p>Your sparse matrices are too large, overflowing integer indices in
+ONETEP’s sparse matrix machinery. Essentially you are trying to run a
+calculations with too many atoms on too few MPI ranks. Increase the
+number of MPI ranks or decrease <code class="docutils literal"><span class="pre">hfx_cutoff</span></code>. The latter will impact
+results.</p>
+<p>My calculation crashes with a <code class="docutils literal"><span class="pre">SIGSEGV</span></code> and the last line of output is
+“<code class="docutils literal"><span class="pre">KSKS</span> <span class="pre">matrix</span> <span class="pre">filling:</span></code>”. What now?
+————————————————————————</p>
+<p>Same as above, except the integer overflow has not been detected.</p>
+</div>
+<div class="section" id="my-calculation-aborts-with-exchange-matrix-not-deemed-accurate-enough-for-a-stable-calculation-what-now">
+<h3>My calculation aborts with <code class="docutils literal"><span class="pre">Exchange</span> <span class="pre">matrix</span> <span class="pre">not</span> <span class="pre">deemed</span> <span class="pre">accurate</span> <span class="pre">enough</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">stable</span> <span class="pre">calculation</span></code>. What now?<a class="headerlink" href="#my-calculation-aborts-with-exchange-matrix-not-deemed-accurate-enough-for-a-stable-calculation-what-now" title="Permalink to this headline">¶</a></h3>
+<p>One of the approximations broke down. You turned the “speed
+vs.&nbsp;accuracy” knob too far towards “speed”.</p>
+<ul class="simple">
+<li>Is your SW expansion quality too low? The minimum reasonable quality
+is about <span class="math">\(l_{\textrm{max}}=2\)</span>, <span class="math">\(q_{\textrm{max}}=8\)</span>, see
+[Dziedzic2013] (Fig. 8). For some systems this might not be
+enough, particularly in pure Hartree-Fock calculations
+(<code class="docutils literal"><span class="pre">xc_functional</span> <span class="pre">HF</span></code>). Try <span class="math">\(l_{\textrm{max}}=3\)</span>,
+<span class="math">\(q_{\textrm{max}}=10\)</span>.</li>
+<li>Is your KE cutoff too low? In general, don’t go below 800&nbsp;eV.</li>
+<li>Is your Chebyshev interpolation quality too low?
+<span class="math">\(N_{\textrm{i}}\)</span> should be at least 10, preferably 12.
+<span class="math">\(N_{\textrm{o}}\)</span> should also be at least 10, preferably 12.</li>
+<li>Is the number of points in the radial Bessel interpolation
+(<code class="docutils literal"><span class="pre">hfx_bessel_rad_nptsx</span></code>) too low? Don’t go below 100000. For larger
+simulation cells you might want to use a higher value (say, 250000).</li>
+</ul>
+</div>
+<div class="section" id="can-i-do-conduction-calculations-with-hfx">
+<h3>Can I do conduction calculations with HFx?<a class="headerlink" href="#can-i-do-conduction-calculations-with-hfx" title="Permalink to this headline">¶</a></h3>
+<p>Yes!</p>
+<p>Just make sure all NGWF radii are equal for all species and across
+<code class="docutils literal"><span class="pre">species</span></code> and <code class="docutils literal"><span class="pre">species_cond</span></code> blocks. You may reuse the metric
+matrices between the valence and conduction calculation. Have a lot of
+CPU power available. It shouldn’t be too difficult up to 500 atoms, then
+difficulty ramps up. 1000+ atoms will require considerable resources
+(<span class="math">\(\approx{}1000+\)</span> cores) and patience (weeks). Current record is
+1108 atoms (June 2020).</p>
+</div>
+<div class="section" id="can-i-do-lr-tddft-calculations-with-hfx">
+<h3>Can I do LR-TDDFT calculations with HFx?<a class="headerlink" href="#can-i-do-lr-tddft-calculations-with-hfx" title="Permalink to this headline">¶</a></h3>
+<p>Yes, but this is at an experimental stage at the moment.</p>
+</div>
+</div>
+<div class="section" id="further-questions">
+<h2>Further questions?<a class="headerlink" href="#further-questions" title="Permalink to this headline">¶</a></h2>
+<p>General questions should be directed to Jacek Dziedzic,
+<code class="docutils literal"><span class="pre">J.Dziedzic[-at-]soton.ac.uk.</span></code></p>
+<p>Questions relating to the 2Dn-1Da metric matrix evaluation scheme or to
+hybrid LR-TDDFT should be directed at James C. Womack,
+<code class="docutils literal"><span class="pre">J.C.Womack[-at-]bristol.ac.uk</span></code>.</p>
+<table class="docutils footnote" frame="void" id="id21" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[1]</a></td><td>There is a caveat here when using the overlap metric (which you
+shouldn’t be doing anyway). At the boundary of the NGWF localisation
+region a SW has a derivative discontinuity, while a SWpot is smooth
+together with its derivative. This discontinuity is poorly
+approximated with high-order polynomials (Runge effect), and the
+problem becomes worse when the number of intervals is small. The
+setting <span class="math">\(N_{\textrm{i}}\)</span>=12, <span class="math">\(N_{\textrm{o}}\)</span>=12 is a
+poor choice in this case. When using the overlap metric, always use
+the lowest possible Chebyshev order (2, a parabola) and a large
+number of intervals to compensate. A decent setting, and with a
+comparable cost, would be <span class="math">\(N_{\textrm{i}}\)</span>=72,
+<span class="math">\(N_{\textrm{o}}\)</span>=2. Of course you should not be using the
+overlap metric in the first place!</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id22" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[2]</a></td><td>Unless you’re doing QM/MM calculations with polarisable embedding.</td></tr>
+</tbody>
+</table>
+<p>[Hine2011] N. D. M. Hine, J. Dziedzic, P. D. Haynes, and C.-K. Skylaris, <em>J. Chem. Phys.</em> <strong>135</strong>, 204103 (2011)</p>
+<p>[Dziedzic2013] J. Dziedzic, Q. Hill, and C.-K. Skylaris, <em>J. Chem. Phys.</em> <strong>139</strong>, 214103 (2013)</p>
+<p>[Rein1973] R. Rein, <em>On Physical Properties and Interactions of Polyatomic Molecules: With Application to Molecular Recognition in Biology</em>, in Advances in Quantum Chemistry, ed. P. Lowdin, Academic Press (1973)</p>
+<p>[Stone1981] A. J. Stone, <em>Chem. Phys. Lett.</em> <strong>2</strong>, 233 (1981)</p>
+<p>[Stone1985] A. J. Stone and M. Alderton, <em>Mol. Phys.</em> <strong>5</strong>, 56 (1985)</p>
+<p>[Stone1998] A. J. Stone, <em>GDMA: distributed multipoles from Gaussian98 wavefunctions</em> (technical report), University of Cambridge (1998)</p>
+<p>[Stone2005] A. J. Stone, <em>J. Chem. Theory Comput.</em> <strong>6</strong>, 1128 (2005)</p>
+<p>[Dziedzic2016] J. Dziedzic, Y. Mao, Y. Shao, J. Ponder, T. Head-Gordon, M. Head-Gordon, and C.-K. Skylaris, <em>J. Chem. Phys.</em> <strong>145</strong>, 124106 (2016)</p>
+<p>[Vitale2015] V. Vitale, J. Dziedzic, S. M.-M. Dubois, H. Fangohr, and C.-K. Skylaris, <em>J. Chem. Theory Comput.</em> <strong>11</strong>, 3321 (2015)</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="implicit_solvation_v3.html" title="previous chapter">Solvent and Electrolyte Model</a></li>
+      <li>Next: <a href="cutoff_coulomb.html" title="next chapter">Cut-off Coulomb</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/hfx.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

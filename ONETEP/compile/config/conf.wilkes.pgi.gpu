@@ -1,0 +1,12 @@
+FC := mpif90
+F90 := $(FC)
+FFLAGS = -DGPU_PGI -DFFTW3_NO_OMP -DMPI -DNOMPIIO -Mdalign -Mbackslash
+MKLPATH=${MKLROOT}/lib/intel64
+LIBS=  -L$(MKLROOT)/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_sequential -lpthread -lm
+OPTFLAGS = -O3 -m64
+WARNINGFLAGS = -Wall -Wextra
+DEBUGFLAGS =
+COMPILER = PORTLAND-pgf90-on-LINUX
+ACCFLAGS = -acc -ta=nvidia:cc35 -Mcuda=6.5
+ACCLIBS = -lcufft -lcudart
+

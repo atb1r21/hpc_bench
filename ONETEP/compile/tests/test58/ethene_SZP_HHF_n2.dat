@@ -1,0 +1,77 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Hyper Hartree-Fock calculation (and HFx).          !
+!                                                    !
+! Test system is ethene.                             !
+!                                                    !
+! Created by Jacek Dziedzic in October 2016.         !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+print_qc T
+
+hhf_nstates 2 
+num_eigenvalues 100 
+
+output_detail VERBOSE
+timings_level 3
+
+do_properties T
+xc_functional HF 
+
+! Calculation is underconverged to reduce test walltime
+maxit_ngwf_cg 2
+
+%block swri
+  for_hfx 3 14 V 12 12 E
+%endblock swri
+
+%block species_swri-for_hfx
+C
+H
+%endblock species_swri-for_hfx
+
+hfx_use_ri for_hfx
+hfx_max_l 3
+hfx_max_q 14
+
+cutoff_energy 800.0 eV
+
+%block lattice_cart
+  40.000    0.000    0.000
+   0.000   40.000    0.000
+   0.000    0.000   40.000
+%endblock lattice_cart
+
+%block positions_abs
+C     21.231469   19.962216   20.048416
+H     22.316684   21.381117   21.086741
+H     22.305600   18.474510   19.097577
+C     18.768395   20.037541   19.951432
+H     17.694385   21.525477   20.902418
+H     17.683467   18.617139   18.913416
+%endblock positions_abs
+
+! Make the NGWF radii small to reduce test walltime
+%block species
+C   C   6 9 6.0
+H   H   1 4 6.0
+%endblock species
+
+%block species_atomic_set
+C "SOLVE conf=2s2 2p2 3sX 3pX 3d0"
+H "SOLVE conf=1s1 2sX 2p0"
+%endblock species_atomic_set
+
+%block species_pot
+C   "../../pseudo/carbon.recpot"
+H   "../../pseudo/hydrogen.recpot"
+%endblock species_pot

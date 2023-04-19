@@ -1,0 +1,54 @@
+# ------------------------------------------------------------------
+# A ONETEP configuration file for ARCHER2 (full 23-cabinet system).
+# Cray compiler version.
+#
+# 2021.11.28 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+#                            University of Southampton
+# ------------------------------------------------------------------
+# v1.25, 2022.03.18 Jacek Dziedzic
+
+# ----------------------------------------------------------
+# Compiler: 	Cray Fortran v12.0.3
+# MPI: 		Cray mpich 8.1.4
+# OMP:          Yes
+# FFTW3:	Cray 3.3.8.11 From /opt/cray/pe/lib64/
+# ScaLAPACK:	From /opt/cray/pe/lib64/libsci_cray_mp.so.5
+# ----------------------------------------------------------
+
+# ----------------------------------------------------------
+# This config file works with the modules one gets on Archer2 once the
+# following commands are issued (without the leading '#'):
+#
+# module load PrgEnv-cray/8.1.0
+# module load cce/12.0.3
+# module load cray-fftw/3.3.8.11
+# module load cray-mpich/8.1.4
+#
+# As of 2022.03.09, these are
+# Currently Loaded Modules:
+#  1) craype/2.7.6           5) cray-dsmml/0.1.4       9) load-epcc-module   13) cray-mpich/8.1.4
+#  2) craype-x86-rome        6) cray-libsci/21.04.1.1 10) PrgEnv-cray/8.1.0
+#  3) libfabric/1.11.0.4.71  7) bolt/0.7              11) cce/12.0.3
+#  4) craype-network-ofi     8) epcc-setup-env        12) cray-fftw/3.3.8.11
+#
+# Also, make sure to set your LD_LIBRARY_PATH correctly to work around the known issue
+# "Default FFTW library points to Intel Haswell version rather than AMD Rome at runtime"
+# described at https://docs.archer2.ac.uk/known-issues/
+# 
+# All the above can be easily achieved by adding the following lines to the end of 
+# your ~/.bash_profile (without the leading '#'):
+#    module load PrgEnv-cray/8.1.0  >/dev/null 2>/dev/null
+#    module load cce/12.0.3         >/dev/null 2>/dev/null
+#    module load cray-fftw/3.3.8.11 >/dev/null 2>/dev/null
+#    module load cray-mpich/8.1.4   >/dev/null 2>/dev/null
+#    export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+# ... and then logging out and logging back in for the changes to take effect.
+# ----------------------------------------------------------
+
+F90 = ftn
+FFLAGS = -DMPI -DFFTW3 -DParallelFFT -DSCALAPACK -DNO_OMP_IN_SCALAPACK_DIAG -em -h omp
+OPTFLAGS = -O ipa0
+DEBUGFLAGS = -g -e D
+COMPILER := CRAY-crayftn-on-LINUX
+LIBS = -L.
+UPPERCASE_MODULE = yes

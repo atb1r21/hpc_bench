@@ -1,0 +1,112 @@
+!=========================================================!
+! Input for calculation with the ONETEP program           !
+!                                                         !
+! Quality Control file for:                               ! 
+! Implicit solvent (with a fixed cavity) for a neutral    !
+! molecule with a solvent-excluded excluded region,       !
+! smeared ions, auto-solvation, and the open-BC realspace !
+! local pseudopotential. Solvation forces are also tested.!
+! The test case is a C36 buckyball.                       !
+!                                                         !
+! Created by J. Dziedzic on 04/09/2017.                   !
+!                                                         !
+! School of Chemistry                                     !
+! University of Southampton                               !
+! Highfield                                               !
+! Southampton SO17 1BJ                                    ! 
+! UK                                                      !
+!                                                         !
+!=========================================================!
+
+ ! Uncomment to use defect correction code in ONETEP, rather than the default,
+ ! which is to have DL_MG perform defect correction
+ !devel_code: MG:USE_ONETEP_DEFCO=T:MG
+
+ ! Turns on solvation, the remaining options are left as defaults
+ is_auto_solvation T
+ is_smeared_ion_rep T
+
+ ! Put a sphere with R=4a0 in the middle of the buckyball to
+ ! prevent a dielectric pocket from forming there.
+ %block is_dielectric_exclusions
+ sphere 20.0 20.0 20.0 4.0
+ %endblock is_dielectric_exclusions
+
+ charge 0 
+ 
+ cutoff_energy :  800 eV
+ kernel_cutoff : 1000
+ elec_cg_max 0
+ occ_mix 1.0
+ xc_functional PBE
+ dispersion 1
+ write_forces T
+ print_qc T
+ 
+ ! This test restarts from a severly underconverged vacuum calculation,
+ ! and the calculation in solvent is similarly underconverged. This is
+ ! done to reduce the computational effort of the QC test.
+ ! For these reasons the obtained total energy is not very meaningful
+ ! and neither are the forces.
+ ! This is a Quality Control test, not a production calculation!
+ minit_lnv 3
+ maxit_lnv 3 
+ maxit_ngwf_cg 2
+ 
+ output_detail VERBOSE
+ do_properties F
+ write_denskern F
+ write_tightbox_ngwfs F
+ 
+ %block species
+ C   C   6 4 7.0
+ %endblock species
+ 
+ %block species_pot
+ C   "../../pseudo/carbon.recpot"
+ %endblock species_pot
+
+ %block lattice_cart
+  40.00000000   0.00000000   0.00000000
+   0.00000000  40.00000000   0.00000000
+   0.00000000   0.00000000  40.00000000
+ %endblock lattice_cart
+
+ %block positions_abs
+C      22.62762231      17.94399832      16.38683028
+C      17.40630851      17.93832914      16.38305083
+C      18.72533748      16.05238228      17.67562362
+C      21.34827760      16.02970556      17.69452089
+C      24.74033633      18.71689638      17.73231541
+C      24.75356441      21.32093924      17.72475651
+C      24.71765961      22.62862985      19.96786164
+C      24.71388016      17.39030851      19.96030274
+C      24.69120345      18.70933748      22.21096678
+C      24.69687262      21.31338033      22.21852568
+C      18.71588884      16.09584598      22.25443048
+C      21.34827760      16.05427201      22.27521747
+C      22.64462985      15.81805622      19.98297945
+C      17.39497015      15.90876308      19.95841301
+C      21.35961596      23.96655608      22.28277638
+C      22.63707094      24.18198488      19.96597192
+C      18.73478611      23.94009991      22.28655583
+C      22.64462985      22.08060922      23.62070261
+C      21.35394678      23.96088690      17.67184417
+C      22.65218875      22.07305031      16.35281521
+C      18.72911693      23.92498210      17.68507226
+C      17.43654413      24.09127802      19.98486918
+C      17.37985234      22.06549141      16.37927137
+C      18.71021967      20.01513836      15.36637807
+C      21.33315979      20.01324863      15.35692944
+C      15.32194039      22.57193806      19.95841301
+C      15.26713832      21.28314471      17.69452089
+C      15.26524860      18.68477103      17.71152842
+C      15.35217601      21.30582143      22.24309212
+C      21.34071869      20.00757945      24.64304454
+C      18.70644021      19.99057192      24.62036782
+C      17.42709550      22.07494004      23.61881288
+C      22.63707094      17.94021887      23.60936425
+C      17.37796261      17.94966750      23.57912863
+C      15.26713832      18.69232994      22.22608459
+C      15.24635133      17.39975714      19.97542055
+ %endblock positions_abs

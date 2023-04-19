@@ -1,0 +1,1685 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Solvent and Electrolyte Model &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Spherical wave resolution of identity (SWRI), Hartree-Fock exchange (HFx), hybrid functionals and distributed multipole analysis (DMA)" href="hfx.html" />
+    <link rel="prev" title="Realspace local pseudopotential in ONETEP" href="realspace_local_pseudo.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="solvent-and-electrolyte-model">
+<h1>Solvent and Electrolyte Model<a class="headerlink" href="#solvent-and-electrolyte-model" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Jacek Dziedzic, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">James C. Womack, University of Southampton</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Arihant Bhandari, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Gabriel Bramley, University of Southampton</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">September 2022</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><strong>This manual pertains to ONETEP versions v6.0.0 and later</strong>.</div>
+<div class="line">For older versions, see separate documentation on the ONETEP website.</div>
+<div class="line"><strong>Major changes relative to v6.0.0:</strong></div>
+</div>
+<ul class="simple">
+<li><strong>Soft-sphere model added in v6.1.1.8</strong></li>
+<li><strong>Self-consistent Continuum Solvation (SCCS) model added in
+v6.1.11.0</strong></li>
+<li><strong>Surface Accessible Volume added in v6.1.3.0</strong></li>
+<li><strong>Conjugate gradient solver added in v6.1.3.6</strong></li>
+</ul>
+<div class="line-block">
+<div class="line"><strong>WARNING to users of v6.1.3.0 and later.</strong></div>
+<div class="line">The method used to calculate the surface area of the dielectric cavity
+was changed in version 6.1.3.0. The surface area is used to calculate
+the <span class="math">\(\Delta G_{\textrm{npol}}\)</span> component of the solvation. The
+new method is more mathematically consistent, but gives approximately
+20% smaller values for the surface area. By default, we use the new
+method, which means the value of <span class="math">\(\Delta G_{\textrm{solv}}\)</span> and
+may not agree with earlier versions. If you need full compatibility
+with versions before 6.1.3, set <code class="docutils literal"><span class="pre">is_apolar_sasa_definition</span></code> to
+<code class="docutils literal"><span class="pre">isodensity</span></code>.</div>
+</div>
+<div class="section" id="overview-of-capabilities">
+<h2>Overview of capabilities<a class="headerlink" href="#overview-of-capabilities" title="Permalink to this headline">¶</a></h2>
+<p>First and foremost, ONETEP implements the Minimal Parameter Solvent
+Model (MPSM), first presented in Ref. [Dziedzic2011]. A more detailed description,
+including guidelines on the choice of parameters, is given in Ref. [Dziedzic2013].
+MPSM offers a very accurate treatment of the polar (electrostatic)
+solvation contribution, and a rather simple, yet still accurate,
+treatment of the apolar terms: cavitation, dispersion and repulsion.
+MPSM is based on the Fattebert and Gygi model (later extended by
+Scherlis) [Scherlis2006].</p>
+<p>Two other models are available – Fisicaro’s soft-sphere model (SSM)
+[Fisicaro2017], and Andreussi’s Self-Consistent Continuum
+Solvation (SCCS) model [Andreussi2012].</p>
+<p>Implicit solvation calculations in ONETEP can be performed, regardless
+of the choice of model, either in open boundary conditions (OBC) or in
+periodic boundary conditions (PBC), with OBC assumed by default. The
+solute can be immersed in pure solvent (necessitating the solution of
+the Poisson equation (PE)) or in solvent with electrolyte (leading to
+the Poisson-Boltzmann equation (PBE)). Solvation energies can be
+calculated by running a calculation in vacuum first, followed by a
+calculation in solvent. This can be done either automatically (“auto
+solvation”) or manually. Apart from energy terms due to solvation,
+ONETEP calculates solvation contributions to forces. It is thus possible
+to perform in-solvent geometry optimisation and molecular dynamics (with
+difficulty). Forces are currently not supported for PBC calculations
+yet. Additional solvent exclusion regions can be specified to keep the
+solvent from predefined regions of the simulation cell.</p>
+</div>
+<div class="section" id="the-models">
+<h2>The models<a class="headerlink" href="#the-models" title="Permalink to this headline">¶</a></h2>
+<p>ONETEP includes solvation effects by defining a smooth dielectric cavity
+around the solute (“solute cavity”). In contrast to PCM-based
+approaches, the transition from a dielectric permittivity of 1 (in the
+immediate vicinity of the solute) to the bulk value of the solvent is
+smooth, rather than discontinuous. Thus, there is no “cavity surface”,
+strictly speaking, but rather a thin region of space where the
+transition takes place. For MPSM and SCCS the cavity and the transition
+are defined by a simple function relating the dielectric permittivity at
+a point, <span class="math">\(\epsilon(\vec{r})\)</span>, to the electronic density there,
+<span class="math">\(n(\vec{r})\)</span>, yielding an isodensity model. For SSM the transition
+is also smooth, but the cavity is defined by atom-centered overlapping
+spheres.</p>
+<p>ONETEP offers two modes of operation – one, where <span class="math">\(n(\vec{r})\)</span> is
+the <em>current</em> electronic density (“the self-consistently updated cavity
+mode”), and another one, where <span class="math">\(n(\vec{r})\)</span> is <em>fixed</em>, usually to
+the converged in-vacuum density (“the fixed cavity mode”).</p>
+<p>For MPSM the dielectric function <span class="math">\(\epsilon(\cdot)\)</span>, defined in
+Ref. [Scherlis2006], Eq. 7, and in Ref. [Dziedzic2011], Eq. 1 depends on two parameters:
+<span class="math">\(\rho_{0}\)</span>, the electronic density threshold, where the transition
+takes place; and <span class="math">\(\beta\)</span>, which controls the steepness of the
+change in <span class="math">\(\epsilon\)</span>. A physical constant,
+<span class="math">\(\epsilon_{\infty}\)</span>, the bulk permittivity of the solvent
+completes the description</p>
+<p>For SCCS the dielectric function is defined in Ref. [Andreussi2012] in Eqs. 38-43. It
+has two parameters: <span class="math">\(\rho_{\textit{min}}\)</span> and
+<span class="math">\(\rho_{\textit{max}}\)</span>. A physical constant, <span class="math">\(\epsilon_0\)</span>,
+the bulk permittivity of the solvent completes the description.</p>
+<p>For SSM the dielectric function is described in the section on the soft sphere cavity model below.</p>
+<p>Once a solute cavity is constructed, the Poisson equation is then solved
+to obtain the potential due to the molecular density in the
+nonhomogeneous dielectric. A more general case, where electrolyte ions
+can be added to the solvent (specified via concentrations), requires
+solving the Poisson-Boltzmann equation.</p>
+<div class="section" id="solute-cavity">
+<h3>Solute cavity<a class="headerlink" href="#solute-cavity" title="Permalink to this headline">¶</a></h3>
+<p>In the MPSM and SCCS models the dielectric cavity is determined wholly
+by the electronic density, freeing the model of any per-species
+parameters (such as van der Waals radii). Thus, the cavity will change
+shape every time the electronic density changes. From the physical point
+of view this is good, since it means the density can respond
+self-consistently to the polarisation of the dielectric and vice versa.
+From the computational point of view this is rather inconvenient,
+because it requires extra terms in the energy gradients (see e.g. Ref. [Scherlis2006],
+Eqs. 5 and 14). Because these terms tend to vary rapidly over very
+localised regions of space, their accurate calculation usually requires
+unreasonably fine grids and becomes prohibitively difficult for larger
+molecules.</p>
+<div class="section" id="fixed-cavity">
+<h4>Fixed cavity<a class="headerlink" href="#fixed-cavity" title="Permalink to this headline">¶</a></h4>
+<p>One workaround for the above problem, which is straightforward, but
+introduces an approximation, consists in <em>fixing</em> the cavity and not
+allowing it to change shape. This is realised by performing an in-vacuum
+calculation first, then restarting the solvated calculation from the
+converged in-vacuum density, and using this density to generate the
+cavity that then remains fixed for the duration of the solvated
+calculation. Both calculations are self-consistent (in the DFT sense),
+only the cavity is <em>not</em> self-consistently updated in the in-solvent
+calculation.</p>
+<p>How good is this approximation? From experience, it yields solvation
+energies within several percent of the accurate, self-consistent
+calculation, cf. Ref. [Dziedzic2011]. More specifically, the error in solvation energy
+is expected to be less than 3-4% percent for charged species and less
+than 1% for neutral species.</p>
+<p>If you can spare the computational resources, it would be good to test
+it on a representative molecule, by comparing the solvation energy
+against a calculation with a self-consistently updated cavity.</p>
+<p>As the cavity remains fixed, the difficult extra terms no longer need to
+be calculated, and the memory and CPU requirements are significantly
+reduced (because the grid does not need to be made finer). It is thus
+the recommended solution. The fixed cavity mode is activated by
+<code class="docutils literal"><span class="pre">is_dielectric_model</span> <span class="pre">FIX_INITIAL</span></code>, which is the default setting.</p>
+<p>If embedded mean field theory (EMFT) is in use alongside the implicit
+solvent model, a choice can be made about whether the in-vacuum density
+is calculated using the standard density kernel (calculated at the lower
+level of theory), or the EMFT density kernel. In most situations, this
+should not strongly affect results, especially if the active region in
+EMFT is far from the edge of the cavity. This can be controlled using
+the keyword <code class="docutils literal"><span class="pre">is_emft_cavity</span></code>, which is false by default. This has only
+been tested for the fixed cavity approach, and not the self-consistent
+cavity approach. For more information, please see the EMFT
+documentation.</p>
+</div>
+<div class="section" id="self-consistently-updated-cavity">
+<h4>Self-consistently updated cavity<a class="headerlink" href="#self-consistently-updated-cavity" title="Permalink to this headline">¶</a></h4>
+<p>If one insists on performing calculations with the solute cavity
+self-consistently responding to changes in density (as in Ref. [Scherlis2006]), this
+can be achieved by <code class="docutils literal"><span class="pre">is_dielectric_model</span> <span class="pre">SELF_CONSISTENT</span></code>. As mentioned
+earlier, this is costly, because it almost always requires grids that
+are finer than the default. The relevant grid (“fine grid”) can be made
+finer by <code class="docutils literal"><span class="pre">fine_grid_scale&nbsp;n</span></code>, with <span class="math">\(\texttt{\textit{n}}&gt;2\)</span>
+(which is the default). Typically one would use 3, you might be able to
+get away with 2.5, you might need 3.5 or even more. The memory and CPU
+cost increase with the <em>cube</em> of this value, so, for instance, when
+using <code class="docutils literal"><span class="pre">fine_grid_scale</span> <span class="pre">3.5</span></code> one would expect the computational cost to
+increase by a factor of <span class="math">\({\left(3.5/2\right)}^3\approx5.36\)</span>.</p>
+<p>Even when using much finer grids, the additional gradient term due to
+the self-consistently updated cavity poses numerical difficulties. This
+is especially true if the changes in the density are rapid. For this
+reason, even if it is technically possible to run a calculation in
+solvent <em>without</em> a preceding calculation in vacuum, it is not
+recommended to do so – the initial, dramatic changes in the density will
+likely prove problematic. It will be much easier to run an in-vacuum
+calculation to convergence, and to restart a calculation in solvent from
+there. The auto solvation functionality (see section on this below)
+makes this easy.</p>
+</div>
+<div class="section" id="soft-sphere-cavity-model">
+<h4>Soft Sphere Cavity Model<a class="headerlink" href="#soft-sphere-cavity-model" title="Permalink to this headline">¶</a></h4>
+<p>In addition to MPSM and SCCS, the soft sphere cavity model of Fisicaro
+<em>et al.</em> (Ref. [Fisicaro2017]) has been implemented to provide a dielectric cavity
+function closer to the standard per-species parametrisation models. This
+feature is especially useful when the system under study requires
+significantly different solvation radii for its constituent species.
+This contrasts with MPSM, which applies the parameter controlling the
+dielectric cavity shape (the isodensity contour) globally, which leads
+to the dielectric cavity being too large/small for particular species
+for a single input isodensity value.</p>
+<p>The dielectric cavity within the soft sphere model is composed of a set
+of interlocking, atom-centered spheres with radii assigned to each atom.
+Much like MPSM, the dielectric function for each atom varies smoothly
+from vacuum to bulk permitivity. The dielectric functions themselves are
+defined by: i) the soft sphere radius set by default by Alvarez’s
+database of van der Waals’ radii (Ref. [Alvarez2013]) or manually set in the
+<code class="docutils literal"><span class="pre">is_soft_sphere_radii</span></code> block. The default radii can be uniformly
+scaled using <code class="docutils literal"><span class="pre">is_soft_sphere_scale</span></code>. ii) The steepness of the
+transition from vacuum to bulk permitivity is controlled by
+<code class="docutils literal"><span class="pre">is_soft_sphere_delta</span></code>. To activate the soft sphere cavity model, set
+<code class="docutils literal"><span class="pre">is_dielectric_function</span></code> to ’soft_sphere’. By default,
+<code class="docutils literal"><span class="pre">is_soft_sphere_scale</span></code> is set to 1.33 and <code class="docutils literal"><span class="pre">is_soft_sphere_delta</span></code> to
+0.5, as determined by minimizing the error of the solvation free energy
+against empirical data for a set of small neutral, organic molecules.
+These cavity radii may not give accurate solvation energies for heavier
+elements/system types, and it is encouraged to perform further
+parametrization to minimize error with respect to selected experimental
+data.</p>
+<p>Forces for the soft sphere cavity model are implemented, but not yet
+tested thoroughly, so only single point energy calculations are
+supported.</p>
+</div>
+</div>
+<div class="section" id="apolar-terms-cavitation-energy">
+<h3>Apolar terms: cavitation energy<a class="headerlink" href="#apolar-terms-cavitation-energy" title="Permalink to this headline">¶</a></h3>
+<p>All three models include the apolar cavitation term in the
+solvent-accessible surface-area (SASA) approximation, thus assuming the
+cavitation energy to be proportional to the surface area of the cavity,
+the constant of proportionality being the (actual physical) surface
+tension of the solvent, <span class="math">\(\gamma\)</span>, and the constant term being
+zero. The cavitation energy term is calculated and added automatically,
+unless <code class="docutils literal"><span class="pre">is_include_apolar&nbsp;F</span></code> is explicitly stated. Surface tension of
+the solvent has to be specified (otherwise the default for water near
+room temperature (about 0.074&nbsp;N/m) will be used). This can be done using
+<code class="docutils literal"><span class="pre">is_solvent_surf_tension</span></code>. Keep in mind that the apolar term is
+<em>scaled by default</em> to account for dispersion and repulsion (see
+section on this below). The scaling is controlled by
+<code class="docutils literal"><span class="pre">is_apolar_scaling_factor</span></code>, and the default is <em>not</em> unity.</p>
+</div>
+<div class="section" id="apolar-terms-dispersion-repulsion-energy">
+<h3>Apolar terms: dispersion-repulsion energy<a class="headerlink" href="#apolar-terms-dispersion-repulsion-energy" title="Permalink to this headline">¶</a></h3>
+<p>ONETEP includes a simple, approximate way for modeling solute-solvent
+dispersion-repulsion apolar energy term. This greatly improves the
+quality of obtained solvation energies for uncharged molecules,
+particularly so if they are large. This term is reasonably approximated
+with the same SASA approach that is used for cavitation, albeit with a
+smaller, and negative, prefactor. In practice this is most easily
+achieved by simply scaling the cavitation term down by a constant
+multiplicative factor. A good scaling factor for MPSM, and presumably
+for SSM, is 0.281705, which is what ONETEP uses by default (see Ref. [Dziedzic2011]
+for justification). The keyword controlling this parameter is
+<code class="docutils literal"><span class="pre">is_apolar_scaling_factor</span></code> (with the above default), and its argument
+is a unitless value. For SCCS a value of 0.159722222 corresponds to the
+“g03” fit in Ref. [Andreussi2012], and a value of 0.034722222 corresponds to the “g09”
+fit in same.</p>
+</div>
+<div class="section" id="apolar-terms-solvent-sccessible-volume-sav">
+<h3>Apolar terms: solvent sccessible volume (SAV)<a class="headerlink" href="#apolar-terms-solvent-sccessible-volume-sav" title="Permalink to this headline">¶</a></h3>
+<p>The accuracy of the implicit solvent model can be further improved by
+adding the surface-accessible volume (SAV) to the apolar energy term:</p>
+<div class="math">
+\[\Delta G_{apol} = \tau \gamma S + p V\]</div>
+<p>where <span class="math">\(\gamma\)</span> is the physical surface tension (Section
+on cavitation energy), <span class="math">\(\tau\)</span> is the apolar scaling factor tuned by
+<code class="docutils literal"><span class="pre">is_apolar_scaling_factor</span></code> in the SASA model (Section
+on dispersion-repulsion energy), and <span class="math">\(p\)</span> is the solvent pressure. This method is
+activated by setting <code class="docutils literal"><span class="pre">is_apolar_method</span></code> to ’SAV’. We note that the
+scaling factors <span class="math">\(\tau\)</span>, <span class="math">\(p\)</span>, and (in the case of soft
+sphere) <span class="math">\(f\)</span>, must be tuned to give accurate free energies of
+solvation compared to the original SASA model. By minimising the mean
+absolute error (MAE) of <span class="math">\(\Delta G_{solv}\)</span> with respect to
+experiment for a small set of neutral molecules, we found the optimum
+scaling factors for water (<span class="math">\(\gamma=0.07415 \ Nm^{-1}\)</span>) are:</p>
+<ul class="simple">
+<li>Soft Sphere: <span class="math">\(f=1.20\)</span>, <span class="math">\(\tau = 0.813\)</span> and
+<span class="math">\(p = -0.35 \ GPa\)</span></li>
+<li>MPSM: <span class="math">\(\rho_0\)</span>=0.00035, <span class="math">\(\tau = 0.684\)</span> and
+<span class="math">\(p = -0.35 \ GPa\)</span></li>
+</ul>
+<p>Currently, these values are only fully optimised for the soft sphere
+implicit solvent model, but the values provided for the MPSM provide a
+starting estimate. We note that in this simple model, <span class="math">\(p\)</span> does not
+correspond to the physical pressure of the solvent and acts as a fitting
+parameter to give optimum values of <span class="math">\(\Delta G_{solv}\)</span>, meaning it
+can assume negative values.</p>
+<p>Furthermore, if fixed PAOs are used in place of optimised NGWFs, the
+optimum parameters change significantly. For the QZP basis, best
+parameters for the soft sphere model and MPSM are:</p>
+<ul class="simple">
+<li>Soft Sphere: <span class="math">\(f=1.21\)</span>, <span class="math">\(\tau=0.861\)</span> and
+<span class="math">\(p=-0.35 \ GPa\)</span></li>
+<li>MPSM: <span class="math">\(\rho_0=0.00035\)</span>, <span class="math">\(\tau=0.785\)</span> and
+<span class="math">\(p=-0.35 \ GPa\)</span></li>
+</ul>
+<p>Larger or smaller fixed PAO basis sets may require slightly different
+optimal parameters given the above values were calculated with the QZP
+basis only.</p>
+<p>In summary:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><strong>polar, cavitation, dispersion and repulstion terms (SASA)</strong>:</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_include_apolar&nbsp;T</span></code> (default)</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_apolar_method&nbsp;SASA</span></code> (default)</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_apolar_scaling_factor</span> <span class="pre">0.281705</span></code> (default)</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>polar, cavitation, dispersion and repulstion terms (SAV)</strong>:</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_include_apolar&nbsp;T</span></code> (default)</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_apolar_method&nbsp;SAV</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">is_soft_sphere_scale</span> <span class="pre">1.20</span></code> (optimised for soft sphere)</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_apolar_scaling_factor</span> <span class="pre">0.813</span></code> (optimised for soft sphere)</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_solvent_pressure</span> <span class="pre">-0.35</span> <span class="pre">GPa</span></code> (optimised for soft sphere)</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>polar and cavitation terms only</strong>:</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_include_apolar&nbsp;T</span></code> (default)</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_apolar_scaling_factor</span> <span class="pre">1.0</span></code></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>polar term only</strong>:</div>
+<div class="line"><code class="docutils literal"><span class="pre">is_include_apolar&nbsp;F</span></code></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="practicalities">
+<h2>Practicalities<a class="headerlink" href="#practicalities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dl-mg-solver">
+<h3>DL_MG solver<a class="headerlink" href="#dl-mg-solver" title="Permalink to this headline">¶</a></h3>
+<p>ONETEP uses a multigrid solver to solve the Poisson or Poisson-Boltzmann
+equation. Currently this is done by interfacing to a solver called
+DL_MG [Anton2020], [Womack_2018]. DL_MG is
+distributed with ONETEP and is compiled in by default. If your version
+does not include DL_MG your calculation will stop with a descriptive
+error message.</p>
+<p>Solving the P(B)E is a memory- and time-consuming process, and you
+should expect solvation calculations to take about 2-3 times longer
+compared to standard ONETEP (also remembering that you will likely have
+to run two calculations per result – one in vacuum, and one in solvent).
+The memory requirement of the solver grows linearly with the volume of
+the system, meaning that padding with vacuum or with bulk solvent is not
+free, in contrast to calculations not employing the multigrid solver.</p>
+<p>The solver uses a multigrid approach to solve the P(B)E to second order.
+To ensure the high-order accuracy necessary for solvation calculations,
+the solver then applies a high-order defect correction technique, which
+iteratively corrects the initial solution to a higher order. Consult
+Ref. [Dziedzic2013] for more information on the defect correction approach used in
+DL_MG.</p>
+</div>
+<div class="section" id="grid-sizes">
+<h3>Grid sizes<a class="headerlink" href="#grid-sizes" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="under-obc">
+<h4>Under OBC<a class="headerlink" href="#under-obc" title="Permalink to this headline">¶</a></h4>
+<p>One limitation of DL_MG is that the grid sizes it uses are not created
+equal. Good grid sizes are divisible many times into grids twice as
+small. For example a grid with 161 points (and so 160 grid-edges in
+between them) is an excellent choice, since it divides into two grids
+with 81 points (160 splits into two 80’s), these divide into two grids
+with 41 points, which in turn divide into two grids with 21 points,
+which divide into two grids with 11 points and so on. This lets the
+solver use many multigrid levels, increasing efficiency. For contrast,
+consider a grid with 174 points (and so 173 grid-edges). 173 is prime,
+and this grid cannot be subdivided at all, making it a poor choice.</p>
+<p>Knowing about these limitations, ONETEP will sometimes slightly reduce
+(truncate) your fine grid dimensions when passing data to and from the
+multigrid solver. This truncation always affects the right-hand side of
+the grid, and by default between 1 and 7 grid lengths will be truncated,
+to give DL_MG enough flexibility. This is done automatically, and you
+will be informed about the details like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ONETEP</span> <span class="n">fine</span> <span class="n">grid</span> <span class="ow">is</span> <span class="mi">126</span> <span class="n">x</span> <span class="mi">126</span> <span class="n">x</span> <span class="mi">126</span> <span class="n">gridpoints</span><span class="p">,</span> <span class="mf">29.0000</span> <span class="n">x</span> <span class="mf">29.0000</span> <span class="n">x</span> <span class="mf">29.0000</span> <span class="n">bohr</span><span class="o">.</span>
+<span class="n">FD</span> <span class="n">multigrid</span> <span class="ow">is</span>     <span class="mi">121</span> <span class="n">x</span> <span class="mi">121</span> <span class="n">x</span> <span class="mi">121</span> <span class="n">gridpoints</span><span class="p">,</span> <span class="mf">27.8492</span> <span class="n">x</span> <span class="mf">27.8492</span> <span class="n">x</span> <span class="mf">27.8492</span> <span class="n">bohr</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Here, ONETEP discarded three slabs, each just over 1 <span class="math">\(a_0\)</span> thick,
+from your system, at the highest values of <span class="math">\(x\)</span>, <span class="math">\(y\)</span>, and
+<span class="math">\(z\)</span>.</p>
+<p>Even though this is done automatically, it is your responsibility to
+ensure that nothing of significance (read: any charge density) is in the
+margin that is thrown away. If any of your NGWFs extend into the margin,
+your calculation will be meaningless (and will likely stop with an
+error). Due to <em>Fourier ringing</em>, tails of very small, but nonzero
+charge density extend in all Cartesian directions from your system, even
+outside the localisation spheres of the NGWFs. It is thus good practice
+to pad your system with a little vacuum in all directions, say
+10&nbsp;<span class="math">\(a_0\)</span>. This is in addition to the margin lost due to
+truncation.</p>
+</div>
+<div class="section" id="under-pbc">
+<h4>Under PBC<a class="headerlink" href="#under-pbc" title="Permalink to this headline">¶</a></h4>
+<p>Under PBC, the grid used by the multigrid solver must have the same
+dimensions as the simulation cell. This is necessary to ensure that the
+solution from the solver has the correct periodicity. The approach of
+truncating the grid (Section on grid sizes under OBC) to obtain a grid
+which satisfies the grid size constraints of the multigrid solver cannot
+therefore be used in periodic BCs. Instead, an appropriately sized grid
+for use by the multigrid solver is obtained by <em>scaling</em> ONETEP’s fine
+grid, changing the number and spacing of grid points, while maintaining
+the same physical dimensions. This corresponds to slightly increasing
+the scale factor for the fine grid (used, among other things, for
+multigrid operations) with respect to the standard grid (determined by
+the kinetic energy cutoff) along each coordinate direction to ensure
+that the dimensions of the fine grid satisfy the requirements of the
+solver (see Ref. [Anton2020] for details about these requirements).</p>
+<p>This is done automatically, and you will be informed about the details
+like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Grid</span> <span class="n">scale</span> <span class="n">modified</span> <span class="n">to</span> <span class="n">satisfy</span> <span class="n">multigrid</span> <span class="n">solver</span> <span class="n">grid</span> <span class="n">constraints</span>
+         <span class="n">Grid</span> <span class="n">scale</span> <span class="n">values</span> <span class="n">after</span> <span class="n">modifification</span><span class="p">:</span>         <span class="mf">2.09</span>  <span class="mf">2.09</span>  <span class="mf">2.00</span>
+<span class="o">********************************************************************************</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="n">ONETEP</span> <span class="n">fine</span> <span class="n">grid</span> <span class="ow">is</span> <span class="mi">136</span> <span class="n">x</span> <span class="mi">136</span> <span class="n">x</span> <span class="mi">240</span> <span class="n">gridpoints</span><span class="p">,</span> <span class="mf">32.4219</span> <span class="n">x</span> <span class="mf">32.7579</span> <span class="n">x</span> <span class="mf">60.0000</span> <span class="n">bohr</span><span class="o">.</span>
+<span class="n">FD</span> <span class="n">multigrid</span> <span class="ow">is</span>     <span class="mi">136</span> <span class="n">x</span> <span class="mi">136</span> <span class="n">x</span> <span class="mi">240</span> <span class="n">gridpoints</span><span class="p">,</span> <span class="mf">32.4219</span> <span class="n">x</span> <span class="mf">32.7579</span> <span class="n">x</span> <span class="mf">60.0000</span> <span class="n">bohr</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Here, the grid was scaled by a factor of <span class="math">\(2.09\)</span> along the
+<span class="math">\(x\)</span> and <span class="math">\(y\)</span> coordinates, and no scaling was necessary for
+the <span class="math">\(z\)</span> coordinate. The two grids (ONETEP fine grid and the grid
+seen by DL_MG) are identical.</p>
+<p>Changing the fine grid scale factor causes ONETEP to use the modified
+fine grid throughout the calculation (not only when invoking the
+multigrid solver). This has the unfortunate consequence that ONETEP must
+perform additional work to interpolate and filter between the fine grid
+and a slightly smaller “double grid”, which is used during other parts
+of a ONETEP calculation. Normally this is avoided by making the fine and
+double grids the same size, but is no longer possible when the fine grid
+is modified for multigrid operations in PBCs.</p>
+</div>
+</div>
+<div class="section" id="auto-solvation">
+<h3>Auto solvation<a class="headerlink" href="#auto-solvation" title="Permalink to this headline">¶</a></h3>
+<p>An in-solvent calculation is almost universally preceded by a
+calculation in vacuum. In the fixed cavity mode this is necessary to
+generate the cavity from a converged in-vacuum calculation. In the
+self-consistently updated cavity mode this helps mitigate stability
+issues associated with the cavity updates (cf. Section on self-consistently updated cavity).
+To make the procedure easier for users, ONETEP provides what is known as
+“auto solvation” – a mode of operation, where the two calculations (in
+vacuum and in solvent) are automatically run in sequence.</p>
+<div class="line-block">
+<div class="line">To enable auto solvation (which is <em>off</em> by default), use
+<code class="docutils literal"><span class="pre">is_auto_solvation</span> <span class="pre">T</span></code>. This will automatically run an in-vacuum
+calculation, followed by a calculation in solvent. Some input
+parameters might have to be adjusted along the way, but this will
+happen automatically and you will always be informed when this
+happens. Once the calculation in solvent completes, a detailed
+breakdown of the energies will be printed. It will look something like
+this:</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Individual</span> <span class="n">components</span> <span class="n">of</span> <span class="n">total</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">solvent</span><span class="p">:</span>     <span class="n">hartree</span>           <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">-</span> <span class="n">Usual</span> <span class="n">non</span><span class="o">-</span><span class="n">electrostatic</span> <span class="n">DFT</span> <span class="n">terms</span><span class="p">:</span>       <span class="o">-</span><span class="mf">26.28930636174560</span>      <span class="o">-</span><span class="mf">16496.788451</span>
+<span class="o">-</span> <span class="n">Electrostatic</span> <span class="n">fixed</span> <span class="n">charge</span> <span class="n">energy</span><span class="p">:</span>         <span class="mf">3.05443104938460</span>        <span class="mf">1916.684380</span>
+<span class="o">-</span> <span class="n">Apolar</span> <span class="n">cavitation</span> <span class="n">energy</span><span class="p">:</span>                  <span class="mf">0.02080496905999</span>          <span class="mf">13.055315</span>
+<span class="o">-</span> <span class="n">Apolar</span> <span class="n">dispersion</span><span class="o">-</span><span class="n">repulsion</span> <span class="n">energy</span><span class="p">:</span>       <span class="o">-</span><span class="mf">0.01495721238146</span>          <span class="o">-</span><span class="mf">9.385792</span>
+ <span class="o">-------------------------------------------------------------------------------</span>
+<span class="o">-</span> <span class="n">Total</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">solvent</span><span class="p">:</span>                 <span class="o">-</span><span class="mf">23.22902755568246</span>      <span class="o">-</span><span class="mf">14576.434548</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">The above shows a breakdown of the total energy in solvent into the
+usual DFT terms (except for electrostatic energy), the electrostatic
+energy, the apolar cavitation energy and the apolar
+dispersion-repulsion energy.</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Components</span> <span class="n">of</span> <span class="n">total</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">solvent</span><span class="p">:</span>                <span class="n">hartree</span>           <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">-</span> <span class="n">Usual</span> <span class="n">non</span><span class="o">-</span><span class="n">electrostatic</span> <span class="n">DFT</span> <span class="n">terms</span><span class="p">:</span>       <span class="o">-</span><span class="mf">26.28930636174560</span>      <span class="o">-</span><span class="mf">16496.788451</span>
+<span class="o">-</span> <span class="n">Electrostatic</span> <span class="n">energy</span><span class="p">:</span>                      <span class="mf">3.05443104938460</span>        <span class="mf">1916.684380</span>
+<span class="o">-</span> <span class="n">Apolar</span> <span class="n">energy</span> <span class="n">terms</span><span class="p">:</span>                       <span class="mf">0.00584775667854</span>           <span class="mf">3.669523</span>
+ <span class="o">-------------------------------------------------------------------------------</span>
+<span class="o">-</span> <span class="n">Total</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">solvent</span><span class="p">:</span>                 <span class="o">-</span><span class="mf">23.22902755568246</span>      <span class="o">-</span><span class="mf">14576.434548</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">In the above all the apolar terms have been summed together for
+convenience.</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Calculation</span> <span class="n">of</span> <span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span>              <span class="n">hartree</span>           <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">-</span> <span class="n">Total</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">solvent</span><span class="p">:</span>         <span class="p">(</span><span class="o">+</span><span class="p">)</span>     <span class="o">-</span><span class="mf">23.22902755568246</span>      <span class="o">-</span><span class="mf">14576.434548</span>
+<span class="o">-</span> <span class="n">Total</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">vacuum</span><span class="p">:</span>          <span class="p">(</span><span class="o">-</span><span class="p">)</span>     <span class="o">-</span><span class="mf">23.20990671966879</span>      <span class="o">-</span><span class="mf">14564.436043</span>
+ <span class="o">-------------------------------------------------------------------------------</span>
+<span class="o">-</span> <span class="n">Total</span> <span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span>           <span class="o">-</span><span class="mf">0.01912083601367</span>         <span class="o">-</span><span class="mf">11.998505</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">The above is a direct calculation of the free energy of solvation as a
+difference of the in-solvent and in-vacuum energies.</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Components</span> <span class="n">of</span> <span class="n">polar</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span>        <span class="n">hartree</span>           <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">-</span> <span class="n">Electrostatic</span><span class="p">:</span>                            <span class="o">-</span><span class="mf">0.06759943752720</span>         <span class="o">-</span><span class="mf">42.419287</span>
+<span class="o">-</span> <span class="n">Change</span> <span class="ow">in</span> <span class="n">nonelectrostatic</span> <span class="n">DFT</span> <span class="n">terms</span><span class="p">:</span>      <span class="mf">0.04263084483500</span>          <span class="mf">26.751258</span>
+ <span class="o">-------------------------------------------------------------------------------</span>
+<span class="o">-</span> <span class="n">Polar</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span>          <span class="o">-</span><span class="mf">0.02496859269221</span>         <span class="o">-</span><span class="mf">15.668028</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">The above is the calculation of the polar term to solvation, as a sum
+of the change in electrostatic energy between in-solvent and in-vacuum
+and the change in the remaining DFT terms.</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Components</span> <span class="n">of</span> <span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span>               <span class="n">hartree</span>           <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">-</span> <span class="n">Polar</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span>      <span class="o">-</span><span class="mf">0.02496859269221</span>         <span class="o">-</span><span class="mf">15.668028</span>
+<span class="o">-</span> <span class="n">Apolar</span> <span class="p">(</span><span class="n">cavitation</span><span class="p">,</span> <span class="n">dis</span><span class="o">.</span><span class="p">,</span> <span class="n">rep</span><span class="o">.</span><span class="p">):</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span>       <span class="mf">0.00584775667854</span>           <span class="mf">3.669523</span>
+ <span class="o">-------------------------------------------------------------------------------</span>
+<span class="o">-</span> <span class="n">Total</span> <span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span>           <span class="o">-</span><span class="mf">0.01912083601367</span>         <span class="o">-</span><span class="mf">11.998505</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">Finally, the total free energy of solvation is calculated as the sum
+of the polar and apolar terms calculated earlier. This is usually what
+you are after.</div>
+</div>
+<p>Auto solvation relies on restart files to achieve a seamless transition
+from the calculation in vacuum to the calculation in solvent. A
+<code class="docutils literal"><span class="pre">.vacuum_dkn</span></code> and a <code class="docutils literal"><span class="pre">.vacuum_tightbox_ngwfs</span></code> file will be written to
+disk once the calculation in vacuum is completed (and also earlier, if
+you used <code class="docutils literal"><span class="pre">write_denskern</span> <span class="pre">T</span></code> and/or <code class="docutils literal"><span class="pre">write_tightbox_ngwfs</span> <span class="pre">T</span></code>). These
+files are then read at the beginning of the calculation in solvent. This
+makes restarting in-solvent geometry optimisation and molecular dynamics
+runs very tricky – this is not recommended in practice. Please ensure
+such calculations run to completion without manual restarts.</p>
+</div>
+<div class="section" id="manual-solvation-and-restarts">
+<h3>Manual solvation and restarts<a class="headerlink" href="#manual-solvation-and-restarts" title="Permalink to this headline">¶</a></h3>
+<p>Occasionally you might want to run a calculation in solvent without
+automatically running a calculation in vacuum first. Perhaps you already
+have the calculation in vacuum and you prefer to manually restart it in
+solvent. This is known as “manual solvation”. To activate it, use (the
+default is <code class="docutils literal"><span class="pre">F</span></code>), and make sure to have <code class="docutils literal"><span class="pre">is_auto_solvation</span> <span class="pre">F</span></code> (which
+is the default).</p>
+<p>Make sure you know how the solute cavity is generated in this case. If
+this is a fresh calculation (not a restart), the cavity will be
+generated from the initial guess density. This is probably not what you
+want. In the fixed cavity mode, this will mean that you will be stuck
+with a cavity that is not very realistic (coming from a guess). In the
+self-consistently updated cavity mode, the cavity will adapt to the
+subsequent changes to the density, but the initial, dramatic changes
+might make this numerically unstable. Therefore, restarting from a
+converged in-vacuum run is recommended instead.</p>
+<p>If you ran an in-vacuum calculation to convergence earlier and you have
+the requisite restart files, you can add <code class="docutils literal"><span class="pre">read_denskern</span> <span class="pre">T</span></code> and
+<code class="docutils literal"><span class="pre">read_tightbox_ngwfs</span> <span class="pre">T</span></code> to your input to effect a restart. ONETEP will
+look for a <code class="docutils literal"><span class="pre">.dkn</span></code> and a <code class="docutils literal"><span class="pre">.tightbox_ngwfs</span></code> file. The cavity will be
+constructed from the density generated from these files, and the
+calculation will also proceed from this DKN and NGWFs. If the in-vacuum
+calculation you ran earlier was a part of an auto-solvation calculation,
+you will need to rename or link the <code class="docutils literal"><span class="pre">.vacuum_dkn</span></code> and
+<code class="docutils literal"><span class="pre">.vacuum_tightbox_ngwfs</span></code> files to their <code class="docutils literal"><span class="pre">.dkn</span></code> and
+<code class="docutils literal"><span class="pre">.tightbox_ngwfs</span></code> counterparts.</p>
+<p>If you need to restart an auto-solvation calculation which stopped in
+the middle of the in-vacuum calculation, you can set the
+<code class="docutils literal"><span class="pre">is_restart_vac_from_vac</span></code> to <code class="docutils literal"><span class="pre">T</span></code>. This allows you to restart the
+in-vacuum calculation from the <code class="docutils literal"><span class="pre">.vacuum_dkn</span></code> and
+<code class="docutils literal"><span class="pre">.vacuum_tightbox_ngwfs</span></code> files.</p>
+<p>Finally, if you want to restart an in-solvent calculation from an
+unfinished in-solvent calculation, you have to be careful. This is
+because you want the calculation to continue from the
+partially-converged in-solvent density, while still constructing the
+cavity from the converged in-vacuum density. To do this, use the
+<code class="docutils literal"><span class="pre">is_separate_restart_files</span></code> keyword. Setting it to <code class="docutils literal"><span class="pre">T</span></code> (the default
+is <code class="docutils literal"><span class="pre">F</span></code>) will instruct ONETEP to construct the solute cavity from the
+<code class="docutils literal"><span class="pre">.vacuum_dkn</span></code> and <code class="docutils literal"><span class="pre">.vacuum_tightbox_ngwfs</span></code> files, while the density
+for continuing the calculation will be generated from the <code class="docutils literal"><span class="pre">.dkn</span></code> and
+<code class="docutils literal"><span class="pre">.tightbox_ngwfs</span></code> files.</p>
+</div>
+<div class="section" id="solvation-in-pbc">
+<h3>Solvation in PBC<a class="headerlink" href="#solvation-in-pbc" title="Permalink to this headline">¶</a></h3>
+<p>Implicit solvation operates under OBC by default. However, ONETEP allows
+solvation calculations in PBC, with some caveats. Only fully periodic
+BCs are supported, i.e.&nbsp;where the system is periodic along all
+simulation cell directions. Support for mixed BCs (where OBC are applied
+along some directions and PBC along others) is planned for the future,
+but is not currently supported. If you intend to solvate slabs, surfaces
+or wires, you would probably be best off using PBC and suitable padding.</p>
+<p>Boundary conditions can be specified individually for the multigrid
+solver, local pseudopotential, ion-ion interaction and the smeared ion
+representation using the following keywords:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">multigrid_bc</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">pspot_bc</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">ion_ion_bc</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">smeared_ion_bc</span></code>.</li>
+</ul>
+<p>Each of these keywords accepts a string which should contain three
+characters (which may be separated by spaces), specifying the BCs along
+the <span class="math">\(x\)</span>, <span class="math">\(y\)</span> and <span class="math">\(z\)</span> directions of the simulation
+cell. For <code class="docutils literal"><span class="pre">multigrid_bc</span></code> the characters may be <code class="docutils literal"><span class="pre">O</span></code>, <code class="docutils literal"><span class="pre">P</span></code> or <code class="docutils literal"><span class="pre">Z</span></code>,
+corresponding to open (Coulombic), periodic and zero BCs, respectively.
+“Zero” BCs are open BCs, but with the potential set to zero at the
+boundary, rather than approximately computed. For <code class="docutils literal"><span class="pre">pspot_bc</span></code>,
+<code class="docutils literal"><span class="pre">ion_ion_bc</span></code> and <code class="docutils literal"><span class="pre">smeared_ion_bc</span></code>, the values can be <code class="docutils literal"><span class="pre">O</span></code> or <code class="docutils literal"><span class="pre">P</span></code>,
+defined as for <code class="docutils literal"><span class="pre">multigrid_bc</span></code>.</p>
+<p>These keywords allow for flexible selection of mixtures of open and
+periodic BCs, but currently only fully open and fully periodic BCs are
+supported, corresponding to values of <code class="docutils literal"><span class="pre">O</span> <span class="pre">O</span> <span class="pre">O</span></code> and <code class="docutils literal"><span class="pre">P</span> <span class="pre">P</span> <span class="pre">P</span></code> (and
+<code class="docutils literal"><span class="pre">Z</span> <span class="pre">Z</span> <span class="pre">Z</span></code> to use zero BCs in the multigrid solver).</p>
+<div class="section" id="key-points-on-using-the-bc-keywords">
+<h4>Key points on using the BC keywords<a class="headerlink" href="#key-points-on-using-the-bc-keywords" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>If <code class="docutils literal"><span class="pre">multigrid_bc</span></code> is set in an input file, but the implicit solvent
+model is not activated (e.g.&nbsp;if other solvent model keywords are not
+used) then the multigrid solver is used to compute the Hartree
+potential in vacuum, without the smeared ion representation.</li>
+<li>Setting <code class="docutils literal"><span class="pre">smeared_ion_bc</span></code> is insufficient to activate the smeared
+ion representation—you must also set <code class="docutils literal"><span class="pre">is_smeared_ion_rep</span></code> (or use
+the full solvent model, e.g. via <code class="docutils literal"><span class="pre">is_implicit_solvent</span></code>).</li>
+<li>If BCs are not explicitly set using <code class="docutils literal"><span class="pre">multigrid_bc</span></code> and the
+multigrid solver is activated (for example, by setting
+<code class="docutils literal"><span class="pre">is_implicit_solvent:&nbsp;T</span></code>), then the BCs for the multigrid solver
+default to fully open BCs.</li>
+<li>If BCs are not explicitly set using <code class="docutils literal"><span class="pre">pspot_bc</span></code> then the BCs for the
+local pseudopotential are determined by the type of calculation being
+performed and should respect previous defaults. Setting
+<code class="docutils literal"><span class="pre">openbc_pspot:&nbsp;T</span></code> will set fully open BCs, as will setting
+<code class="docutils literal"><span class="pre">is_implicit_solvent:&nbsp;T</span></code> or <code class="docutils literal"><span class="pre">is_smeared_ion_rep:&nbsp;T</span></code>. In vacuum
+(without smeared ions) the local pseudopotential defaults to fully
+periodic BCs, unless the cutoff Coulomb approach is used, in which
+case the BCs are determined by the value of the
+<code class="docutils literal"><span class="pre">coulomb_cutoff_type</span></code> keyword.</li>
+<li>If BCs are not explicitly set using <code class="docutils literal"><span class="pre">ion_ion_bc</span></code> then the BCs for
+the ion-ion interaction are determined by the type of calculation
+being performed and should respect previous defaults. Setting
+<code class="docutils literal"><span class="pre">openbc_ion_ion:&nbsp;T</span></code> will set fully open BCs, as will setting
+<code class="docutils literal"><span class="pre">is_implicit_solvent:&nbsp;T</span></code> or <code class="docutils literal"><span class="pre">is_smeared_ion_rep:&nbsp;T</span></code>. In vacuum
+(without smeared ions) the ion-ion interaction defaults to fully
+periodic BCs, but this can be changed (as normal) by using the cutoff
+Coulomb or Martyna-Tuckerman approaches.</li>
+<li>If <code class="docutils literal"><span class="pre">smeared_ion_bc</span></code> is not explicitly set, then the BCs used for
+smeared ions are the same as those used for the multigrid solver
+(with the exception that zero BCs for the multigrid solver are
+converted to open BCs for smeared ions).</li>
+<li>It is possible to specify inconsistent BCs for different interaction
+terms. A warning should be output if this is detected, but care is
+necessary to avoid unphysical results.</li>
+</ul>
+<p>In short: the boundary conditions selected by default in previous
+versions of ONETEP should be respected if the new keywords are not
+explicitly set. If the keywords are set, then care must be taken to
+ensure that they are set consistently in order to obtain physically
+realistic results. An effort has been made to prevent inconsistencies
+between the setting of the new keywords for controlling BCs and earlier
+keywords (such as <code class="docutils literal"><span class="pre">openbc_hartree</span></code>, <code class="docutils literal"><span class="pre">openbc_pspot</span></code> and
+<code class="docutils literal"><span class="pre">openbc_ion_ion</span></code>), but this has not been extensively tested.</p>
+</div>
+</div>
+<div class="section" id="smeared-ions">
+<h3>Smeared ions<a class="headerlink" href="#smeared-ions" title="Permalink to this headline">¶</a></h3>
+<p>The P(B)E is almost always solved for the molecular (total) density,
+because we are interested in how the solvent polarises in response to
+the total (valence electronic + core) charge density. The solution is
+the molecular potential, and not the electronic potential. To reconcile
+this with the usual DFT way of thinking in terms of valence-electronic
+and core densities and potentials separately (which is needed e.g.&nbsp;in
+the calculation of the NGWF gradient), a numerical trick known as the
+smeared-ion formalism is used. In this formalism ionic cores are
+modelled by narrow positive Gaussian distributions and the usual energy
+terms are re-cast (cf. Ref. [Dziedzic2013], Appendix):</p>
+<ul class="simple">
+<li>the usual Hartree energy is now replaced by the “molecular Hartree
+energy” (also called electrostatic energy), that is, the
+electrostatic energy of the molecule’s total charge distribution in
+the potential this charge distribution generates, in the presence of
+dielectric;</li>
+<li>the local pseudopotential energy is corrected by an extra term that
+takes the smeared-ion nature of the cores into account;</li>
+<li>a self-interaction correction term is added to the total energy to
+account for the added Gaussian distributions (each of them
+self-interacts). This term does not depend on the electronic degrees
+of freedom, but depends on the ionic positions;</li>
+<li>a non-self-interaction correction term is added to the total energy
+to account for the added Gaussian distributions (they interact with
+each other). This term does not depend on the electronic degrees of
+freedom, but depends on the ionic positions.</li>
+</ul>
+<p>In principle, the total energy of the system is unchanged by the
+application of the smeared-ion formalism, however, due to minor
+numerical inaccuracies some discrepancies may be observed. These cancel
+out when calculating energy differences between solvated and <em>in vacuo</em>
+systems, <strong>provided the smeared-ion formalism is used for the vacuum
+calculation as well</strong>. There is one parameter to the
+smeared-ion formalism, <span class="math">\(\sigma\)</span>, which controls the width of the
+Gaussians placed on the ions. See Ref. [Dziedzic2013] for more details on the choice
+of this parameter. The default value is almost always OK.</p>
+<p>The key takeaway message here is that you need to use smeared ions in
+<strong>both</strong> the in-vacuum calculation and the in-solvent calculation to
+ensure the energy expressions are comparable. To do that, add
+<code class="docutils literal"><span class="pre">is_smeared_ion_rep</span> <span class="pre">T</span></code> to your input file(s). If you forget about this
+in a solvation calculation () or if you do auto solvation
+(<code class="docutils literal"><span class="pre">is_auto_solvation</span> <span class="pre">T</span></code>) it will be added automatically for you, but a
+warning will be produced. However, if you run manual solvation, you need
+to remember to include <code class="docutils literal"><span class="pre">is_smeared_ion_rep</span> <span class="pre">T</span></code> in the in-vacuum
+calculation – ONETEP has no way of knowing you will follow this with an
+in-solvent calculation.</p>
+</div>
+<div class="section" id="forces">
+<h3>Forces<a class="headerlink" href="#forces" title="Permalink to this headline">¶</a></h3>
+<p>If you ask ONETEP to calculate forces, the force terms due to implicit
+solvent will be automatically calculated and included. The formulas
+employed are exact (to numerical accuracy) when a self-consistently
+updated cavity is used. For the case of a fixed cavity, they are
+approximate. The approximation is very good, but initial tests suggest
+that you might not be able to converge geometries to typical thresholds
+– although the noise in the forces will be small, it might be enough
+close to equilibrium to throw off the geometry optimiser. Keep this in
+mind.</p>
+<p>You should be able to do geometry optimisation and molecular dynamics
+without any problems with implicit solvent, provided that you use
+<code class="docutils literal"><span class="pre">is_auto_solvation</span> <span class="pre">T</span></code>. Note that restarting these might be tricky if
+they are interrupted during the in-solvent stage – you will need to
+ensure the correct restart files (the vacuum restart files) are used to
+generate the solvent cavity upon restart,
+cf. Section on manual solvation and restarts.</p>
+<p>Smeared-ion forces in vacuum are also implemented. These are numerically
+exact and practically negligible.</p>
+<p>Solvation forces only work in OBC so far, but we plan to have a PBC
+version soon.</p>
+</div>
+<div class="section" id="exclusion-regions">
+<h3>Exclusion regions<a class="headerlink" href="#exclusion-regions" title="Permalink to this headline">¶</a></h3>
+<p>This functionality enables excluding regions of space from the solvent.
+Any excluded region has its dielectric permittivity set to exactly 1,
+similarly to what happens in core regions (cf.&nbsp;<code class="docutils literal"><span class="pre">is_core_width</span></code>). This
+is useful for removing pockets of solvent that could otherwise appear in
+buried cavities, which are inaccessible to the solvent, yet the
+electronic density there is low enough to generate a dielectric with a
+permittivity notably larger than 1.</p>
+<p>The regions are specified in a <code class="docutils literal"><span class="pre">%block</span> <span class="pre">is_dielectric_exclusions</span></code>,
+which looks like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>%block is_dielectric_exclusions
+sphere 20.0 22.0 18.0 4.0             ! x, y, z of centre; r (all in a0)
+box 13.0 16.0  20.5 29.0  13.0 15.0   ! xmin xmax  ymin ymax  zmin zmax (all in a0)
+xcyl 18.4 20.7 7.0                    ! y, z, r (all in a0)
+%endblock is_dielectric_exclusions
+</pre></div>
+</div>
+<p>The above excludes the solvent from a sphere centred at
+<span class="math">\((20,22,18)\,{a_0}{}\)</span> with a radius of <span class="math">\(4\,{a_0}{}\)</span>, from a
+box spanning from <span class="math">\((13,20.5,13)\,{a_0}{}\)</span> to
+<span class="math">\((16,29,15)\,{a_0}{}\)</span>, and from a cylinder oriented along the X
+axis, passing through <span class="math">\(y=18.4\,{a_0}{}\)</span>, <span class="math">\(z=20.7\,{a_0}{}\)</span>
+and a radius of <span class="math">\(7\,{a_0}{}\)</span>. <code class="docutils literal"><span class="pre">sphere</span></code>, <code class="docutils literal"><span class="pre">box</span></code>, <code class="docutils literal"><span class="pre">xcyl</span></code>,
+<code class="docutils literal"><span class="pre">ycyl</span></code> and <code class="docutils literal"><span class="pre">zcyl</span></code> are the only region shapes supported now. All
+exclusion regions currently assume open boundary conditions <strong>and do not
+work in PBC</strong>. You can have as many as 10000 regions specified in the
+exclusion block.</p>
+<p>It is crucial to ensure that discontinuities in the permittivity are
+avoided, because they prevent the solver from converging. Usually,
+exclusion regions can be chosen such that they merge quite smoothly with
+regions where the dielectric is naturally 1 (or reasonably close). If
+this is not possible, then the boundaries of the exclusion regions can
+be smoothed. This is achieved using a Fermi-Dirac function,</p>
+<div class="math">
+\[\varepsilon(d) = \varepsilon_\infty - \frac{\varepsilon_\infty - 1}{e^{d/d_0} + 1},\]</div>
+<p>where <span class="math">\(d\)</span> is the distance to the exclusion region boundary (and
+is negative if inside the exclusion region), and <span class="math">\(d_0\)</span> is the
+smearing length set by <code class="docutils literal"><span class="pre">is_dielectric_exclusions_smear</span></code>. By default,
+this is set to 0&nbsp;<span class="math">\(a_0\)</span>, giving hard-walled exclusion regions
+(<span class="math">\(\varepsilon = 1\)</span> inside and
+<span class="math">\(\varepsilon = \varepsilon_\infty\)</span> outside). But if exclusion
+regions interface directly with solvent regions, it should be chosen to
+be at least a couple of times larger than the multigrid spacing, so that
+the permittivity becomes sufficiently continuous for the solver to
+converge.</p>
+</div>
+<div class="section" id="solvent-polarization">
+<h3>Solvent Polarization<a class="headerlink" href="#solvent-polarization" title="Permalink to this headline">¶</a></h3>
+<p>The non-homogeneous Poisson equation:</p>
+<div class="math">
+\[\nabla\cdot\left(\varepsilon \nabla v\right)=-4\pi n_{\rm tot}\]</div>
+<p>can be recast in the form of a solvent polarization density:</p>
+<div class="math">
+\[\nabla\cdot \nabla v=-4\pi \left(n_{\rm tot}+n_{\rm pol}\right)\]</div>
+<p>Subtracting the two, the polarization density is calculated as
+[Andreussi2012]:</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+n_{\rm pol}&amp;=\frac{1}{4\pi}\nabla\cdot\left[\left(\varepsilon-1\right)\nabla v\right] \\
+n_{\rm pol}&amp;=\frac{1}{4\pi}\left[\left(\varepsilon-1\right)\nabla^2 v +\nabla\left(\varepsilon-1\right)\cdot\nabla v\right]\end{aligned}\end{split}\]</div>
+<p>The polarization potential is calculated by solving the following
+Poisson eq:</p>
+<div class="math">
+\[\nabla\cdot\nabla v_{\rm pol}=-4\pi n_{\rm pol}\]</div>
+<p>This is done in properties calculation with
+<code class="docutils literal"><span class="pre">is_solvation_properties</span> <span class="pre">T</span></code> and 3-D grid data for <span class="math">\(n_{\rm pol}\)</span>
+and <span class="math">\(v_{\rm pol}\)</span> is output.</p>
+</div>
+</div>
+<div class="section" id="keywords-used-in-solvation-calculations">
+<h2>Keywords used in solvation calculations<a class="headerlink" href="#keywords-used-in-solvation-calculations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basic">
+<h3>Basic<a class="headerlink" href="#basic" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_implicit_solvent</span> <span class="pre">T/F</span></code> turns on/off the implicit solvent.
+Default is off. Will be set automatically if auto solvation is used.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_include_apolar</span> <span class="pre">T/F</span></code> turns on/off the apolar energy terms.
+Default is on.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_apolar_sasa_definition</span> <span class="pre">density/isodensity</span></code> defines the method
+used in the difference method which calculates the solvent accessible
+surface area (SASA) of the dielectric cavity. <code class="docutils literal"><span class="pre">density</span></code> calculates
+the SASA by varying the electron density, and <code class="docutils literal"><span class="pre">isodensity</span></code> uses
+varying <span class="math">\(\rho_0\)</span> values. <code class="docutils literal"><span class="pre">density</span></code> is the recommended setting
+unless backwards compatibility with old versions is desired. Warning
+can be suppressed by defining this keyword. Default is <code class="docutils literal"><span class="pre">density</span></code>, but
+you will get a warning if it is not specified. Specify <code class="docutils literal"><span class="pre">density</span></code> or
+<code class="docutils literal"><span class="pre">isodensity</span></code> explicitly to suppress warnings. Only affects MPSM and
+SCCS. For SCCS <code class="docutils literal"><span class="pre">density</span></code> is the only available option.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_apolar_method</span> <span class="pre">SASA/SAV</span></code> sets the definition of the cavitation
+term in terms of surface area or surface area with volume. Default is
+<code class="docutils literal"><span class="pre">SASA</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_apolar_scaling_factor</span> <span class="pre">x</span></code> controls the scaling of the apolar
+term with the aim of taking solute-solvent dispersion-repulsion into
+account. The default is 0.281075, which is good for MPSM, but not
+necessarily SCCS or SSM.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_smeared_ion_rep</span> <span class="pre">T/F</span></code> turns on/off the smeared-ion
+representation. Default is off, but if ONETEP detects you’re running
+a solvation calculation, it will turn it on for you and let you off
+with a warning. When comparing results of two calculations (e.g.
+results in vacuum and in solvent), always ensure this is set
+identically in both calculations.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_density_threshold</span> <span class="pre">x</span></code> sets the MPSM model parameter
+<span class="math">\(\rho_{0}\)</span> to <span class="math">\(x\)</span> (atomic units). The default is 0.00035,
+as per Ref. [Dziedzic2011].</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_solvation_beta</span> <span class="pre">x</span></code> sets the MPSM model parameter <span class="math">\(\beta\)</span>
+to <span class="math">\(x\)</span> (no unit). The default is 1.3, as per Ref. [Dziedzic2011].</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_bulk_permittivity</span> <span class="pre">x</span></code> sets the physical constant – solvent bulk
+permittivity <span class="math">\(\epsilon_{\infty}\)</span> to <span class="math">\(x\)</span> (no unit). The
+default is 78.54 (suitable for water near room temperature and
+pressure and at low frequencies) if implicit solvent is on, and 1.0
+is implicit solvent is off.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_solvent_surf_tension</span> <span class="pre">x</span></code> sets the physical constant – solvent
+surface tension <span class="math">\(\gamma\)</span> to <span class="math">\(x\)</span> (unit must be supplied).
+The default is 0.07415&nbsp;N/m (which is suitable for water near room
+temperature).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_solvent_pressure</span> <span class="pre">x</span></code> sets the pressure used to calculate the
+SAV contribution to the apolar term. Does not correspond to physical
+water pressure and is optimised to obtain minimal errors with respect
+to experimental free energies of solvation. Default is -0.35 GPa
+(which is suitable for water near room temperature).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_dielectric_model</span> <span class="pre">FIX_INITIAL/SELF_CONSISTENT</span></code> picks either the
+fixed cavity or the self-consistently updated cavity, as described in
+the section on the solute cavity.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_auto_solvation</span> <span class="pre">x</span></code> automatically runs an in-vacuum calculation
+before any solvation calculation, thus relieving the user from the
+burden of manually restarting calculations. This attempts to
+automatically control the directives for restarting, running two
+calculations (vacuum and solvated) in succession. Using this
+directive is a must when doing implicit-solvent geometry
+optimisation, implicit-solvent molecular dynamics, implicit-solvent
+transition state search or implicit-solvent forcetest. This directive
+is compatible with conduction calculations.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_dielectric_function</span> <span class="pre">FGF/SOFT_SPHERE/ANDREUSSI</span></code> Defines the
+function used to create dielectric cavity. Switches between the
+charge density based MPSM (<code class="docutils literal"><span class="pre">FGF</span></code>), the atomic radius-based soft
+sphere model (<code class="docutils literal"><span class="pre">SOFT_SPHERE</span></code>) and SCCS (<code class="docutils literal"><span class="pre">ANDREUSSI</span></code>).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_density_min_threshold</span> <span class="pre">x</span></code> Only applies to SCCS. Sets the
+parameter <span class="math">\(\rho_{\textrm{min}}\)</span>. The default is 0.0001, which
+corresponds to the “g03” fit in Ref. [Andreussi2012].</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_density_max_threshold</span> <span class="pre">x</span></code> Only applies to SCCS. Sets the
+parameter <span class="math">\(\rho_{\textrm{max}}\)</span>. The default is 0.0050, which
+corresponds to the “g03” fit in Ref. [Andreussi2012].</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_soft_sphere_scale</span> <span class="pre">x</span></code> Only applies to SSM. Scales the default
+Alvarez vdW radii provided in ONETEP. The default is 1.33. This does
+not apply to radii defined in the <code class="docutils literal"><span class="pre">is_soft_sphere_radii</span></code> block.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_soft_sphere_delta</span> <span class="pre">x</span></code> Only applies to SSM. Controls the
+steepness of the transition from vacuum to the bulk permitivity
+value. This applies to both default radii and those specified in the
+<code class="docutils literal"><span class="pre">is_soft_sphere_radii</span></code> block. The default is 0.5.</p>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">is_soft_sphere_radii</span></code> Only applies to SSM. Block sets the soft
+sphere radii for species defined. These values are unaffected by
+the scaling factor defined in <code class="docutils literal"><span class="pre">is_soft_sphere_scale</span></code>. Undefined
+species will use the default values defined by Alvarez vdW (Ref. [Alvarez2013]).
+Units bohr. e.g.</div>
+<div class="line"><code class="docutils literal"><span class="pre">%block</span> <span class="pre">is_soft_sphere_radii</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">Li</span> <span class="pre">2.5</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">Pt</span> <span class="pre">4.6</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">is_soft_sphere_radii</span></code></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="advanced">
+<h3>Advanced<a class="headerlink" href="#advanced" title="Permalink to this headline">¶</a></h3>
+<p>The default settings usually work fine and the advanced settings should
+only be changed if you know what you’re doing.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">is_bc_coarseness</span> <span class="pre">x</span></code> changes the size of the blocks into which
+charge is coarsened when boundary conditions are calculated. The
+default is 5. Smaller values may subtly increase accuracy, but will
+incur a computational cost that grows as <span class="math">\(x^{-3}\)</span>. This can be
+perfectly acceptable for smaller molecules. For larger molecules
+(1000 atoms and more) use 7 or more to reduce computational cost. For
+the effect of this parameter on accuracy, cf. Ref. [Dziedzic2013].</li>
+<li><code class="docutils literal"><span class="pre">is_bc_surface_coarseness</span> <span class="pre">x</span></code> changes the size of the surface
+blocks onto which charge is interpolated when boundary conditions are
+calculated. The default is 1 and is recommended. Larger values will
+improve computational cost (that grows as <span class="math">\(x^{-2}\)</span>), but may
+decrease accuracy, especially for charged molecules. If the
+calculation of BCs becomes a bottleneck, prefer tweaking
+<code class="docutils literal"><span class="pre">is_bc_coarseness</span> <span class="pre">x</span></code> instead.</li>
+<li><code class="docutils literal"><span class="pre">is_bc_allow_frac_charge</span> <span class="pre">T/F</span></code> (new in v6.1.1.28) when set to <code class="docutils literal"><span class="pre">T</span></code>,
+the calculation of boundary conditions for the multigrid solver will
+not check if the coarse-grained charge is close to an integer. This
+can be used in rare cases where you know this is not going to be a
+problem. The default is <code class="docutils literal"><span class="pre">F</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">is_separate_restart_files</span> <span class="pre">T/F</span></code> allows the set of restart files
+used to construct the solute cavity in solvent to be distinct from
+the set of restart files used to construct the initial density. This
+is useful if you need to restart a solvated calculation, but still
+want to construct the cavity from the converged vacuum density, and
+not the partially-converged solvated density.
+See section on manual solvation and restarts.</li>
+<li><code class="docutils literal"><span class="pre">is_restart_vac_from_vac</span> <span class="pre">T/F</span></code> allows the in-vacuum calculation as
+part of an auto-solvation calculation to be restarted from
+<code class="docutils literal"><span class="pre">.vacuum_dkn</span></code> and <code class="docutils literal"><span class="pre">.vacuum_tightbox_ngwfs</span></code> files, rather than the
+usual <code class="docutils literal"><span class="pre">.dkn</span></code> and <code class="docutils literal"><span class="pre">.tightbox_ngwfs</span></code> files.
+See section on manual solvation and restarts.</li>
+<li><code class="docutils literal"><span class="pre">is_solvation_properties</span> <span class="pre">T/F</span></code> when set to <code class="docutils literal"><span class="pre">T</span></code> it will produce
+scalarfields of quantities relevant in solvation during a properties
+calculation. This is useful for visualising potentials, densities,
+Boltzmann ion concentrations, electrolyte accessibilities, etc.
+Ensure you supplied <code class="docutils literal"><span class="pre">dx_format</span> <span class="pre">T</span></code> and/or <code class="docutils literal"><span class="pre">cube_format</span> <span class="pre">T</span></code> and/or
+<code class="docutils literal"><span class="pre">grd_format</span> <span class="pre">T</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">is_smeared_ion_width</span> <span class="pre">x</span></code> sets the width of the smeared-ion
+Gaussians, <span class="math">\(\sigma\)</span>, to <span class="math">\(x\)</span> (in units you supply). The
+default is 0.8&nbsp;<span class="math">\(a_0\)</span> and should be OK for most calculations.
+Results should not depend on this parameter, but only if it’s within
+rather narrow limits of sensibility. Too high values (anything larger
+than 1.0, roughly) are seriously unphysical, as they will lead to
+cores whose Gaussian tails stick out of the electronic density,
+especially for hydrogen atoms. This is very bad, since it does not
+change the energy <em>in vacuo</em> (the effect of the smearing, regardless
+of <span class="math">\(\sigma\)</span>, is cancelled by the correction terms to energy),
+but changes the energy in solution (by polarising the solvent
+differently in reality the cores are screened by the electrons). Too
+low values (anything smaller than 0.6, roughly), on the other hand,
+will lead to Gaussians so thin and tall that they will become very
+difficult for the multigrid solver to treat, requiring high orders
+and unreasonably fine grids to obtain multigrid convergence. See
+Ref. [Dziedzic2013] for more details.</li>
+<li><code class="docutils literal"><span class="pre">fine_grid_scale</span> <span class="pre">x</span></code> makes the ONETEP fine grid <span class="math">\(x\)</span> (no unit)
+times as fine as the coarse grid, <span class="math">\(x\)</span> does not have to be an
+integer. The solution of the P(B)E and associated finite-difference
+operations are performed on the fine grid (or its subset, for OBC).
+Increasing <code class="docutils literal"><span class="pre">fine_grid_scale</span></code> allows making this grid finer without
+unnecessarily increasing the kinetic energy cutoff of the
+calculation. The default is 2. Memory and computational effort
+increase with the cube of <span class="math">\(x\)</span>.</li>
+<li><code class="docutils literal"><span class="pre">is_dielectric_exclusions_smear</span> <span class="pre">x</span></code> sets the smearing for dielectric
+exclusion regions to <span class="math">\(x\)</span> (in the units you supply). See
+section on exclusion regions.</li>
+<li><code class="docutils literal"><span class="pre">is_emft_cavity</span> <span class="pre">T/F</span></code> if EMFT is enabled at the same time as
+implicit solvent, this controls whether the solvent cavity is
+determined using the standard density kernel (at the lower level of
+theory), or the EMFT kernel. The default is <code class="docutils literal"><span class="pre">F</span></code>. See EMFT
+documentation for more details.</li>
+</ul>
+</div>
+<div class="section" id="fine-control-over-dl-mg">
+<h3>Fine control over DL_MG<a class="headerlink" href="#fine-control-over-dl-mg" title="Permalink to this headline">¶</a></h3>
+<p>These keywords enable fine control over the behaviour of the DL_MG
+solver. See Ref. [Anton2020] for more details, particularly regarding convergence
+control.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">mg_use_cg</span> <span class="pre">T/F</span></code> (new in v6.3.1.6) Turns on the conjugate gradient
+solver. This generally increases the stability of the solver, but is
+likely to reduce performance. It might be useful to turn this on if
+you have problems converging difficult cases – particularly in
+Poisson-Boltzmann solvation.</li>
+<li><code class="docutils literal"><span class="pre">mg_use_error_damping</span> <span class="pre">T/F</span></code> can be used to turn on/off error damping
+in the defect correction procedure. This is often necessary when
+solving the full (non-linearised) Poisson-Boltzmann equation, but
+will likely not do much for the linearised Poisson-Boltzmann equation
+or for the Poisson equation. Accordingly, the default depends on
+<code class="docutils literal"><span class="pre">is_pbe</span></code> and is <code class="docutils literal"><span class="pre">F</span></code> for <code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">NONE</span></code> and
+<code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">LINEARISED</span></code>, and <code class="docutils literal"><span class="pre">T</span></code> for <code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">FULL</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">mg_continue_on_error</span> <span class="pre">T/F</span></code> if <code class="docutils literal"><span class="pre">T</span></code>, instructs the multigrid solver
+not to abort if a solution to the P(B)E cannot be converged to
+desired tolerances, and instead to return an underconverged solution.
+This can be useful for particularly stubborn cases, especially in
+Boltzmann solvation. Default is <code class="docutils literal"><span class="pre">F</span></code> when solving the Poisson
+equation and <code class="docutils literal"><span class="pre">T</span></code> if solving the Poisson-Boltzmann equation. If you
+want to turn it on for Boltzmann solvation, you will very likely need
+to increase <code class="docutils literal"><span class="pre">is_pbe_energy_tolerance</span></code> by a very large amount.</li>
+<li><code class="docutils literal"><span class="pre">mg_defco_fd_order</span> <span class="pre">x</span></code> sets the discretization order used when
+solving the P(B)E to <span class="math">\(x\)</span> (no&nbsp;unit). Available values are 2, 4,
+6, 8, 10 and 12, the default is 8. With 2 no defect correction is
+performed. Values of 4 and above employ defect correction. The lowest
+values (2 and 4) are not recommended, because they offer poor
+accuracy. Generally the largest value (12) will offer best accuracy,
+but this has to be weighed against a likely drop in performance
+(higher orders often take longer) and possibility of Gibbs-like
+phenomena that may occur when high orders are used with
+steeply-changing dielectric permittivity, as is the case for larger
+values of <span class="math">\(\beta\)</span>. 8 or 10 is a good starting value. Results
+should not depend on the choice of this parameter, but performance
+and multigrid convergence will. See the troubleshooting section below
+for details. See Ref. [Dziedzic2013] for more details.</li>
+<li><code class="docutils literal"><span class="pre">mg_max_iters_vcycle</span> <span class="pre">x</span></code> sets the maximum number of multigrid
+V-cycle iterations to <span class="math">\(x\)</span> (no unit). The default is 50. See
+Ref. [Womack2018] for a description of the solver, including the V-cycle scheme
+employed.</li>
+<li><code class="docutils literal"><span class="pre">mg_max_iters_defco</span> <span class="pre">x</span></code> sets the maximum number of high-order defect
+correction iterations to <span class="math">\(x\)</span> (no unit). The default is 30. See
+Ref. [Womack2018] for a description of the solver, including the defect
+correction procedure.</li>
+<li><code class="docutils literal"><span class="pre">mg_max_iters_newton</span> <span class="pre">x</span></code> sets the maximum number of Newton method
+iterations to <span class="math">\(x\)</span> (no unit). The default is 30. This is only
+relevant when solving the non-linear PBE. See Ref. [Womack2018] for a description
+of the inexact-Newton method employed by the solver in this scenario.</li>
+<li><code class="docutils literal"><span class="pre">mg_max_iters_cg</span> <span class="pre">x</span></code> (new in v6.3.1.6) sets the maximum number of
+iterations for conjugate gradients to <span class="math">\(x\)</span> (no unit). The
+default is 50. This is only relevant when <code class="docutils literal"><span class="pre">mg_use_cg</span></code> is <code class="docutils literal"><span class="pre">T</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">mg_max_res_ratio</span> <span class="pre">x</span></code> sets the threshold for the consecutive
+residual ratio which determines when the multigrid solver gives up
+(positive real value, no unit, the default is 0.999). This should not
+require tuning.</li>
+<li><code class="docutils literal"><span class="pre">mg_vcyc_smoother_iter_pre</span> <span class="pre">x</span></code> sets the number of V-cycle smoother
+iterations pre-smoothing (integer, no unit, the default is 2).
+Difficult systems, particularly in PBCs, might benefit from an
+increase of this value to 4 or 8.</li>
+<li><code class="docutils literal"><span class="pre">mg_vcyc_smoother_iter_post</span> <span class="pre">x</span></code> sets the number of V-cycle smoother
+iterations post-smoothing (integer, no unit, the default is 1).
+Difficult systems, particularly in PBCs, might benefit from an
+increase of this value to 4 or 8.</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_res_rel</span></code> <span class="math">\(x\)</span> Set the relative tolerance in the norm
+of the residual for the defect correction procedure to <span class="math">\(x\)</span> (no
+units, the default is 1.0e-2).</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_res_abs</span></code> <span class="math">\(x\)</span> Set the absolute tolerance in the norm
+of the residual for the defect correction procedure to <span class="math">\(x\)</span>
+(atomic units, the default is 5.0e-2).</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_pot_rel</span></code> <span class="math">\(x\)</span> Set the relative tolerance in the norm
+of the potential for the defect correction procedure to <span class="math">\(x\)</span> (no
+units, the default is 1.0e-6).</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_pot_abs</span></code> <span class="math">\(x\)</span> Set the absolute tolerance in the norm
+of the potential for the defect correction procedure to <span class="math">\(x\)</span>
+(atomic units, the default is 1.0e-6).</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_vcyc_rel</span></code> <span class="math">\(x\)</span> Set the relative tolerance for the norm
+of the residual in multigrid V-cycle iterations to <span class="math">\(x\)</span> (no
+units, the default is 1.0e-8).</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_vcyc_abs</span></code> <span class="math">\(x\)</span> Set the absolute tolerance for the norm
+of the residual in multigrid V-cycle iterations to <span class="math">\(x\)</span> (atomic
+units, the default is 1.0e-5).</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_newton_rel</span></code> <span class="math">\(x\)</span> Set the relative tolerance for the
+norm of the residual in Newton method iterations to <span class="math">\(x\)</span> (only
+applies when solving the nonlinear PBE, no units, the default is
+1.0e-8).</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_newton_abs</span></code> <span class="math">\(x\)</span> Set the absolute tolerance for the
+norm of the residual in Newton method iterations to <span class="math">\(x\)</span> (only
+applies when solving the nonlinear PBE, atomic units, the default is
+1.0e-5).</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_cg_res_rel</span></code> <span class="math">\(x\)</span> (new in v6.3.1.6) Set the relative
+tolerance in the norm of the residual for the conjugate gradients to
+<span class="math">\(x\)</span> (no units, the default is 1.0e-2). This is only relevant
+when <code class="docutils literal"><span class="pre">mg_use_cg</span></code> is <code class="docutils literal"><span class="pre">T</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">mg_tol_cg_res_abs</span></code> <span class="math">\(x\)</span> (new in v6.3.1.6) Set the absolute
+tolerance in the norm of the residual for the conjugate gradients to
+<span class="math">\(x\)</span> (atomic units, the default is 5.0e-2). This is only
+relevant when <code class="docutils literal"><span class="pre">mg_use_cg</span></code> is <code class="docutils literal"><span class="pre">T</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="expert">
+<h3>Expert<a class="headerlink" href="#expert" title="Permalink to this headline">¶</a></h3>
+<p>These will only be listed here and not discussed. The last three
+keywords are discussed in a separate document devoted to the real space
+local pseudopotential (see ONETEP website).</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">mg_granularity_power</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">is_surface_thickness</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">is_bc_threshold</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">is_core_width</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">is_check_solv_energy_grad</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">openbc_pspot_finetune_nptsx</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">openbc_pspot_finetune_f</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">openbc_pspot_finetune_alpha</span></code>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="boltzmann-solvation-solute-with-electrolyte">
+<h2>Boltzmann solvation (solute with electrolyte)<a class="headerlink" href="#boltzmann-solvation-solute-with-electrolyte" title="Permalink to this headline">¶</a></h2>
+<p>ONETEP has the ability to perform Poisson-Boltzmann implicit solvent
+calculations, that is, to include electrolyte in the implicit solvent.
+The electrolyte is represented by point particles (“Boltzmann ions”),
+which interact with one another only in the mean-field sense, and affect
+the reaction field, providing a rudimentary model of screening. The
+model is described in Ref. [Dziedzic2020] and Ref. [Bhandari2020]. Users would be well-advised to
+read these first.</p>
+<p>Boltzmann solvation calculations in ONETEP can be performed in OBC and
+in PBC alike. In PBC care must be taken to suitably neutralise the
+simulation cell so that the electrostatic energy does not diverge.
+ONETEP offers a number of schemes to achieve this, including a novel
+NECS scheme – see <code class="docutils literal"><span class="pre">is_pbe_neutralisation_scheme</span></code> in
+the section on keywords controlling Boltzmann solvation and carefully read Ref. [Bhandari2020].</p>
+<p>The inclusion of the electrolyte leads to the well-known nonlinear
+Poisson-Boltzmann equation. ONETEP (or rather DL_MG) can solve this
+equation as is, or the linearised approximation can be used – see
+<code class="docutils literal"><span class="pre">is_pbe</span></code> in the section on Boltzmann solvation keywords.</p>
+<p>Because Boltzmann ions are point particles, they tend to concentrate in
+the immediate vicinity of the solute, often reaching unphysical
+concentrations. A number of ways have been proposed to address this
+problem. ONETEP implements a steric potential approach to keep the
+Boltzmann ions sufficiently far from the solute – see Ref. [Dziedzic2020] and
+<code class="docutils literal"><span class="pre">is_pbe_steric_pot_type</span></code> in the section on Boltzmann solvation keywords
+for a description.</p>
+<p>In the presence of the electrolyte a number of additional terms appear
+in the grand potential. These are clearly listed in the output if auto
+solvation is used:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Individual</span> <span class="n">components</span> <span class="n">of</span> <span class="n">total</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">solvent</span><span class="p">:</span>     <span class="n">hartree</span>           <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">-</span> <span class="n">Usual</span> <span class="n">non</span><span class="o">-</span><span class="n">electrostatic</span> <span class="n">DFT</span> <span class="n">terms</span><span class="p">:</span>       <span class="o">-</span><span class="mf">26.31256445391999</span>      <span class="o">-</span><span class="mf">16511.383124</span>
+<span class="o">-</span> <span class="n">Electrostatic</span> <span class="n">fixed</span> <span class="n">charge</span> <span class="n">energy</span><span class="p">:</span>         <span class="mf">3.11407548141888</span>        <span class="mf">1954.111825</span>
+<span class="o">-</span> <span class="n">Electrostatic</span> <span class="n">mobile</span> <span class="n">charge</span> <span class="n">energy</span><span class="p">:</span>       <span class="o">-</span><span class="mf">0.00000610048106</span>          <span class="o">-</span><span class="mf">0.003828</span>
+<span class="o">-</span> <span class="n">Accessibility</span> <span class="p">(</span><span class="n">steric</span><span class="p">)</span> <span class="n">correction</span><span class="p">:</span>         <span class="mf">0.00000440501188</span>           <span class="mf">0.002764</span>
+<span class="o">-</span> <span class="n">Osmotic</span> <span class="n">pressure</span> <span class="n">contribution</span><span class="p">:</span>            <span class="o">-</span><span class="mf">0.00045050433991</span>          <span class="o">-</span><span class="mf">0.282696</span>
+<span class="o">-</span> <span class="n">Ionic</span> <span class="n">atmosph</span><span class="o">.</span> <span class="n">rearrangement</span> <span class="n">entropy</span><span class="p">:</span>     <span class="o">-</span><span class="mf">0.00082199171218</span>          <span class="o">-</span><span class="mf">0.515808</span>
+<span class="o">-</span> <span class="n">Chemical</span> <span class="n">potential</span> <span class="n">contribution</span><span class="p">:</span>           <span class="mf">0.00082978766243</span>           <span class="mf">0.520700</span>
+<span class="o">-</span> <span class="n">Apolar</span> <span class="n">cavitation</span> <span class="n">energy</span><span class="p">:</span>                  <span class="mf">0.02130850899275</span>          <span class="mf">13.371291</span>
+<span class="o">-</span> <span class="n">Apolar</span> <span class="n">dispersion</span><span class="o">-</span><span class="n">repulsion</span> <span class="n">energy</span><span class="p">:</span>       <span class="o">-</span><span class="mf">0.01531921982762</span>          <span class="o">-</span><span class="mf">9.612955</span>
+ <span class="o">-------------------------------------------------------------------------------</span>
+<span class="o">-</span> <span class="n">Total</span> <span class="n">energy</span> <span class="ow">in</span> <span class="n">solvent</span><span class="p">:</span>                 <span class="o">-</span><span class="mf">23.19294408719482</span>      <span class="o">-</span><span class="mf">14553.791830</span>
+</pre></div>
+</div>
+<p>Similarly, the calculation of the free energy of solvation will include
+additional terms due to the electrolyte:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Components</span> <span class="n">of</span> <span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span>               <span class="n">hartree</span>           <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+<span class="o">-</span> <span class="n">Polar</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span>      <span class="o">-</span><span class="mf">0.04757925126662</span>         <span class="o">-</span><span class="mf">29.856430</span>
+<span class="o">-</span> <span class="n">Apolar</span> <span class="p">(</span><span class="n">cavitation</span><span class="p">,</span> <span class="n">dis</span><span class="o">.</span><span class="p">,</span> <span class="n">rep</span><span class="o">.</span><span class="p">):</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span>       <span class="mf">0.00598928916514</span>           <span class="mf">3.758336</span>
+<span class="o">-</span> <span class="n">Non</span><span class="o">-</span><span class="n">es</span><span class="o">.</span> <span class="n">electrolyte</span> <span class="n">terms</span><span class="p">:</span>       <span class="p">(</span><span class="o">+</span><span class="p">)</span>      <span class="o">-</span><span class="mf">0.00044440385885</span>          <span class="o">-</span><span class="mf">0.278868</span>
+<span class="o">-</span> <span class="n">Energy</span> <span class="n">of</span> <span class="n">pure</span> <span class="n">electrolyte</span><span class="p">:</span>      <span class="p">(</span><span class="o">-</span><span class="p">)</span>      <span class="o">-</span><span class="mf">0.00048258128208</span>          <span class="o">-</span><span class="mf">0.302824</span>
+ <span class="o">-------------------------------------------------------------------------------</span>
+<span class="o">-</span> <span class="n">Total</span> <span class="n">free</span> <span class="n">energy</span> <span class="n">of</span> <span class="n">solvation</span><span class="p">:</span>           <span class="o">-</span><span class="mf">0.04154568419718</span>         <span class="o">-</span><span class="mf">26.070310</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">If you chose not to use auto solvation, you will have to rely on the
+ENERGY COMPONENTS table to find the individual terms, while the energy
+of pure electrolyte will be printed out for you at the end of the
+in-solvent calculation.</div>
+</div>
+<div class="section" id="keywords-controlling-boltzmann-solvation">
+<h3>Keywords controlling Boltzmann solvation<a class="headerlink" href="#keywords-controlling-boltzmann-solvation" title="Permalink to this headline">¶</a></h3>
+<p>The following keywords control the Poisson-Boltzmann implicit solvation
+functionality, which allows performing calculations in implicit solvent
+containing electrolyte represented by Boltzmann ions.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">NONE/LINEARISED/FULL</span></code> chooses the equation to be solved in
+implicit solvation. <code class="docutils literal"><span class="pre">NONE</span></code> chooses the (generalised) Poisson
+equation, which corresponds to solvation in the absence of an
+electrolyte. <code class="docutils literal"><span class="pre">LINEARISED</span></code> chooses the linearised Poisson-Boltzmann
+equation (LPBE), which is a simplified treatment of electrolyte.
+<code class="docutils literal"><span class="pre">FULL</span></code> chooses the full, non-linear Poisson-Boltzmann equation
+(NLPBE), which deals with the electrolyte without the simplifications
+offered by linearisation. The default is <code class="docutils literal"><span class="pre">NONE</span></code>.</li>
+</ul>
+<p>Except where noted <strong>(*)</strong>, all the below keywords only have an effect
+if <code class="docutils literal"><span class="pre">is_pbe</span></code> is <em>not</em> <code class="docutils literal"><span class="pre">NONE</span></code>. Similarly, except where noted <strong>(*)</strong>,
+all the defaults given below only apply to calculations where <code class="docutils literal"><span class="pre">is_pbe</span></code>
+is <em>not</em> <code class="docutils literal"><span class="pre">NONE</span></code>.</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_pbe_temperature</span> <span class="pre">T</span></code> sets the temperature of the Boltzmann ions
+to <code class="docutils literal"><span class="pre">T</span></code> (in K). The default is 300&nbsp;K.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_pbe_bc_debye_screening</span> <span class="pre">T/F</span></code> includes (<code class="docutils literal"><span class="pre">T</span></code>) or does not
+include (<code class="docutils literal"><span class="pre">F</span></code>) the effect of Debye screening in the calculation of
+Dirichlet boundary conditions for calculations in solvent. This only
+has an effect in OBC. With Debye screening an additional
+multiplicative factor of
+<span class="math">\(\exp{\left(-r/\lambda_{\textrm{D}}\right)}\)</span>, where
+<span class="math">\(\lambda_{\textrm{D}}\)</span> is the Debye length, is included in the
+boundary conditions. This is exact for LPBE and an approximation in
+NLPBE. Turning off Debye screening will cause ONETEP to use BCs that
+are appropriate for the case of no electrolyte, which will be
+unphysical. The default is <code class="docutils literal"><span class="pre">T</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_pbe_exp_cap</span> <span class="pre">c</span></code> – sets the exponential cap to <span class="math">\(c\)</span> (no
+unit). This is only relevant to <code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">FULL</span></code>. In solving the NLPBE
+it is a well-known issue that the exponential factors that appear in
+certain expressions (e.g.&nbsp;for the Boltzmann ion concentration) are
+prone to exploding (in the usual floating-point representation) when
+the value of the argument to the <span class="math">\(\exp\)</span> function is large. To
+retain numerical stability, the arguments to the <span class="math">\(\exp\)</span>
+function are typically capped, i.e.&nbsp;they are not allowed to exceed a
+predefined constant. The default in ONETEP is <span class="math">\(0.0\)</span>, which
+means <span class="math">\(c\)</span> is set to the default cap in DL_MG, which is
+currently <span class="math">\(50.0\)</span>. Specifying any value other than <span class="math">\(0.0\)</span>
+will cause ONETEP to discard the default provided by DL_MG and to
+use the user-specified value.</p>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">is_pbe_neutralisation_scheme</span> <span class="pre">scheme</span></code> chooses a specified
+neutralisation scheme.</div>
+<div class="line"><strong>(*)</strong>&nbsp;This keyword and its defaults can also apply to
+<code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">NONE</span></code>. This is only relevant for PBC calculations with
+non-zero total solute charge. In this scenario the total system
+charge (solute + electrolyte) must be zero for the electrostatic
+energy not to diverge. There are many ways of ensuring charge
+neutrality. ONETEP implements the following:</div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">NONE</span></code> ignores charge neutralisation. This is only meaningful
+for OBC or when the system is charge-neutral. This is the default
+in OBC.</li>
+<li><code class="docutils literal"><span class="pre">JELLIUM</span></code> applies the common jellium neutralisation, shifting
+the charge density by its negative average, so that the average
+density is zero. This is the default for PBC with no electrolyte
+(<code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">NONE</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">ACCESSIBLE_JELLIUM</span></code> applies a modified jellium neutralisation
+(cf. Ref. [Bhandari2020], Sec. 3.3). This is only applicable when <code class="docutils literal"><span class="pre">is_pbe</span></code> is
+<em>not</em> <code class="docutils literal"><span class="pre">NONE</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">COUNTERIONS_AUTO</span></code> applies neutralisation by electrolyte
+concentration shift (NECS) (cf. Ref. [Bhandari2020], Sec. 3.1) with optimal
+shift parameters (cf. Ref. [Bhandari2020], Eqs. 14 and 15). This is the default
+in PBC with electrolyte (<code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">LINEARISED</span></code> or
+<code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">FULL</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">COUNTERIONS_AUTO_LINEAR</span></code> applies neutralisation by electrolyte
+concentration shift (NECS) (cf. Ref. [Bhandari2020], Sec. 3.1) with shift
+parameters derived from a linear approximation (cf. Ref. [Bhandari2020],
+Eq. 18).</li>
+<li><code class="docutils literal"><span class="pre">COUNTERIONS_FIXED</span></code> applies neutralisation by electrolyte
+concentration shift (NECS) (cf. Ref. [Bhandari2020], Sec. 3.1) with shift
+parameters specified by the user via <code class="docutils literal"><span class="pre">%block_sol_ions</span></code>.</li>
+</ul>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_pbe_energy_tolerance</span> <span class="pre">E</span></code> sets the tolerance for the discrepancy
+between two expressions for the mean-field contribution to the grand
+potential to <span class="math">\(E\)</span> (in units you supply). The two expressions are
+(A): Ref. [Bhandari2020], Eq. 5, where individual terms are calculated according to
+Eqs. 10, 12, 13, 15, and 16 <em>except</em> for the fixed electrostatic term
+(first term in brackets in Eq. 10), which is excluded here; and (B)
+Ref. [Bhandari2020], Eq. 31 (for PBC) or Eq. 35 (for OBC) <em>except</em> for the fixed
+electrostatic term (first term in brackets in Eq. 10), which is also
+excluded here. For <code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">FULL</span></code> we expect the two expressions to
+be identical (modulo numerical noise). For <code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">LINEARISED</span></code> we
+expect the two expressions to be identical to first order (modulo
+numerical noise). The check is useful for detecting poorly converged
+solutions of the PBE. The default is <span class="math">\(0.001\)</span>&nbsp;kcal/mol for
+<code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">FULL</span></code>, and <span class="math">\(0.05\)</span>&nbsp;kcal/mol for <code class="docutils literal"><span class="pre">is_pbe</span> <span class="pre">LINEARISED</span></code>.
+Normally you should not need to adjust this parameter. However, it
+might need to be increased, perhaps dramatically, if you set
+<code class="docutils literal"><span class="pre">mg_continue_on_error</span> <span class="pre">T</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_pbe_steric_pot_type</span> <span class="pre">X/H/M/S</span></code> specifies the type of steric
+potential that will affect Boltzmann ions. This is to prevent them
+from unphysically concentrating in the immediate vicinity of the
+solute. The available options are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">X</span></code> no steric potential. This is not recommended, except in
+contrived test cases. This is currently the default, but this
+might change later.</li>
+<li><code class="docutils literal"><span class="pre">H</span></code> hard-core potential (see below). The hard-core potential is
+infinite within the radial cutoff <span class="math">\(r_{\textrm{c}}\)</span>, and zero
+elsewhere. Numerically this is realised by setting the
+accessibility to <span class="math">\(\gamma=0\)</span> within the radial cutoff, and to
+<span class="math">\(\gamma=1\)</span> elsewhere. This choice can pose numerical
+difficulties because of the infinite steepness, and is not
+recommended.</li>
+<li><code class="docutils literal"><span class="pre">M</span></code> smoothed hard-core potential (see below). <strong>This is the
+recommended choice</strong>. Here the accessibility is defined as
+<span class="math">\(\gamma=\frac{1}{2} + \frac{1}{2} \operatorname{erf}{(\frac{r-r_{\textrm{c}}}{\sigma})}\)</span>,
+with values below <span class="math">\(10^{-7}\)</span> then set to <span class="math">\(10^{-90}\)</span>.
+The potential, as always, is <span class="math">\(-kT \ln{\gamma}\)</span>. Here,
+<span class="math">\(r_{\textrm{c}}\)</span> is the radial cutoff, <span class="math">\(\sigma\)</span> is the
+smearing parameter.</li>
+<li><code class="docutils literal"><span class="pre">S</span></code> soft-core potential, that is, a potential of the form
+<span class="math">\(Ar^{-12}\operatorname{erf}{(\alpha{}r)}^{12}\)</span> (see the
+<code class="docutils literal"><span class="pre">is_sc_</span></code> keywords below). This potential does not seem to work
+well (too soft) and is not recommended.</li>
+</ul>
+<p>For both hard-core steric potentials the radial cutoff
+<span class="math">\(r_{\textrm{c}}\)</span> is determined as a sum of two components: the
+solvent radial cutoff <span class="math">\(r_{\textrm{c}}^{\textrm{solvent}}\)</span>, and
+the solute radial cutoff <span class="math">\(r_{\textrm{c}}^{\textrm{solute}}\)</span>.
+The solvent radial cutoff is set by the <code class="docutils literal"><span class="pre">species_solvent_radius</span></code>
+block, with one value per <em>solute</em> (sic!) species. The solute radial
+cutoff is determined through <code class="docutils literal"><span class="pre">is_hc_steric_dens_isovalue</span></code> and also
+depends on the solute species (see below). The solute cutoff is
+determined for each species separately, by examining the radial
+valence-electronic density profile coming from the pseudoatomic
+solver. The radial density is scanned from infinity to zero for a
+value equal to or larger than <span class="math">\(n_0\)</span> (specified via
+<code class="docutils literal"><span class="pre">is_hc_steric_dens_isovalue</span></code>). The radial coordinate of this value
+is taken as <span class="math">\(r_{\textrm{c}}^{\textrm{solute}}\)</span>. If
+<code class="docutils literal"><span class="pre">is_hc_steric_dens_isovalue</span></code> is negative,
+<span class="math">\(r_{\textrm{c}}^{\textrm{solute}}=0\)</span>. Thus, the solute radial
+cutoff is constant, and does depend on the current electronic
+density, only on the output of the atomic solver.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_hc_steric_dens_isovalue</span> <span class="pre">n_0</span></code> sets the density isovalue used to
+determine <span class="math">\(r_{\textrm{c}}^{\textrm{solute}}\)</span> to <span class="math">\(n_0\)</span>
+atomic units. The default is 0.003. This only applies to
+<code class="docutils literal"><span class="pre">is_pbe_steric_pot_type</span> <span class="pre">H/M</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_hc_steric_smearing</span> <span class="pre">\sigma</span></code> sets the smearing width for the
+smoothed hard-core cutoff (<code class="docutils literal"><span class="pre">is_pbe_steric_pot_type</span> <span class="pre">M</span></code>) to
+<span class="math">\(\sigma\)</span> (in units you supply). The default is
+0.4&nbsp;<span class="math">\(a_0\)</span>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_sc_steric_magnitude</span> <span class="pre">A</span></code> sets the magnitude of the soft-core
+steric potential to <span class="math">\(A\)</span> (in units you supply, dimension: energy
+<span class="math">\(\times\)</span> distance<span class="math">\(^{12}\)</span>). Default is negative, to
+force users not to forget this parameter. This only applies to
+<code class="docutils literal"><span class="pre">is_pbe_steric_pot_type</span> <span class="pre">S</span></code>, which you should not be using anyway.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_sc_steric_smoothing_alpha</span> <span class="pre">\alpha</span></code> sets the smoothing parameter
+of the soft-core steric potential to <span class="math">\(\alpha\)</span> (in units you
+supply, dimension: inverse distance). Default is
+1.5&nbsp;<span class="math">\({a_0}^{-1}\)</span>. This only applies to
+<code class="docutils literal"><span class="pre">is_pbe_steric_pot_type</span> <span class="pre">S</span></code>, which you should not be using anyway.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_sc_steric_cutoff</span> <span class="pre">r_{\textrm{c}}</span></code> sets the radial cutoff for the
+soft-core steric potential to <span class="math">\(r_{\textrm{c}}\)</span> (in units you
+supply). Since the range of this potential is technically infinite,
+we truncate it to zero beyond a specified distance,
+<span class="math">\(r_{\textrm{c}}\)</span>. This only applies to
+<code class="docutils literal"><span class="pre">is_pbe_steric_pot_type</span> <span class="pre">S</span></code>, which you should not be using anyway.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">is_steric_write</span> <span class="pre">T/F</span></code> if set to <code class="docutils literal"><span class="pre">T</span></code>, the steric potential and
+associated accessibility will be written out as scalarfields when
+initialised. Ensure you supplied <code class="docutils literal"><span class="pre">dx_format</span> <span class="pre">T</span></code> and/or
+<code class="docutils literal"><span class="pre">cube_format</span> <span class="pre">T</span></code> and/or <code class="docutils literal"><span class="pre">grd_format</span> <span class="pre">T</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">sol_ions</span></code> is a block describing the Boltzmann ions in the system.
+The format for <span class="math">\(n\)</span> Boltzmann ions is as follows:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">%block</span> <span class="pre">sol_ions</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">ion_species_1</span> <span class="pre">charge_1</span> <span class="pre">conc_1</span> <span class="pre">x_1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">ion_species_2</span> <span class="pre">charge_2</span> <span class="pre">conc_2</span> <span class="pre">x_2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">...</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">ion_species_n</span> <span class="pre">charge_n</span> <span class="pre">conc_n</span> <span class="pre">x_n</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">sol_ions</span></code></div>
+<div class="line">Here, <code class="docutils literal"><span class="pre">ion_species_i</span></code> is the name of the species of
+Boltzmann ion <span class="math">\(i\)</span> (which is irrelevant from the physical
+point of view), <code class="docutils literal"><span class="pre">charge_i</span></code> is the charge on species
+<span class="math">\(i\)</span>, <code class="docutils literal"><span class="pre">conc_i</span></code> is the concentration of that species (in
+mol/L), and <code class="docutils literal"><span class="pre">x_i</span></code>, which is optional, is a NECS shift
+parameter for species <span class="math">\(i\)</span>, relevant only for
+<code class="docutils literal"><span class="pre">is_pbe_neutralisation_scheme</span> <span class="pre">COUNTERIONS_FIXED</span></code>. For example, to
+define a 1M NaCl electrolyte, you would use:</div>
+</div>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">%block</span> <span class="pre">sol_ions</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">Na</span> <span class="pre">+1</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">Cl</span> <span class="pre">+1</span> <span class="pre">1.0</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">sol_ions</span></code></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">species_solvent_radius</span></code> defines the solvent radial cutoff
+<span class="math">\(r_{\textrm{c}}^{\textrm{solvent}}\)</span> for every <em>solute</em> (sic!)
+species, as follows:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_solvent_radius</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">species_1</span> <span class="pre">r_1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">species_2</span> <span class="pre">r_2</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">...</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">species_n</span> <span class="pre">r_n</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_solvent_radius</span></code></div>
+<div class="line">For example, to keep all the Boltzmann ions an extra
+<span class="math">\(3.5~{a_0}\)</span> away from your methane solute, you would use:</div>
+<div class="line"><code class="docutils literal"><span class="pre">%block</span> <span class="pre">species_solvent_radius</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">C</span> <span class="pre">3.5</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">H</span> <span class="pre">3.5</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">species_solvent_radius</span></code></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="various-hints-for-a-successful-start">
+<h2>Various hints for a successful start<a class="headerlink" href="#various-hints-for-a-successful-start" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Use one of the examples provided on the ONETEP website as a starting
+point.</li>
+<li>Make sure both your vacuum and solvated calculations use smeared
+ions.</li>
+<li>Make sure the parameters of both your vacuum and solvated
+calculations are identical (box sizes, KE cutoffs, <code class="docutils literal"><span class="pre">k_zero</span></code>,
+<code class="docutils literal"><span class="pre">mg_defco_fd_order</span></code>, <code class="docutils literal"><span class="pre">is_smeared_ion_width</span></code>,
+<code class="docutils literal"><span class="pre">is_bc_coarseness</span></code>, <code class="docutils literal"><span class="pre">is_bc_surface_coarseness</span></code>). Or just use
+<code class="docutils literal"><span class="pre">is_auto_solvation</span> <span class="pre">T</span></code>.</li>
+<li>Choose <code class="docutils literal"><span class="pre">FIX_INITIAL</span></code> over <code class="docutils literal"><span class="pre">SELF_CONSISTENT</span></code> for
+<code class="docutils literal"><span class="pre">is_dielectric_model</span></code>.</li>
+<li>Use an <code class="docutils literal"><span class="pre">mg_defco_fd_order</span></code> of 8 and <code class="docutils literal"><span class="pre">is_smeared_ion_width</span></code> of
+0.8. Specify them explicitly, as the defaults may change in the
+future.</li>
+<li>Do not mess with expert directives.</li>
+<li>In OBC, have at least about 10 bohr of vacuum/solvent around the
+edges of your molecule’s NGWFs (not atomic positions) on each side of
+the simulation cell, <em>after taking the truncation into account</em> –
+cf. section on grid sizes under OBC.</li>
+<li>Always start your calculation in solution as a restart from a fully
+converged <em>in vacuo</em> calculation. Or just use
+<code class="docutils literal"><span class="pre">is_auto_solvation</span> <span class="pre">T</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="troubleshooting-problems-causes-and-solutions">
+<h2>Troubleshooting: Problems, causes and solutions<a class="headerlink" href="#troubleshooting-problems-causes-and-solutions" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><div class="first line-block">
+<div class="line"><strong>Problem A</strong>: ONETEP crashes (e.g.&nbsp;catching <code class="docutils literal"><span class="pre">SIGKILL</span></code> or
+<code class="docutils literal"><span class="pre">SIGSEGV</span></code>) when evaluating the boundary conditions or solving the
+P(B)E.</div>
+<div class="line"><strong>Cause (A1)</strong>: You’ve run out of memory and the OOM killer killed
+the calculation. Solving the P(B)E often represents the peak memory
+usage of the calculation.</div>
+<div class="line"><strong>Solution (A1)</strong>: Increase available memory (perhaps by shifting
+the MPI/OMP balance towards more threads and fewer MPI processes)
+or decrease box size or decrease grid fineness.</div>
+<div class="line"><strong>Cause (A2)</strong>: You’ve run out of global stack space. Solving the
+P(B)E often represents the peak stack usage of the calculation.</div>
+<div class="line"><strong>Solution (A2)</strong>: Increase stack size using <code class="docutils literal"><span class="pre">ulimit</span> <span class="pre">-s</span></code>. Make
+sure you do that on compute nodes, not the login node. Or,
+preferably, use <code class="docutils literal"><span class="pre">onetep_launcher</span></code> and its <code class="docutils literal"><span class="pre">-s</span></code> parameter.
+<strong>Cause (A3)</strong>: You’ve run out of per-thread stack space. Solving
+the P(B)E often represents the peak per-thread stack usage of the
+calculation.</div>
+<div class="line"><strong>Solution (A3)</strong>: Increase per-thread stack size using
+<code class="docutils literal"><span class="pre">ulimit</span> <span class="pre">-s</span></code>. Make sure you do that on compute nodes, not the
+login node. Or, preferably, use <code class="docutils literal"><span class="pre">onetep_launcher</span></code> and its <code class="docutils literal"><span class="pre">-o</span></code>
+parameter.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>Problem B</strong>: Multigrid calculation does not converge (error
+message from DL_MG) or converges very slowly (as evidenced by the
+contents of a log file with a filename ending in
+<code class="docutils literal"><span class="pre">_dl_mg_log.txt</span></code>).</div>
+<div class="line"><strong>Cause (B1)</strong>: (Only applies to OBC calculations) Charge is not
+correctly localized (cell is too small or molecule otherwise too
+close to cell edge).</div>
+<div class="line"><strong>Solution (B1)</strong>: Check and fix the cell size, paying attention to
+the margin between the DL_MG grid and fine grid.</div>
+<div class="line"><strong>Cause (B2)</strong>: Dielectric permittivity too steeply changing on the
+cavity boundary for the current grid size, finite differences
+struggling to approximate the changes. This is often the culprit if
+the calculation ran fine <em>in vacuo</em> but struggles in solvent.</div>
+<div class="line"><strong>Solution (B2)</strong>: Preferable, but painful, solution is to make the
+grid finer (<code class="docutils literal"><span class="pre">fine_grid_scale</span></code>). Otherwise an increase or decrease
+of discretisation order may help (make sure it stays consistent
+across your calculations, though). A parameterisation with lower
+<code class="docutils literal"><span class="pre">is_solvation_beta</span></code> and <code class="docutils literal"><span class="pre">is_density_threshold</span></code> will usually
+help (make sure it stays consistent across your calculations,
+though).</div>
+<div class="line"><strong>Cause (B3)</strong>: The smearing width is too small, making the smeared
+cores too thin and tall, which is difficult for the finite
+differences. This is often the culprit if the calculation also
+struggles <em>in vacuo</em>.</div>
+<div class="line"><strong>Solution (B3)</strong>: Increasing <code class="docutils literal"><span class="pre">is_smeared_ion_width</span></code> will help
+(but mind the consequences), if it was too small in the first
+place. Increasing the discretisation order will help (especially if
+you’ve been using less than 10), but might lead to a similar
+problem (Cause (B2)) in solution.</div>
+<div class="line"><strong>Cause (B4)</strong>: Too lax thresholds for convergence of the defect
+correction in DL_MG.</div>
+<div class="line"><strong>Solution (B4)</strong>: To tighten the convergence threshold of the
+defect correction in DL_MG, adjust the values of
+<code class="docutils literal"><span class="pre">mg_tol_res_rel</span></code>, <code class="docutils literal"><span class="pre">mg_tol_res_abs</span></code>, <code class="docutils literal"><span class="pre">mg_tol_pot_rel</span></code> and
+<code class="docutils literal"><span class="pre">mg_tol_pot_abs</span></code>.</div>
+<div class="line"><strong>Cause (B5)</strong>: Too few defect correction iterations in DL_MG.</div>
+<div class="line"><strong>Solution (B5)</strong>: To increase the number of defect correction
+iterations in DL_MG, use <code class="docutils literal"><span class="pre">mg_max_iters_defco</span></code>, try 200 for good
+measure.</div>
+<div class="line"><strong>Cause (B6)</strong>: Too few smoother iterations in DL_MG, particularly
+if this is a Boltzmann calculation.</div>
+<div class="line"><strong>Solution (B6)</strong>: Increase the number of smoother iterations in
+DL_MG to 2 or 4 using `` mg_vcyc_smoother_iter_pre`` and
+<code class="docutils literal"><span class="pre">mg_vcyc_smoother_iter_post</span></code>.</div>
+<div class="line"><strong>Cause (B7)</strong>: Too few V-cycle iterations in DL_MG.</div>
+<div class="line"><strong>Solution (B7)</strong>: Increase the number of V-cycle iterations in
+DL_MG using <code class="docutils literal"><span class="pre">mg_max_iters_vcyc</span></code>, try 200 for good measure.</div>
+<div class="line"><strong>Cause (B8)</strong>: Too few Newton iterations in DL_MG. This only
+applies if you are solving the NLPBE in Boltzmann solvation.</div>
+<div class="line"><strong>Solution (B8)</strong>: Increase the number of Newton iterations using
+<code class="docutils literal"><span class="pre">mg_max_iters_newton</span></code>, try 100 for good measure.</div>
+<div class="line"><strong>Cause (B9)</strong>: Problem is too difficult for the solver – e.g.
+grids are not fine enough, the dielectric cavity has a steep
+boundary (usually happens when underconverged densities are used to
+generate it), Boltzmann-ionic concentrations changing too steeply,
+etc.</div>
+<div class="line"><strong>Solution (B9)</strong>: Try using the conjugate gradient approach – add
+<code class="docutils literal"><span class="pre">mg_use_cg</span> <span class="pre">T</span></code> to your input file. This is only available in
+versions v6.1.3.6 and newer.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><strong>Problem C</strong>: Calculation struggles to converge LNV or NGWFs or
+does not converge at all. RMS gradient stalls.</div>
+<div class="line"><strong>Cause (C1)</strong>: If you’re using
+<code class="docutils literal"><span class="pre">is_dielectric_model</span> <span class="pre">SELF_CONSISTENT</span></code>, then this is normal,
+unless your grid is ridiculously fine (you will need
+<code class="docutils literal"><span class="pre">psinc_spacing</span> <span class="pre">0.5</span></code> and <code class="docutils literal"><span class="pre">fine_grid_scale</span> <span class="pre">3</span></code> or better, as a
+rule of thumb).</div>
+<div class="line"><strong>Solution (C1)</strong>: Use <code class="docutils literal"><span class="pre">is_dielectric_model</span> <span class="pre">FIX_INITIAL</span></code> if
+possible. If you are sure you need
+<code class="docutils literal"><span class="pre">is_dielectric_model</span> <span class="pre">SELF_CONSISTENT</span></code>, make the grid finer and
+have a lot of memory.</div>
+<div class="line"><strong>Cause (C2)</strong>: Density kernel is not converged enough.</div>
+<div class="line"><strong>Solution (C2)</strong>: <code class="docutils literal"><span class="pre">Try</span> <span class="pre">minit_lnv</span> <span class="pre">6</span></code> and <code class="docutils literal"><span class="pre">maxit_lnv</span> <span class="pre">6</span></code> (for
+smaller molecules) or <code class="docutils literal"><span class="pre">minit_lnv</span> <span class="pre">10</span></code> and <code class="docutils literal"><span class="pre">maxit_lnv</span> <span class="pre">10</span></code> (for
+large molecules).</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="frequently-asked-questions">
+<h2>Frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-are-the-values-for-the-model-parameters">
+<h3>What are the values for the model parameters?<a class="headerlink" href="#what-are-the-values-for-the-model-parameters" title="Permalink to this headline">¶</a></h3>
+<p>Two sets of values for MPSM will be proposed here. The first one will be
+called high-beta parameterisation. It offers the best quality (in terms
+of r.m.s. error from experiment) for both charged and neutral species.
+The drawback is that the high value of <span class="math">\(\beta\)</span> means the multigrid
+convergence is poor and it often takes a while to converge. Or it may
+not converge. This should be your first choice <strong>only</strong> if accuracy
+trumps anything else. The parameters are:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">is_solvation_beta</span> <span class="pre">1.6</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">is_density_threshold</span> <span class="pre">0.00055</span></code></div>
+</div>
+<p>The second parameterisation, called low-beta should pose no problems to
+the multigrid solver under any circumstances. Quality should be only
+marginally worse for anions and neutrals and comparable or better for
+cations. These are the default parameters, and they are:</p>
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">is_solvation_beta</span> <span class="pre">1.3</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">is_density_threshold</span> <span class="pre">0.00035</span></code></div>
+</div>
+<p>Both parameterisations assume <code class="docutils literal"><span class="pre">is_bulk_permittivity</span> <span class="pre">78.54</span></code>, which is
+suitable for water. It should be noted that the model is deficient in
+its treatment of anions, consistently underestimating the magnitude of
+the solvation effect by 10-25%. Work is ongoing to fix this, until then
+a different parameterisation may be used if one is only interested in
+anionic species.</p>
+</div>
+<div class="section" id="can-you-do-solvents-other-than-water">
+<h3>Can you do solvents other than water?<a class="headerlink" href="#can-you-do-solvents-other-than-water" title="Permalink to this headline">¶</a></h3>
+<p>Yes, provided you know the dielectric permittivity of the solvent and
+its surface tension. Accuracy has not been extensively tested, but it
+should work.</p>
+</div>
+<div class="section" id="can-you-do-mixed-boundary-conditions">
+<h3>Can you do mixed boundary conditions?<a class="headerlink" href="#can-you-do-mixed-boundary-conditions" title="Permalink to this headline">¶</a></h3>
+<p>Not yet, but we might in the future.</p>
+</div>
+<div class="section" id="is-implicit-solvation-compatible-with-conduction-calculations">
+<h3>Is implicit solvation compatible with conduction calculations?<a class="headerlink" href="#is-implicit-solvation-compatible-with-conduction-calculations" title="Permalink to this headline">¶</a></h3>
+<p>Yes, to the best of our knowledge.</p>
+</div>
+<div class="section" id="is-implicit-solvation-compatible-with-paw">
+<h3>Is implicit solvation compatible with PAW?<a class="headerlink" href="#is-implicit-solvation-compatible-with-paw" title="Permalink to this headline">¶</a></h3>
+<p>Yes, to the best of our knowledge.</p>
+</div>
+</div>
+<div class="section" id="known-issues-and-untested-functionality">
+<h2>Known issues and untested functionality<a class="headerlink" href="#known-issues-and-untested-functionality" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>PBC are not yet currently compatible with the
+<code class="docutils literal"><span class="pre">is_dielectric_exclusions</span></code> block.</li>
+<li>PBC have not been tested in self-consistent cavity mode—only fixed
+cavity calculations are guaranteed to work.</li>
+<li>Forces and geometry optimisation have not been tested when using
+implicit solvent under PBC—only energy calculations are guaranteed to
+work.</li>
+</ul>
+</div>
+<div class="section" id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Permalink to this headline">¶</a></h2>
+<p>General questions about implicit solvation in ONETEP should be directed
+to Jacek Dziedzic (<code class="docutils literal"><span class="pre">J.Dziedzic[-at-]soton.ac.uk</span></code>). Questions regarding
+Boltzmann (electrolyte) solvation should be directed to Arihant Bhandari
+(<code class="docutils literal"><span class="pre">A.Bhandari[-at-]soton.ac.uk</span></code>).</p>
+<p>[Dziedzic2011] J. Dziedzic, H. H. Helal, C.-K. Skylaris, A. A. Mostofi, and M. C. Payne, <em>Minimal parameter implicit solvent model for ab initio electronic-structure calculations</em>, EPL <strong>95</strong> (2011).</p>
+<p>[Dziedzic2013] J. Dziedzic, S. J. Fox, T. Fox, C. S. Tautermann, and C.-K. Skylaris, <em>Large-Scale DFT Calculations in Implicit Solvent – A Case Study on the T4 Lysozyme L99A/M102Q Protein</em>, International Journal of Quantum Chemistry <strong>113</strong> issue 6 (2013).</p>
+<p>[Scherlis2006] D. A. Scherlis, J.-L. Fattebert, F. Gygi, M. Cococcioni, and N. Marzari, <em>A unified electrostatic and cavitation model for first-principles molecular dynamics in solution</em>, J. Chem. Phys. <strong>124</strong> (2006).</p>
+<p>[Fisicaro2017] G. Fisicaro, L. Genovese, O. Andreussi, S. Mandal, N. Nair, N. Marzari and S. Goedecker, <em>Soft-Sphere Continuum Solvation in Electronic-Structure Calculations</em>, J. Chem. Theory Comput. <strong>13</strong> (2017).</p>
+<p>[Alvarez2013] S. Alvarez <em>A cartography of the van der Waals territories</em>, Dalton Trans. <strong>42</strong> (2013).</p>
+<p>[Anton2020] L. Anton, J. Womack, and J. Dziedzic, <em>DL_MG multigrid solver</em> (2020) <a class="reference external" href="http://www.dlmg.org">http://www.dlmg.org</a></p>
+<p>[Womack2018] J. C. Womack, L. Anton, J. Dziedzic, P. J. Hasnip, M. I. J. Probert, and C.-K. Skylaris, J. Chem. Theory Comput. <strong>14</strong>, 1412 (2018).</p>
+<p>[Andreussi2012] O. Andreussi, I. Dabo and N. Marzari, <em>Revised self-consistent continuum solvation in electronic-structure calculations</em>, J. Chem. Phys. <strong>136</strong> (2012).</p>
+<p>[Dziedzic2020] J. Dziedzic, A. Bhandari, L. Anton, C. Peng, J. C. Womack, M. Famili, D. Kramer, and C.-K. Skylaris, <em>Practical Approach to Large-Scale Electronic Structure Calculations in Electrolyte Solutions via Continuum-Embedded Linear-Scaling Density Functional Theory</em>, J. Phys. Chem. C <strong>124</strong> (2020).</p>
+<p>[Bhandari2020] A. Bhandari, L. Anton, J. Dziedzic, C. Peng, D. Kramer, and C.-K. Skylaris, <em>Electronic Structure Calculations in Electrolyte Solutions: Methods for Neutralization of Extended Charged Interfaces</em>, J. Chem. Phys. <strong>153</strong> (2020).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="realspace_local_pseudo.html" title="previous chapter">Realspace local pseudopotential in ONETEP</a></li>
+      <li>Next: <a href="hfx.html" title="next chapter">Spherical wave resolution of identity (SWRI), Hartree-Fock exchange (HFx), hybrid functionals and distributed multipole analysis (DMA)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/implicit_solvation_v3.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

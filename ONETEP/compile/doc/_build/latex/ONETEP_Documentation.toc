@@ -1,0 +1,369 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Starting with ONETEP}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Obtaining a copy of ONETEP}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Bitbucket app password}{1}{section.1.2}
+\contentsline {section}{\numberline {1.3}Changes to your copy of ONETEP}{2}{section.1.3}
+\contentsline {section}{\numberline {1.4}Compiling, testing and running ONETEP}{2}{section.1.4}
+\contentsline {section}{\numberline {1.5}Creating input files}{2}{section.1.5}
+\contentsline {section}{\numberline {1.6}Running ONETEP in parallel environments}{4}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}Distributed-memory parallelism (MPI)}{4}{subsection.1.6.1}
+\contentsline {subsection}{\numberline {1.6.2}Shared-memory parallelism (OMP)}{5}{subsection.1.6.2}
+\contentsline {subsection}{\numberline {1.6.3}Hybrid (combined MPI+OMP) parallelism}{6}{subsection.1.6.3}
+\contentsline {subsection}{\numberline {1.6.4}How many nodes, processes and threads should I use?}{7}{subsection.1.6.4}
+\contentsline {chapter}{\numberline {2}Ground State Calculation Setup}{9}{chapter.2}
+\contentsline {section}{\numberline {2.1}Using the Pseudoatomic Solver to Generate NGWFs}{9}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}What is being calculated?}{9}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Performing a Calculation with the Pseudoatomic Solver}{10}{subsection.2.1.2}
+\contentsline {subsubsection}{Controlling the configuration}{11}{subsubsection*.3}
+\contentsline {subsubsection}{Generating larger, non-minimal bases}{12}{subsubsection*.4}
+\contentsline {subsubsection}{Obtaining Polarisation Orbitals through Perturbation}{13}{subsubsection*.5}
+\contentsline {subsubsection}{Overriding radii}{14}{subsubsection*.7}
+\contentsline {subsubsection}{Adjusting confining potentials}{15}{subsubsection*.8}
+\contentsline {subsubsection}{Initial Guess Density: Setting initial charges and spins}{16}{subsubsection*.9}
+\contentsline {section}{\numberline {2.2}Conduction NGWF optimisation and optical absorption spectra}{16}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Conduction calculations}{16}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Performing conduction calculations in ONETEP}{17}{subsection.2.2.2}
+\contentsline {subsubsection}{Automatic setup of COND\_NUM\_STATES}{18}{subsubsection*.10}
+\contentsline {subsubsection}{Setting the shift}{19}{subsubsection*.11}
+\contentsline {subsubsection}{Local minima}{19}{subsubsection*.12}
+\contentsline {subsubsection}{Additional notes on input parameters}{19}{subsubsection*.13}
+\contentsline {subsubsection}{Conduction calculations in implicit solvent}{19}{subsubsection*.14}
+\contentsline {subsection}{\numberline {2.2.3}Optical absorption spectra}{20}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Calculating optical absorption spectra in ONETEP}{20}{subsection.2.2.4}
+\contentsline {subsubsection}{Outputs}{21}{subsubsection*.16}
+\contentsline {section}{\numberline {2.3}Finite-temperature DFT calculations using the Ensemble-DFT method}{21}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Basic principles}{21}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Free- and fixed-spin EDFT}{22}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Compilation}{22}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}Pulay Mixing EDFT}{22}{subsection.2.3.4}
+\contentsline {subsection}{\numberline {2.3.5}Increased Calculation Speed Using Fixed Step Sizes}{23}{subsection.2.3.5}
+\contentsline {subsection}{\numberline {2.3.6}Commands for the inner loop}{23}{subsection.2.3.6}
+\contentsline {subsubsection}{Basic setup}{23}{subsubsection*.18}
+\contentsline {subsubsection}{Tolerance thresholds}{24}{subsubsection*.19}
+\contentsline {subsubsection}{Advanced setup}{24}{subsubsection*.20}
+\contentsline {subsection}{\numberline {2.3.7}Commands for the outer loop}{25}{subsection.2.3.7}
+\contentsline {subsection}{\numberline {2.3.8}Restarting an EDFT calculation}{25}{subsection.2.3.8}
+\contentsline {subsection}{\numberline {2.3.9}Controlling the parallel eigensolver}{25}{subsection.2.3.9}
+\contentsline {subsection}{\numberline {2.3.10}Grand Canonical Ensemble DFT}{26}{subsection.2.3.10}
+\contentsline {section}{\numberline {2.4}Running linear-scaling DFT calculations for metallic systems with the AQUA-FOE method}{27}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Metals in ONETEP}{27}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Setting up a Calculation}{29}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}An Example}{31}{subsection.2.4.3}
+\contentsline {section}{\numberline {2.5}Density mixing (Kernel-DIIS)}{34}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}Basic principles}{34}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}Compilation}{35}{subsection.2.5.2}
+\contentsline {subsection}{\numberline {2.5.3}Commands for the inner loop}{35}{subsection.2.5.3}
+\contentsline {subsubsection}{Mixing schemes}{35}{subsubsection*.25}
+\contentsline {subsubsection}{Basic setup: controlling the mix}{36}{subsubsection*.26}
+\contentsline {subsubsection}{Tolerance thresholds}{36}{subsubsection*.27}
+\contentsline {subsubsection}{Advanced setup: level shifter}{37}{subsubsection*.28}
+\contentsline {subsection}{\numberline {2.5.4}Commands for the outer loop}{37}{subsection.2.5.4}
+\contentsline {subsection}{\numberline {2.5.5}Restarting a kernel DIIS calculation}{37}{subsection.2.5.5}
+\contentsline {subsection}{\numberline {2.5.6}Controlling the parallel eigensolver}{37}{subsection.2.5.6}
+\contentsline {section}{\numberline {2.6}Empirical Dispersion Correction}{38}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}Theory}{38}{subsection.2.6.1}
+\contentsline {subsubsection}{Energy}{38}{subsubsection*.29}
+\contentsline {subsubsection}{Forces}{39}{subsubsection*.32}
+\contentsline {subsection}{\numberline {2.6.2}Activating the dispersion corrections}{40}{subsection.2.6.2}
+\contentsline {subsection}{\numberline {2.6.3}Overriding dispersion correction parameters}{40}{subsection.2.6.3}
+\contentsline {subsection}{\numberline {2.6.4}Boundary Conditions}{41}{subsection.2.6.4}
+\contentsline {section}{\numberline {2.7}Using van der Waals Density Functionals}{41}{section.2.7}
+\contentsline {subsection}{\numberline {2.7.1}Activating vdW-DF}{41}{subsection.2.7.1}
+\contentsline {subsection}{\numberline {2.7.2}Theory}{41}{subsection.2.7.2}
+\contentsline {subsubsection}{Non-local correlation energy}{42}{subsubsection*.35}
+\contentsline {subsubsection}{Kernel}{43}{subsubsection*.40}
+\contentsline {subsubsection}{Non-local potential}{43}{subsubsection*.42}
+\contentsline {subsection}{\numberline {2.7.3}Overview of computational algorithm}{44}{subsection.2.7.3}
+\contentsline {subsubsection}{Module \sphinxstyleliteralintitle {nlxc\_mod}}{44}{subsubsection*.47}
+\contentsline {subsubsection}{Module \sphinxstyleliteralintitle {vdwdf\_kernel}}{44}{subsubsection*.48}
+\contentsline {section}{\numberline {2.8}Realspace local pseudopotential in ONETEP}{45}{section.2.8}
+\contentsline {subsection}{\numberline {2.8.1}Motivation}{45}{subsection.2.8.1}
+\contentsline {subsection}{\numberline {2.8.2}Theory}{45}{subsection.2.8.2}
+\contentsline {subsection}{\numberline {2.8.3}Implementation}{46}{subsection.2.8.3}
+\contentsline {section}{\numberline {2.9}Solvent and Electrolyte Model}{48}{section.2.9}
+\contentsline {subsection}{\numberline {2.9.1}Overview of capabilities}{49}{subsection.2.9.1}
+\contentsline {subsection}{\numberline {2.9.2}The models}{49}{subsection.2.9.2}
+\contentsline {subsubsection}{Solute cavity}{50}{subsubsection*.53}
+\contentsline {paragraph}{Fixed cavity}{50}{paragraph*.54}
+\contentsline {paragraph}{Self-consistently updated cavity}{50}{paragraph*.55}
+\contentsline {paragraph}{Soft Sphere Cavity Model}{51}{paragraph*.56}
+\contentsline {subsubsection}{Apolar terms: cavitation energy}{51}{subsubsection*.57}
+\contentsline {subsubsection}{Apolar terms: dispersion-repulsion energy}{51}{subsubsection*.58}
+\contentsline {subsubsection}{Apolar terms: solvent sccessible volume (SAV)}{52}{subsubsection*.59}
+\contentsline {subsection}{\numberline {2.9.3}Practicalities}{52}{subsection.2.9.3}
+\contentsline {subsubsection}{DL\_MG solver}{53}{subsubsection*.60}
+\contentsline {subsubsection}{Grid sizes}{53}{subsubsection*.61}
+\contentsline {paragraph}{Under OBC}{53}{paragraph*.62}
+\contentsline {paragraph}{Under PBC}{53}{paragraph*.63}
+\contentsline {subsubsection}{Auto solvation}{54}{subsubsection*.64}
+\contentsline {subsubsection}{Manual solvation and restarts}{56}{subsubsection*.65}
+\contentsline {subsubsection}{Solvation in PBC}{56}{subsubsection*.66}
+\contentsline {paragraph}{Key points on using the BC keywords}{57}{paragraph*.67}
+\contentsline {subsubsection}{Smeared ions}{57}{subsubsection*.68}
+\contentsline {subsubsection}{Forces}{58}{subsubsection*.69}
+\contentsline {subsubsection}{Exclusion regions}{58}{subsubsection*.70}
+\contentsline {subsubsection}{Solvent Polarization}{59}{subsubsection*.71}
+\contentsline {subsection}{\numberline {2.9.4}Keywords used in solvation calculations}{59}{subsection.2.9.4}
+\contentsline {subsubsection}{Basic}{59}{subsubsection*.72}
+\contentsline {subsubsection}{Advanced}{61}{subsubsection*.73}
+\contentsline {subsubsection}{Fine control over DL\_MG}{62}{subsubsection*.74}
+\contentsline {subsubsection}{Expert}{63}{subsubsection*.75}
+\contentsline {subsection}{\numberline {2.9.5}Boltzmann solvation (solute with electrolyte)}{63}{subsection.2.9.5}
+\contentsline {subsubsection}{Keywords controlling Boltzmann solvation}{64}{subsubsection*.76}
+\contentsline {subsection}{\numberline {2.9.6}Various hints for a successful start}{67}{subsection.2.9.6}
+\contentsline {subsection}{\numberline {2.9.7}Troubleshooting: Problems, causes and solutions}{68}{subsection.2.9.7}
+\contentsline {subsection}{\numberline {2.9.8}Frequently asked questions}{69}{subsection.2.9.8}
+\contentsline {subsubsection}{What are the values for the model parameters?}{69}{subsubsection*.77}
+\contentsline {subsubsection}{Can you do solvents other than water?}{69}{subsubsection*.78}
+\contentsline {subsubsection}{Can you do mixed boundary conditions?}{70}{subsubsection*.79}
+\contentsline {subsubsection}{Is implicit solvation compatible with conduction calculations?}{70}{subsubsection*.80}
+\contentsline {subsubsection}{Is implicit solvation compatible with PAW?}{70}{subsubsection*.81}
+\contentsline {subsection}{\numberline {2.9.9}Known issues and untested functionality}{70}{subsection.2.9.9}
+\contentsline {subsection}{\numberline {2.9.10}Contact}{70}{subsection.2.9.10}
+\contentsline {section}{\numberline {2.10}Spherical wave resolution of identity (SWRI), Hartree-Fock exchange (HFx), hybrid functionals and distributed multipole analysis (DMA)}{71}{section.2.10}
+\contentsline {subsection}{\numberline {2.10.1}The basics}{71}{subsection.2.10.1}
+\contentsline {subsection}{\numberline {2.10.2}Limitations}{71}{subsection.2.10.2}
+\contentsline {subsection}{\numberline {2.10.3}Spherical wave resolution of identity}{71}{subsection.2.10.3}
+\contentsline {subsubsection}{Generating the metric matrix}{71}{subsubsection*.82}
+\contentsline {subsubsection}{Examples}{74}{subsubsection*.83}
+\contentsline {subsubsection}{Choosing which species participate in a SWRI}{76}{subsubsection*.84}
+\contentsline {subsubsection}{Advanced SWRI options}{76}{subsubsection*.85}
+\contentsline {subsection}{\numberline {2.10.4}Hartree-Fock exchange}{76}{subsection.2.10.4}
+\contentsline {subsubsection}{Example}{77}{subsubsection*.86}
+\contentsline {subsection}{\numberline {2.10.5}DMA}{78}{subsection.2.10.5}
+\contentsline {subsubsection}{DMA: minimal set-up}{78}{subsubsection*.87}
+\contentsline {subsubsection}{Non-mandatory keywords affecting both properties-DMA and polemb-DMA}{79}{subsubsection*.88}
+\contentsline {paragraph}{Expert, non-mandatory keywords affecting both properties-DMA and polemb-DMA}{80}{paragraph*.89}
+\contentsline {subsubsection}{Non-mandatory keywords affecting only properties-DMA}{81}{subsubsection*.90}
+\contentsline {subsubsection}{Non-mandatory keywords affecting only polemb-DMA}{81}{subsubsection*.91}
+\contentsline {subsubsection}{Example}{81}{subsubsection*.92}
+\contentsline {subsection}{\numberline {2.10.6}Advanced options}{82}{subsection.2.10.6}
+\contentsline {subsubsection}{Making Hartree-Fock exchange faster or less memory-hungry}{82}{subsubsection*.93}
+\contentsline {subsubsection}{Other advanced options}{85}{subsubsection*.94}
+\contentsline {paragraph}{devel\_code values}{86}{paragraph*.95}
+\contentsline {subsection}{\numberline {2.10.7}Frequently asked questions}{86}{subsection.2.10.7}
+\contentsline {subsubsection}{What hybrid functionals are available in ONETEP?}{86}{subsubsection*.96}
+\contentsline {subsubsection}{How big can my system be when using HFx?}{86}{subsubsection*.97}
+\contentsline {subsubsection}{How do I make HFx faster?}{86}{subsubsection*.98}
+\contentsline {subsubsection}{I\IeC {\textquoteright }m running out of memory}{86}{subsubsection*.99}
+\contentsline {subsubsection}{The HFx engine does not use all the memory I asked it it to use. Why?}{87}{subsubsection*.100}
+\contentsline {subsubsection}{My calculation aborts with \sphinxstyleliteralintitle {Error in sparse\_count\_ss: Integer overflow in sparse matrix index detected.} What now?}{87}{subsubsection*.101}
+\contentsline {subsubsection}{My calculation aborts with \sphinxstyleliteralintitle {Exchange matrix not deemed accurate enough for a stable calculation}. What now?}{87}{subsubsection*.102}
+\contentsline {subsubsection}{Can I do conduction calculations with HFx?}{87}{subsubsection*.103}
+\contentsline {subsubsection}{Can I do LR-TDDFT calculations with HFx?}{87}{subsubsection*.104}
+\contentsline {subsection}{\numberline {2.10.8}Further questions?}{87}{subsection.2.10.8}
+\contentsline {section}{\numberline {2.11}Cut-off Coulomb}{88}{section.2.11}
+\contentsline {subsection}{\numberline {2.11.1}Theory}{88}{subsection.2.11.1}
+\contentsline {subsubsection}{3D Periodic Coulomb Interaction}{88}{subsubsection*.105}
+\contentsline {subsubsection}{Coulomb Cut-off in 3D}{89}{subsubsection*.107}
+\contentsline {subsubsection}{Coulomb Cut-off in 1D}{89}{subsubsection*.108}
+\contentsline {subsubsection}{Coulomb Cut-off in 2D}{90}{subsubsection*.110}
+\contentsline {subsection}{\numberline {2.11.2}Performing a Calculation with Coulomb Cut-off}{90}{subsection.2.11.2}
+\contentsline {section}{\numberline {2.12}Species Dependent Scissor Shifts}{91}{section.2.12}
+\contentsline {subsection}{\numberline {2.12.1}Scissor Hamiltonian}{91}{subsection.2.12.1}
+\contentsline {subsection}{\numberline {2.12.2}Performing a Species Dependent Scissor Calculation}{92}{subsection.2.12.2}
+\contentsline {section}{\numberline {2.13}Embedded Mean-Field Theory}{92}{section.2.13}
+\contentsline {subsection}{\numberline {2.13.1}Embedded Mean-Field Theory (EMFT)}{93}{subsection.2.13.1}
+\contentsline {subsubsection}{Block orthogonalisation}{93}{subsubsection*.113}
+\contentsline {subsection}{\numberline {2.13.2}Implementation in ONETEP}{94}{subsection.2.13.2}
+\contentsline {subsection}{\numberline {2.13.3}Keywords}{94}{subsection.2.13.3}
+\contentsline {subsection}{\numberline {2.13.4}Example input file}{95}{subsection.2.13.4}
+\contentsline {subsection}{\numberline {2.13.5}Interaction with other functionalities}{97}{subsection.2.13.5}
+\contentsline {subsubsection}{Fully tested}{97}{subsubsection*.114}
+\contentsline {subsubsection}{Should work, not thoroughly tested}{97}{subsubsection*.115}
+\contentsline {subsubsection}{Not compatible with embedding}{97}{subsubsection*.116}
+\contentsline {subsection}{\numberline {2.13.6}Appendix: Parallel strategies with embedding}{98}{subsection.2.13.6}
+\contentsline {chapter}{\numberline {3}Correlation and Constrained DFT}{99}{chapter.3}
+\contentsline {section}{\numberline {3.1}DFT+\(U\)(+\(J\))}{99}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}A very short introduction to DFT+\(U\)}{99}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}How to activate DFT+\(U\) in ONETEP}{100}{subsection.3.1.2}
+\contentsline {subsection}{\numberline {3.1.3}Compatibility}{101}{subsection.3.1.3}
+\contentsline {subsection}{\numberline {3.1.4}Using NGWFs and projector self-consistency}{101}{subsection.3.1.4}
+\contentsline {section}{\numberline {3.2}Constrained Density Functional Theory (cDFT)}{103}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}cDFT input check-list}{103}{subsection.3.2.1}
+\contentsline {subsubsection}{Can I start by running a cDFT geometry-optimisation and/or Molecular Dynamics straightaway?}{103}{subsubsection*.117}
+\contentsline {subsubsection}{What projectors am I telling ONETEP to use?}{103}{subsubsection*.118}
+\contentsline {subsubsection}{Is this the first single-point cDFT submission or do I want to restart a single-point calculation?}{103}{subsubsection*.119}
+\contentsline {subsubsection}{Are the columns of the \%block constrained\_dft requesting the right targets for the given cDFT-flavour?}{104}{subsubsection*.120}
+\contentsline {subsubsection}{Have I set CDFT\_GROUP\_CHARGE\_UP/DOWN\_ONLY=T?}{104}{subsubsection*.121}
+\contentsline {subsubsection}{Is the sign of U$_{\text {q/s}}$ correct for the group\_charge/spin\_acceptor/donor/diff run?}{104}{subsubsection*.122}
+\contentsline {subsubsection}{Are my constraints compatible with the spin (=N$_{\text {UP}}$-N$_{\text {DOWN}}$) keyword in the input (.dat) file?}{104}{subsubsection*.123}
+\contentsline {subsubsection}{What values of min/maxit\_lnv, maxit\_ngwf\_cg and maxit\_cdft\_u\_cg should I use?}{104}{subsubsection*.124}
+\contentsline {subsubsection}{To what value should I initialise the cDFT-potentials (Uq/s)?}{105}{subsubsection*.125}
+\contentsline {subsubsection}{What is the difference between a cdft\_atom\_charge run and a cdft\_group\_charge\_acceptor/donor one with one-atom group?}{105}{subsubsection*.126}
+\contentsline {subsubsection}{Have I chosen a meaningful cdft\_cg\_max for the cDFT-mode I wish to use?}{105}{subsubsection*.127}
+\contentsline {subsubsection}{How do I obtain the population of the cDFT-sites for a standard DFT-run?}{105}{subsubsection*.128}
+\contentsline {subsubsection}{How do I optimise self-consistently the projectors for a given geometry?}{105}{subsubsection*.129}
+\contentsline {subsubsection}{Is self-consistent optimisation of the cDFT-projectors at the DFT-geometry a good idea?}{106}{subsubsection*.130}
+\contentsline {subsection}{\numberline {3.2.2}cDFT Keywords}{106}{subsection.3.2.2}
+\contentsline {subsubsection}{Intermediate Keywords}{106}{subsubsection*.131}
+\contentsline {chapter}{\numberline {4}Dynamics}{115}{chapter.4}
+\contentsline {section}{\numberline {4.1}Born-Oppenheimer Molecular Dynamics}{115}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Integrating the equations of motion}{115}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Basic input parameters}{116}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Thermostats}{117}{subsection.4.1.3}
+\contentsline {subsubsection}{Andersen thermostat}{117}{subsubsection*.136}
+\contentsline {subsubsection}{Langevin thermostat}{117}{subsubsection*.139}
+\contentsline {subsubsection}{Nos\IeC {\'e}-Hoover thermostat and Nose-Hoover chains}{118}{subsubsection*.141}
+\contentsline {subsubsection}{Berendsen thermostat}{118}{subsubsection*.144}
+\contentsline {subsubsection}{Canonical velocity scaling}{118}{subsubsection*.146}
+\contentsline {subsection}{\numberline {4.1.4}Thermostat definition}{119}{subsection.4.1.4}
+\contentsline {subsubsection}{Thermostat optional parameters}{119}{subsubsection*.148}
+\contentsline {subsection}{\numberline {4.1.5}Using MD history}{120}{subsection.4.1.5}
+\contentsline {subsubsection}{Extrapolation of NGWFs and density kernel}{120}{subsubsection*.149}
+\contentsline {subsubsection}{Density kernel transformations}{122}{subsubsection*.157}
+\contentsline {subsubsection}{Extended Lagrangian propagation of density kernel schemes}{122}{subsubsection*.158}
+\contentsline {subsection}{\numberline {4.1.6}Extrapolation and propagation of NGWFs}{123}{subsection.4.1.6}
+\contentsline {subsection}{\numberline {4.1.7}Extrapolation and transformation of density kernel}{124}{subsection.4.1.7}
+\contentsline {subsection}{\numberline {4.1.8}Additional notes on extrapolation and propagation}{125}{subsection.4.1.8}
+\contentsline {subsection}{\numberline {4.1.9}Additional notes on restart when using a propagation scheme}{126}{subsection.4.1.9}
+\contentsline {section}{\numberline {4.2}Phonon calculations}{127}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Theory}{127}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Overview of the \sphinxstyleliteralintitle {phonon} module}{128}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Selecting degrees of freedom}{129}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Bulk crystal supercell calculations}{130}{subsection.4.2.4}
+\contentsline {subsection}{\numberline {4.2.5}Task farming}{131}{subsection.4.2.5}
+\contentsline {subsection}{\numberline {4.2.6}Keywords}{131}{subsection.4.2.6}
+\contentsline {subsection}{\numberline {4.2.7}Additional notes}{133}{subsection.4.2.7}
+\contentsline {chapter}{\numberline {5}Transition States and NEB}{135}{chapter.5}
+\contentsline {section}{\numberline {5.1}Nudged Elastic Band Transition State Searching and the Image-Parallel Running Mode}{135}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}NEB Method}{135}{subsection.5.1.1}
+\contentsline {subsubsection}{Overview}{135}{subsubsection*.162}
+\contentsline {subsubsection}{Theory}{135}{subsubsection*.163}
+\contentsline {subsubsection}{Tangent Approximation}{136}{subsubsection*.164}
+\contentsline {subsubsection}{Climbing-Image NEB}{136}{subsubsection*.167}
+\contentsline {subsection}{\numberline {5.1.2}Image-Parallel Implementation in ONETEP}{137}{subsection.5.1.2}
+\contentsline {subsection}{\numberline {5.1.3}Commands}{137}{subsection.5.1.3}
+\contentsline {subsubsection}{NEB Keywords}{137}{subsubsection*.168}
+\contentsline {subsubsection}{Basic Usage}{137}{subsubsection*.169}
+\contentsline {subsubsection}{Additional Controls}{138}{subsubsection*.170}
+\contentsline {paragraph}{Convergence}{138}{paragraph*.171}
+\contentsline {subsubsection}{Other Image-Parallel Keywords}{138}{subsubsection*.172}
+\contentsline {chapter}{\numberline {6}Spectroscopy and Transport}{139}{chapter.6}
+\contentsline {section}{\numberline {6.1}Calculating the Local/Partial Density of States and Angular Momentum Projected Density of States}{139}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}What is being calculated?}{139}{subsection.6.1.1}
+\contentsline {subsubsection}{Local Density of States}{140}{subsubsection*.175}
+\contentsline {subsubsection}{Angular Momentum Projected Density of States}{140}{subsubsection*.178}
+\contentsline {subsection}{\numberline {6.1.2}Performing an LDOS Calculation}{140}{subsection.6.1.2}
+\contentsline {subsection}{\numberline {6.1.3}Performing a PDOS\IeC {\nobreakspace }Calculation}{141}{subsection.6.1.3}
+\contentsline {subsubsection}{Local PDOS\IeC {\nobreakspace }(LPDOS) Calculations}{141}{subsubsection*.180}
+\contentsline {subsubsection}{Expert PDOS\IeC {\nobreakspace }Options}{143}{subsubsection*.181}
+\contentsline {subsubsection}{Interpreting Outputs}{143}{subsubsection*.182}
+\contentsline {section}{\numberline {6.2}Linear response time-dependent density-functional theory (LR-TDDFT)}{145}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Linear Response TDDFT}{145}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Performing a LR-TDDFT calculation}{146}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}Truncation of the Response density matrix}{147}{subsection.6.2.3}
+\contentsline {subsection}{\numberline {6.2.4}More advanced TDDFT kernel truncation schemes}{148}{subsection.6.2.4}
+\contentsline {subsection}{\numberline {6.2.5}Preconditioning}{149}{subsection.6.2.5}
+\contentsline {subsection}{\numberline {6.2.6}Representation of the unoccupied subspace}{150}{subsection.6.2.6}
+\contentsline {subsection}{\numberline {6.2.7}Calculations in implicit solvent}{150}{subsection.6.2.7}
+\contentsline {subsection}{\numberline {6.2.8}Outputs}{151}{subsection.6.2.8}
+\contentsline {subsection}{\numberline {6.2.9}Good practices and common problems}{151}{subsection.6.2.9}
+\contentsline {subsection}{\numberline {6.2.10}Reference}{152}{subsection.6.2.10}
+\contentsline {section}{\numberline {6.3}Electron Energy Loss Calculations}{152}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Theory}{152}{subsection.6.3.1}
+\contentsline {subsubsection}{Projector Augmented Wave}{152}{subsubsection*.187}
+\contentsline {subsubsection}{Generation of Position-Core Kets}{153}{subsubsection*.189}
+\contentsline {subsubsection}{Conduction Optimisation}{153}{subsubsection*.190}
+\contentsline {subsection}{\numberline {6.3.2}Practical Example}{153}{subsection.6.3.2}
+\contentsline {subsection}{\numberline {6.3.3}OptaDoS}{154}{subsection.6.3.3}
+\contentsline {subsection}{\numberline {6.3.4}References}{155}{subsection.6.3.4}
+\contentsline {section}{\numberline {6.4}Electronic transport calculations}{155}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Introduction}{155}{subsection.6.4.1}
+\contentsline {subsection}{\numberline {6.4.2}What is being calculated?}{155}{subsection.6.4.2}
+\contentsline {subsection}{\numberline {6.4.3}Building the device}{156}{subsection.6.4.3}
+\contentsline {subsection}{\numberline {6.4.4}Setting up a calculation}{157}{subsection.6.4.4}
+\contentsline {subsection}{\numberline {6.4.5}Computational scaling}{158}{subsection.6.4.5}
+\contentsline {subsection}{\numberline {6.4.6}Information on parallelisation}{158}{subsection.6.4.6}
+\contentsline {subsection}{\numberline {6.4.7}Calculations using the joint NGWF basis}{159}{subsection.6.4.7}
+\contentsline {subsection}{\numberline {6.4.8}Warnings and fixing errors}{159}{subsection.6.4.8}
+\contentsline {subsection}{\numberline {6.4.9}Full input parameter description}{160}{subsection.6.4.9}
+\contentsline {subsubsection}{Main parameters}{160}{subsubsection*.193}
+\contentsline {subsubsection}{Tweaking/optional parameters}{162}{subsubsection*.194}
+\contentsline {subsection}{\numberline {6.4.10}Output file description}{163}{subsection.6.4.10}
+\contentsline {section}{\numberline {6.5}Bandstructure (spectral-function) unfolding}{164}{section.6.5}
+\contentsline {section}{\numberline {6.6}Configuration Interaction (CI)}{166}{section.6.6}
+\contentsline {subsection}{\numberline {6.6.1}Introduction}{166}{subsection.6.6.1}
+\contentsline {subsection}{\numberline {6.6.2}Theory}{166}{subsection.6.6.2}
+\contentsline {subsection}{\numberline {6.6.3}Implementation}{169}{subsection.6.6.3}
+\contentsline {subsection}{\numberline {6.6.4}Performing a calculation}{169}{subsection.6.6.4}
+\contentsline {subsection}{\numberline {6.6.5}References}{170}{subsection.6.6.5}
+\contentsline {chapter}{\numberline {7}Population Analysis}{171}{chapter.7}
+\contentsline {section}{\numberline {7.1}ONETEP to GENNBO \sphinxstyleliteralintitle {FILE.47} Input Parameters}{171}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Standalone nbo 5 Program gennbo}{171}{subsection.7.1.1}
+\contentsline {subsubsection}{Compiling GENNBO}{171}{subsubsection*.195}
+\contentsline {subsection}{\numberline {7.1.2}ONETEP NPA Generation Routine}{172}{subsection.7.1.2}
+\contentsline {subsection}{\numberline {7.1.3}List of Available Parameters}{173}{subsection.7.1.3}
+\contentsline {subsection}{\numberline {7.1.4}Notes}{176}{subsection.7.1.4}
+\contentsline {subsubsection}{Orbital labelling with pseudoatomic solver}{176}{subsubsection*.196}
+\contentsline {subsubsection}{Orbital plotting}{176}{subsubsection*.197}
+\contentsline {subsubsection}{\IeC {\textquoteright }\sphinxstyleliteralintitle {ORTHO} bug\IeC {\textquoteright }}{176}{subsubsection*.198}
+\contentsline {subsection}{\numberline {7.1.5}Example Usage}{177}{subsection.7.1.5}
+\contentsline {subsubsection}{Obtaining \(2^{\mathrm {nd}}\)-order Perturbation Estimates of the \(n\rightarrow \sigma ^*\) Secondary Hyperconjugation in Water Dimer (Hydrogen Bond)}{177}{subsubsection*.199}
+\contentsline {subsubsection}{Notes on Selectively Passing sub-region sub-matrices into GENNBO}{179}{subsubsection*.200}
+\contentsline {section}{\numberline {7.2}Density derived electrostatic and chemical (DDEC) electron density partitioning}{179}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}References}{180}{subsection.7.2.1}
+\contentsline {chapter}{\numberline {8}GPU Accelerated Code}{181}{chapter.8}
+\contentsline {section}{\numberline {8.1}GPU Accelerated Implementation}{181}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Introduction}{181}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}Compilation}{181}{subsection.8.1.2}
+\contentsline {subsubsection}{Known Working Configurations}{182}{subsubsection*.201}
+\contentsline {subsection}{\numberline {8.1.3}Execution}{182}{subsection.8.1.3}
+\contentsline {subsubsection}{CUDA Multi Process Service}{183}{subsubsection*.202}
+\contentsline {paragraph}{Wilkes}{183}{paragraph*.203}
+\contentsline {paragraph}{TITAN}{185}{paragraph*.204}
+\contentsline {chapter}{\numberline {9}QM/MM (TINKTEP) and Polarisable Embedding}{187}{chapter.9}
+\contentsline {section}{\numberline {9.1}TINKTEP and polarisable embedding: linear-scaling QM/polarisable-MM}{187}{section.9.1}
+\contentsline {subsection}{\numberline {9.1.1}Executive summary}{187}{subsection.9.1.1}
+\contentsline {subsection}{\numberline {9.1.2}Main limitations}{187}{subsection.9.1.2}
+\contentsline {subsection}{\numberline {9.1.3}Basics}{188}{subsection.9.1.3}
+\contentsline {subsection}{\numberline {9.1.4}Setting up your computational environment}{188}{subsection.9.1.4}
+\contentsline {subsection}{\numberline {9.1.5}Setting up a QM/MM calculation}{188}{subsection.9.1.5}
+\contentsline {subsubsection}{Input \sphinxstyleliteralintitle {.xyz} file}{188}{subsubsection*.205}
+\contentsline {subsubsection}{Input \sphinxstyleliteralintitle {.tag} file}{189}{subsubsection*.206}
+\contentsline {subsubsection}{Input \sphinxstyleliteralintitle {.key} file}{189}{subsubsection*.207}
+\contentsline {subsubsection}{Input \sphinxstyleliteralintitle {.dat.template} file}{190}{subsubsection*.208}
+\contentsline {subsubsection}{TINKER\IeC {\textquoteright }s \sphinxstyleliteralintitle {.prm} file}{191}{subsubsection*.209}
+\contentsline {subsubsection}{\sphinxstyleliteralintitle {tinktep.config} file}{191}{subsubsection*.210}
+\contentsline {subsection}{\numberline {9.1.6}Running a QM/MM calculation}{192}{subsection.9.1.6}
+\contentsline {subsection}{\numberline {9.1.7}Output from a QM/MM calculation}{193}{subsection.9.1.7}
+\contentsline {subsection}{\numberline {9.1.8}\sphinxstyleliteralintitle {tinktep.config} directives}{195}{subsection.9.1.8}
+\contentsline {subsubsection}{Environment set-up}{195}{subsubsection*.211}
+\contentsline {subsubsection}{QM/MM set-up: basic}{196}{subsubsection*.212}
+\contentsline {subsubsection}{QM/MM set-up: treatment of energy terms}{198}{subsubsection*.213}
+\contentsline {subsubsection}{QM/MM set-up: details of the interface}{199}{subsubsection*.214}
+\contentsline {subsubsection}{QM/MM set-up: expert options}{200}{subsubsection*.215}
+\contentsline {subsubsection}{Command-line options to the tinktep script}{200}{subsubsection*.216}
+\contentsline {subsection}{\numberline {9.1.9}ONETEP keywords pertaining to polarisable embedding}{200}{subsection.9.1.9}
+\contentsline {subsubsection}{Keywords mandatory for polarisable embedding}{201}{subsubsection*.217}
+\contentsline {subsubsection}{Common optional keywords}{201}{subsubsection*.218}
+\contentsline {subsubsection}{Uncommon and expert optional keywords}{201}{subsubsection*.219}
+\contentsline {subsubsection}{Experimental vacuum-DMA functionality}{202}{subsubsection*.220}
+\contentsline {subsubsection}{Block keywords used in polarisable embedding}{202}{subsubsection*.221}
+\contentsline {subsection}{\numberline {9.1.10}Questions?}{203}{subsection.9.1.10}
+\contentsline {chapter}{\numberline {10}Properties}{205}{chapter.10}
+\contentsline {section}{\numberline {10.1}Energy Decomposition Analysis (EDA)}{205}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Introduction}{205}{subsection.10.1.1}
+\contentsline {subsection}{\numberline {10.1.2}Performing EDA calculations in ONETEP}{205}{subsection.10.1.2}
+\contentsline {subsubsection}{All-in-One}{206}{subsubsection*.222}
+\contentsline {subsubsection}{Three-Stage}{206}{subsubsection*.223}
+\contentsline {paragraph}{Stage 1}{207}{paragraph*.224}
+\contentsline {paragraph}{Stage 2}{207}{paragraph*.225}
+\contentsline {paragraph}{Stage 3}{207}{paragraph*.226}
+\contentsline {subsection}{\numberline {10.1.3}Continuation}{208}{subsection.10.1.3}
+\contentsline {subsection}{\numberline {10.1.4}EDA schematic}{208}{subsection.10.1.4}
+\contentsline {subsection}{\numberline {10.1.5}Additional functionality}{208}{subsection.10.1.5}
+\contentsline {subsubsection}{Fragment-wise polarisations}{208}{subsubsection*.227}
+\contentsline {subsubsection}{Fragment pair-wise delocalisations}{209}{subsubsection*.228}
+\contentsline {subsubsection}{Density visualisation}{209}{subsubsection*.229}
+\contentsline {subsection}{\numberline {10.1.6}Parallelisation}{209}{subsection.10.1.6}
+\contentsline {subsubsection}{Parallelisation requirements}{210}{subsubsection*.230}
+\contentsline {subsubsection}{ScaLAPACK}{210}{subsubsection*.231}
+\contentsline {subsection}{\numberline {10.1.7}Additional utilities}{210}{subsection.10.1.7}
+\contentsline {section}{\numberline {10.2}Electron Localisation Descriptors}{211}{section.10.2}
+\contentsline {subsection}{\numberline {10.2.1}Electron Localisation Function}{211}{subsection.10.2.1}
+\contentsline {subsection}{\numberline {10.2.2}Localised Orbital Locator}{212}{subsection.10.2.2}
+\contentsline {subsection}{\numberline {10.2.3}How to use}{212}{subsection.10.2.3}
+\contentsline {subsubsection}{Keywords}{212}{subsubsection*.233}
+\contentsline {subsubsection}{Example input file}{213}{subsubsection*.234}
+\contentsline {chapter}{\numberline {11}Indices and tables}{215}{chapter.11}

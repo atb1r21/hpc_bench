@@ -1,0 +1,643 @@
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 5.3.4.6   |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash. A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris   |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2020     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "Introducing ONETEP: Linear-scaling density functional       |
+ |   simulations on parallel computers".                         |
+ |   C.-K. Skylaris, P. D. Haynes, A. A. Mostofi, M. C. Payne.   |
+ |   J. Chem. Phys. 122 084119 (2005).                           |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 28-07-2020 23:08 (+0100)
+ 
+Reading parameters from file "ethene_rpa.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 6
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+               6 threads for loops over batched FFT box operations.
+               6 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: read_denskern overridden to T because of task LR_TDDFT.
+
+
+WARNING: read_tightbox_ngwfs overridden to T because of task LR_TDDFT.
+
+
+WARNING: cond_read_tightbox_ngwfs overridden to T because of task LR_TDDFT.
+
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "ethene_rpa.dat" ...... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                 : LR_TDDFT                                                 
+cutoff_energy        : 400 eV                                                   
+xc_functional        : LDA                                                      
+cond_num_states : 6                                                             
+print_qc: T                                                                     
+lr_tddft_rpa : T                                                                
+lr_tddft_init_random : F                                                        
+lr_tddft_write_kernels: F                                                       
+lr_tddft_num_states: 2                                                          
+lr_tddft_cg_threshold: 2.0E-7                                                   
+lr_tddft_maxit_cg: 40                                                           
+lr_tddft_reset_cg: 10                                                           
+lr_tddft_restart: F                                                             
+lr_tddft_analysis: F                                                            
+lr_tddft_triplet: F                                                             
+lr_tddft_preopt: F                                                              
+lr_tddft_write_densities: F                                                     
+%block  lattice_cart                                                            
+40.000    0.000    0.000                                                        
+0.000   40.000    0.000                                                         
+0.000    0.000   40.000                                                         
+%endblock  lattice_cart                                                         
+%block  positions_abs                                                           
+     Hash =   000003804036565042708289
+%endblock  positions_abs                                                        
+%block  species                                                                 
+H     H   1  1  5.50                                                            
+C     C   6  4  6.00                                                            
+%endblock  species                                                              
+%block  species_cond                                                            
+H     H   1  4  5.50                                                            
+C     C   6  4  6.00                                                            
+%endblock  species_cond                                                         
+%block species_atomic_set                                                       
+H    SOLVE                                                                      
+C    SOLVE                                                                      
+%endblock species_atomic_set                                                    
+%block  species_pot                                                             
+H     "../../pseudo/hydrogen.recpot"                                            
+C     "../../pseudo/carbon.recpot"                                              
+%endblock  species_pot                                                          
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+WARNING in pseudopotentials_read_species: string "GGA" found in pseudopotential
+file "../../pseudo/carbon.recpot", yet xc_functional = "LDA".
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms  Nvalngwfs Ncondngwfs  Nprojs
+  C          2         8         8         2
+  H          4         4        16         0
+.......   ......    ......    ......    ......
+Totals:      6        12        24         2
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   56 x  56 x  56
+                              FFT-box:   55 x  55 x  55
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.714285714286a0 (KE cutoff=  14.88881Eh = 405.14521eV)
+Grid space d2=  0.714285714286a0 (KE cutoff=  14.88881Eh = 405.14521eV)
+Grid space d3=  0.714285714286a0 (KE cutoff=  14.88881Eh = 405.14521eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     56    56    56
+          Real-space ('12') slabs/node (min max mean):     14    14    14
+         Recip-space ('23') slabs/node (min max mean):      7     8     7
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    112   112   112
+          Real-space ('12') slabs/node (min max mean):     28    28    28
+         Recip-space ('23') slabs/node (min max mean):     14    15    14
+********************************************************************************
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  39 iterations to a total energy of     -0.41130009
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  37 iterations to a total energy of     -5.30501233
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  3     1.00 0.00 0.00
+Orbitals   (num,l):  3        0    0    1
+Atom SCF converged after  39 iterations to a total energy of     -0.41130009
+ 
+WARNING in ngwfs_initialise: Setting radial NGWF functions for species  1 (H):
+Last NGWF on atom has m =  0 and does not complete set of m-values for l = 1.
+This breaks symmetry and may cause unstable NGWF optimisation and poor 
+convergence. Suggest increasing number of NGWFs per atom from   4 to   5.
+NB: All NGWF radial function angular momenta:     0    0    1
+ 
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  37 iterations to a total energy of     -5.30501233
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...... done
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "ethene_rpa.tightbox_ngwfs" ...  done
+
+Reading density kernel from file "ethene_rpa.dkn" ... done
+Conduction NGWF sparse matrix initialisation ...
+Reading NGWFs from file "ethene_rpa.tightbox_ngwfs_cond" ...  done
+...Done
+Generating conduction density kernel for     3 'occupied' orbitals
+Up spin density kernel initialisation ...... done
+
+Writing density kernel to file "ethene_rpa.dkn_cond" ... done
+ 
+Joint Valence + Conduction NGWF sparse matrix initialisation ...Joint Valence + Conduction NGWF initialisation ...... done
+
+
+################################################################################
+########################### LR-TDDFT CG optimisation ###########################
+################################################################################
+
+################################################################################
+######################### LR_TDDFT CG iteration    1 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.4770E-26 ******
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.68264406659271        |
+           ========================================================
+
+################################################################################
+######################### LR_TDDFT CG iteration    2 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.4770E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000009144
+      2    0.0000006245
+Conjugate gradient coefficient=     0.5677550772
+******** Line-min: lambda coefficient=  0.2952E+00*********
+******** Line-min: Predicted omega=  0.5988554815*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.59885548993964        |
+           |       Change in omega  =    -0.08378857665307        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.598855489940
+<QC>            [delta_Omega]:        -0.083788576653
+
+################################################################################
+######################### LR_TDDFT CG iteration    3 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.5912E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000008653
+      2    0.0000008530
+Conjugate gradient coefficient=     0.0607743327
+******** Line-min: lambda coefficient=  0.7383E+00*********
+******** Line-min: Predicted omega=  0.5885072245*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58850722362809        |
+           |       Change in omega  =    -0.01034826631155        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.588507223628
+<QC>            [delta_Omega]:        -0.010348266312
+
+################################################################################
+######################### LR_TDDFT CG iteration    4 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6282E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000007158
+      2    0.0000006668
+Conjugate gradient coefficient=     0.1006113129
+******** Line-min: lambda coefficient=  0.6585E+00*********
+******** Line-min: Predicted omega=  0.5867065445*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58670654486584        |
+           |       Change in omega  =    -0.00180067876225        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.586706544866
+<QC>            [delta_Omega]:        -0.001800678762
+
+################################################################################
+######################### LR_TDDFT CG iteration    5 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6366E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000006235
+      2    0.0000008474
+Conjugate gradient coefficient=     0.5158976854
+******** Line-min: lambda coefficient=  0.4100E+00*********
+******** Line-min: Predicted omega=  0.5862127208*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58621272085005        |
+           |       Change in omega  =    -0.00049382401579        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.586212720850
+<QC>            [delta_Omega]:        -0.000493824016
+
+################################################################################
+######################### LR_TDDFT CG iteration    6 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6612E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000004560
+      2    0.0000006925
+Conjugate gradient coefficient=     0.0625602190
+******** Line-min: lambda coefficient=  0.8769E+00*********
+******** Line-min: Predicted omega=  0.5860889490*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58608894896401        |
+           |       Change in omega  =    -0.00012377188604        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.586088948964
+<QC>            [delta_Omega]:        -0.000123771886
+
+################################################################################
+######################### LR_TDDFT CG iteration    7 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6618E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000006914
+      2    0.0000006465
+Conjugate gradient coefficient=     0.4632752533
+******** Line-min: lambda coefficient=  0.6808E+00*********
+******** Line-min: Predicted omega=  0.5860463540*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58604635399315        |
+           |       Change in omega  =    -0.00004259497087        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.586046353993
+<QC>            [delta_Omega]:        -0.000042594971
+
+################################################################################
+######################### LR_TDDFT CG iteration    8 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6540E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000008511
+      2    0.0000005353
+Conjugate gradient coefficient=     0.9175363833
+******** Line-min: lambda coefficient=  0.7311E+00*********
+******** Line-min: Predicted omega=  0.5860061336*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58600613357521        |
+           |       Change in omega  =    -0.00004022041794        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.586006133575
+<QC>            [delta_Omega]:        -0.000040220418
+
+################################################################################
+######################### LR_TDDFT CG iteration    9 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6627E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000007312
+      2    0.0000005377
+Conjugate gradient coefficient=     0.2839314297
+******** Line-min: lambda coefficient=  0.1190E+01*********
+******** Line-min: Predicted omega=  0.5859801992*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58598019920633        |
+           |       Change in omega  =    -0.00002593436888        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.585980199206
+<QC>            [delta_Omega]:        -0.000025934369
+
+################################################################################
+######################### LR_TDDFT CG iteration   10 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6614E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000008902
+      2    0.0000006857
+Conjugate gradient coefficient=     1.1937468771
+******** Line-min: lambda coefficient=  0.5310E+00*********
+******** Line-min: Predicted omega=  0.5859673777*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58596737764912        |
+           |       Change in omega  =    -0.00001282155722        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.585967377649
+<QC>            [delta_Omega]:        -0.000012821557
+
+################################################################################
+######################### LR_TDDFT CG iteration   11 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6550E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000009381
+      2    0.0000003278
+Conjugate gradient coefficient=     0.4323056198
+******** Line-min: lambda coefficient=  0.6853E+00*********
+******** Line-min: Predicted omega=  0.5859598505*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58595985050573        |
+           |       Change in omega  =    -0.00000752714338        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.585959850506
+<QC>            [delta_Omega]:        -0.000007527143
+
+################################################################################
+######################### LR_TDDFT CG iteration   12 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6536E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000007500
+      2    0.0000006796
+Conjugate gradient coefficient=     0.0000033609
+******** Line-min: lambda coefficient=  0.5569E+00*********
+******** Line-min: Predicted omega=  0.5859589553*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58595895527458        |
+           |       Change in omega  =    -0.00000089523115        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.585958955275
+<QC>            [delta_Omega]:        -0.000000895231
+
+################################################################################
+######################### LR_TDDFT CG iteration   13 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6557E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000007865
+      2    0.0000008812
+Conjugate gradient coefficient=     0.5190541840
+******** Line-min: lambda coefficient=  0.6490E+00*********
+******** Line-min: Predicted omega=  0.5859584758*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58595847584910        |
+           |       Change in omega  =    -0.00000047942548        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.585958475849
+<QC>            [delta_Omega]:        -0.000000479425
+
+################################################################################
+######################### LR_TDDFT CG iteration   14 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6549E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000005920
+      2    0.0000003057
+Conjugate gradient coefficient=     0.4078847704
+******** Line-min: lambda coefficient=  0.1058E+01*********
+******** Line-min: Predicted omega=  0.5859581166*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58595811660944        |
+           |       Change in omega  =    -0.00000035923967        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.585958116609
+<QC>            [delta_Omega]:        -0.000000359240
+
+################################################################################
+######################### LR_TDDFT CG iteration   15 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6569E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000008069
+      2    0.0000009918
+Conjugate gradient coefficient=     0.6346785134
+******** Line-min: lambda coefficient=  0.2374E+01*********
+******** Line-min: Predicted omega=  0.5859575970*********
+
+           ........................................................
+           |     *** TDDFT optimisation not converged ***         |
+           |       LR-TDDFT energy  =     0.58595759699517        |
+           |       Change in omega  =    -0.00000051961426        |
+           | --> Total change in omega higher than threshold      |
+           ========================================================
+<QC>                  [Omega]:         0.585957596995
+<QC>            [delta_Omega]:        -0.000000519614
+
+################################################################################
+######################### LR_TDDFT CG iteration   16 ###########################
+****** Initial penalty functional value of K^{1}: Q[K^{1}] =   0.6546E-26 ******
+******  Iteratively applying preconditioner on G^{1}: ******
+    |STATE|    Final residue  |
+      1    0.0000006967
+      2    0.0000006319
+Conjugate gradient coefficient=     1.5403650710
+******** Line-min: lambda coefficient=  0.5404E+00*********
+******** Line-min: Predicted omega=  0.5859574185*********
+
+           ........................................................
+           |     *** TDDFT optimisation converged ***             |
+           |       LR-TDDFT energy  =     0.58595741850061        |
+           |       Change in omega  =    -0.00000017849456        |
+           | --> Total change in omega lower than threshold       |
+           ========================================================
+<QC>                  [Omega]:         0.585957418501
+<QC>            [delta_Omega]:        -0.000000178495
+
+               |Excitation|    d_x (in D)   |     d_y (in D)  |    d_z (in D)   
+                       1    0.31580460E-02   -0.33644751E-03    0.17430592E-03
+                       2    0.23178040E+01   -0.71027429E-01    0.90589150E-01
+
+   |Excitation|    Energy (in Ha)   |     Oscillator Str.  | Lifetime (in ns)   
+           1        0.28364877          0.59224E-06          0.65317E+06
+           2        0.30230865          0.33601E+00          0.10135E+01
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      20.928s on      4 node(s)                                    
+TOTAL TIME:        20.931s on      4 node(s)                                    
+================= AVERAGE TIMINGS FROM ALL NODES (CUMULATIVE) ==================
+|| TAG                                    #calls    cpu time   %total  Gflops ||
+|| sparse_set_to_garbage                :    10        0.00s   0.000%  ------ ||
+|| basis_extract_function_from_box      :     9        0.00s   0.001%  ------ ||
+|| work_imbalance                       :     1        0.00s   0.002%  ------ ||
+|| restart_kernel_write                 :     1        0.00s   0.009%  ------ ||
+|| restart_kernel_read                  :     1        0.00s   0.012%  ------ ||
+|| xc_energy_potential                  :     1        0.01s   0.025%  ------ ||
+|| pseudopotentials_nonlocal_mat        :     3        0.01s   0.030%  ------ ||
+|| function_ops_brappd_ketppd           :     5        0.01s   0.033%  ------ ||
+|| pseudo_make_structure_factor         :     1        0.01s   0.040%  ------ ||
+|| fourier_apply_box_pair               :     9        0.01s   0.042%  58.635 ||
+|| basis_add_function_to_box            :  6768        0.02s   0.073%  ------ ||
+|| palser_mano_kernel_optimise          :     1        0.02s   0.081%  ------ ||
+|| basis_dot_function_with_box          :  7965        0.02s   0.091%  ------ ||
+|| sparse_embed_hotelling_invert_embed  :     3        0.02s   0.093%  ------ ||
+|| pseudopotentials_local_on_grid       :     1        0.02s   0.095%  ------ ||
+|| projectors_init_fftbox_recip         :     3        0.02s   0.117%  ------ ||
+|| sparse_init                          :     3        0.04s   0.173%  ------ ||
+|| basis_copy_function_to_box           :   447        0.05s   0.259%  ------ ||
+|| integrals_kinetic                    :     3        0.06s   0.267%  ------ ||
+|| projectors_func_ovlp_box             :     3        0.06s   0.271%  ------ ||
+|| cell_grid_extract_box_real           :   278        0.14s   0.678%  ------ ||
+|| hamiltonian_lhxc_calculate           :     1        0.14s   0.683%  ------ ||
+|| sparse_trace                         :  3951        0.15s   0.711%  ------ ||
+|| cell_grid_deposit_box_real           :   256        0.15s   0.716%  ------ ||
+|| density_batch_row_sums               :    64        0.15s   0.727%  ------ ||
+|| restart_ngwfs_tightbox_input         :     2        0.15s   0.738%  ------ ||
+|| density_fftbox_deposit_to_cell       :   256        0.30s   1.451%  ------ ||
+|| fourier_apply_cell_backward          :    64        0.32s   1.534%  14.473 ||
+|| fourier_apply_cell_forward           :    63        0.38s   1.824%  11.977 ||
+|| integrals_locpot_mat_els_batch       :    66        0.39s   1.854%  ------ ||
+|| sparse_product                       :  6549        0.44s   2.118%  ------ ||
+|| lr_tddft_utils_precond_RPA           :    30        0.50s   2.400%  ------ ||
+|| hartree_on_grid                      :    63        0.72s   3.431%  ------ ||
+|| optics_pos_mat_els                   :     1        1.09s   5.201%  ------ ||
+|| xc_fxc_finite_diff                   :   124        1.35s   6.461%  ------ ||
+|| density_fftbox_interpolate_multiply  :   256        1.71s   8.172%  ------ ||
+|| fourier_apply_box                    :   868        2.50s  11.923% 103.274 ||
+|| density_batch_interp_deposit         :    64        5.36s  25.621%  ------ ||
+|| density_on_dbl_grid                  :    64        5.99s  28.609%  ------ ||
+|| potential_apply_to_ngwf_batch        :    66        7.83s  37.419%  ------ ||
+|| integrals_locpot_dbl_grid            :    66        8.24s  39.380%  ------ ||
+|| lr_tddft_RPA_line_min                :    15        8.35s  39.903%  ------ ||
+|| linear_response_calc_SCF             :    62       10.42s  49.773%  ------ ||
+|| linear_response_RPA_operator         :   440       17.11s  81.772%  ------ ||
+|| lr_tddft_RPA_cg                      :     1       17.74s  84.788%  ------ ||
+|| lr_tddft_calc_excitations            :     1       18.84s  90.046%  ------ ||
+|| total_time                           :     1       20.93s 100.000%  ------ ||
+================================================================================
+Overhead of generating timer report: 
+- 0 ms averaging over threads,
+- 0 ms ensuring consistency across MPI ranks,
+- 1 ms printing in order.
+
+Job completed: 28-07-2020 23:08 (+0100)
+

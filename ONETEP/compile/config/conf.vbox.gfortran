@@ -1,0 +1,23 @@
+#
+# ONETEP configuration file
+# for Jacek's Xubuntu-22 vbox.
+# Created by Jacek Dziedzic, 16/07/2022.
+# v1.01
+#
+# Compiler: 	GNU fortran v11.2.0
+# MPI:          Systemwide.
+# OMP:          Yes
+# BLAS:         Systemwide.
+# FFTW3:	Systemwide.
+# ScaLAPACK:	No
+#
+# This config file instructs gfortran to defaul-initialise variables with garbage,
+# which could be useful for detecting uninitialised data.
+
+F90 = mpif90 -fopenmp -std=f2008
+FFLAGS = -DFFTW3 -DParallelFFT -DMPI -DGFORTRAN -DDIV_BY_ZERO_IN_ABORT -DDONT_HAVE_LOC -DF2008
+OPTFLAGS = -O2 -g
+DEBUGFLAGS = -O0 -g -DTRACE -fcheck=all -finit-integer=-999999999 -finit-real=snan -ffpe-trap=invalid,zero,overflow
+COMPILER = GNU-gfortran-on-LINUX
+LIBS = -L. -llapack -lfftw3_omp -lfftw3 -lblas -lpthread -lm 
+#LIBS = -L/home/jacek/install/openmpi-4.0.1.bin/lib -L/usr/lib/x86_64-linux-gnu/ -L/usr/lib/atlas-base/atlas/ -llapack -lfftw3_omp -lfftw3 -lblas -lpthread -lm 

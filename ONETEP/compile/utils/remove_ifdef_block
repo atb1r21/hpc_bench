@@ -1,0 +1,109 @@
+#!/bin/bash
+
+########################################################################################
+#                                                                                      #
+# remove_ifdef_block: Removes code within an #ifdef/#endif or #ifdef/#else/#endif.     #
+#                                                                                      #
+# Written on 2015.09.21 by Jacek Dziedzic (jd12g09@soton.ac.uk)                        #
+#                          University of Southampton                                   #
+# v1.00                                                                                #
+#                                                                                      #
+########################################################################################
+# The purpose of this script is to remove sections of Fortran code nested within       #
+# '#ifdef ID/#endif' or '#ifdef ID/#else/#endif' constructs for a given ID. In the     #
+# latter case the contents of the #else section are preserved.                         #
+#                                                                                      #
+# Preprocessing with 'gcc -E', 'gcc -ansi' or fpp is not viable. First, none of these  #
+# might be available. Second, they will mess up whitespace, comments, *and* transform  #
+# any *other* #ifdefs/#ifndefs to raw code, depending on symbols currently defined.    #
+# Third, they will merge in code for #includes, and we don't want to do that.          #
+########################################################################################
+
+# Revision history:
+#       1.00 jd, 2015.09.21 original version
+
+# Known limitations:
+#       - Does not support #ifndef ID. Aborts if detected.
+#       - Does not support nested preprocessing directives within 
+#         #ifdef ID/[#else]/#endif. Aborts if detected.
+
+if [ $# -ne 2 ]; then
+  echo "Improper invocation. Supply two arguments -- the name of the input file and the ID filter out." >&2
+  exit 1
+fi
+
+f=$1
+ID=$2
+
+# Sanity check on readable input and a check against #ifndef ID
+if [ ! -r $f ]; then
+  echo "The file $f is absent or unreadable." >&2
+  exit 2
+fi
+n_ifndefs=`cat $f | grep -cE "#ifndef *$ID"`
+if [ $n_ifndefs -gt 0 ]; then
+  echo "There is at least one #ifndef $ID in $f. This is not supported." >&2
+  exit 3
+fi
+
+# Main processing
+cat $f | awk -v f=$f '
+BEGIN{
+  # Set up state machine
+  outside=0;
+  elpa_ifdef_line=1;
+  inside_elpa_ifdef=2;
+  elpa_else_line=3;
+  inside_elpa_else=4;
+  elpa_endif_line=5;
+
+  state=outside;
+  new_state=outside;
+
+}
+{
+  # Outside of any block. Can stay outside or transition to the ifdef line.
+  if(state==outside) {
+    if($1 == "#ifdef" && $2 == "ELPA2") new_state=elpa_ifdef_line;
+  }
+
+  # At the ifdef line or past ifdef line.
+  if(state==elpa_ifdef_line || state==inside_elpa_ifdef) {
+    if($1 == "#else") {
+      new_state=elpa_else_line;
+    }
+    else if($1 == "#endif") {
+      new_state=elpa_endif_line;
+    }
+    else if($1 ~ "#") {
+      printf("ERROR: Nested preprocessor directive inside #ifdef ELPA2 block. This is too clever for this simple filtering script. File: %s, line #%d\n\n",f,NR) >"/dev/stderr"
+      exit 42;
+    }
+    else new_state=inside_elpa_ifdef;
+  }
+
+  # At the else line or past it.
+  if(state==elpa_else_line || state==inside_elpa_else) {
+    if($1 == "#endif") {
+      new_state=elpa_endif_line;
+    }
+    else if($1 ~ "#") {
+      printf("ERROR: Nested preprocessor directive inside #else of #ifdef ELPA2 block. This is too clever for this simple filtering script. File: %s, line #%d\n\n",f,NR) >"/dev/stderr"
+      exit 42;
+    }
+    else new_state=inside_elpa_else;
+  }
+  
+  # At the endif line. Transition to outside
+  if(state==elpa_endif_line) new_state=outside;
+
+  # Print only lines outside the block or in the #else section.
+  if(new_state == outside || new_state == inside_elpa_else) {
+    print $0;
+  }
+  
+  # Transition
+  state=new_state;
+
+}
+'

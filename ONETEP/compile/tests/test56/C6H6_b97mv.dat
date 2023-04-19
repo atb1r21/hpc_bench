@@ -1,0 +1,73 @@
+!========================================================!
+! C6H6-H2O complex, C6H6 monomer (CH...O orientation)    !
+! Geometry files provided by N. Mardirossian             !
+!                                                        !
+! Originally from the HW30 set, see                      !
+!     Copeland, K. L. & Tschumper, G. S.                 !
+!       J. Chem. Theory Comput. 8, 1646–1656 (2012)      !
+!                                                        !
+! ONETEP QC test for self-consistent meta-GGA energy     !
+! evaluation.                                            !
+!                                                        !
+! This test uses the XC_INITIAL_FUNCTIONAL keyword to    !
+! allow an alternative XC functional to be used for      !
+! calculating the initial guess (since an initial guess  !
+! for the KE density has not yet been implemented).      !
+!                                                        !
+! James C. Womack, 2016                                  !
+!--------------------------------------------------------!
+! Updated 31/05/2018 to remove explicit specification of !
+! XC_INITIAL_FUNCTIONAL keyword, since 'PBE' is now the  !
+! default value for this parameter.                      !
+!========================================================!
+
+task: SINGLEPOINT
+print_qc: TRUE
+output_detail: VERBOSE
+maxit_lnv: 5
+maxit_ngwf_cg: 3
+write_denskern       : FALSE
+write_tightbox_ngwfs : FALSE
+write_xyz            : FALSE
+
+! Extent of system in is ~0.02 x 8.01 x 4.29 ang
+! Add 2 * ( 12 bohr + 5 bohr) to each x, y, z direction
+! to obtain approx 18.0 x 26.0 x 22.3 ang.
+%block lattice_cart
+ang
+18.000  0.000  0.000
+ 0.000 26.000  0.000
+ 0.000  0.000 22.300
+%endblock lattice_cart
+
+! ONETEP B97M-V
+xc_functional        : B97M-V
+
+cutoff_energy: 600 eV
+
+%block species_pot
+C "../../pseudo/carbon.recpot"
+H "../../pseudo/hydrogen.recpot"
+%endblock species_pot
+
+%block species
+C      C    6    4   8.00
+H      H    1    1   8.00
+%endblock species
+
+! C6H6 - H2O (CH...O orientation) [C6H6 monomer] / angstroms
+%block positions_abs
+ang
+C -0.003738 0.460832 0.000000
+C -0.004457 -0.240614 1.205540
+C -0.005517 -1.635031 1.207034
+C -0.005894 -2.332945 0.000000
+C -0.005517 -1.635031 -1.207034
+C -0.004457 -0.240614 -1.205540
+H -0.001398 1.543378 0.000000
+H -0.004315 0.300111 2.143530
+H -0.006018 -2.176144 2.144705
+H -0.006587 -3.415490 0.000000
+H -0.006018 -2.176144 -2.144705
+H -0.004315 0.300111 -2.143530
+%endblock positions_abs

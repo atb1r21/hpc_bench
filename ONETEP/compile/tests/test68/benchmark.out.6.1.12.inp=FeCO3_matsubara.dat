@@ -1,0 +1,825 @@
+==================================================================================
+It's Wed Sep 21 11:26:31 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 23117 23118 23119 23120)...
+    - ONETEP arguments: FeCO3_matsubara.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test68
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test68/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test68/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack FeCO3_matsubara.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 11:26 (+0100)
+ 
+Reading parameters from file "FeCO3_matsubara.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+   Determining the default number of threads...
+      No default threads set at compilation time: defaulting to 1.
+      OpenMP library call suggests 10 threads.
+      Hybrid MPI-OpenMP compilation detected.
+      Number of MPI processes > 1.
+      OMP_NUM_THREADS environment variable present and
+      its value matches the one obtained from the OpenMP library call.
+      Using this value as default.
+      Default threads: 10
+      Default applies to threads_max and threads_num_fftboxes.
+      Settings in the input file override this default.
+   ... done
+
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     P  P  P     |
+BC: | Local pseudopotential | pspot_bc [3]    |     P  P  P     |
+BC: | Van der Waals         | vdw_bc          |     P  P  P     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "FeCO3_matsubara.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+WARNING in internal_hubbard:pub_hubbard_restart overriden to T
+WARNING in internal_hubbard:pub_hub_atomsolve overriden to F
+WARNING in internal_hubbard:pub_hub_proj_mixing overriden to "-1.0_DP"
+    
+  Number of PPD points along a3 set to 1.  This is 
+  the default value, it may have been provided also in the input file.
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                  : properties                                              
+cutoff_energy         : 400.000000 eV                                           
+xc_functional         : LDA                                                     
+kerfix                : 2                                                       
+pen_param             : 6.0                                                     
+spin_polarized        : T                                                       
+spin                  : 2                                                       
+write_denskern        : T                                                       
+write_tightbox_ngwfs  : F                                                       
+read_denskern         : T                                                       
+read_tightbox_ngwfs   : T                                                       
+hubbard_proj_mixing   : -1.0                                                    
+write_forces          : F                                                       
+do_properties         : T                                                       
+output_detail         : VERBOSE                                                 
+print_qc              : T                                                       
+cube_format           : F                                                       
+dos_smear             :  0.00 Hartree                                           
+dmft_emin             : -1.0 Hartree                                            
+dmft_emax             :  1.0 Hartree                                            
+dmft_points           :  400                                                    
+dmft_smear            :  0.0005   Hartree                                       
+dmft_smear_shift      :  0.00     Hartree                                       
+dmft_smear_T          :  0.008    Hartree                                       
+dmft_smear_eta        :  0.008    Hartree                                       
+dmft_smear_w          :  0.045    Hartree                                       
+dmft_paramagnetic     :  F                                                      
+dmft_cutoff_tail      :   0.00 Hartree                                          
+dmft_cutoff_small     :  10.00 Hartree                                          
+dmft_rotate_green     :  T                                                      
+dmft_temp             :  0.00093 Hartree                                        
+dmft_complex_freq     :  T                                                      
+dmft_dos_min          : -0.23 Hartree                                           
+dmft_dos_max          :  0.23 Hartree                                           
+dmft_mu_diff_max      : 0.00500000                                              
+dmft_kernel           : 1                                                       
+dmft_kernel_mix       : 0.1                                                     
+dmft_nmu_loop         : 12                                                      
+dmft_mu_order         : 4                                                       
+dmft_read             : F                                                       
+dmft_write            : T                                                       
+maxit_pen             :  0                                                      
+maxit_palser_mano     : -1                                                      
+maxit_kernel_fix      :  250                                                    
+maxit_hotelling       :  0                                                      
+delta_e_conv          :  T                                                      
+%block hubbard                                                                  
+Fe 2 6.0 0.0 -10.0 0.0 0.0                                                      
+%endblock hubbard                                                               
+%block lattice_cart                                                             
+Ang                                                                             
+21.167    0.000    0.000                                                        
+0.000   21.167    0.000                                                         
+0.000    0.000   21.167                                                         
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =  -000001772788731159288676
+%endblock positions_abs                                                         
+%block species                                                                  
+Ang                                                                             
+Fe    Fe  26  9  5.0                                                            
+C      C   6  4  5.0                                                            
+O      O   8  4  5.0                                                            
+%endblock species                                                               
+%block species_pot                                                              
+Fe   "../../pseudo/iron.recpot"                                                 
+C    "../../pseudo/carbon.recpot"                                               
+O    "../../pseudo/oxygen.recpot"                                               
+%endblock species_pot                                                           
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+WARNING in pseudopotentials_read_species: string "GGA" found in pseudopotential
+file "../../pseudo/iron.recpot", yet xc_functional = "LDA".
+ 
+WARNING in pseudopotentials_read_species: string "GGA" found in pseudopotential
+file "../../pseudo/carbon.recpot", yet xc_functional = "LDA".
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/iron.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 26;  ionic charge:  8.000000
+    Shell 1: l = 1; rc = 2.02 bohr
+    Shell 2: l = 2; rc = 1.90 bohr
+  Core charge supplied for Nonlinear Core Corrections
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/oxygen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  8;  ionic charge:  6.000000
+    Shell 1: l = 0; rc = 1.31 bohr
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  Fe         1         9         8
+  C          1         4         1
+  O          3        12         3
+.......   ......    ......    ......
+Totals:      5        25        12
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.634917985567a0 (KE cutoff=  18.84381Eh = 512.76619eV)
+Grid space d2=  0.634917985567a0 (KE cutoff=  18.84381Eh = 512.76619eV)
+Grid space d3=  0.634917985567a0 (KE cutoff=  18.84381Eh = 512.76619eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     15    16    15
+         Recip-space ('23') slabs/proc (min max mean):      8     8     8
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+
+Atom SCF Calculation for Fe : Z (AE atom) =  26 : Z (PS atom) =   8
+Config String:
+Orbitals (num,occ):  3     6.00 2.00 0.00
+Orbitals   (num,l):  3        2    0    1
+Real-space Grid (nr,dr,rmax): 1003    0.0094297711    9.4486306729
+Spherical Bessel Basis (nsws,lmax,cutoff):   39    2   88.1983785301
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  2    3.0000000000  100.0000000000
+  1        -27.7511369634   -2.2305497383   18.0541335647  -12.5521032296
+  2        -26.7964302483   -1.6121930488   18.5429274364  -12.8266748325
+  3        -26.9083095178   -1.9295536655   18.2067970488  -12.7976436147
+  4        -26.9172750127   -1.9665678739   18.1687421884  -12.8051270743
+  5        -26.9313783471   -1.9876208043   18.1476544201  -12.8079073198
+  6        -26.9412704306   -1.9974019014   18.1380386037  -12.8093153558
+  7        -26.9474468199   -2.0017993707   18.1337912594  -12.8100488263
+  8        -26.9511220849   -2.0037545545   18.1319388694  -12.8104291666
+  9        -26.9532446793   -2.0046134555   18.1311436764  -12.8106258527
+ 10        -26.9544450966   -2.0049844094   18.1308103667  -12.8107276892
+ 11        -26.9551134828   -2.0051407123   18.1306757068  -12.8107805911
+ 12        -26.9554812025   -2.0052041693   18.1306244748  -12.8108081871
+ 13        -26.9556816032   -2.0052284334   18.1306070305  -12.8108226450
+ 14        -26.9557899902   -2.0052367450   18.1306024886  -12.8108302516
+ 15        -26.9558482476   -2.0052389317   18.1306023707  -12.8108342693
+ 16        -26.9558793997   -2.0052390037   18.1306034278  -12.8108363990
+ 17        -26.9558959859   -2.0052385067   18.1306045381  -12.8108375315
+ 18        -26.9559047846   -2.0052379788   18.1306053981  -12.8108381354
+ 19        -26.9559094377   -2.0052375675   18.1306059886  -12.8108384583
+ 20        -26.9559118919   -2.0052372839   18.1306063688  -12.8108386312
+ 21        -26.9559131834   -2.0052371006   18.1306066039  -12.8108387240
+ 22        -26.9559138616   -2.0052369869   18.1306067454  -12.8108387740
+ 23        -26.9559142172   -2.0052369182   18.1306068290  -12.8108388008
+ 24        -26.9559144033   -2.0052368776   18.1306068776  -12.8108388153
+ 25        -26.9559145006   -2.0052368539   18.1306069056  -12.8108388231
+Atom SCF converged after  25 iterations to a total energy of    -26.95591450
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax): 1003    0.0094297711    9.4486306729
+Spherical Bessel Basis (nsws,lmax,cutoff):   39    1   88.1983785301
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -5.3548572242   -1.2791096990    4.5135333912   -1.4140638718
+  2         -5.3661790470   -1.3528062834    4.4354592828   -1.3887068448
+  3         -5.3540769570   -1.3855472539    4.3999602834   -1.3786152923
+  4         -5.3605693408   -1.3950618026    4.3896954875   -1.3759378737
+  5         -5.3623144758   -1.3981221462    4.3863951026   -1.3751087958
+  6         -5.3631866725   -1.3996996000    4.3846948539   -1.3746896975
+  7         -5.3636113585   -1.4005169111    4.3838143758   -1.3744754877
+  8         -5.3638132612   -1.4009419580    4.3833567010   -1.3743652102
+  9         -5.3639072175   -1.4011635344    4.3831182271   -1.3743081907
+ 10         -5.3639500018   -1.4012792213    4.3829937743   -1.3742786302
+ 11         -5.3639689989   -1.4013396881    4.3829287549   -1.3742632791
+ 12         -5.3639771611   -1.4013713190    4.3828947573   -1.3742552975
+ 13         -5.3639805056   -1.4013878771    4.3828769681   -1.3742511438
+ 14         -5.3639817745   -1.4013965504    4.3828676539   -1.3742489805
+ 15         -5.3639821890   -1.4014010961    4.3828627742   -1.3742478530
+ 16         -5.3639822765   -1.4014034800    4.3828602163   -1.3742472650
+Atom SCF converged after  16 iterations to a total energy of     -5.36398228
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax): 1003    0.0094297711    9.4486306729
+Spherical Bessel Basis (nsws,lmax,cutoff):   39    1   88.1983785301
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -1.7964818872   -7.5069798880   10.1554501302   -2.4015984471
+  2        -16.2620665637   -3.0602287225   13.6440689096   -3.1535513558
+  3        -15.7974925293   -3.1183626540   13.5819871585   -3.1420707562
+  4        -15.7815820746   -3.0974195465   13.6049699897   -3.1483652519
+  5        -15.7469305715   -3.1007232451   13.6016169469   -3.1481648359
+  6        -15.7359364138   -3.1008212984   13.6016205142   -3.1484573557
+  7        -15.7304490292   -3.1010142350   13.6014726371   -3.1485851759
+  8        -15.7277225601   -3.1011816819   13.6013248757   -3.1486397323
+  9        -15.7263650162   -3.1013031591   13.6012116821   -3.1486618016
+ 10        -15.7256879618   -3.1013838700   13.6011342803   -3.1486700232
+ 11        -15.7253498024   -3.1014347702   13.6010845945   -3.1486726357
+ 12        -15.7251806806   -3.1014657831   13.6010539569   -3.1486731493
+ 13        -15.7250959897   -3.1014842241   13.6010355818   -3.1486729879
+ 14        -15.7250535253   -3.1014949929   13.6010247818   -3.1486726869
+ 15        -15.7250322062   -3.1015011947   13.6010185306   -3.1486724204
+ 16        -15.7250214889   -3.1015047274   13.6010149555   -3.1486722259
+ 17        -15.7250160941   -3.1015067219   13.6010129304   -3.1486720964
+ 18        -15.7250133748   -3.1015078399   13.6010117922   -3.1486720147
+ 19        -15.7250120022   -3.1015084628   13.6010111566   -3.1486719648
+ 20        -15.7250113083   -3.1015088080   13.6010108036   -3.1486719351
+ 21        -15.7250109570   -3.1015089986   13.6010106085   -3.1486719177
+ 22        -15.7250107789   -3.1015091034   13.6010105010   -3.1486719077
+ 23        -15.7250106885   -3.1015091608   13.6010104420   -3.1486719020
+Atom SCF converged after  23 iterations to a total energy of    -15.72501069
+
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     P  P  P     |
+BC: | Local pseudopotential | pspot_bc [3]    |     P  P  P     |
+BC: | Van der Waals         | vdw_bc          |     P  P  P     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...
+... using space-filling curve
+... NGWF load balancing: max      9;  min      4;  average      6
+... Projector load balancing: max      8;  min      1;  average      3
+... Hubbard Projector load balancing: max      5;  min      0;  average      1
+... done
+Calculating Ewald energy ...
+              Ewald: real-space energy =           73.733700
+        Ewald: reciprocal-space energy =            3.754004
+         Ewald: (sum_charge)**2 energy =            6.579067
+         Ewald: (sum_charge**2) energy =            6.146030
+                          Ewald energy =           64.762607
+Basis initialisation ...... NGWF spheres initialised
+... Projector spheres initialised
+... Hubbard Projector spheres initialised
+... NGWF tight boxes initialised
+... Tight-boxes gathered
+... NGWF basis size (local,global):         38107       106619
+... Nonlocal pseudopotential projector initialisation
+... done
+... Hubbard projector initialisation
+
+========================== Sparse matrix information ===========================
+                        Overlap matrix filling: 100.00%
+                        Density kernel filling: 100.00%
+              NGWF-Proj overlap matrix filling: 100.00%
+      NGWF-Hubbard Proj overlap matrix filling: 100.00%
+                             VW matrix filling: 100.00%
+                    Hamiltonian matrix filling: 100.00%
+                  NGWF diagonal matrix filling:  23.20%
+                             KS matrix filling: 100.00% 
+                           KSKS matrix filling: 100.00% 
+================================================================================
+
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "FeCO3_matsubara.tightbox_ngwfs" ...  done
+
+Reading HUBBARD PROJs from file "FeCO3_matsubara.tightbox_hub_projs" ...  done
+
+################################################################################
+DFT+U information on atom      1 of Hubbard species Fe  
+################################################################################
+Using the on-atom contravariant metric, the NGWF hydrogenic character
+| < \phi | \psi > |**2 matrix of Hubbard site      1 is 
+  m_l =   -2          -1           0           1           2         SUM
+  0.93566312  0.00000000 -0.00000000 -0.00000000 -0.00000000  0.93566312
+  0.00000000  0.93357624 -0.00000000 -0.00000000 -0.00000000  0.93357624
+ -0.00000000 -0.00000000  0.93502273 -0.00000000 -0.00010655  0.93491618
+ -0.00000000  0.00000000 -0.00000000  0.93923381 -0.00000000  0.93923381
+ -0.00000000 -0.00000000 -0.00010655 -0.00000000  0.93705542  0.93694887
+  0.00000000 -0.00000000  0.00000000  0.00000000  0.00000001  0.00000001
+ -0.00000000 -0.00000000 -0.00000000  0.00000000 -0.00000000 -0.00000000
+  0.00000000  0.00000000 -0.00000004  0.00000000  0.00000000 -0.00000004
+  0.00000000  0.00000000 -0.00000000  0.00000000 -0.00000000  0.00000000
+Total hydrogenic projection of NGWFs on this atom             4.68033820
+################################################################################
+
+
+################################################################################
+Using the subspace contravariant metric, the NGWF hydrogenic character
+| < \phi | \psi > |**2 matrix of Hubbard site      1 is 
+  m_l =   -2          -1           0           1           2         SUM
+  0.93566312  0.00000000 -0.00000000 -0.00000000 -0.00000000  0.93566312
+  0.00000000  0.93357624 -0.00000000 -0.00000000 -0.00000000  0.93357624
+ -0.00000000 -0.00000000  0.93502259 -0.00000000 -0.00010655  0.93491604
+ -0.00000000  0.00000000 -0.00000000  0.93923381 -0.00000000  0.93923381
+ -0.00000000 -0.00000000 -0.00010655 -0.00000000  0.93705542  0.93694887
+Total hydrogenic projection of NGWFs on this correlated site  4.68033808
+################################################################################
+
+Calculating core density ... ... done
+
+Reading density kernel from file "FeCO3_matsubara.dkn" ... done
+WARNING: minimum value of charge density for spin 1: -0.0001
+WARNING: minimum value of charge density for spin 2: -0.0001
+
+################################################################################
+DFT+U information on atom      1 of Hubbard species Fe  
+################################################################################
+Occupancy matrix of Hubbard site      1 and spin      1 is 
+  m_l =   -2          -1           0           1           2
+  0.93341863 -0.00631891  0.02010011 -0.01390154  0.19665431
+ -0.00634688  0.99670458  0.01468845 -0.00232961  0.01873090
+  0.01580129  0.01431694  0.20675538  0.02829113 -0.12116465
+ -0.01380310 -0.00230305  0.02888572  0.99184482  0.04520078
+  0.19640683  0.01833592 -0.11755456  0.04491246  0.33136446
+################################################################################
+Occupancy matrix of Hubbard site      1 and spin      2 is 
+  m_l =   -2          -1           0           1           2
+  0.76891980 -0.07074793  0.00480483 -0.03066261 -0.14318045
+ -0.07104152  0.97320808 -0.02139389 -0.01087345 -0.06482757
+  0.00808703 -0.02000944  0.05268692 -0.00501797 -0.01340694
+ -0.03044485 -0.01075153 -0.00476903  0.98952091  0.00802100
+ -0.14344061 -0.06415143 -0.01258883  0.00819438  0.08508465
+################################################################################
+Total occupancy of Hubbard site      1 is         6.32950823 e
+Local magnetic moment of Hubbard site      1 is   0.59066750 mu_B
+DFT+U energy of Hubbard site      1 is            0.06883096 Ha
+################################################################################
+
+<QC>      [atom_1_population]:         7.300942724350
+<QC>          [atom_1_charge]:         0.699057275650
+<QC>            [atom_1_spin]:         0.701023305088
+<QC>      [atom_2_population]:         3.534329690342
+<QC>          [atom_2_charge]:         0.465670309658
+<QC>            [atom_2_spin]:        -0.005913667960
+<QC>      [atom_3_population]:         6.441978906815
+<QC>          [atom_3_charge]:        -0.441978906815
+<QC>            [atom_3_spin]:         0.172265213354
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)    Spin (hbar)
+=================================================
+  Fe     1       7.301      0.699      0.70
+  C      2       3.534      0.466     -0.01
+  O      3       6.442     -0.442      0.17
+  O      4       6.405     -0.405      0.09
+  O      5       6.318     -0.318      0.04
+=================================================
+
+        Bond         Population      Spin       Length (bohr)
+=============================================================
+ C     2 -- O     5        0.85      0.00      2.27179
+ C     2 -- O     3        0.59     -0.01      2.57469
+ C     2 -- O     4        0.57     -0.01      2.57900
+ Fe    1 -- O     4        0.28     -0.01      3.47810
+ Fe    1 -- O     3        0.19     -0.07      3.52011
+ O     3 -- O     4       -0.20     -0.02      4.11079
+ O     4 -- O     5       -0.12     -0.01      4.33368
+ O     3 -- O     5       -0.12     -0.01      4.35244
+ Fe    1 -- C     2       -0.48      0.01      4.38508
+=============================================================
+
+
+============== Orbital energy and occupancy information for spin 1 =============
+
+      Total number of orbitals:      25
+   Number of occupied orbitals:      16.000000000
+   Occupancy sum (eigenvalues):      16.000000000
+                 HOMO-LUMO gap:       0.035345482 Eh
+                 Mid-gap level:      -0.166592296 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -1.113492785   0.9999845
+                        .......   ...........   .........
+                            7    -0.464176545   0.9999667
+                            8    -0.422938175   0.9999813
+                            9    -0.403148561   0.9998937
+                           10    -0.400816254   0.9999907
+                           11    -0.381381060   0.9999317
+                           12    -0.296785599   0.9994809
+                           13    -0.291965582   0.9997580
+                           14    -0.285796141   0.9999288
+                           15    -0.269364730   0.9984877
+                           16    -0.184265037   0.9950320
+                        .......   --- gap ---   .........
+                           17    -0.148919554   0.0035191
+                           18    -0.104079760   0.0036323
+                           19    -0.054685928   0.0000606
+                           20     0.017065599   0.0000383
+                           21     0.020313995   0.0002357
+                           22     0.110955438   0.0000613
+                           23     0.230235051   0.0000288
+                           24     0.306898290   0.0000320
+                           25     0.516526138   0.0000164
+ 
+<QC>    [energy_eigenvalue_1]:        -1.113492785456
+<QC>    [energy_eigenvalue_n]:         0.516526137649
+<QC>            [occupancy_1]:         0.999984521053
+<QC>            [occupancy_n]:         0.000016377833
+
+================================================================================
+
+============== Orbital energy and occupancy information for spin 2 =============
+
+      Total number of orbitals:      25
+   Number of occupied orbitals:      14.000000000
+   Occupancy sum (eigenvalues):      14.000000000
+                 HOMO-LUMO gap:       0.068508309 Eh
+                 Mid-gap level:      -0.241608602 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -1.104247251   0.9999856
+                        .......   ...........   .........
+                            5    -0.503461085   0.9999750
+                            6    -0.478841041   0.9998759
+                            7    -0.450491439   0.9998615
+                            8    -0.399067413   0.9999475
+                            9    -0.387657987   0.9999530
+                           10    -0.367379782   0.9996433
+                           11    -0.359559780   0.9995220
+                           12    -0.283730961   0.9996771
+                           13    -0.279475384   0.9998866
+                           14    -0.275862757   0.9999672
+                        .......   --- gap ---   .........
+                           15    -0.207354448   0.0006516
+                           16    -0.142738446   0.0004653
+                           17    -0.087050085   0.0000274
+                           18    -0.053938743   0.0002260
+                           19    -0.035645975   0.0000442
+                           20     0.028372029   0.0001940
+                           21     0.036296350   0.0000332
+                           22     0.130813812   0.0000277
+                           23     0.239952283   0.0000268
+                           24     0.314816908   0.0000245
+                           25     0.520753155   0.0000167
+ 
+<QC>    [energy_eigenvalue_1]:        -1.104247251019
+<QC>    [energy_eigenvalue_n]:         0.520753154590
+<QC>            [occupancy_1]:         0.999985562303
+<QC>            [occupancy_n]:         0.000016713313
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+    Spin 1
+| Orbital  Energy (eV)  Norm     |
+| HOMO-5  -10.37790670  1.000000 | 
+| HOMO-4   -8.07594709  1.000000 | 
+| HOMO-3   -7.94478774  1.000000 | 
+| HOMO-2   -7.77690870  1.000000 | 
+| HOMO-1   -7.32978728  1.000000 | 
+| HOMO     -5.01410679  1.000000 | 
+| LUMO     -4.05230727  1.000000 | 
+| LUMO+1   -2.83215438  1.000000 | 
+| LUMO+2   -1.48807983  1.000000 | 
+| LUMO+3    0.46437859  1.000000 | 
+| LUMO+4    0.55277194  1.000000 | 
+| LUMO+5    3.01925111  1.000000 | 
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+    Spin 2
+| Orbital  Energy (eV)  Norm     |
+| HOMO-5  -10.54871058  1.000000 | 
+| HOMO-4   -9.99691255  1.000000 | 
+| HOMO-3   -9.78411948  1.000000 | 
+| HOMO-2   -7.72071231  1.000000 | 
+| HOMO-1   -7.60491216  1.000000 | 
+| HOMO     -7.50660758  1.000000 | 
+| LUMO     -5.64240163  1.000000 | 
+| LUMO+1   -3.88411076  1.000000 | 
+| LUMO+2   -2.36875335  1.000000 | 
+| LUMO+3   -1.46774789  1.000000 | 
+| LUMO+4   -0.96997633  1.000000 | 
+| LUMO+5    0.77204220  1.000000 | 
+================================================================================
+
+========================  Dynamical Mean Field Theory  =========================
+
+ mask_dimer file not present; performing single-site DMFT
+
+---------------------------  Calculation parameters  ---------------------------
+ WARNING: not reading the argument given to ONETEP
+ Number of frequency points    :       400
+ Temperature (Ha)              :      0.93E-03
+ Minimum energy (Ha)           :     -1.00
+ Maximum energy (Ha)           :      1.00
+--------------------------------------------------------------------------------
+
+FeCO3_matsubara.ham1 is not present; writing
+FeCO3_matsubara.ham2 is not present; writing
+FeCO3_matsubara.overlap is not present; writing
+FeCO3_matsubara.inv_overlap is not present; writing
+FeCO3_matsubara.hub_overlap is not present; writing
+FeCO3_matsubara.hub_overlap_t is not present; writing
+FeCO3_matsubara.eigen is not present; writing
+
+                   -------------------------------------------
+                   | chemical potential |      occupancy     |
+                   |--------------------|--------------------|
+                   |      -0.204100     |        30.0000     |
+<QC>              [E_DMFT(1)]:       -39.684407594027
+                   |      -0.204100     |        30.0000     |
+<QC>              [E_DMFT(2)]:       -39.684407595106
+                   -------------------------------------------
+
+-------------------------------- Energy summary --------------------------------
+ Double-counting correction                           :     0.000000000
+ Total E_LDA energy / 2                               :   -79.368815188
+ Total E_KS energy (spin 1)                           :    -8.082299534
+ Total DMFT energy (spin 1)                           :   -39.684407594
+ Double-counting-corrected total DMFT energy (spin 1) :   -39.684407594
+ Total E_KS energy (spin 2)                           :    -7.420502529
+ Total DMFT energy (spin 2)                           :   -39.684407595
+ Double-counting-corrected total DMFT energy (spin 2) :   -39.684407595
+ Chemical potential                                   :    -0.204100449
+--------------------------------------------------------------------------------
+
+-------------------------------- Kernel mixing ---------------------------------
+
+Reading density kernel from file "FeCO3_matsubara.dkn" ... done
+Performing linear mixing
+
+Writing density kernel to file "FeCO3_matsubara.dkn_dmft" ... done
+--------------------------------------------------------------------------------
+
+================================================================================
+
+Not loading FeCO3_matsubara.overlap
+<QC>      [atom_1_population]:         7.301707154371
+<QC>          [atom_1_charge]:         0.698292845629
+<QC>            [atom_1_spin]:         0.702248658969
+<QC>      [atom_2_population]:         3.535617006322
+<QC>          [atom_2_charge]:         0.464382993678
+<QC>            [atom_2_spin]:        -0.005859179252
+<QC>      [atom_3_population]:         6.439061166449
+<QC>          [atom_3_charge]:        -0.439061166449
+<QC>            [atom_3_spin]:         0.172331380397
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)    Spin (hbar)
+=================================================
+  Fe     1       7.302      0.698      0.70
+  C      2       3.536      0.464     -0.01
+  O      3       6.439     -0.439      0.17
+  O      4       6.402     -0.402      0.09
+  O      5       6.322     -0.322      0.04
+=================================================
+
+        Bond         Population      Spin       Length (bohr)
+=============================================================
+ C     2 -- O     5        0.85      0.00      2.27179
+ C     2 -- O     3        0.59     -0.01      2.57469
+ C     2 -- O     4        0.57     -0.01      2.57900
+ Fe    1 -- O     4        0.28     -0.01      3.47810
+ Fe    1 -- O     3        0.19     -0.07      3.52011
+ O     3 -- O     4       -0.20     -0.02      4.11079
+ O     4 -- O     5       -0.12     -0.01      4.33368
+ O     3 -- O     5       -0.12     -0.01      4.35244
+ Fe    1 -- C     2       -0.48      0.01      4.38508
+=============================================================
+
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:       4.584s on      4 proc(s)                                    
+TOTAL TIME:         4.584s on      4 proc(s)                                    
+================= AVERAGE TIMINGS FROM ALL PROCS (CUMULATIVE) ==================
+|| TAG                                    #calls    cpu time   %total  Gflops ||
+|| hubbard_species_proj                 :     1        0.00s   0.001%  ------ ||
+|| linalg_invert_sym_matrix             :     2        0.00s   0.004%  ------ || (1 procs only)
+|| hubbard_projector_character          :     1        0.00s   0.001%  ------ ||
+|| hubbard_tensorial_correction         :     2        0.00s   0.002%  ------ ||
+|| hubbard_ngwf_select                  :     1        0.00s   0.003%  ------ ||
+|| hubbard_ngwf_on_grid                 :     1        0.00s   0.004%  ------ ||
+|| sparse_set_to_garbage                :     6        0.00s   0.005%  ------ ||
+|| onetep.F90 main loop imbalance       :     1        0.00s   0.007%  ------ ||
+|| hubbard_ham_matrix                   :     1        0.00s   0.008%  ------ ||
+|| pseudopotentials_nonlocal_mat        :     1        0.00s   0.008%  ------ ||
+|| onetep.F90 final imbalance           :     1        0.00s   0.010%  ------ ||
+|| sparse_trace                         :    12        0.00s   0.016%  ------ ||
+|| basis_extract_function_from_box      :    12        0.00s   0.020%  ------ ||
+|| kernel_purify                        :     1        0.00s   0.027%  ------ ||
+|| fourier_apply_box_pair               :     3        0.00s   0.028% 229.813 ||
+|| ewald_calculate_energy               :     1        0.00s   0.033%  ------ ||
+|| hubbard_projector_ham                :     1        0.00s   0.036%  ------ ||
+|| restart_kernel_read                  :     2        0.00s   0.040%  ------ ||
+|| basis_add_function_to_box            :   312        0.00s   0.041%  ------ ||
+|| restart_kernel_write                 :     1        0.00s   0.062%  ------ ||
+|| hubbard_energy_total                 :     1        0.00s   0.072%  ------ ||
+|| basis_dot_function_with_box          :   500        0.00s   0.078%  ------ ||
+|| hubbard_projection_mtx               :     3        0.00s   0.085%  ------ ||
+|| cell_grid_extract_box_real           :    20        0.00s   0.108%  ------ ||
+|| sparse_init                          :     1        0.01s   0.134%  ------ ||
+|| pseudo_make_structure_factor         :     1        0.01s   0.213%  ------ ||
+|| dense_eigensolve                     :     4        0.01s   0.229%  ------ ||
+|| density_batch_row_sums               :     1        0.01s   0.232%  ------ ||
+|| fourier_apply_cell_forward           :     1        0.01s   0.304%   7.589 ||
+|| xc_energy_potential                  :     1        0.01s   0.324%  ------ ||
+|| pseudopotentials_core_density        :     1        0.02s   0.385%  ------ ||
+|| pseudopotentials_local_on_grid       :     1        0.02s   0.463%  ------ ||
+|| integrals_kinetic                    :     1        0.02s   0.521%  ------ ||
+|| basis_copy_function_to_box           :   181        0.02s   0.535%  ------ ||
+|| projectors_init_fftbox_recip         :     2        0.03s   0.549%  ------ ||
+|| linalg_dsyev_lt                      : 11211        0.12s   2.561%  ------ || (1 procs only)
+|| density_fftbox_deposit_to_cell       :    18        0.03s   0.694%  ------ ||
+|| function_ops_brappd_ketppd           :     4        0.04s   0.779%  ------ ||
+|| hartree_on_grid                      :     1        0.04s   0.825%  ------ ||
+|| fourier_apply_cell_backward          :     3        0.04s   0.838%   8.265 ||
+|| integrals_locpot_mat_els_batch       :     2        0.04s   0.934%  ------ ||
+|| projectors_func_ovlp_box             :     2        0.05s   1.096%  ------ ||
+|| density_fftbox_interpolate_multiply  :    18        0.07s   1.432%  ------ ||
+|| restart_ngwfs_tightbox_input         :     2        0.07s   1.446%  ------ ||
+|| fourier_apply_box                    :    58        0.07s   1.595% 332.526 ||
+|| hubbard_projector_update             :     1        0.08s   1.751%  ------ ||
+|| cell_grid_deposit_box_real           :   234        0.13s   2.846%  ------ ||
+|| eigenstates_calculate                :     1        0.18s   3.904%  ------ ||
+|| density_batch_interp_deposit         :     1        0.22s   4.739%  ------ ||
+|| density_on_dbl_grid                  :     1        0.27s   5.790%  ------ ||
+|| potential_apply_to_ngwf_batch        :     2        0.30s   6.542%  ------ ||
+|| integrals_locpot_dbl_grid            :     2        0.35s   7.532%  ------ ||
+|| energy_and_force_init_cell           :     1        0.38s   8.287%  ------ ||
+|| hamiltonian_lhxc_calculate           :     1        0.38s   8.299%  ------ ||
+|| sparse_product                       :  6443        0.47s  10.181%  ------ ||
+|| properties_calculate                 :     1        3.59s  78.320%  ------ ||
+|| energy_and_force_calculate           :     1        3.87s  84.339%  ------ ||
+|| total_time                           :     1        4.58s 100.000%  ------ ||
+================================================================================
+Overhead of generating timer report: 
+- 1 ms averaging over threads,
+- 0 ms ensuring consistency across MPI ranks,
+- 2 ms printing in order.
+
+Job completed: 21-09-2022 11:26 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

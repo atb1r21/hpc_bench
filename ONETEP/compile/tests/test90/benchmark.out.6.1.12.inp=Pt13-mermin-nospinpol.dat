@@ -1,0 +1,870 @@
+==================================================================================
+It's Wed Sep 21 11:51:11 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 35303 35304 35305 35306)...
+    - ONETEP arguments: Pt13-mermin-nospinpol.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test90
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test90/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test90/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack Pt13-mermin-nospinpol.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 11:51 (+0100)
+ 
+Reading parameters from file "Pt13-mermin-nospinpol.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "Pt13-mermin-nospinpol.dat" ...... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+print_qc T                                                                      
+read_denskern F                                                                 
+read_tightbox_ngwfs F                                                           
+write_denskern F                                                                
+write_tightbox_ngwfs F                                                          
+write_hamiltonian F                                                             
+write_xyz F                                                                     
+timings_level 0                                                                 
+task singlepoint                                                                
+charge 0                                                                        
+spin_polarized T                                                                
+cutoff_energy 1000 eV                                                           
+kernel_cutoff 1000                                                              
+xc_functional RPBE                                                              
+mermin T                                                                        
+mermin_smearing_width 0.1 eV                                                    
+mermin_cheb    31                                                               
+maxit_mermin   10                                                               
+maxit_palser_mano -1                                                            
+maxit_ngwf_cg 2                                                                 
+occ_mix 1.0                                                                     
+elec_cg_max 3                                                                   
+k_zero 3.0                                                                      
+%block species                                                                  
+Pt Pt 78 6 9.0                                                                  
+H   H  1 1 9.0                                                                  
+%endblock species                                                               
+%block species_atomic_set                                                       
+Pt "SOLVE"                                                                      
+H  "SOLVE"                                                                      
+%endblock species_atomic_set                                                    
+%block species_pot                                                              
+Pt "../../pseudo/platinum.recpot"                                               
+H  "../../pseudo/hydrogen.recpot"                                               
+%endblock species_pot                                                           
+%block lattice_cart                                                             
+24.034   0.000   0.000                                                          
+0.000  24.032   0.000                                                           
+0.000   0.000  24.032                                                           
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =   000000702183535485836328
+%endblock positions_abs                                                         
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+ ESDF WARNING(1): "kernelcutoff" (esdf_physical) has no units. Assume "bohr".
+ ESDF WARNING(2): "kzero" (esdf_physical) has no units. Assume "1/bohr".
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/platinum.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number: 78;  ionic charge: 10.000000
+    Shell 1: l = 1; rc = 2.26 bohr
+    Shell 2: l = 2; rc = 1.96 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  Pt        13        78       104
+  H          1         1         0
+.......   ......    ......    ......
+Totals:     14        79       104
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   55 x  55 x  55
+                              FFT-box:   55 x  55 x  55
+                                  PPD:    5 x   5 x   1
+Grid space d1=  0.436981818182a0 (KE cutoff=  39.78114Eh =1082.50001eV)
+Grid space d2=  0.436945454545a0 (KE cutoff=  39.78777Eh =1082.68019eV)
+Grid space d3=  0.436945454545a0 (KE cutoff=  39.78777Eh =1082.68019eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     55    55    55
+          Real-space ('12') slabs/proc (min max mean):     13    14    13
+         Recip-space ('23') slabs/proc (min max mean):      7     7     7
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    110   110   110
+          Real-space ('12') slabs/proc (min max mean):     27    28    27
+         Recip-space ('23') slabs/proc (min max mean):     14    14    14
+********************************************************************************
+
+Atom SCF Calculation for Pt : Z (AE atom) =  78 : Z (PS atom) =  10
+Config String:
+Orbitals (num,occ):  2     9.00 1.00
+Orbitals   (num,l):  2        2    0
+Atom SCF converged after  36 iterations to a total energy of    -26.36783329
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  19 iterations to a total energy of     -0.46481596
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              301.191266 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+Down spin density kernel initialisation ...... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+<QC>                   [iter]:                      1
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.084162580686
+<QC>            [final_slope]:       -22.103562431594
+<QC>         [final_fd_slope]:       -22.103507546944
+<QC>          [entropy_slope]:         0.603624469886
+<QC>       [entropy_fd_slope]:         0.603658767783
+<QC>              [dft_slope]:       -22.707186901480
+<QC>           [dft_fd_slope]:       -22.707166181135
+<QC>     [free_energy (a.u.)]:      -340.998436158940
+<QC>    [dft_contrib. (a.u.)]:      -340.997883041638
+<QC>  [entr_contr. (a.u.)(1)]:        -0.000276558651
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.142831549759
+<QC>  [entr_contr. (a.u.)(2)]:        -0.000276558651
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.141043713486
+    1        -3.409984361589E+02     8.4163E-02     1.1068E-02
+<QC>                   [iter]:                      2
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.068602221907
+<QC>            [final_slope]:       -26.522240682159
+<QC>         [final_fd_slope]:       -26.520719757173
+<QC>          [entropy_slope]:         6.223520447094
+<QC>       [entropy_fd_slope]:         6.224981471823
+<QC>              [dft_slope]:       -32.745761129252
+<QC>           [dft_fd_slope]:       -32.745700991654
+<QC>     [free_energy (a.u.)]:      -341.168437826314
+<QC>    [dft_contrib. (a.u.)]:      -341.181322844680
+<QC>  [entr_contr. (a.u.)(1)]:         0.006535920309
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.142909346536
+<QC>  [entr_contr. (a.u.)(2)]:         0.006349098057
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.141273581963
+    2        -3.411684378263E+02     6.8602E-02     1.0438E-02    -1.7000E-01
+<QC>                   [iter]:                      3
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.060437747140
+<QC>            [final_slope]:       -16.695830544792
+<QC>         [final_fd_slope]:       -16.694585895038
+<QC>          [entropy_slope]:        11.445452344661
+<QC>       [entropy_fd_slope]:        11.446589434930
+<QC>              [dft_slope]:       -28.141282889453
+<QC>           [dft_fd_slope]:       -28.141175391738
+<QC>     [free_energy (a.u.)]:      -341.224089869645
+<QC>    [dft_contrib. (a.u.)]:      -341.277235346649
+<QC>  [entr_contr. (a.u.)(1)]:         0.026810333063
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.163721313473
+<QC>  [entr_contr. (a.u.)(2)]:         0.026335143942
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.162417477510
+    3        -3.412240898696E+02     6.0438E-02     1.0075E-02    -5.5652E-02
+<QC>                   [iter]:                      4
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.116946312193
+<QC>            [final_slope]:       -64.192315096463
+<QC>         [final_fd_slope]:       -64.179736170900
+<QC>          [entropy_slope]:        24.925479963891
+<QC>       [entropy_fd_slope]:        24.936164259567
+<QC>              [dft_slope]:       -89.117795060354
+<QC>           [dft_fd_slope]:       -89.115900436809
+<QC>     [free_energy (a.u.)]:      -341.262025182892
+<QC>    [dft_contrib. (a.u.)]:      -341.366892946432
+<QC>  [entr_contr. (a.u.)(1)]:         0.053053845663
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.179231664248
+<QC>  [entr_contr. (a.u.)(2)]:         0.051813917877
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.179487809613
+    4        -3.412620251829E+02     1.1695E-01     9.5426E-03    -3.7935E-02
+<QC>                   [iter]:                      5
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.123211095960
+<QC>            [final_slope]:       -61.674482329236
+<QC>         [final_fd_slope]:       -61.617416406534
+<QC>          [entropy_slope]:        11.410316469352
+<QC>       [entropy_fd_slope]:        11.464906735786
+<QC>              [dft_slope]:       -73.084798798588
+<QC>           [dft_fd_slope]:       -73.082323126528
+<QC>     [free_energy (a.u.)]:      -341.312688155027
+<QC>    [dft_contrib. (a.u.)]:      -341.469702420632
+<QC>  [entr_contr. (a.u.)(1)]:         0.081273597878
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.142467808545
+<QC>  [entr_contr. (a.u.)(2)]:         0.075740667726
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.149854372166
+    5        -3.413126881550E+02     1.2321E-01     8.7400E-03    -5.0663E-02
+<QC>                   [iter]:                      6
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.099049955906
+<QC>            [final_slope]:       -32.517069421953
+<QC>         [final_fd_slope]:       -32.479553794929
+<QC>          [entropy_slope]:        -3.116351011825
+<QC>       [entropy_fd_slope]:        -3.079780083848
+<QC>              [dft_slope]:       -29.400718410128
+<QC>           [dft_fd_slope]:       -29.399773723071
+<QC>     [free_energy (a.u.)]:      -341.328218997385
+<QC>    [dft_contrib. (a.u.)]:      -341.503200984940
+<QC>  [entr_contr. (a.u.)(1)]:         0.092262344144
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.095265973845
+<QC>  [entr_contr. (a.u.)(2)]:         0.082719643412
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.108488428124
+    6        -3.413282189974E+02     9.9050E-02     8.3848E-03    -1.5531E-02
+<QC>                   [iter]:                      7
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.092465294102
+<QC>            [final_slope]:       -26.679746428891
+<QC>         [final_fd_slope]:       -26.674358821310
+<QC>          [entropy_slope]:       -37.375644389154
+<QC>       [entropy_fd_slope]:       -37.370271595505
+<QC>              [dft_slope]:        10.695897960263
+<QC>           [dft_fd_slope]:        10.695913147174
+<QC>     [free_energy (a.u.)]:      -341.335633977891
+<QC>    [dft_contrib. (a.u.)]:      -341.516724802334
+<QC>  [entr_contr. (a.u.)(1)]:         0.096167418009
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.062423040953
+<QC>  [entr_contr. (a.u.)(2)]:         0.084923406433
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.078049551494
+    7        -3.413356339779E+02     9.2465E-02     8.1699E-03    -7.4150E-03
+<QC>                   [iter]:                      8
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.032433204123
+<QC>            [final_slope]:        -3.885675335764
+<QC>         [final_fd_slope]:        -3.885493413236
+<QC>          [entropy_slope]:        -2.581431651913
+<QC>       [entropy_fd_slope]:        -2.581253676998
+<QC>              [dft_slope]:        -1.304243683851
+<QC>           [dft_fd_slope]:        -1.304239788169
+<QC>     [free_energy (a.u.)]:      -341.378819895363
+<QC>    [dft_contrib. (a.u.)]:      -341.484002138355
+<QC>  [entr_contr. (a.u.)(1)]:         0.053358903502
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.101913022568
+<QC>  [entr_contr. (a.u.)(2)]:         0.051823339491
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.103519107626
+    8        -3.413788198954E+02     3.2433E-02     8.3381E-03    -4.3186E-02
+<QC>                   [iter]:                      9
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.041224193657
+<QC>            [final_slope]:        -5.869714116454
+<QC>         [final_fd_slope]:        -5.869365793387
+<QC>          [entropy_slope]:        -4.927264063683
+<QC>       [entropy_fd_slope]:        -4.926919629805
+<QC>              [dft_slope]:        -0.942450052771
+<QC>           [dft_fd_slope]:        -0.942446263252
+<QC>     [free_energy (a.u.)]:      -341.405653120895
+<QC>    [dft_contrib. (a.u.)]:      -341.502118132277
+<QC>  [entr_contr. (a.u.)(1)]:         0.048318732036
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.140607810886
+<QC>  [entr_contr. (a.u.)(2)]:         0.048146279346
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.138553677576
+    9        -3.414056531209E+02     4.1224E-02     8.2410E-03    -2.6833E-02
+   10        -3.414380657084E+02     5.5308E-02     7.4809E-03    -3.2413E-02
+Finished density kernel iterations (  10)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.41438065708374E+02  Eh
+     Estimated bandgap (UP spin) =  -1.8844E-01  Eh
+     Estimated bandgap (DN spin) =  -1.8770E-01  Eh
+     RMS occupancy error         =   1.4511E-02
+     [H,K] commutator            =   7.4809E-03
+     UP spin occupancy bounds    = [ -0.027:  1.023]
+     DN spin occupancy bounds    = [ -0.027:  1.024]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.8146E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -3.43394862172193E+02 Eh
+   Predicted gain in energy  =      -1.95679646381984E+00 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+<QC>                   [iter]:                      1
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.053754613125
+<QC>            [final_slope]:        -9.016867087889
+<QC>         [final_fd_slope]:        -9.016514923132
+<QC>          [entropy_slope]:         1.859976085698
+<QC>       [entropy_fd_slope]:         1.860309909049
+<QC>              [dft_slope]:       -10.876843173586
+<QC>           [dft_fd_slope]:       -10.876824831030
+<QC>     [free_energy (a.u.)]:      -343.392606035651
+<QC>    [dft_contrib. (a.u.)]:      -343.468764259443
+<QC>  [entr_contr. (a.u.)(1)]:         0.038044669382
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.136996995626
+<QC>  [entr_contr. (a.u.)(2)]:         0.038113554410
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.137646145923
+    1        -3.433926060357E+02     5.3755E-02     8.7517E-03
+<QC>                   [iter]:                      2
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.037411887892
+<QC>            [final_slope]:        -5.484864008000
+<QC>         [final_fd_slope]:        -5.484750715823
+<QC>          [entropy_slope]:         0.694973138101
+<QC>       [entropy_fd_slope]:         0.695065658182
+<QC>              [dft_slope]:        -6.179837146101
+<QC>           [dft_fd_slope]:        -6.179816296026
+<QC>     [free_energy (a.u.)]:      -343.425854587048
+<QC>    [dft_contrib. (a.u.)]:      -343.526093123841
+<QC>  [entr_contr. (a.u.)(1)]:         0.050145359670
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.148838825799
+<QC>  [entr_contr. (a.u.)(2)]:         0.050093177123
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.149215922817
+    2        -3.434258545870E+02     3.7412E-02     8.4686E-03    -3.3249E-02
+<QC>                   [iter]:                      3
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.038687945676
+<QC>            [final_slope]:        -5.730682934075
+<QC>         [final_fd_slope]:        -5.729770350626
+<QC>          [entropy_slope]:        -4.525589525730
+<QC>       [entropy_fd_slope]:        -4.524708278913
+<QC>              [dft_slope]:        -1.205093408344
+<QC>           [dft_fd_slope]:        -1.205062062581
+<QC>     [free_energy (a.u.)]:      -343.468902687970
+<QC>    [dft_contrib. (a.u.)]:      -343.596755895178
+<QC>  [entr_contr. (a.u.)(1)]:         0.067248239047
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.123764956002
+<QC>  [entr_contr. (a.u.)(2)]:         0.060604968160
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.121086273345
+    3        -3.434689026880E+02     3.8688E-02     7.5783E-03    -4.3048E-02
+<QC>                   [iter]:                      4
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.036710563549
+<QC>            [final_slope]:        -4.011640320572
+<QC>         [final_fd_slope]:        -4.011531018477
+<QC>          [entropy_slope]:        -1.962396776596
+<QC>       [entropy_fd_slope]:        -1.962298823197
+<QC>              [dft_slope]:        -2.049243543976
+<QC>           [dft_fd_slope]:        -2.049232193713
+<QC>     [free_energy (a.u.)]:      -343.479162391502
+<QC>    [dft_contrib. (a.u.)]:      -343.601085707308
+<QC>  [entr_contr. (a.u.)(1)]:         0.062440722881
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.086400821516
+<QC>  [entr_contr. (a.u.)(2)]:         0.059482592925
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.093108119578
+    4        -3.434791623915E+02     3.6711E-02     7.2021E-03    -1.0260E-02
+<QC>                   [iter]:                      5
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.061093940631
+<QC>            [final_slope]:       -12.890101050626
+<QC>         [final_fd_slope]:       -12.889580204956
+<QC>          [entropy_slope]:        -2.615289833238
+<QC>       [entropy_fd_slope]:        -2.614862432845
+<QC>              [dft_slope]:       -10.274811217388
+<QC>           [dft_fd_slope]:       -10.274717851644
+<QC>     [free_energy (a.u.)]:      -343.525346821196
+<QC>    [dft_contrib. (a.u.)]:      -343.639093656775
+<QC>  [entr_contr. (a.u.)(1)]:         0.057031978523
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.044770019112
+<QC>  [entr_contr. (a.u.)(2)]:         0.056714857056
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.047647009097
+    5        -3.435253468212E+02     6.1094E-02     5.4771E-03    -4.6184E-02
+<QC>                   [iter]:                      6
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.052576783290
+<QC>            [final_slope]:        -9.686684773790
+<QC>         [final_fd_slope]:        -9.686159557987
+<QC>          [entropy_slope]:        -0.190227986456
+<QC>       [entropy_fd_slope]:        -0.189743818102
+<QC>              [dft_slope]:        -9.496456787333
+<QC>           [dft_fd_slope]:        -9.496415998456
+<QC>     [free_energy (a.u.)]:      -343.607361717103
+<QC>    [dft_contrib. (a.u.)]:      -343.743359162556
+<QC>  [entr_contr. (a.u.)(1)]:         0.063741256620
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.015188344148
+<QC>  [entr_contr. (a.u.)(2)]:         0.072256188833
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.025844535783
+    6        -3.436073617171E+02     5.2577E-02     3.5057E-03    -8.2015E-02
+<QC>                   [iter]:                      7
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.041039784995
+<QC>            [final_slope]:        -5.255745663638
+<QC>         [final_fd_slope]:        -5.254892187168
+<QC>          [entropy_slope]:        -8.728064275070
+<QC>       [entropy_fd_slope]:        -8.727407455805
+<QC>              [dft_slope]:         3.472318611431
+<QC>           [dft_fd_slope]:         3.472515231806
+<QC>     [free_energy (a.u.)]:      -343.638521497076
+<QC>    [dft_contrib. (a.u.)]:      -343.787831365780
+<QC>  [entr_contr. (a.u.)(1)]:         0.071183970328
+<QC>  [mu_contrib. (a.u.)(1)]:        -0.000000000000
+<QC>                  [mu(1)]:         0.027919252766
+<QC>  [entr_contr. (a.u.)(2)]:         0.078125898376
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.040421465237
+    7        -3.436385214971E+02     4.1040E-02     2.9821E-03    -3.1160E-02
+<QC>                   [iter]:                      8
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.031078472339
+<QC>            [final_slope]:        -3.004705691741
+<QC>         [final_fd_slope]:        -3.004578161381
+<QC>          [entropy_slope]:        -1.980218195494
+<QC>       [entropy_fd_slope]:        -1.980096205237
+<QC>              [dft_slope]:        -1.024487496248
+<QC>           [dft_fd_slope]:        -1.024481832701
+<QC>     [free_energy (a.u.)]:      -343.652701030923
+<QC>    [dft_contrib. (a.u.)]:      -343.764992353949
+<QC>  [entr_contr. (a.u.)(1)]:         0.061832716772
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.045906535390
+<QC>  [entr_contr. (a.u.)(2)]:         0.050458606254
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.034880331670
+    8        -3.436527010309E+02     3.1078E-02     2.9477E-03    -1.4180E-02
+<QC>                   [iter]:                      9
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.013554439228
+<QC>            [final_slope]:        -0.642345138687
+<QC>         [final_fd_slope]:        -0.642331997369
+<QC>          [entropy_slope]:        -0.206503779177
+<QC>       [entropy_fd_slope]:        -0.206495889152
+<QC>              [dft_slope]:        -0.435841359510
+<QC>           [dft_fd_slope]:        -0.435836113866
+<QC>     [free_energy (a.u.)]:      -343.670752961405
+<QC>    [dft_contrib. (a.u.)]:      -343.775758525635
+<QC>  [entr_contr. (a.u.)(1)]:         0.053738012937
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.060185938343
+<QC>  [entr_contr. (a.u.)(2)]:         0.051267551293
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.061068854200
+    9        -3.436707529614E+02     1.3554E-02     2.8664E-03    -1.8052E-02
+   10        -3.436830849085E+02     3.2347E-02     2.7159E-03    -1.2332E-02
+Finished density kernel iterations (  10)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.43683084908524E+02  Eh
+     Estimated bandgap (UP spin) =  -2.6688E-02  Eh
+     Estimated bandgap (DN spin) =  -2.6420E-02  Eh
+     RMS occupancy error         =   2.6495E-02
+     [H,K] commutator            =   2.7159E-03
+     UP spin occupancy bounds    = [ -0.036:  1.024]
+     DN spin occupancy bounds    = [ -0.041:  1.024]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.3990E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -3.44037918674264E+02 Eh
+   Predicted gain in energy  =      -3.54833765739954E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+<QC>                   [iter]:                      1
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.121891538235
+<QC>            [final_slope]:       -46.362975704660
+<QC>         [final_fd_slope]:       -46.341083134394
+<QC>          [entropy_slope]:       -55.883922155644
+<QC>       [entropy_fd_slope]:       -55.862044667593
+<QC>              [dft_slope]:         9.520946450983
+<QC>           [dft_fd_slope]:         9.520961782528
+<QC>     [free_energy (a.u.)]:      -344.016101039832
+<QC>    [dft_contrib. (a.u.)]:      -344.161541030858
+<QC>  [entr_contr. (a.u.)(1)]:         0.064047619379
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.106498392216
+<QC>  [entr_contr. (a.u.)(2)]:         0.081392371647
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.133013813120
+    1        -3.440161010398E+02     1.2189E-01     2.9097E-03
+<QC>                   [iter]:                      2
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.017976920943
+<QC>            [final_slope]:        -0.980441406601
+<QC>         [final_fd_slope]:        -0.980411812179
+<QC>          [entropy_slope]:        -0.967314957172
+<QC>       [entropy_fd_slope]:        -0.967284833273
+<QC>              [dft_slope]:        -0.013126449428
+<QC>           [dft_fd_slope]:        -0.013126964404
+<QC>     [free_energy (a.u.)]:      -344.054573319114
+<QC>    [dft_contrib. (a.u.)]:      -344.136207366088
+<QC>  [entr_contr. (a.u.)(1)]:         0.043839142794
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.083115650008
+<QC>  [entr_contr. (a.u.)(2)]:         0.037794904181
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.078955392787
+    2        -3.440545733191E+02     1.7977E-02     2.8629E-03    -3.8472E-02
+<QC>                   [iter]:                      3
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.011501761066
+<QC>            [final_slope]:        -0.424710542525
+<QC>         [final_fd_slope]:        -0.424695997481
+<QC>          [entropy_slope]:        -0.134213970041
+<QC>       [entropy_fd_slope]:        -0.134203973642
+<QC>              [dft_slope]:        -0.290496572484
+<QC>           [dft_fd_slope]:        -0.290492152999
+<QC>     [free_energy (a.u.)]:      -344.063037472271
+<QC>    [dft_contrib. (a.u.)]:      -344.136364993169
+<QC>  [entr_contr. (a.u.)(1)]:         0.035503545580
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.079629278785
+<QC>  [entr_contr. (a.u.)(2)]:         0.037823975318
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.083504316440
+    3        -3.440630374723E+02     1.1502E-02     2.7688E-03    -8.4642E-03
+<QC>                   [iter]:                      4
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.012734627538
+<QC>            [final_slope]:        -0.515636050273
+<QC>         [final_fd_slope]:        -0.515625288244
+<QC>          [entropy_slope]:        -0.142194201720
+<QC>       [entropy_fd_slope]:        -0.142187690039
+<QC>              [dft_slope]:        -0.373441848554
+<QC>           [dft_fd_slope]:        -0.373437615053
+<QC>     [free_energy (a.u.)]:      -344.067333364841
+<QC>    [dft_contrib. (a.u.)]:      -344.141917014957
+<QC>  [entr_contr. (a.u.)(1)]:         0.040668126788
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.082719691612
+<QC>  [entr_contr. (a.u.)(2)]:         0.033915523328
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.076338722590
+    4        -3.440673333648E+02     1.2735E-02     2.6389E-03    -4.2959E-03
+<QC>                   [iter]:                      5
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.016290279116
+<QC>            [final_slope]:        -0.829062428761
+<QC>         [final_fd_slope]:        -0.829054158658
+<QC>          [entropy_slope]:         0.178104616227
+<QC>       [entropy_fd_slope]:         0.178115230870
+<QC>              [dft_slope]:        -1.007167044987
+<QC>           [dft_fd_slope]:        -1.007169373679
+<QC>     [free_energy (a.u.)]:      -344.078647201888
+<QC>    [dft_contrib. (a.u.)]:      -344.158510264995
+<QC>  [entr_contr. (a.u.)(1)]:         0.039795706657
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.063645570144
+<QC>  [entr_contr. (a.u.)(2)]:         0.040067356450
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.067568635071
+    5        -3.440786472019E+02     1.6290E-02     2.1019E-03    -1.1314E-02
+<QC>                   [iter]:                      6
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.014900036735
+<QC>            [final_slope]:        -0.830713053946
+<QC>         [final_fd_slope]:        -0.830695796594
+<QC>          [entropy_slope]:        -0.786434168146
+<QC>       [entropy_fd_slope]:        -0.786414021334
+<QC>              [dft_slope]:        -0.044278885800
+<QC>           [dft_fd_slope]:        -0.044281932787
+<QC>     [free_energy (a.u.)]:      -344.090746126184
+<QC>    [dft_contrib. (a.u.)]:      -344.181230829127
+<QC>  [entr_contr. (a.u.)(1)]:         0.046510108900
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.067693679373
+<QC>  [entr_contr. (a.u.)(2)]:         0.043974594043
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.068861384466
+    6        -3.440907461262E+02     1.4900E-02     1.6798E-03    -1.2099E-02
+<QC>                   [iter]:                      7
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.015615110049
+<QC>            [final_slope]:        -0.760876700788
+<QC>         [final_fd_slope]:        -0.760862974403
+<QC>          [entropy_slope]:        -0.208101734536
+<QC>       [entropy_fd_slope]:        -0.208082518757
+<QC>              [dft_slope]:        -0.552774966252
+<QC>           [dft_fd_slope]:        -0.552780193175
+<QC>     [free_energy (a.u.)]:      -344.100668529670
+<QC>    [dft_contrib. (a.u.)]:      -344.181596816851
+<QC>  [entr_contr. (a.u.)(1)]:         0.043988424395
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.067112417211
+<QC>  [entr_contr. (a.u.)(2)]:         0.036939862786
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.062832627344
+    7        -3.441006685297E+02     1.5615E-02     1.3590E-03    -9.9224E-03
+<QC>                   [iter]:                      8
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.007440763515
+<QC>            [final_slope]:        -0.205650507676
+<QC>         [final_fd_slope]:        -0.205649939744
+<QC>          [entropy_slope]:        -0.110657698971
+<QC>       [entropy_fd_slope]:        -0.110654398866
+<QC>              [dft_slope]:        -0.094992808704
+<QC>           [dft_fd_slope]:        -0.094995471045
+<QC>     [free_energy (a.u.)]:      -344.106094223121
+<QC>    [dft_contrib. (a.u.)]:      -344.187696210185
+<QC>  [entr_contr. (a.u.)(1)]:         0.041453508271
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.069037884527
+<QC>  [entr_contr. (a.u.)(2)]:         0.040148478793
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.069977724399
+    8        -3.441060942231E+02     7.4408E-03     1.3503E-03    -5.4257E-03
+<QC>                   [iter]:                      9
+<QC>    [Chebyshev expansion]:                     31
+<QC>           [rms_gradient]:         0.009123862049
+<QC>            [final_slope]:        -0.260325893663
+<QC>         [final_fd_slope]:        -0.260319950485
+<QC>          [entropy_slope]:        -0.614952616561
+<QC>       [entropy_fd_slope]:        -0.614940888058
+<QC>              [dft_slope]:         0.354626722898
+<QC>           [dft_fd_slope]:         0.354620851795
+<QC>     [free_energy (a.u.)]:      -344.109410469001
+<QC>    [dft_contrib. (a.u.)]:      -344.190784167479
+<QC>  [entr_contr. (a.u.)(1)]:         0.041589237925
+<QC>  [mu_contrib. (a.u.)(1)]:         0.000000000000
+<QC>                  [mu(1)]:         0.073852415952
+<QC>  [entr_contr. (a.u.)(2)]:         0.039784460553
+<QC>  [mu_contrib. (a.u.)(2)]:         0.000000000000
+<QC>                  [mu(2)]:         0.074547729305
+    9        -3.441094104690E+02     9.1239E-03     1.3175E-03    -3.3162E-03
+   10        -3.441109667195E+02     7.7471E-03     1.2874E-03    -1.5563E-03
+Finished density kernel iterations (  10)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -3.44110966719540E+02  Eh
+     Estimated bandgap (UP spin) =  -8.2439E-03  Eh
+     Estimated bandgap (DN spin) =  -7.7304E-03  Eh
+     RMS occupancy error         =   3.0090E-02
+     [H,K] commutator            =   1.2874E-03
+     UP spin occupancy bounds    = [ -0.028:  1.024]
+     DN spin occupancy bounds    = [ -0.026:  1.023]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :      282.82130549777821 |
+           | Pseudopotential (local)    :    -1103.67548547500564 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):     -404.81551123716974 |
+           | Hartree                    :      640.46606871279960 |
+           | Exchange-correlation       :      -60.17379517326354 |
+           | Ewald                      :      301.19126629294612 |
+           | Entropy Contribution (-T*S):        0.07518466237539 |
+           | Mu Contribution            :        0.00000000000000 |
+           | Total                      :     -344.11096671953942 |
+           --------------------------------------------------------
+           Integrated density           :      130.99999999999966
+           Integrated spin density      :        1.00000000000001
+           Integrated |spin density|    :        1.00272581304345
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00781464251395   -341.51358439812174   0.022163   -343.39486217219348        
+   1     0.00073990474190   -344.18615138191501  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:      -344.186151381915
+<QC>           [rms_gradient]:         0.000739904742
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:     214.065s on      4 proc(s)                                    
+TOTAL TIME:       214.066s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 11:54 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

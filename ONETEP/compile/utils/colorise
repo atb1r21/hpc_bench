@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# -----------------------------------------------------------------
+# ONETEP build process coloriser
+# v1.02 written in 2015.08 by Jacek Dziedzic, jd12g09@soton.ac.uk
+# -----------------------------------------------------------------
+# 
+# Example of use:
+# make onetep ARCH=archer -j 4 2>&1 | utils/colorise
+#
+# If stuck, consult the example, then press ^C and try again.
+head -n 11 $0 | tail -n +3
+awk -v pwd=`pwd`/ '{ gsub(pwd, ""); gsub("-D.?\".*\"", "\033[1;30m&\033[0m"); gsub("-D[A-Za-z0-9_]* ", "\033[1;35m&\033[0m"); sub("[A-Za-z0-9_]*\\.F90", "\033[1;34m&\033[0m"); gsub("[A-Za-z0-9_]*\\.o[ $]", "\033[1;32m&\033[0m"); gsub("undefined reference", "\033[1;31m&\033[0m"); gsub("`.*\047", "\033[1;36m&\033[0m"); print }'
+
+# v1.00 -- 2015.08 Original version
+# v1.01 -- 2018.07 Allows uppercase letters and digits in filenames (xc_b97mv_mod, etc).
+# v1.02 -- 2019.02 Highlights undefined references and anything inside `' (offending symbols, usually) .
+#                  This functionality requires stderr to be piped to stdout (hence 2>&1).
+#                  \047 is octal for ', which is a nightmare to quote inside '" "'.

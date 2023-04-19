@@ -1,0 +1,279 @@
+!=========================================================!
+! Input for calculation with the ONETEP program           !
+!                                                         !
+! Quality Control file for:                               !
+! Implicit solvation of a charged solute in electrolyte,  !
+! Periodic Boundary Conditions, constraint on charge      !
+! conservation for the electrolyte -- enforced.           !
+! Counterion model, rather than jellium, is used for      ! 
+! ensuring charge neutrality in solvation.                !
+!                                                         !
+! Test system: periodic graphene sheet with a Na+ atom    !
+! deposited on top, PBCs.                                 !
+!                                                         !
+! Features tested:                                        !
+!  - Poisson-Boltzmann implicit solvation (solvation in   !
+!    the presence of an electrolyte) -- code paths with   !
+!    'pub_is_pbe' different from 'NONE', particularly the !
+!    generation of accessibility distribution, operation  !
+!    of DL_MG in the FULL PBE mode, the additional free   !
+!    energy terms from the FULL treatment of the          !
+!    electrolyte, behaviour of Boltzmann ions in the      !
+!    presence of a *charged* solute, all under            !
+!    Periodic Boundary Conditions.                        !
+!                                                         !
+! Created by J. Dziedzic on 27/02/2020, based on QC test  !
+! 77.                                                     !
+!                                                         !
+! School of Chemistry                                     !
+! University of Southampton                               !
+! Highfield                                               !
+! Southampton SO17 1BJ                                    !
+! UK                                                      !
+!                                                         !
+!=========================================================!
+
+ ! Uncomment to use defect correction code in ONETEP, rather than the default,
+ ! which is to have DL_MG perform defect correction
+ !devel_code: MG:USE_ONETEP_DEFCO=T:MG
+
+ ! This test does not restart from a converged vacuum calculation,
+ ! meaning the solute cavity is not very physical (constructed from
+ ! the guess density). Furthermore, only two NGWF iterations are performed. 
+ ! For these reasons the obtained total energy is not very meaningful.
+ ! This is a Quality Control test, not a production calculation.
+
+ write_forces F
+
+ ! Periodic boundary conditions everywhere
+ multigrid_bc:   P P P
+ ion_ion_bc:     P P P
+ pspot_bc:       P P P
+
+ ! Helps the multigrid solver by making the grid finer
+ fine_grid_scale 3.0
+
+ ! --- Poisson-Boltzmann parameters ---
+ is_pbe                    full
+ is_pbe_temperature        300.0
+ is_pbe_bc_debye_screening T
+
+ is_steric_pot_type M ! smoothed hard-sphere potential
+
+ ! Electronic-isovalue-based component to the electrolyte accessibility
+ ! radius. This models the solute and is hopefully reasonably transferable.
+ ! The below is reasonable, but not a final parameterisation.
+ is_hc_steric_dens_isovalue 0.002
+
+ ! Constant offset component to the electrolyte accessibility radius.
+ ! This models the electrolyte and so will depend on the species.
+ ! Here, in the interest of simplicity, we assume unsolvated K+ and Cl-
+ ! ions, whose ionic radii we average. This gives a rough guess for
+ ! the solvent radius.
+
+%block species_solvent_radius
+Na 3.04
+C  3.04
+%endblock species_solvent_radius
+
+ ! Smoothing of the transition between electrolyte-accessible and 
+ ! electrolyte-inaccesible parts of the system.
+ is_hc_steric_smearing              0.4 bohr
+
+ ! The above corresponds to this:
+ ! ---------------------------------------------------------------
+ ! |      Atomic hard-core steric potential radial cut-offs      |
+ ! +-------------------------------------------------------------+
+ ! |   Species |   Symbol |            Radial cut-off (bohr)     |
+ ! |           |          |     solute      solvent        total |
+ ! |         1 |       Na |   2.336028 +   3.040000 =   5.376028 |
+ ! |         2 |        C |   3.273672 +   3.040000 =   6.313672 |
+ ! ---------------------------------------------------------------
+
+%block sol_ions
+  K +1 0.5 0.2
+ Cl -1 0.5 0.8
+%endblock sol_ions
+
+! **********************************************
+  is_pbe_neutralisation_scheme counterions_fixed
+! **********************************************
+
+ ! ------------------------------------
+
+ print_qc T
+ output_detail VERBOSE
+ timings_level 0
+ write_denskern F
+ write_tightbox_ngwfs F
+ do_properties F
+
+ charge +1
+
+ ngwf_threshold_orig : 0.000002
+ kernel_cutoff : 1000
+ elec_cg_max 0
+ occ_mix 1.0
+ xc_functional PBE
+
+ ! Turns on solvation
+ is_implicit_solvent T
+ is_include_apolar T
+ is_smeared_ion_rep T
+
+ ! Parameters of the implicit solvent model 
+ is_solvent_surf_tension 0.07415 N/m
+ is_apolar_scaling_factor 0.281075
+ is_solvation_beta 1.3
+ is_density_threshold 0.00035
+ is_bulk_permittivity 78.54
+ is_dielectric_model fix_initial
+
+ ! These will make the run reasonably short
+ maxit_pen 0
+ maxit_ngwf_cg 1
+ minit_lnv 2
+ maxit_lnv 2
+
+%block lattice_cart
+ang
+17.1569189652597  0.0000000000000  0.0000000000000
+ 0.0000000000000 17.3347156203502  0.0000000000000 
+ 0.0000000000000  0.0000000000000 31.7506326402000
+%endblock lattice_cart
+
+! ONETEP positions_abs block generated from XYZ file graphene_halfx_halfy.xyz
+! Units: angstroms
+! 112
+! Graphene surface provided by L. Verga, cut in half along x and y
+! Na+ ion added by J. Dziedzic, directly over one of the C's
+! at a Na-C distance taken from a survey of organosodium compounds. 
+! This is probably far from the energy minimum, but simple to generate.
+%block positions_abs
+ang
+Na 0.714872      0.619097       20.785
+C 0.714872000000 0.619097000000 15.875316320100
+C 0.714872000000 3.095485000000 15.875316320100
+C 0.714872000000 5.571873000000 15.875316320100
+C 0.714872000000 8.048261000000 15.875316320100
+C 0.714872000000 10.524649000000 15.875316320100
+C 0.714872000000 13.001037000000 15.875316320100
+C 0.714872000000 15.477425000000 15.875316320100
+C 1.429743000000 1.857291000000 15.875316320100
+C 1.429743000000 4.333679000000 15.875316320100
+C 1.429743000000 6.810067000000 15.875316320100
+C 1.429743000000 9.286455000000 15.875316320100
+C 1.429743000000 11.762843000000 15.875316320100
+C 1.429743000000 14.239231000000 15.875316320100
+C 1.429743000000 16.715619000000 15.875316320100
+C 2.859486000000 1.857291000000 15.875316320100
+C 2.859486000000 4.333679000000 15.875316320100
+C 2.859486000000 6.810067000000 15.875316320100
+C 2.859486000000 9.286455000000 15.875316320100
+C 2.859486000000 11.762843000000 15.875316320100
+C 2.859486000000 14.239231000000 15.875316320100
+C 2.859486000000 16.715619000000 15.875316320100
+C 3.574358000000 0.619097000000 15.875316320100
+C 3.574358000000 3.095485000000 15.875316320100
+C 3.574358000000 5.571873000000 15.875316320100
+C 3.574358000000 8.048261000000 15.875316320100
+C 3.574358000000 10.524649000000 15.875316320100
+C 3.574358000000 13.001037000000 15.875316320100
+C 3.574358000000 15.477425000000 15.875316320100
+C 5.004101000000 0.619097000000 15.875316320100
+C 5.004101000000 3.095485000000 15.875316320100
+C 5.004101000000 5.571873000000 15.875316320100
+C 5.004101000000 8.048261000000 15.875316320100
+C 5.004101000000 10.524649000000 15.875316320100
+C 5.004101000000 13.001037000000 15.875316320100
+C 5.004101000000 15.477425000000 15.875316320100
+C 5.718973000000 1.857291000000 15.875316320100
+C 5.718973000000 4.333679000000 15.875316320100
+C 5.718973000000 6.810067000000 15.875316320100
+C 5.718973000000 9.286455000000 15.875316320100
+C 5.718973000000 11.762843000000 15.875316320100
+C 5.718973000000 14.239231000000 15.875316320100
+C 5.718973000000 16.715619000000 15.875316320100
+C 7.148716000000 1.857291000000 15.875316320100
+C 7.148716000000 4.333679000000 15.875316320100
+C 7.148716000000 6.810067000000 15.875316320100
+C 7.148716000000 9.286455000000 15.875316320100
+C 7.148716000000 11.762843000000 15.875316320100
+C 7.148716000000 14.239231000000 15.875316320100
+C 7.148716000000 16.715619000000 15.875316320100
+C 7.863588000000 0.619097000000 15.875316320100
+C 7.863588000000 3.095485000000 15.875316320100
+C 7.863588000000 5.571873000000 15.875316320100
+C 7.863588000000 8.048261000000 15.875316320100
+C 7.863588000000 10.524649000000 15.875316320100
+C 7.863588000000 13.001037000000 15.875316320100
+C 7.863588000000 15.477425000000 15.875316320100
+C 9.293331000000 0.619097000000 15.875316320100
+C 9.293331000000 3.095485000000 15.875316320100
+C 9.293331000000 5.571873000000 15.875316320100
+C 9.293331000000 8.048261000000 15.875316320100
+C 9.293331000000 10.524649000000 15.875316320100
+C 9.293331000000 13.001037000000 15.875316320100
+C 9.293331000000 15.477425000000 15.875316320100
+C 10.008203000000 1.857291000000 15.875316320100
+C 10.008203000000 4.333679000000 15.875316320100
+C 10.008203000000 6.810067000000 15.875316320100
+C 10.008203000000 9.286455000000 15.875316320100
+C 10.008203000000 11.762843000000 15.875316320100
+C 10.008203000000 14.239231000000 15.875316320100
+C 10.008203000000 16.715619000000 15.875316320100
+C 11.437946000000 1.857291000000 15.875316320100
+C 11.437946000000 4.333679000000 15.875316320100
+C 11.437946000000 6.810067000000 15.875316320100
+C 11.437946000000 9.286455000000 15.875316320100
+C 11.437946000000 11.762843000000 15.875316320100
+C 11.437946000000 14.239231000000 15.875316320100
+C 11.437946000000 16.715619000000 15.875316320100
+C 12.152818000000 0.619097000000 15.875316320100
+C 12.152818000000 3.095485000000 15.875316320100
+C 12.152818000000 5.571873000000 15.875316320100
+C 12.152818000000 8.048261000000 15.875316320100
+C 12.152818000000 10.524649000000 15.875316320100
+C 12.152818000000 13.001037000000 15.875316320100
+C 12.152818000000 15.477425000000 15.875316320100
+C 13.582561000000 0.619097000000 15.875316320100
+C 13.582561000000 3.095485000000 15.875316320100
+C 13.582561000000 5.571873000000 15.875316320100
+C 13.582561000000 8.048261000000 15.875316320100
+C 13.582561000000 10.524649000000 15.875316320100
+C 13.582561000000 13.001037000000 15.875316320100
+C 13.582561000000 15.477425000000 15.875316320100
+C 14.297432000000 1.857291000000 15.875316320100
+C 14.297432000000 4.333679000000 15.875316320100
+C 14.297432000000 6.810067000000 15.875316320100
+C 14.297432000000 9.286455000000 15.875316320100
+C 14.297432000000 11.762843000000 15.875316320100
+C 14.297432000000 14.239231000000 15.875316320100
+C 14.297432000000 16.715619000000 15.875316320100
+C 15.727176000000 1.857291000000 15.875316320100
+C 15.727176000000 4.333679000000 15.875316320100
+C 15.727176000000 6.810067000000 15.875316320100
+C 15.727176000000 9.286455000000 15.875316320100
+C 15.727176000000 11.762843000000 15.875316320100
+C 15.727176000000 14.239231000000 15.875316320100
+C 15.727176000000 16.715619000000 15.875316320100
+C 16.442047000000 0.619097000000 15.875316320100
+C 16.442047000000 3.095485000000 15.875316320100
+C 16.442047000000 5.571873000000 15.875316320100
+C 16.442047000000 8.048261000000 15.875316320100
+C 16.442047000000 10.524649000000 15.875316320100
+C 16.442047000000 13.001037000000 15.875316320100
+C 16.442047000000 15.477425000000 15.875316320100
+%endblock positions_abs
+! Coordinates shifted by 0.000000 0.000000 5.291772
+! Shift in units of angstrom
+
+%BLOCK species
+Na  Na  11  4  7.0
+C   C    6  4  7.0
+%ENDBLOCK species
+
+%BLOCK species_pot
+Na "../../pseudo/sodium.recpot"
+C "../../pseudo/carbon.recpot"
+%ENDBLOCK species_pot

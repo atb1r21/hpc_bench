@@ -1,0 +1,22 @@
+# Config file for BlueGene/Q or /P with mpixlf95 compiler
+#
+# This config is specific to the HARTREE centre's BlueJoule
+# machine in terms of library locations, but should form a
+# good template for other BG/Q or BG/P machines.
+# Contact Nick Hine for more information.
+
+F90 = /bgsys/drivers/ppcfloor/comm/xl/bin/mpixlf95_r
+COMPILER = IBM-xlf90-on-AIX
+FFLAGS = -WF,-DFFTW3,-DSCALAPACK,-DMPI,-DESSL,-DNO_ISNAN,-DDONT_HAVE_LOC -Wl,--allow-multiple-definition -qextname=flush -qextname=etime
+PP_PREF=-WF,
+
+ESSL_LIBDIR = -L/bgsys/ibm_essl/prod/opt/ibmmath/lib64
+LAPACK_LIBDIR = -L/gpfs/packages/ibm/lapack/3.4.2/lib
+SCALAPACK_LIBDIR = -L/gpfs/packages/ibm/scalapack/2.0.2/lib
+FFT_LIBDIR = -L/gpfs/packages/ibm/fftw/3.3.2/lib
+MATHLIBDIRS = $(ESSL_LIBDIR) $(LAPACK_LIBDIR) $(SCALAPACK_LIBDIR) $(FFT_LIBDIR)
+LIBDIRS = $(MATHLIBDIRS) -L/bgsys/drivers/ppcfloor/comm/xl/lib -L/bgsys/drivers/ppcfloor/comm/sys/lib64
+LIBS = $(LIBDIRS) -lfftw3_omp -lfftw3 -lesslsmpbg -lscalapack -llapack -lblas -lpthread -lxlf90 -Wl
+
+DEBUGFLAGS = -O0 -g -C -qnoipa -qarch=qp -qtune=qp -qstrict -qsmp=omp -qsigtrap
+OPTFLAGS = -O2 -qnoipa -qarch=qp -qtune=qp -qstrict -qsmp=omp -qreport

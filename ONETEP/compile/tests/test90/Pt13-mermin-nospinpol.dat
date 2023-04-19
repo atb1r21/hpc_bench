@@ -1,0 +1,70 @@
+! QC test for Mermin
+! Created by Emiliano Poli
+
+! read/write
+print_qc T
+read_denskern F
+read_tightbox_ngwfs F
+write_denskern F
+write_tightbox_ngwfs F
+write_hamiltonian F
+write_xyz F
+timings_level 0
+
+! task
+task singlepoint
+charge 0
+spin_polarized T
+cutoff_energy 1000 eV
+kernel_cutoff 1000
+xc_functional RPBE
+
+mermin T
+mermin_smearing_width 0.1 eV
+mermin_cheb    31
+maxit_mermin   10
+maxit_palser_mano -1
+
+maxit_ngwf_cg 2
+occ_mix 1.0
+elec_cg_max 3
+k_zero 3.0
+
+%block species
+ Pt Pt 78 6 9.0
+ H   H  1 1 9.0
+%endblock species
+
+%block species_atomic_set
+Pt "SOLVE"
+H  "SOLVE"
+%endblock species_atomic_set
+
+%block species_pot
+Pt "../../pseudo/platinum.recpot"
+H  "../../pseudo/hydrogen.recpot"
+%endblock species_pot
+
+
+%block lattice_cart
+ 24.034   0.000   0.000
+  0.000  24.032   0.000
+  0.000   0.000  24.032
+%endblock lattice_cart
+
+%block positions_abs
+Pt    13.999093    17.513983    13.999093
+Pt    17.515873    13.999092    13.999093
+Pt    21.032654    17.513984    13.999093
+Pt    13.999093    13.999093    17.515874
+Pt    13.999093    17.513984    21.030764
+Pt    17.515874    13.999093    21.030764
+Pt    17.515874    17.513983    17.515873
+Pt    21.032654    13.999093    17.515874
+Pt    21.032654    17.513984    21.030764
+Pt    13.999093    21.030764    17.515872
+Pt    17.515874    21.030764    21.030764
+Pt    21.032653    21.030764    17.515872
+Pt    17.515873    21.030764    13.999093
+H     22.226165    17.282789    13.037542
+%endblock positions_abs

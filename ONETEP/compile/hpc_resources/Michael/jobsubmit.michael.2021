@@ -1,0 +1,127 @@
+#!/bin/bash -l
+#$ -S /bin/bash
+
+# -------------------------------------------------------------------
+# A PBS submission script for running ONETEP jobs on Michael.
+# Supports hybrid (MPI/OMP) parallelism.
+# Last updated on 19 March 2021 
+# Arihant Bhandari, a.bhandari@soton.ac.uk, University of Southampton
+# -------------------------------------------------------------------
+
+# v1.00 (2021.03.19)
+
+# ================================================================================
+# Edit this file according to your job requirements. 
+# Copy it to the job directory, change to that directory and submit it by issuing:
+# qsub jobsubmit.michael.2021
+# ================================================================================
+
+#1 Give a name to the job
+#$ -N jobname  
+
+#2 Select priority
+#$ -P Gold  #select a paid 'Gold' job or 'Free' job or 'Test' job (1hr on 48 cores)
+
+#3 Mention allocated project name
+#$ -A Faraday_MSM_sky #Adjust this according to name of the allocated project
+
+#4 Select the type of node to run the job (K: 24-core node or A: 40-core node)
+#$ -ac allow=K 
+
+#5 Specify parallel mpi/omp architecture
+# E.g. requesting 2 K-type nodes (48 cores) with 4 OMP threads per MPI process
+#$ -pe mpi 48         #Specify total number of CPU cores for the job
+threads_per_process=4 #Specify number of OMP threads spawned from each MPI process
+
+#6 Request RAM per core (must be an integer)
+#$ -l mem=1G
+
+#7 Request TMPDIR space per node (default is 10 GB)
+#$ -l tmpfs=10G
+
+#8 Request walltime
+#$ -l h_rt=24:00:00
+
+#9 Path to ONETEP launcher
+onetep_launcher="$HOME/Scratch/onetep_ab/utils/onetep_launcher"
+
+#----------You need not change anything below this line----------
+
+
+export OMP_NUM_THREADS=$threads_per_process
+
+# switch to current working directory
+#$ -cwd
+
+workdir=`pwd`
+echo "--- This is the submission script, the time is `date`."
+echo "--- workdir is '$workdir'."
+echo "--- onetep_launcher is '$onetep_launcher'."
+
+# Ensure exactly 1 .dat file in there.
+ndats=`ls -l *dat | wc -l`
+
+if [ "$ndats" == "0" ]; then
+  echo "!!! There is no .dat file in the current directory. Aborting." >&2
+  touch "%NO_DAT_FILE"
+  exit 2
+fi
+
+if [ "$ndats" == "1" ]; then
+  true
+else
+  echo "!!! More than one .dat file in the current directory, that's too many. Aborting." >&2
+  touch "%MORE_THAN_ONE_DAT_FILE"
+  exit 3
+fi
+
+rootname=`echo *.dat | sed -r "s/\.dat\$//"`
+rootname_dat=$rootname".dat"
+rootname_out=$rootname".out"
+rootname_err=$rootname".err"
+
+echo "--- The input file is $rootname_dat, the output goes to $rootname_out and errors go to $rootname_err."
+
+# Ensure onetep_launcher is there and is indeed executable.
+if [ ! -x "$onetep_launcher" ]; then
+  echo "!!! $onetep_launcher does not exist or is not executable. Aborting!" >&2
+  touch "%ONETEP_LAUNCHER_MISSING"
+  exit 5
+fi
+
+# Dump the module list to a file.
+module list 2>\$modules_loaded
+
+# Actually run ONETEP
+########################################################################################################################################################
+gerun $onetep_launcher -t $threads_per_process $rootname_dat >$rootname_out 2>$rootname_err
+########################################################################################################################################################
+
+echo "--- gerun finished at `date`."
+
+# Check for error conditions
+result=$?
+if [ $result -ne 0 ]; then
+  echo "!!! gerun reported a non-zero exit code $result. Aborting!" >&2
+  touch "%GERUN_ERROR"
+  exit 6
+fi
+
+if [ -r $rootname.error_message ]; then
+  echo "!!! ONETEP left an error message file. Aborting!" >&2
+  touch "%ONETEP_ERROR_DETECTED"
+  exit 7
+fi
+
+tail $rootname.out | grep completed >/dev/null 2>/dev/null
+result=$?
+if [ $result -ne 0 ]; then
+  echo "!!! ONETEP calculation likely did not complete. Aborting!" >&2
+  touch "%ONETEP_DID_NOT_COMPLETE"
+  exit 8
+fi
+
+echo "--- Looks like everything went fine. Praise be."
+touch "%DONE"
+
+echo "--- Finished successfully at `date`."

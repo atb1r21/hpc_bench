@@ -1,0 +1,2778 @@
+==================================================================================
+It's Wed Sep 21 11:59:21 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 37863 37864 37865 37866)...
+    - ONETEP arguments: acetonitrile_anion_hfx_obc.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test95
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test95/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test95/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack acetonitrile_anion_hfx_obc.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 11:59 (+0100)
+ 
+Reading parameters from file "acetonitrile_anion_hfx_obc.dat" ...
+
+WARNING: "cutoff_energy" not specified, but "psinc_spacing" specified.
+         Using the latter to set the KE cutoff energy to  826.82697eV,
+         thus *overriding* the default.
+
+... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+   Determining the default number of threads...
+      No default threads set at compilation time: defaulting to 1.
+      OpenMP library call suggests 10 threads.
+      Hybrid MPI-OpenMP compilation detected.
+      Number of MPI processes > 1.
+      OMP_NUM_THREADS environment variable present and
+      its value matches the one obtained from the OpenMP library call.
+      Using this value as default.
+      Default threads: 10
+      Default applies to threads_max and threads_num_fftboxes.
+      Settings in the input file override this default.
+   ... done
+
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     O  O  O     |
+BC: | Local pseudopotential | pspot_bc [3]    |     O  O  O     |
+BC: | Hartree-Fock exchange | hfx_bc          |     O  O  O     |
+BC: | Multigrid solver      | multigrid_bc    |     O  O  O     |
+BC: | Smeared ions          | smeared_ion_bc  |     O  O  O     |
+BC: | Van der Waals         | vdw_bc          |     O  O  O     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "acetonitrile_anion_hfx_obc.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+    
+  PSINC grid spacing along a1 set to   0.500000000000a0 from input file.
+  PSINC grid spacing along a2 set to   0.500000000000a0 from input file.
+  PSINC grid spacing along a3 set to   0.500000000000a0 from input file.
+  Number of PPD points along a3 set to 1.  This is 
+  the default value, it may have been provided also in the input file.
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+hfx_bc O O O                                                                    
+ion_ion_bc O O O                                                                
+vdw_bc O O O                                                                    
+pspot_bc O O O                                                                  
+multigrid_bc O O O                                                              
+is_smeared_ion_rep T                                                            
+print_qc T                                                                      
+%block swri                                                                     
+for_hfx 2 9 V 12 12 WE                                                          
+%endblock swri                                                                  
+%block species_swri-for_hfx                                                     
+H                                                                               
+C                                                                               
+N                                                                               
+%endblock species_swri-for_hfx                                                  
+do_properties T                                                                 
+hfx_use_ri for_hfx                                                              
+hfx_max_l 2                                                                     
+hfx_max_q 9                                                                     
+hfx_metric ELECTROSTATIC                                                        
+hfx_memory_limit 2000                                                           
+charge -1                                                                       
+maxit_pen 0                                                                     
+maxit_ngwf_cg 2                                                                 
+minit_lnv 5                                                                     
+maxit_lnv 5                                                                     
+write_denskern F                                                                
+write_tightbox_ngwfs F                                                          
+output_detail VERBOSE                                                           
+write_density_plot F                                                            
+dx_format F                                                                     
+cube_format F                                                                   
+xc_functional PBE0                                                              
+%block species                                                                  
+H   H   1 1 7.0                                                                 
+C   C   6 4 7.0                                                                 
+N   N   7 4 7.0                                                                 
+%endblock species                                                               
+%block species_pot                                                              
+H   "../../pseudo/hydrogen.recpot"                                              
+C   "../../pseudo/carbon.recpot"                                                
+N   "../../pseudo/nitrogen.recpot"                                              
+%endblock species_pot                                                           
+psinc_spacing 0.5 0.5 0.5                                                       
+%block lattice_cart                                                             
+31.50000000000000      0.000000000000000       0.000000000000000                
+0.000000000000000      31.50000000000000       0.000000000000000                
+0.000000000000000      0.000000000000000       31.50000000000000                
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =  -000002845094739623709189
+%endblock positions_abs                                                         
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+File: ../../pseudo/nitrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  7;  ionic charge:  5.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C          2         8         2
+  H          3         3         0
+  N          1         4         1
+.......   ......    ......    ......
+Totals:      6        15         3
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   63 x  63 x  63
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.500000000000a0 (KE cutoff=  30.38533Eh = 826.82697eV)
+Grid space d2=  0.500000000000a0 (KE cutoff=  30.38533Eh = 826.82697eV)
+Grid space d3=  0.500000000000a0 (KE cutoff=  30.38533Eh = 826.82697eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     63    63    63
+          Real-space ('12') slabs/proc (min max mean):     15    16    15
+         Recip-space ('23') slabs/proc (min max mean):      8     8     8
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    126   126   126
+          Real-space ('12') slabs/proc (min max mean):     31    32    31
+         Recip-space ('23') slabs/proc (min max mean):     16    16    16
+********************************************************************************
+ONETEP fine grid is 126 x 126 x 126 gridpoints, 31.5000 x 31.5000 x 31.5000 bohr.
+FD multigrid is     121 x 121 x 121 gridpoints, 30.2500 x 30.2500 x 30.2500 bohr.
+
+
+Calculating local pseudopotential in open BC on a radial grid ...
+Discrepancy between calculated realspace psloc and -Z/x on [5a0,54.560a0]:
+max |rel. diff| # avg |rel. diff| #  avg rel. diff #  f # pseudopotential file
+ 0.000270188686    0.000036745688   0.000000747625   12  '../../pseudo/carbon.recpot'
+ 0.000542713417    0.000079000117   0.000000135596   12  '../../pseudo/hydrogen.recpot'
+ 0.000373544539    0.000046639944   0.000001326114   12  '../../pseudo/nitrogen.recpot'
+... done
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Real-space Grid (nr,dr,rmax): 1069    0.0065543071    7.0000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   42    0  182.3119948938
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+  1          0.4759522641   -0.1635739328    0.2820952968   -0.1869147816
+  2         -0.0443676785   -0.1635202028    0.2839650884   -0.1869306407
+  3         -0.2122210026   -0.1629319687    0.2847580159   -0.1876019919
+  4         -0.2997652352   -0.1625934389    0.2851385827   -0.1880425433
+  5         -0.3452732905   -0.1624567798    0.2852733080   -0.1882663746
+  6         -0.3689003276   -0.1624177301    0.2853006718   -0.1883674788
+  7         -0.3811655957   -0.1624156484    0.2852917090   -0.1884096986
+  8         -0.3875353743   -0.1624238148    0.2852754910   -0.1884260828
+  9         -0.3908455184   -0.1624325304    0.2852615181   -0.1884318620
+ 10         -0.3925668737   -0.1624391766    0.2852516401   -0.1884335739
+ 11         -0.3934626247   -0.1624436260    0.2852452769   -0.1884338654
+ 12         -0.3939290426   -0.1624464072    0.2852413900   -0.1884337419
+ 13         -0.3941720432   -0.1624480751    0.2852390940   -0.1884335512
+ 14         -0.3942987086   -0.1624490487    0.2852377681   -0.1884333934
+ 15         -0.3943647632   -0.1624496065    0.2852370144   -0.1884332840
+ 16         -0.3943992237   -0.1624499219    0.2852365907   -0.1884332142
+ 17         -0.3944172081   -0.1624500986    0.2852363545   -0.1884331717
+ 18         -0.3944265970   -0.1624501968    0.2852362237   -0.1884331465
+ 19         -0.3944315001   -0.1624502512    0.2852361515   -0.1884331320
+ 20         -0.3944340613   -0.1624502811    0.2852361119   -0.1884331237
+ 21         -0.3944353995   -0.1624502976    0.2852360901   -0.1884331190
+ 22         -0.3944360989   -0.1624503066    0.2852360782   -0.1884331163
+ 23         -0.3944364646   -0.1624503115    0.2852360717   -0.1884331148
+ 24         -0.3944366557   -0.1624503142    0.2852360682   -0.1884331140
+ 25         -0.3944367557   -0.1624503157    0.2852360663   -0.1884331136
+Atom SCF converged after  25 iterations to a total energy of     -0.39443676
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax): 1069    0.0065543071    7.0000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   42    1  182.3119948938
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -2.2171678676   -0.8763574972    4.5135247483   -1.1188287948
+  2         -3.8079655005   -0.9962983994    4.3824703274   -1.0857525739
+  3         -4.5623691532   -1.0091456230    4.3684729740   -1.0820643035
+  4         -4.8618162207   -1.0146971476    4.3624505103   -1.0806617017
+  5         -4.9812122439   -1.0169202000    4.3600329957   -1.0801377528
+  6         -5.0287777806   -1.0178170891    4.3590557763   -1.0799356717
+  7         -5.0477315115   -1.0181766415    4.3586635558   -1.0798574524
+  8         -5.0552845106   -1.0183204937    4.3585065224   -1.0798271384
+  9         -5.0582942606   -1.0183780465    4.3584436676   -1.0798153881
+ 10         -5.0594934911   -1.0184010974    4.3584184852   -1.0798108343
+ 11         -5.0599712615   -1.0184103446    4.3584083804   -1.0798090702
+ 12         -5.0601615737   -1.0184140610    4.3584043183   -1.0798083873
+ 13         -5.0602373672   -1.0184155576    4.3584026822   -1.0798081231
+ 14         -5.0602675460   -1.0184161615    4.3584020220   -1.0798080211
+ 15         -5.0602795594   -1.0184164056    4.3584017550   -1.0798079817
+ 16         -5.0602843403   -1.0184165045    4.3584016468   -1.0798079666
+ 17         -5.0602862423   -1.0184165446    4.3584016029   -1.0798079608
+ 18         -5.0602869987   -1.0184165609    4.3584015851   -1.0798079585
+ 19         -5.0602872994   -1.0184165676    4.3584015778   -1.0798079577
+ 20         -5.0602874188   -1.0184165703    4.3584015748   -1.0798079574
+ 21         -5.0602874663   -1.0184165714    4.3584015736   -1.0798079572
+Atom SCF converged after  21 iterations to a total energy of     -5.06028747
+
+Atom SCF Calculation for N  : Z (AE atom) =   7 : Z (PS atom) =   5
+Config String:
+Orbitals (num,occ):  2     2.00 3.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax): 1069    0.0065543071    7.0000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   42    1  182.3119948938
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -0.8958571974   -2.7397877908    7.0523824192   -1.4936545130
+  2         -7.9745905367   -1.5027155730    8.1694877174   -1.7034405364
+  3         -8.4617044963   -1.6692107415    7.9906826869   -1.6698790368
+  4         -8.9309701161   -1.6549829482    8.0055803798   -1.6736438124
+  5         -9.0653314453   -1.6643355074    7.9956113767   -1.6720736608
+  6         -9.1286551102   -1.6651493207    7.9947312509   -1.6720694236
+  7         -9.1519965909   -1.6659978777    7.9938245234   -1.6719619734
+  8         -9.1616453230   -1.6662270383    7.9935788398   -1.6719431933
+  9         -9.1654220329   -1.6663355337    7.9934627197   -1.6719325959
+ 10         -9.1669394297   -1.6663743504    7.9934211344   -1.6719294848
+ 11         -9.1675417305   -1.6663902653    7.9934040891   -1.6719282285
+ 12         -9.1677822396   -1.6663963976    7.9933975188   -1.6719278034
+ 13         -9.1678780260   -1.6663988424    7.9933948994   -1.6719276468
+ 14         -9.1679162287   -1.6663998053    7.9933938674   -1.6719275923
+ 15         -9.1679314571   -1.6664001884    7.9933934569   -1.6719275729
+ 16         -9.1679375297   -1.6664003406    7.9933932937   -1.6719275663
+ 17         -9.1679399510   -1.6664004014    7.9933932285   -1.6719275640
+ 18         -9.1679409166   -1.6664004257    7.9933932024   -1.6719275632
+ 19         -9.1679413016   -1.6664004355    7.9933931920   -1.6719275630
+ 20         -9.1679414552   -1.6664004394    7.9933931878   -1.6719275629
+ 21         -9.1679415164   -1.6664004410    7.9933931861   -1.6719275629
+Atom SCF converged after  21 iterations to a total energy of     -9.16794152
+
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     O  O  O     |
+BC: | Local pseudopotential | pspot_bc [3]    |     O  O  O     |
+BC: | Hartree-Fock exchange | hfx_bc          |     O  O  O     |
+BC: | Multigrid solver      | multigrid_bc    |     O  O  O     |
+BC: | Smeared ions          | smeared_ion_bc  |     O  O  O     |
+BC: | Van der Waals         | vdw_bc          |     O  O  O     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...
+... using space-filling curve
+... NGWF load balancing: max      5;  min      1;  average      4
+... Projector load balancing: max      1;  min      0;  average      1
+... done
+Calculating direct Ion-Ion energy ...
+Ion-Ion Energy        :        31.19388932693186
+Basis initialisation ...... NGWF spheres initialised
+... Projector spheres initialised
+... NGWF tight boxes initialised
+... Tight-boxes gathered
+... NGWF basis size (local,global):         17791        54261
+... Nonlocal pseudopotential projector initialisation
+... done
+
+Initialising remote NGWF capability... done. 
+
+SWRI: Initialising module (stage 1)... 
+SWRI: [for_hfx] Initialising (stage 1)...
+SWRI: [for_hfx] - Using default V metric matrix evaluation scheme (2D numerical-1D analytic).
+SWRI: [for_hfx] - Initialising Bessels (l_max=2)... done.
+SWRI: [for_hfx] - Initialising radial lookup... done.
+SWRI: [for_hfx] - SW batch size (tile width) set to 81.
+SWRI: [for_hfx] - Initialising persistent cache structures... done.
+SWRI: [for_hfx] - Initialising metric matrix... done.
+SWRI: [for_hfx] Done.
+SWRI: Stage 1 completed.
+
+========================== Sparse matrix information ===========================
+                        Overlap matrix filling: 100.00%
+                        Density kernel filling: 100.00%
+              NGWF-Proj overlap matrix filling: 100.00%
+                    Hamiltonian matrix filling: 100.00%
+                  NGWF diagonal matrix filling:  22.67%
+                             KS matrix filling: 100.00% 
+                           KSKS matrix filling: 100.00% 
+================================================================================
+
+Sparse matrix initialisation ... done
+HFx: Creating X matrix structure for val rep (spin 1).
+HFx: Creating X matrix structure for val rep (spin 2).
+Initializing spherical harmonic rotation module.
+
+SWRI: Initializing module (stage 2)... 
+SWRI: [for_hfx] Initialising (stage 2)... 
+SWRI: [for_hfx] - NL: Populating neighbour list: SWRI_S_ATOMS... done.
+SWRI: [for_hfx] - Generating and communicating atomblock list.
+SWRI: [for_hfx]   0 atomblocks read from disk.
+SWRI: [for_hfx]   15 atomblocks to process.
+SWRI: [for_hfx]   Sorting atomblocks according to proximitiy to (0.000000,    0.000000,    0.000000).
+SWRI: [for_hfx] - Calculating on-site elements of the metric matrix V... done.
+SWRI: [for_hfx] - Calculating off-site elements of the metric matrix V.
+ +----------------------------------------------------+
+ |  Spherical wave res. of identity Chebyshev engine  |
+ |  Estimated memory requirement per MPI rank         |
+ +----------------------------------------------------+
+ |  workspace atomblock                 :   51.26 kB  |
+ |  vtile                               :   51.26 kB  |
+ |  recvtile                            :   51.26 kB  |
+ |  workers_done                        :   16.00  B  |
+ |  atomblocklist                       :  300.00  B  |
+ |  tilelist (root only)                :  180.00  B  |
+ |  tile hash table (upper bound)       :  205.03 kB  |
+ |  nodes_template                      :  162.00 kB  |
+ |  swop_values                         :    1.58 MB  |
+ |  swy_values                          :    1.58 MB  |
+ |  swhome_all_coeffs                   :   12.81 MB  |
+ |  swpot_batch_coeffs                  :   12.81 MB  |
+ |  all_atomblocks (indices)            :  180.00  B  |
+ |  my_atomblocks (indices)             :  180.00  B  |
+ |  num_q_per_l                         :   36.00  B  |
+ |  atomblock rotation matrix           :   51.26 kB  |
+ +----------------------------------------------------+
+ |  Estimated peak total per MPI rank   :   29.35 MB  |
+ +----------------------------------------------------+
+SWRI: [for_hfx]   15 tiles to process (15 atomblocks x 1 batches)
+SWRI: [for_hfx]   Tiles completed:        0, left:       14, in progress:     1.
+SWRI: [for_hfx]   Tiles completed:        1, left:       10, in progress:     4.
+SWRI: [for_hfx]   Tiles completed:        5, left:        6, in progress:     4.
+SWRI: [for_hfx]   Tiles completed:        9, left:        2, in progress:     4.
+SWRI: [for_hfx]   Tiles completed:       13, left:        0, in progress:     2.
+SWRI: [for_hfx] - Filling the remainder by symmetry.
+SWRI: [for_hfx] - Writing for_hfx.vmatrix to file "acetonitrile_anion_hfx_obc.for_hfx.vmatrix"...done
+SWRI: Done.
+SWX: Initialising module... 
+done.
+NL: Populating neighbour list: HFx_S_ATOMS... done.
+NL: Populating neighbour list: HFx_X_ATOMS... done.
+NL: Populating neighbour list: HFx_XS_ATOMS... done.
+NL: Populating neighbour list: HFx_SXS_ATOMS... done.
+SWX: Initialising val%[hfx_swex]->full-RI->[for_hfx].
+SWX: - min_l: 0, max_l: 2, max_q: 9, num_sws: 81, max_sws: 81.
+SWX: Done.
+
+Generating smeared ion density ... done
+Smeared ion self correction:     -29.920671
+Smeared ion non-self correction: -31.077329
+NGWF initialisation ...... done
+SWX: Invalidating val%[hfx_swex].
+HFx: Stage-1 for val (single NGWF basis).
+HFx: - Parallel distribution... 
+============================= Load distribution =============================   
+|     MPI |      # BC |     # B |     # C |    #B+C |    # NGWF | estimated |
+|    rank |     pairs |   atoms |   atoms |   atoms |  products |      load |
++---------------------------------------------------------------------------+
+|       0 |        11 |       2 |       6 |       8 |        71 |        71 |
+|       1 |        10 |       3 |       6 |       9 |        43 |        43 |
+|       2 |         6 |       2 |       6 |       8 |        60 |        60 |
+|       3 |         9 |       2 |       6 |       8 |        51 |        51 |
++---------------------------------------------------------------------------+
+|     min |         6 |       2 |       6 |       8 |        43 |        43 |
+|     max |        11 |       3 |       6 |       9 |        71 |        71 |
+| average |       9.0 |     2.2 |     6.0 |     8.2 |      56.2 |      56.2 |
+=============================================================================
+HFx: - Communicating metric matrix (ket: BC)...
+HFx: - Communicating NGWFs...
+HFx: - Index book-keeping...
+HFx: - Estimating memory use...
+ +----------------------------------------------------+
+ |  HFx TEFCI engine: minimum requirements            |
+ |  Estimated memory requirement per MPI rank         |
+ +----------------------------------------------------+
+ |  Radial Bessel lookup                :   20.60 MB  |
+ |  Dd NGWFs hash table                 :  150.00 kB  |
+ |  All remote NGWFs hash table         :    4.88 MB  |
+ |  dlists hash table                   :    2.50 MB  |
+ |  coeffs hash table (estimate)        :  211.23 kB  |
+ |  V metric matrix hash table          :    1.77 MB  |
+ |  f auxiliary term                    :   17.69 MB  |
+ |  P term in NGWF gradient             :   17.69 MB  |
+ |  Q term in NGWF gradient             :    5.61 MB  |
+ |  My kets in NGWF grad. (estimate)    :   12.60 MB  |
+ |  Local kets in NGWF grad. (estim.)   :    5.34 MB  |
+ |  K^{CD} hash table                   :  309.00 kB  |
+ |  K^{AB} hash table                   :  304.50 kB  |
+ |  tcK^A_B hash table                  :  304.50 kB  |
+ |  tcK^B_A hash table                  :  304.50 kB  |
+ +----------------------------------------------------+
+ |  Estimated peak total per MPI rank   :   90.24 MB  |
+ +----------------------------------------------------+
+HFx: - Adjusting cache sizes according to weights: 0.6250, 0.3125, 0.0625.
+ +----------------------------------------------------+
+ |  HFx TEFCI engine: user-adjustable requirements    |
+ |  Estimated memory requirement per MPI rank         |
+ +----------------------------------------------------+
+ |  SWOP hash table                     :  136.40 MB  |
+ |  Expansions hash table               :    1.44 GB  |
+ |  AD NGWF products hash table         :  295.00 MB  |
+ +----------------------------------------------------+
+ |  Estimated peak total per MPI rank   :    1.86 GB  |
+ +----------------------------------------------------+
+HFx: - Peak memory use capped at 1998.6 MB per MPI rank.
++------------------------------------------------------------------------------+
+|    MPI |                           |              |           |              |
+|   rank |       SWOP cache capacity | SWOPs needed | Cacheable |    Hit ratio |
++------------------------------------------------------------------------------+
+|      0 |         136 MiB (4500 el) |      4500 el |   100.00% |      100.00% |
+|      1 |         136 MiB (4500 el) |      4500 el |   100.00% |      100.00% |
+|      2 |         136 MiB (4500 el) |      4500 el |   100.00% |      100.00% |
+|      3 |         136 MiB (4500 el) |      4500 el |   100.00% |      100.00% |
++------------------------------------------------------------------------------+
+HFx: - Populating SWOP cache...
+HFx: - Calculating NGWF products...
++------------------------------------------------------------------------------+
+|    MPI |                          AD NGWF product cache                      |
+|   rank | products stored | products left out |           total | store ratio |
++------------------------------------------------------------------------------+
+|      0 |              36 |                 0 |              36 |     100.00% |
+|      1 |              36 |                 0 |              36 |     100.00% |
+|      2 |              36 |                 0 |              36 |     100.00% |
+|      3 |              36 |                 0 |              36 |     100.00% |
++------------------------------------------------------------------------------+
+HFx: ...done.
+SWX: val%[hfx_swex]: Fitting my NGWF pairs (V).
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.34913697E+01     0.92063495E+00
+               2       0.32566455E+01     0.85091962E+00
+               3       0.29667055E+01     0.73489729E+00
+               4       0.26701808E+01     0.67044173E+00
+               5       0.24115427E+01     0.65798232E+00
+               6       0.21724060E+01     0.63673703E+00
+               7       0.19084647E+01     0.59826504E+00
+               8       0.15904980E+01     0.52976247E+00
+               9       0.11879602E+01     0.41726473E+00
+              10       0.76341197E+00     0.26305703E+00
+              11       0.41631065E+00     0.13083709E+00
+              12       0.15667846E+00     0.50380743E-01
+              13       0.24284951E-01     0.77685029E-02
+              14       0.58968910E-03     0.18841698E-03
+              15       0.34773322E-06     0.11110595E-06
+              16       0.12078167E-12     0.39079850E-13
+================================================================================
+Calculating local pseudopotential in open BC on the fine real space grid ...
+... done
+
+Density renormalisation, spin  1 ...
+Target Charge:     9.000000000000 ; Input Charge:     8.000063606188
+MG BCs: +ve charge blocks (gridpoints):      1204 (     110569).
+MG BCs: -ve charge blocks (gridpoints):        70 (       2484).
+MG BCs:     Elided blocks (gridpoints):     14420 (    1658508).
+MG BCs: Computational effort saved:  99.9281%.
+MG BCs: Charge after coarse-graining:            0.9999957.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.542211
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.514302
+MG Discrepancy due to finite box and discretization:     -0.027910 (  -0.78791%)
+MG Correction to account for finite box:                  0.028111
+MG Remaining discrepancy, due to discretization:          0.000202 (   0.00570%)
+Up spin density kernel initialisation ... 
+======= Optimisation of K by Palser-Manolopoulos canonical purification ======== 
+         Iteration  |  Band structure energy |    c_n   
+               1           0.19580562271779    0.5828939
+               2          -0.01482141660119    0.5595254
+               3          -0.25697697295720    0.5249450
+               4          -0.50722999889078    0.4641622
+               5          -0.67994588537284    0.3627538
+               6          -0.73329802548121    0.3196923
+               7          -0.74702385074131    0.3574458
+               8          -0.75648830057624    0.4110384
+               9          -0.76335293461157    0.4624579
+              10          -0.76663817392592    0.4929465
+              11          -0.76729282450785    0.4997444
+              12          -0.76731632915803    0.4999997
+              13          -0.76731636723348    0.5000000
+              14          -0.76731637823418    0.5000000
+              15          -0.76731639473509    0.5000000
+              16          -0.76731641948627    0.5000000
+              17          -0.76731645661244    0.5000000
+              18          -0.76731651229964    0.5000000
+              19          -0.76731659582348    0.5000000
+              20          -0.76731672108580    0.5000000
+              21          -0.76731690890017    0.5000000
+              22          -0.76731719035495    0.5000000
+              23          -0.76731761163824    0.5000000
+              24          -0.76731824054075    0.5000000
+              25          -0.76731917377913    0.5000000
+              26          -0.76732054013535    0.5000000
+              27          -0.76732248128387    0.5000000
+              28          -0.76732506012973    0.5000000
+              29          -0.76732801609334    0.5000000
+              30          -0.76733048555305    0.5000000
+              31          -0.76733156912454    0.5000000
+              32          -0.76733171007032    0.5000000
+              33          -0.76733171205799    0.5000000
+              34          -0.76733171205837    0.5000000
+Termination criterion satisfied: band energy change below threshold.
+Final occupancy bounds: [    0.00000000000000:    1.00000000000000]
+Closest occupancy to 0.5:     1.00000000000000
+================================================================================
+... done
+Down spin density kernel initialisation ... 
+======= Optimisation of K by Palser-Manolopoulos canonical purification ======== 
+         Iteration  |  Band structure energy |    c_n   
+               1           0.25588914031237    0.5491621
+               2          -0.01386630737423    0.5341090
+               3          -0.31754435139356    0.5214599
+               4          -0.61335362559647    0.5233657
+               5          -0.83923948470428    0.5342806
+               6          -0.96266436302850    0.5252468
+               7          -1.01782844219513    0.5061538
+               8          -1.03398775304530    0.5002971
+               9          -1.03527470675145    0.5000007
+              10          -1.03528230723384    0.4999990
+              11          -1.03528230750198    0.4999990
+Termination criterion satisfied: band energy change below threshold.
+Final occupancy bounds: [    0.00000000000000:    1.00000000000000]
+Closest occupancy to 0.5:     1.00000000000000
+================================================================================
+... done
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       9.00000000
+   Initial electron number for spin 2:       8.00000000
+     Final electron number for spin 1:       9.00000000
+     Final electron number for spin 2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000000 (step -0.5000 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [  0.000,  1.000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+MG BCs: +ve charge blocks (gridpoints):      1493 (     114062).
+MG BCs: -ve charge blocks (gridpoints):        69 (       2493).
+MG BCs:     Elided blocks (gridpoints):     14131 (    1655006).
+MG BCs: Computational effort saved:  99.9118%.
+MG BCs: Charge after coarse-graining:            0.9999875.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 4.008249
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.980216
+MG Discrepancy due to finite box and discretization:     -0.028033 (  -0.69938%)
+MG Correction to account for finite box:                  0.028192
+MG Remaining discrepancy, due to discretization:          0.000159 (   0.00397%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  - B:       1 [0] (1)
+  - B:       4 [2] (1)
+  - B:       2 [1] (1)
+  - B:       5 [3] (1)
+  - B:       3 [1] (1)
+  - B:       2 [0] (1)
+  - B:       4 [1] (1)
+  - B:       2 [1] (2)
+  - B:       6 [3] (1)
+  - B:       3 [1] (2)
+  - B:       5 [3] (2)
+  - B:       1 [0] (2)
+  - B:       5 [2] (1)
+  - B:       4 [2] (2)
+  - B:       4 [1] (2)
+  - B:       2 [0] (2)
+  - B:       6 [3] (2)
+  + B:       2 [1]
+  + B:       3 [1]
+  - B:       5 [2] (2)
+  + B:       5 [3]
+  + B:       4 [1]
+  + B:       4 [2]
+  + B:       1 [0]
+  + B:       6 [3]
+  + B:       2 [0]
+  + B:       5 [2]
+HFx: +-----------------------------------------------------------------------+
+HFx: |    MPI |                          Expansion cache                     |
+HFx: |   rank |           hits |         misses |          total | hit ratio |
+HFx: +-----------------------------------------------------------------------+
+HFx: |      0 |          53250 |              0 |          53250 |  100.00 % |
+HFx: |      1 |          32250 |              0 |          32250 |  100.00 % |
+HFx: |      2 |          45000 |              0 |          45000 |  100.00 % |
+HFx: |      3 |          38250 |              0 |          38250 |  100.00 % |
+HFx: +-----------------------------------------------------------------------+
+HFx: +-----------------------------------------------------------------------+
+HFx: |    MPI |                    AD NGWF product cache                     |
+HFx: |   rank |           hits |         misses |          total | hit ratio |
+HFx: +-----------------------------------------------------------------------+
+HFx: |      0 |          21388 |              0 |          21388 |  100.00 % |
+HFx: |      1 |          32082 |              0 |          32082 |  100.00 % |
+HFx: |      2 |          21388 |              0 |          21388 |  100.00 % |
+HFx: |      3 |          21388 |              0 |          21388 |  100.00 % |
+HFx: +-----------------------------------------------------------------------+
+HFx: Exchange matrix symmetric to  4.22 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.851288784301 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.727738881267 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.579027665568 Ha.
+      ideal mu1:      -0.302422468208
+      ideal mu2:      -0.341547729690
+             Q0:         -22.595382615053
+             G0:      -0.400998811062
+   RMS gradient:       0.059702879965
+    Initial Ne1:       9.00000000
+    Initial Ne2:       8.00000000
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000349 (step -0.4992 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+ RMS occupancy error at iteration   2:  0.000000 (step -0.5000 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [  0.000,  1.000]
+================================================================================
+
+    1        -2.259538261505E+01     5.9703E-02     3.7775E-02
+MG BCs: +ve charge blocks (gridpoints):      1479 (     113749).
+MG BCs: -ve charge blocks (gridpoints):        70 (       2490).
+MG BCs:     Elided blocks (gridpoints):     14145 (    1655322).
+MG BCs: Computational effort saved:  99.9126%.
+MG BCs: Charge after coarse-graining:            0.9999875.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.932620
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.904628
+MG Discrepancy due to finite box and discretization:     -0.027991 (  -0.71178%)
+MG Correction to account for finite box:                  0.028151
+MG Remaining discrepancy, due to discretization:          0.000159 (   0.00405%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       1 [0]
+  + B:       5 [3]
+  + B:       3 [1]
+  + B:       2 [0]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  4.22 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.851044538212 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.727150416920 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.578194955132 Ha.
+      ideal mu1:      -0.298179552242
+      ideal mu2:      -0.337758146366
+             Q0:         -22.629396610344
+             G0:      -0.336835071379
+   RMS gradient:       0.042017108127
+MG BCs: +ve charge blocks (gridpoints):      1415 (     111474).
+MG BCs: -ve charge blocks (gridpoints):        73 (       2644).
+MG BCs:     Elided blocks (gridpoints):     14210 (    1657443).
+MG BCs: Computational effort saved:  99.9160%.
+MG BCs: Charge after coarse-graining:            0.9999872.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.629907
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.602038
+MG Discrepancy due to finite box and discretization:     -0.027870 (  -0.76778%)
+MG Correction to account for finite box:                  0.028029
+MG Remaining discrepancy, due to discretization:          0.000160 (   0.00440%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       1 [0]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       5 [2]
+  + B:       6 [3]
+HFx: Exchange matrix symmetric to  4.22 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.853694036227 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.729996747668 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.583690783895 Ha.
+     Trial step:       0.500000000000
+             Q1:         -22.586840585202
+ Quadratic coef:       0.210973560832
+ Linear coef   :      -0.168417535690
+           Qmin:         -22.663008009583
+Quadratic minimum step length (  0.199571850408) accepted
+    Initial Ne1:       9.00000000
+    Initial Ne2:       8.00000000
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.002720 (step -0.4936 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+ RMS occupancy error at iteration   2:  0.000011 (step -0.5000 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [  0.000,  1.000]
+================================================================================
+
+    2        -2.262939661034E+01     4.2017E-02     2.6625E-02    -3.4014E-02
+MG BCs: +ve charge blocks (gridpoints):      1454 (     112750).
+MG BCs: -ve charge blocks (gridpoints):        71 (       2553).
+MG BCs:     Elided blocks (gridpoints):     14170 (    1656258).
+MG BCs: Computational effort saved:  99.9139%.
+MG BCs: Charge after coarse-graining:            0.9999873.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.779760
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.751844
+MG Discrepancy due to finite box and discretization:     -0.027916 (  -0.73856%)
+MG Correction to account for finite box:                  0.028076
+MG Remaining discrepancy, due to discretization:          0.000160 (   0.00423%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       1 [0]
+  + B:       5 [3]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       2 [0]
+  + B:       5 [2]
+  + B:       6 [3]
+HFx: Exchange matrix symmetric to  4.21 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.851411620643 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.727118246151 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.578529866794 Ha.
+      ideal mu1:      -0.283406735583
+      ideal mu2:      -0.322358366276
+             Q0:         -22.663145803134
+             G0:      -0.029582795577
+   RMS gradient:       0.016149942956
+MG BCs: +ve charge blocks (gridpoints):      1445 (     112567).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2561).
+MG BCs:     Elided blocks (gridpoints):     14179 (    1656433).
+MG BCs: Computational effort saved:  99.9144%.
+MG BCs: Charge after coarse-graining:            0.9999872.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.737180
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.709279
+MG Discrepancy due to finite box and discretization:     -0.027902 (  -0.74660%)
+MG Correction to account for finite box:                  0.028062
+MG Remaining discrepancy, due to discretization:          0.000160 (   0.00429%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       1 [0]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  4.21 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.852119283664 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.727470586331 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.579589869994 Ha.
+     Trial step:       0.315889102699
+             Q1:         -22.667903282701
+ Quadratic coef:       0.004587403183
+ Linear coef   :      -0.009344882750
+           Qmin:         -22.667904859082
+Quadratic minimum step length (  0.321744842219) accepted
+    Initial Ne1:       8.99999999
+    Initial Ne2:       7.99999999
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.001490 (step -0.4965 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+ RMS occupancy error at iteration   2:  0.000003 (step -0.5000 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [  0.000,  1.000]
+================================================================================
+
+    3        -2.266314580313E+01     1.6150E-02     1.0139E-02    -3.3749E-02
+MG BCs: +ve charge blocks (gridpoints):      1445 (     112565).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2560).
+MG BCs:     Elided blocks (gridpoints):     14179 (    1656436).
+MG BCs: Computational effort saved:  99.9144%.
+MG BCs: Charge after coarse-graining:            0.9999872.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.736417
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.708516
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.74674%)
+MG Correction to account for finite box:                  0.028062
+MG Remaining discrepancy, due to discretization:          0.000160 (   0.00429%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       1 [0]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  4.21 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.852137179500 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.727484504811 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.579621684311 Ha.
+      ideal mu1:      -0.278272216506
+      ideal mu2:      -0.316764577674
+             Q0:         -22.667974516818
+             G0:      -0.008030810301
+   RMS gradient:       0.008380820893
+MG BCs: +ve charge blocks (gridpoints):      1453 (     112718).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2554).
+MG BCs:     Elided blocks (gridpoints):     14171 (    1656289).
+MG BCs: Computational effort saved:  99.9139%.
+MG BCs: Charge after coarse-graining:            0.9999872.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.752278
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.724377
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.74357%)
+MG Correction to account for finite box:                  0.028061
+MG Remaining discrepancy, due to discretization:          0.000160 (   0.00427%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       1 [0]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  4.21 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.851762607425 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.726663367077 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.578425974502 Ha.
+     Trial step:       0.318803528065
+             Q1:         -22.669218363980
+ Quadratic coef:       0.001316403495
+ Linear coef   :      -0.002560250657
+           Qmin:         -22.669219363753
+Quadratic minimum step length (  0.310017766208) accepted
+    Initial Ne1:       9.00000000
+    Initial Ne2:       8.00000000
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000572 (step -0.4987 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+ RMS occupancy error at iteration   2:  0.000000 (step -0.5000 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [  0.000,  1.000]
+================================================================================
+
+    4        -2.266797451682E+01     8.3808E-03     5.2097E-03    -4.8287E-03
+MG BCs: +ve charge blocks (gridpoints):      1453 (     112718).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2554).
+MG BCs:     Elided blocks (gridpoints):     14171 (    1656289).
+MG BCs: Computational effort saved:  99.9139%.
+MG BCs: Charge after coarse-graining:            0.9999872.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.751840
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.723939
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.74366%)
+MG Correction to account for finite box:                  0.028061
+MG Remaining discrepancy, due to discretization:          0.000160 (   0.00427%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       1 [0]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       3 [1]
+  + B:       2 [0]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  4.21 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.851773339016 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.726686614751 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.578459953767 Ha.
+      ideal mu1:      -0.281019097917
+      ideal mu2:      -0.319702814152
+    5        -2.266923297639E+01     4.9003E-03     3.0532E-03    -1.2585E-03
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -2.26692329763880E+01  Eh
+     Estimated bandgap (UP spin) =   1.0139E-01  Eh
+     Estimated bandgap (DN spin) =   3.6348E-01  Eh
+     RMS occupancy error         =   5.1648E-13
+     [H,K] commutator            =   3.0532E-03
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs: 
+HFx: NGWF gradient calculation for val rep.
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       1 [0]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Communicating NGWF gradient kets.
+  * C:       1 [3]
+  * C:       1 [0]
+  * C:       1 [1]
+  * C:       1 [2]
+  * C:       2 [3]
+  * C:       2 [2]
+  * C:       2 [1]
+  * C:       2 [0]
+  * C:       3 [3]
+  * C:       4 [3]
+  * C:       3 [2]
+  * C:       3 [0]
+  * C:       3 [1]
+  * C:       4 [2]
+  * C:       4 [0]
+  * C:       4 [1]
+  * C:       5 [3]
+  * C:       5 [1]
+  * C:       5 [2]
+  * C:       6 [1]
+  * C:       6 [3]
+  * C:       5 [0]
+  * C:       6 [2]
+  * C:       6 [0]
+HFx: Communicating NGWF gradient kets.
+HFx: Exchange matrix symmetric to  4.21 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.851773339016 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.726686614751 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.578459953767 Ha.
+  NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.9111E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+SWX: Invalidating val%[hfx_swex].
+HFx: Stage-1 for val (single NGWF basis).
+HFx: - Parallel distribution... 
+============================= Load distribution =============================   
+|     MPI |      # BC |     # B |     # C |    #B+C |    # NGWF | estimated |
+|    rank |     pairs |   atoms |   atoms |   atoms |  products |      load |
++---------------------------------------------------------------------------+
+|       0 |        11 |       2 |       6 |       8 |        71 |        71 |
+|       1 |        10 |       3 |       6 |       9 |        43 |        43 |
+|       2 |         6 |       2 |       6 |       8 |        60 |        60 |
+|       3 |         9 |       2 |       6 |       8 |        51 |        51 |
++---------------------------------------------------------------------------+
+|     min |         6 |       2 |       6 |       8 |        43 |        43 |
+|     max |        11 |       3 |       6 |       9 |        71 |        71 |
+| average |       9.0 |     2.2 |     6.0 |     8.2 |      56.2 |      56.2 |
+=============================================================================
+HFx: - Communicating metric matrix (ket: BC)...
+HFx: - Communicating NGWFs...
+HFx: - Index book-keeping...
+HFx: - Calculating NGWF products...
++------------------------------------------------------------------------------+
+|    MPI |                          AD NGWF product cache                      |
+|   rank | products stored | products left out |           total | store ratio |
++------------------------------------------------------------------------------+
+|      0 |              36 |                 0 |              36 |     100.00% |
+|      1 |              36 |                 0 |              36 |     100.00% |
+|      2 |              36 |                 0 |              36 |     100.00% |
+|      3 |              36 |                 0 |              36 |     100.00% |
++------------------------------------------------------------------------------+
+HFx: ...done.
+SWX: val%[hfx_swex]: Fitting my NGWF pairs (V).
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.45547145E-02     0.18055398E-02
+               2       0.88876932E-05     0.34050067E-05
+               3       0.56691651E-10     0.22151836E-10
+               4       0.26908694E-14     0.13322676E-14
+================================================================================
+MG BCs: +ve charge blocks (gridpoints):      1441 (     116230).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2548).
+MG BCs:     Elided blocks (gridpoints):     14183 (    1652783).
+MG BCs: Computational effort saved:  99.9146%.
+MG BCs: Charge after coarse-graining:            0.9999871.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.658994
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.631094
+MG Discrepancy due to finite box and discretization:     -0.027899 (  -0.76249%)
+MG Correction to account for finite box:                  0.028059
+MG Remaining discrepancy, due to discretization:          0.000159 (   0.00435%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  - B:       5 [3] (1)
+  - B:       4 [2] (1)
+  - B:       2 [1] (1)
+  - B:       1 [0] (1)
+  - B:       3 [1] (1)
+  - B:       2 [0] (1)
+  - B:       4 [1] (1)
+  - B:       6 [3] (1)
+  - B:       5 [2] (1)
+  - B:       2 [1] (2)
+  - B:       5 [3] (2)
+  - B:       3 [1] (2)
+  - B:       4 [2] (2)
+  - B:       1 [0] (2)
+  - B:       4 [1] (2)
+  - B:       6 [3] (2)
+  - B:       2 [0] (2)
+  + B:       2 [1]
+  - B:       5 [2] (2)
+  + B:       5 [3]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       4 [2]
+  + B:       1 [0]
+  + B:       2 [0]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  4.19 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.856026572900 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.730952042182 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.586978615082 Ha.
+SWX: Invalidating val%[hfx_swex].
+HFx: Stage-1 for val (single NGWF basis).
+HFx: - Parallel distribution... 
+============================= Load distribution =============================   
+|     MPI |      # BC |     # B |     # C |    #B+C |    # NGWF | estimated |
+|    rank |     pairs |   atoms |   atoms |   atoms |  products |      load |
++---------------------------------------------------------------------------+
+|       0 |        11 |       2 |       6 |       8 |        71 |        71 |
+|       1 |        10 |       3 |       6 |       9 |        43 |        43 |
+|       2 |         6 |       2 |       6 |       8 |        60 |        60 |
+|       3 |         9 |       2 |       6 |       8 |        51 |        51 |
++---------------------------------------------------------------------------+
+|     min |         6 |       2 |       6 |       8 |        43 |        43 |
+|     max |        11 |       3 |       6 |       9 |        71 |        71 |
+| average |       9.0 |     2.2 |     6.0 |     8.2 |      56.2 |      56.2 |
+=============================================================================
+HFx: - Communicating metric matrix (ket: BC)...
+HFx: - Communicating NGWFs...
+HFx: - Index book-keeping...
+HFx: - Calculating NGWF products...
++------------------------------------------------------------------------------+
+|    MPI |                          AD NGWF product cache                      |
+|   rank | products stored | products left out |           total | store ratio |
++------------------------------------------------------------------------------+
+|      0 |              36 |                 0 |              36 |     100.00% |
+|      1 |              36 |                 0 |              36 |     100.00% |
+|      2 |              36 |                 0 |              36 |     100.00% |
+|      3 |              36 |                 0 |              36 |     100.00% |
++------------------------------------------------------------------------------+
+HFx: ...done.
+SWX: val%[hfx_swex]: Fitting my NGWF pairs (V).
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.47815789E-01     0.19421789E-01
+               2       0.88446028E-03     0.34573944E-03
+               3       0.39045538E-06     0.18325302E-06
+               4       0.10265336E-12     0.49515947E-13
+================================================================================
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00191106327141
+Trial step length           =               0.122474
+Gradient along search dir.  =         -0.62967304523
+Functional at step 0        =     -22.66923297638797
+Functional at step 1        =     -22.74188981352052
+Functional predicted        =     -23.00245018002846
+Selected quadratic step     =               1.058382
+Conjugate gradients coeff.  =               0.000000
+--------------------------- NGWF line search finished --------------------------
+                                               
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       9.04755153
+   Initial electron number for spin 2:       8.03776586
+     Final electron number for spin 1:       9.00000000
+     Final electron number for spin 2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.004547 (step -0.4901 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+ RMS occupancy error at iteration   2:  0.000038 (step -0.5000 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [  0.000,  1.000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+MG BCs: +ve charge blocks (gridpoints):      1510 (     132935).
+MG BCs: -ve charge blocks (gridpoints):        74 (       2394).
+MG BCs:     Elided blocks (gridpoints):     14115 (    1636232).
+MG BCs: Computational effort saved:  99.9106%.
+MG BCs: Charge after coarse-graining:            0.9999899.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.057380
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.029485
+MG Discrepancy due to finite box and discretization:     -0.027895 (  -0.91238%)
+MG Correction to account for finite box:                  0.028043
+MG Remaining discrepancy, due to discretization:          0.000148 (   0.00484%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  - B:       1 [0] (1)
+  - B:       2 [1] (1)
+  - B:       4 [2] (1)
+  - B:       5 [3] (1)
+  - B:       3 [1] (1)
+  - B:       4 [1] (1)
+  - B:       2 [0] (1)
+  - B:       6 [3] (1)
+  - B:       5 [2] (1)
+  - B:       2 [1] (2)
+  - B:       5 [3] (2)
+  - B:       3 [1] (2)
+  - B:       4 [2] (2)
+  - B:       1 [0] (2)
+  - B:       4 [1] (2)
+  - B:       2 [0] (2)
+  + B:       2 [1]
+  - B:       6 [3] (2)
+  - B:       5 [2] (2)
+  + B:       3 [1]
+  + B:       5 [3]
+  + B:       4 [1]
+  + B:       4 [2]
+  + B:       6 [3]
+  + B:       1 [0]
+  + B:       5 [2]
+  + B:       2 [0]
+HFx: Exchange matrix symmetric to  3.82 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.889407441628 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764906249091 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.654313690719 Ha.
+      ideal mu1:      -0.206703302845
+      ideal mu2:      -0.244525437810
+             Q0:         -22.998194740793
+             G0:      -0.021872847320
+   RMS gradient:       0.013943647640
+MG BCs: +ve charge blocks (gridpoints):      1515 (     133174).
+MG BCs: -ve charge blocks (gridpoints):        74 (       2373).
+MG BCs:     Elided blocks (gridpoints):     14109 (    1636014).
+MG BCs: Computational effort saved:  99.9103%.
+MG BCs: Charge after coarse-graining:            0.9999898.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.092312
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.064411
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.90228%)
+MG Correction to account for finite box:                  0.028048
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00473%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.82 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.888222936974 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764442487120 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.652665424095 Ha.
+     Trial step:       0.314379957424
+             Q1:         -23.002465369616
+ Quadratic coef:       0.002605755987
+ Linear coef   :      -0.006876384809
+           Qmin:         -23.002731300268
+Quadratic minimum step length (  0.414811972910) accepted
+    Initial Ne1:       8.99999987
+    Initial Ne2:       7.99999989
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000383 (step -0.4988 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+ RMS occupancy error at iteration   2:  0.000000 (step -0.5000 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [  0.000,  1.000]
+================================================================================
+
+    1        -2.299819474079E+01     1.3944E-02     8.7311E-03
+MG BCs: +ve charge blocks (gridpoints):      1515 (     133259).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2366).
+MG BCs:     Elided blocks (gridpoints):     14109 (    1635936).
+MG BCs: Computational effort saved:  99.9104%.
+MG BCs: Charge after coarse-graining:            0.9999898.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.103730
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.075826
+MG Discrepancy due to finite box and discretization:     -0.027903 (  -0.89903%)
+MG Correction to account for finite box:                  0.028049
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00469%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.82 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.887852927445 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764305575588 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.652158503033 Ha.
+      ideal mu1:      -0.216463450252
+      ideal mu2:      -0.254826832151
+             Q0:         -23.002745174255
+             G0:      -0.001545536241
+   RMS gradient:       0.003692209080
+MG BCs: +ve charge blocks (gridpoints):      1515 (     133296).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2362).
+MG BCs:     Elided blocks (gridpoints):     14109 (    1635903).
+MG BCs: Computational effort saved:  99.9104%.
+MG BCs: Charge after coarse-graining:            0.9999898.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.103526
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.075625
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.89901%)
+MG Correction to account for finite box:                  0.028047
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00470%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.82 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.887581652777 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764489488954 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.652071141731 Ha.
+     Trial step:       0.361121268250
+             Q1:         -23.003142129634
+ Quadratic coef:       0.000161170629
+ Linear coef   :      -0.000558126008
+           Qmin:         -23.003228365024
+Quadratic minimum step length (  0.625272647439) accepted
+    Initial Ne1:       8.99999999
+    Initial Ne2:       7.99999999
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000135 (step -0.4996 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [ -0.000,  1.000]
+================================================================================
+
+    2        -2.300274517426E+01     3.6922E-03     2.2786E-03    -4.5504E-03
+MG BCs: +ve charge blocks (gridpoints):      1515 (     133311).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2360).
+MG BCs:     Elided blocks (gridpoints):     14109 (    1635890).
+MG BCs: Computational effort saved:  99.9104%.
+MG BCs: Charge after coarse-graining:            0.9999898.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.103344
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.075444
+MG Discrepancy due to finite box and discretization:     -0.027899 (  -0.89901%)
+MG Correction to account for finite box:                  0.028045
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00470%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       4 [2]
+  + B:       2 [1]
+  + B:       5 [3]
+  + B:       3 [1]
+  + B:       2 [0]
+  + B:       6 [3]
+  + B:       4 [1]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.83 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.887379538757 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764620167676 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.651999706432 Ha.
+      ideal mu1:      -0.217357573649
+      ideal mu2:      -0.255596095187
+             Q0:         -23.003228399930
+             G0:      -0.000573653042
+   RMS gradient:       0.002259172508
+MG BCs: +ve charge blocks (gridpoints):      1517 (     133350).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2358).
+MG BCs:     Elided blocks (gridpoints):     14107 (    1635853).
+MG BCs: Computational effort saved:  99.9103%.
+MG BCs: Charge after coarse-graining:            0.9999898.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.103077
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.075179
+MG Discrepancy due to finite box and discretization:     -0.027898 (  -0.89905%)
+MG Correction to account for finite box:                  0.028044
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00471%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.83 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.887125393617 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764844067946 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.651969461563 Ha.
+     Trial step:       0.475183387173
+             Q1:         -23.003376993045
+ Quadratic coef:       0.000123997281
+ Linear coef   :      -0.000272590396
+           Qmin:         -23.003378212739
+Quadratic minimum step length (  0.522311563956) accepted
+    Initial Ne1:       9.00000024
+    Initial Ne2:       8.00000087
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000093 (step -0.4997 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [ -0.000,  1.000]
+            Final occupancy bounds spin 2: [ -0.000,  1.000]
+================================================================================
+
+    3        -2.300322839993E+01     2.2592E-03     1.3945E-03    -4.8323E-04
+MG BCs: +ve charge blocks (gridpoints):      1519 (     133363).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2358).
+MG BCs:     Elided blocks (gridpoints):     14105 (    1635840).
+MG BCs: Computational effort saved:  99.9102%.
+MG BCs: Charge after coarse-graining:            0.9999898.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.103051
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.075153
+MG Discrepancy due to finite box and discretization:     -0.027898 (  -0.89905%)
+MG Correction to account for finite box:                  0.028044
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00471%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       5 [3]
+  + B:       4 [2]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.83 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.887100161673 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764866231148 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.651966392820 Ha.
+      ideal mu1:      -0.217669304840
+      ideal mu2:      -0.255963692249
+             Q0:         -23.003378451970
+             G0:      -0.000341851756
+   RMS gradient:       0.001741305031
+MG BCs: +ve charge blocks (gridpoints):      1520 (     133415).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2354).
+MG BCs:     Elided blocks (gridpoints):     14104 (    1635792).
+MG BCs: Computational effort saved:  99.9101%.
+MG BCs: Charge after coarse-graining:            0.9999898.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.105018
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.077122
+MG Discrepancy due to finite box and discretization:     -0.027896 (  -0.89842%)
+MG Correction to account for finite box:                  0.028042
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00471%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.83 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.886507072965 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764778931317 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.651286004281 Ha.
+     Trial step:       0.498190503844
+             Q1:         -23.003488253676
+ Quadratic coef:       0.000060505593
+ Linear coef   :      -0.000170307298
+           Qmin:         -23.003498294510
+Quadratic minimum step length (  0.701137484270) accepted
+    Initial Ne1:       9.00000052
+    Initial Ne2:       8.00000176
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000154 (step -0.4993 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [ -0.000,  1.000]
+            Final occupancy bounds spin 2: [ -0.000,  1.000]
+================================================================================
+
+    4        -2.300337845197E+01     1.7413E-03     1.0832E-03    -1.5005E-04
+MG BCs: +ve charge blocks (gridpoints):      1519 (     133436).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2351).
+MG BCs:     Elided blocks (gridpoints):     14105 (    1635774).
+MG BCs: Computational effort saved:  99.9102%.
+MG BCs: Charge after coarse-graining:            0.9999898.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.105819
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.077924
+MG Discrepancy due to finite box and discretization:     -0.027895 (  -0.89816%)
+MG Correction to account for finite box:                  0.028041
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00471%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       6 [3]
+  + B:       4 [1]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.83 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.886264996360 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764743935557 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.651008931916 Ha.
+      ideal mu1:      -0.218450958574
+      ideal mu2:      -0.256771415792
+    5        -2.300349866318E+01     8.0083E-04     4.9888E-04    -1.2021E-04
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -2.30034986631850E+01  Eh
+     Estimated bandgap (UP spin) =   1.0548E-01  Eh
+     Estimated bandgap (DN spin) =   3.6450E-01  Eh
+     RMS occupancy error         =   7.2991E-08
+     [H,K] commutator            =   4.9888E-04
+     UP spin occupancy bounds    = [ -0.000:  1.000]
+     DN spin occupancy bounds    = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+****** Reciprocal space K.E. preconditioning with k_zero =  3.0000 a0^-1 *******
+
+>>> Checking for convergence of NGWFs: 
+HFx: NGWF gradient calculation for val rep.
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       2 [1]
+  + B:       1 [0]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       5 [2]
+  + B:       4 [1]
+  + B:       6 [3]
+HFx: Communicating NGWF gradient kets.
+  * C:       1 [0]
+  * C:       1 [3]
+  * C:       1 [2]
+  * C:       1 [1]
+  * C:       2 [3]
+  * C:       2 [2]
+  * C:       2 [0]
+  * C:       2 [1]
+  * C:       3 [3]
+  * C:       4 [3]
+  * C:       3 [0]
+  * C:       3 [2]
+  * C:       4 [0]
+  * C:       3 [1]
+  * C:       4 [2]
+  * C:       4 [1]
+  * C:       5 [3]
+  * C:       5 [1]
+  * C:       5 [2]
+  * C:       6 [1]
+  * C:       5 [0]
+  * C:       6 [3]
+  * C:       6 [2]
+  * C:       6 [0]
+HFx: Communicating NGWF gradient kets.
+HFx: Exchange matrix symmetric to  3.83 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.886264996360 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.764743935557 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.651008931916 Ha.
+  NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.8081E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+SWX: Invalidating val%[hfx_swex].
+HFx: Stage-1 for val (single NGWF basis).
+HFx: - Parallel distribution... 
+============================= Load distribution =============================   
+|     MPI |      # BC |     # B |     # C |    #B+C |    # NGWF | estimated |
+|    rank |     pairs |   atoms |   atoms |   atoms |  products |      load |
++---------------------------------------------------------------------------+
+|       0 |        11 |       2 |       6 |       8 |        71 |        71 |
+|       1 |        10 |       3 |       6 |       9 |        43 |        43 |
+|       2 |         6 |       2 |       6 |       8 |        60 |        60 |
+|       3 |         9 |       2 |       6 |       8 |        51 |        51 |
++---------------------------------------------------------------------------+
+|     min |         6 |       2 |       6 |       8 |        43 |        43 |
+|     max |        11 |       3 |       6 |       9 |        71 |        71 |
+| average |       9.0 |     2.2 |     6.0 |     8.2 |      56.2 |      56.2 |
+=============================================================================
+HFx: - Communicating metric matrix (ket: BC)...
+HFx: - Communicating NGWFs...
+HFx: - Index book-keeping...
+HFx: - Calculating NGWF products...
++------------------------------------------------------------------------------+
+|    MPI |                          AD NGWF product cache                      |
+|   rank | products stored | products left out |           total | store ratio |
++------------------------------------------------------------------------------+
+|      0 |              36 |                 0 |              36 |     100.00% |
+|      1 |              36 |                 0 |              36 |     100.00% |
+|      2 |              36 |                 0 |              36 |     100.00% |
+|      3 |              36 |                 0 |              36 |     100.00% |
++------------------------------------------------------------------------------+
+HFx: ...done.
+SWX: val%[hfx_swex]: Fitting my NGWF pairs (V).
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.15856071E-01     0.62410793E-02
+               2       0.13214781E-03     0.56079371E-04
+               3       0.11847027E-07     0.52404092E-08
+               4       0.38308302E-14     0.17763568E-14
+================================================================================
+MG BCs: +ve charge blocks (gridpoints):      1615 (     142225).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2331).
+MG BCs:     Elided blocks (gridpoints):     14009 (    1627005).
+MG BCs: Computational effort saved:  99.9048%.
+MG BCs: Charge after coarse-graining:            0.9999891.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.078885
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.050990
+MG Discrepancy due to finite box and discretization:     -0.027895 (  -0.90600%)
+MG Correction to account for finite box:                  0.028041
+MG Remaining discrepancy, due to discretization:          0.000146 (   0.00474%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  - B:       4 [2] (1)
+  - B:       1 [0] (1)
+  - B:       2 [1] (1)
+  - B:       5 [3] (1)
+  - B:       3 [1] (1)
+  - B:       2 [0] (1)
+  - B:       4 [1] (1)
+  - B:       5 [2] (1)
+  - B:       6 [3] (1)
+  - B:       2 [1] (2)
+  - B:       4 [2] (2)
+  - B:       5 [3] (2)
+  - B:       3 [1] (2)
+  - B:       1 [0] (2)
+  - B:       2 [0] (2)
+  - B:       4 [1] (2)
+  - B:       5 [2] (2)
+  - B:       6 [3] (2)
+  + B:       2 [1]
+  + B:       5 [3]
+  + B:       3 [1]
+  + B:       4 [2]
+  + B:       4 [1]
+  + B:       1 [0]
+  + B:       6 [3]
+  + B:       2 [0]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.79 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.888653075108 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.767668719653 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.656321794761 Ha.
+SWX: Invalidating val%[hfx_swex].
+HFx: Stage-1 for val (single NGWF basis).
+HFx: - Parallel distribution... 
+============================= Load distribution =============================   
+|     MPI |      # BC |     # B |     # C |    #B+C |    # NGWF | estimated |
+|    rank |     pairs |   atoms |   atoms |   atoms |  products |      load |
++---------------------------------------------------------------------------+
+|       0 |        11 |       2 |       6 |       8 |        71 |        71 |
+|       1 |        10 |       3 |       6 |       9 |        43 |        43 |
+|       2 |         6 |       2 |       6 |       8 |        60 |        60 |
+|       3 |         9 |       2 |       6 |       8 |        51 |        51 |
++---------------------------------------------------------------------------+
+|     min |         6 |       2 |       6 |       8 |        43 |        43 |
+|     max |        11 |       3 |       6 |       9 |        71 |        71 |
+| average |       9.0 |     2.2 |     6.0 |     8.2 |      56.2 |      56.2 |
+=============================================================================
+HFx: - Communicating metric matrix (ket: BC)...
+HFx: - Communicating NGWFs...
+HFx: - Index book-keeping...
+HFx: - Calculating NGWF products...
++------------------------------------------------------------------------------+
+|    MPI |                          AD NGWF product cache                      |
+|   rank | products stored | products left out |           total | store ratio |
++------------------------------------------------------------------------------+
+|      0 |              36 |                 0 |              36 |     100.00% |
+|      1 |              36 |                 0 |              36 |     100.00% |
+|      2 |              36 |                 0 |              36 |     100.00% |
+|      3 |              36 |                 0 |              36 |     100.00% |
++------------------------------------------------------------------------------+
+HFx: ...done.
+SWX: val%[hfx_swex]: Fitting my NGWF pairs (V).
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.36135239E-01     0.14617174E-01
+               2       0.65639978E-03     0.27913807E-03
+               3       0.28687407E-06     0.12846085E-06
+               4       0.57701135E-13     0.26645353E-13
+================================================================================
+------------------------------- NGWF line search -------------------------------
+RMS gradient                =       0.00078080575526
+Trial step length           =               0.360034
+Gradient along search dir.  =         -0.10508737512
+Functional at step 0        =     -23.00349866318496
+Functional at step 1        =     -23.03492904446124
+Functional predicted        =     -23.05937541809639
+Selected quadratic step     =               1.063434
+Conjugate gradients coeff.  =               0.166931
+--------------------------- NGWF line search finished --------------------------
+                                               
+
+>>> Optimising kernel for current NGWFs:
+   Initial electron number for spin 1:       9.04342340
+   Initial electron number for spin 2:       8.03374742
+     Final electron number for spin 1:       9.00000000
+     Final electron number for spin 2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.003246 (step -0.4929 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+ RMS occupancy error at iteration   2:  0.000018 (step -0.5000 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [  0.000,  1.000]
+================================================================================
+
+................................................................................
+<<<<<<<<<<<<<< LNV (Original version) density kernel optimisation >>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+MG BCs: +ve charge blocks (gridpoints):      1782 (     155503).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2264).
+MG BCs:     Elided blocks (gridpoints):     13843 (    1613794).
+MG BCs: Computational effort saved:  99.8953%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.034695
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.006801
+MG Discrepancy due to finite box and discretization:     -0.027895 (  -0.91919%)
+MG Correction to account for finite box:                  0.028039
+MG Remaining discrepancy, due to discretization:          0.000145 (   0.00477%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  - B:       1 [0] (1)
+  - B:       2 [1] (1)
+  - B:       4 [2] (1)
+  - B:       5 [3] (1)
+  - B:       3 [1] (1)
+  - B:       2 [0] (1)
+  - B:       4 [1] (1)
+  - B:       5 [2] (1)
+  - B:       6 [3] (1)
+  - B:       2 [1] (2)
+  - B:       5 [3] (2)
+  - B:       3 [1] (2)
+  - B:       4 [2] (2)
+  - B:       1 [0] (2)
+  - B:       4 [1] (2)
+  - B:       2 [0] (2)
+  - B:       5 [2] (2)
+  - B:       6 [3] (2)
+  + B:       2 [1]
+  + B:       3 [1]
+  + B:       5 [3]
+  + B:       4 [1]
+  + B:       4 [2]
+  + B:       1 [0]
+  + B:       5 [2]
+  + B:       6 [3]
+  + B:       2 [0]
+HFx: Exchange matrix symmetric to  3.72 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.892652885182 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.772830869985 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665483755167 Ha.
+      ideal mu1:      -0.208108209373
+      ideal mu2:      -0.244992976981
+             Q0:         -23.059557464820
+             G0:      -0.005606922051
+   RMS gradient:       0.007059695965
+MG BCs: +ve charge blocks (gridpoints):      1785 (     155754).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2263).
+MG BCs:     Elided blocks (gridpoints):     13839 (    1613544).
+MG BCs: Computational effort saved:  99.8952%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.059069
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.031163
+MG Discrepancy due to finite box and discretization:     -0.027906 (  -0.91223%)
+MG Correction to account for finite box:                  0.028050
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00471%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       5 [2]
+  + B:       4 [1]
+  + B:       6 [3]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.892800837701 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.773126974020 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665927811721 Ha.
+     Trial step:       0.591016105155
+             Q1:         -23.059911748954
+ Quadratic coef:       0.002959497098
+ Linear coef   :      -0.003313781233
+           Qmin:         -23.060485084082
+Quadratic minimum step length (  0.330883594807) accepted
+    Initial Ne1:       8.99999998
+    Initial Ne2:       7.99999998
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000053 (step -0.4999 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [ -0.000,  1.000]
+            Final occupancy bounds spin 2: [ -0.000,  1.000]
+================================================================================
+
+    1        -2.305955746482E+01     7.0597E-03     4.4536E-03
+MG BCs: +ve charge blocks (gridpoints):      1784 (     155636).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2260).
+MG BCs:     Elided blocks (gridpoints):     13840 (    1613665).
+MG BCs: Computational effort saved:  99.8952%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.047865
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.019964
+MG Discrepancy due to finite box and discretization:     -0.027900 (  -0.91541%)
+MG Correction to account for finite box:                  0.028045
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00474%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       5 [2]
+  + B:       6 [3]
+  + B:       4 [1]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.892723569803 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.772980379997 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665703949800 Ha.
+      ideal mu1:      -0.210121002350
+      ideal mu2:      -0.247528180037
+             Q0:         -23.060484775302
+             G0:      -0.000668015973
+   RMS gradient:       0.002436789777
+MG BCs: +ve charge blocks (gridpoints):      1785 (     155649).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2263).
+MG BCs:     Elided blocks (gridpoints):     13839 (    1613649).
+MG BCs: Computational effort saved:  99.8952%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.051194
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.023293
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.91443%)
+MG Correction to account for finite box:                  0.028045
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00473%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       5 [2]
+  + B:       6 [3]
+  + B:       4 [1]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.892468569639 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.773061820824 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665530390463 Ha.
+     Trial step:       0.442218875063
+             Q1:         -23.060638543208
+ Quadratic coef:       0.000141641367
+ Linear coef   :      -0.000295409272
+           Qmin:         -23.060638802759
+Quadratic minimum step length (  0.461149024189) accepted
+    Initial Ne1:       9.00000003
+    Initial Ne2:       8.00000006
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000030 (step -0.4999 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [ -0.000,  1.000]
+            Final occupancy bounds spin 2: [ -0.000,  1.000]
+================================================================================
+
+    2        -2.306048477530E+01     2.4368E-03     1.5169E-03    -9.2731E-04
+MG BCs: +ve charge blocks (gridpoints):      1785 (     155650).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2263).
+MG BCs:     Elided blocks (gridpoints):     13839 (    1613648).
+MG BCs: Computational effort saved:  99.8952%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.051337
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.023436
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.91439%)
+MG Correction to account for finite box:                  0.028045
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00472%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       5 [2]
+  + B:       6 [3]
+  + B:       4 [1]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.892457626406 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.773065288687 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665522915093 Ha.
+      ideal mu1:      -0.210601846662
+      ideal mu2:      -0.248133244151
+             Q0:         -23.060638845105
+             G0:      -0.000231434012
+   RMS gradient:       0.001433902066
+MG BCs: +ve charge blocks (gridpoints):      1786 (     155657).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2261).
+MG BCs:     Elided blocks (gridpoints):     13839 (    1613643).
+MG BCs: Computational effort saved:  99.8951%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.048424
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.020523
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.91526%)
+MG Correction to account for finite box:                  0.028045
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00473%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       5 [2]
+  + B:       4 [1]
+  + B:       6 [3]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.892352172080 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.773365782037 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665717954118 Ha.
+     Trial step:       0.451584768026
+             Q1:         -23.060710712707
+ Quadratic coef:       0.000032644473
+ Linear coef   :      -0.000104512075
+           Qmin:         -23.060722494592
+Quadratic minimum step length (  0.722879808504) accepted
+    Initial Ne1:       9.00000004
+    Initial Ne2:       8.00000006
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000042 (step -0.4999 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [ -0.000,  1.000]
+            Final occupancy bounds spin 2: [ -0.000,  1.000]
+================================================================================
+
+    3        -2.306063884511E+01     1.4339E-03     8.8132E-04    -1.5407E-04
+MG BCs: +ve charge blocks (gridpoints):      1786 (     155660).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2261).
+MG BCs:     Elided blocks (gridpoints):     13839 (    1613640).
+MG BCs: Computational effort saved:  99.8951%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.046680
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.018779
+MG Discrepancy due to finite box and discretization:     -0.027901 (  -0.91578%)
+MG Correction to account for finite box:                  0.028045
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00473%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       5 [2]
+  + B:       4 [1]
+  + B:       6 [3]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.892288057138 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.773546361712 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665834418851 Ha.
+      ideal mu1:      -0.210081862951
+      ideal mu2:      -0.247609344906
+             Q0:         -23.060722520137
+             G0:      -0.000096424062
+   RMS gradient:       0.000925726023
+MG BCs: +ve charge blocks (gridpoints):      1787 (     155711).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2261).
+MG BCs:     Elided blocks (gridpoints):     13838 (    1613589).
+MG BCs: Computational effort saved:  99.8951%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.048267
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.020367
+MG Discrepancy due to finite box and discretization:     -0.027899 (  -0.91525%)
+MG Correction to account for finite box:                  0.028044
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00473%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       5 [3]
+  + B:       4 [2]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       5 [2]
+  + B:       4 [1]
+  + B:       6 [3]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.891917105010 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.773522572387 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665439677397 Ha.
+     Trial step:       0.571350602200
+             Q1:         -23.060759893433
+ Quadratic coef:       0.000017718650
+ Linear coef   :      -0.000055091946
+           Qmin:         -23.060765343977
+Quadratic minimum step length (  0.888239709963) accepted
+    Initial Ne1:       9.00000004
+    Initial Ne2:       8.00000026
+      Final Ne1:       9.00000000
+      Final Ne2:       8.00000000
+
+=================== Penalty functional idempotency correction ==================
+ RMS occupancy error at iteration   1:  0.000055 (step -0.4997 Ne1=      9.0000)
+                                                               Ne2=      8.0000
+            Final RMS occupancy error   :  0.000000 (Ne1=      9.0000)
+                                                     Ne2=      8.0000
+            Final occupancy bounds spin 1: [  0.000,  1.000]
+            Final occupancy bounds spin 2: [ -0.000,  1.000]
+================================================================================
+
+    4        -2.306072252014E+01     9.2573E-04     5.7118E-04    -8.3675E-05
+MG BCs: +ve charge blocks (gridpoints):      1788 (     155731).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2260).
+MG BCs:     Elided blocks (gridpoints):     13837 (    1613570).
+MG BCs: Computational effort saved:  99.8950%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.049146
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.021247
+MG Discrepancy due to finite box and discretization:     -0.027899 (  -0.91496%)
+MG Correction to account for finite box:                  0.028043
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00473%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       5 [3]
+  + B:       4 [2]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       5 [2]
+  + B:       6 [3]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.891710836553 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.773509286967 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665220123520 Ha.
+      ideal mu1:      -0.210730199098
+      ideal mu2:      -0.248324593962
+    5        -2.306076537063E+01     5.5401E-04     3.4552E-04    -4.2850E-05
+Finished density kernel iterations (   5)
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -2.30607653706298E+01  Eh
+     Estimated bandgap (UP spin) =   1.0441E-01  Eh
+     Estimated bandgap (DN spin) =   3.6102E-01  Eh
+     RMS occupancy error         =   9.3417E-09
+     [H,K] commutator            =   3.4552E-04
+     UP spin occupancy bounds    = [ -0.000:  1.000]
+     DN spin occupancy bounds    = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+MG BCs: +ve charge blocks (gridpoints):      1788 (     155731).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2260).
+MG BCs:     Elided blocks (gridpoints):     13837 (    1613570).
+MG BCs: Computational effort saved:  99.8950%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.049146
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.021247
+MG Discrepancy due to finite box and discretization:     -0.027899 (  -0.91496%)
+MG Correction to account for finite box:                  0.028043
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00473%)
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       17.30117739159014 |
+           | Pseudo. (local,OBC,corr'd) :       -9.24255855809657 |
+           | Pseudopotential (non-local):        2.95969786076833 |
+           | Hartree (molecular)        :        3.04914568991255 |
+           | Exchange-correlation       :       -5.65889717193067 |
+           | Hartree-Fock exchange      :       -1.66522012351971 |
+           | Ion-ion (open BC)          :       31.19388932693186 |
+           | Smeared ion non-self corr. :      -31.07732875617828 |
+           | Smeared ion self corr.     :      -29.92067103010746 |
+           | Total                      :      -23.06076537062980 |
+           --------------------------------------------------------
+           ------ LOCAL ENERGY COMPONENTS FROM MATRIX TRACES ------
+           | Pseudopotential (local)    :       -9.24255855809656 |
+           | Hartree                    :       -2.11538660888407 |
+           --------------------------------------------------------
+           Integrated density           :       16.99999999999999
+           Integrated spin density      :        1.00000000000002
+           Integrated |spin density|    :        1.04005759093262
+           Local density approx. <S^2>  :        0.77002879546632
+           Integrated density tr(KS)    :       17.00000000000000
+           Integrated spin tr(KS)       :        1.00000000000000
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00191106327141    -22.66923297638797   1.058382    -23.00245018002846        
+   1     0.00078080575526    -23.06076537062980  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -23.060765370630
+<QC>           [rms_gradient]:         0.000780805755
+MG BCs: +ve charge blocks (gridpoints):      1788 (     155731).
+MG BCs: -ve charge blocks (gridpoints):        72 (       2260).
+MG BCs:     Elided blocks (gridpoints):     13837 (    1613570).
+MG BCs: Computational effort saved:  99.8950%.
+MG BCs: Charge after coarse-graining:            0.9999877.
+MG DL_MG: Calling solver with defect correction order = 8
+MG DL_MG: Solver finished
+MG Hartree energy from (\int phi*rho dr):                 3.049146
+MG Hartree energy from (\int eps (grad phi)^2 dr):        3.021247
+MG Discrepancy due to finite box and discretization:     -0.027899 (  -0.91496%)
+MG Correction to account for finite box:                  0.028043
+MG Remaining discrepancy, due to discretization:          0.000144 (   0.00473%)
+HFx: Calculation for val (single NGWF basis).
+HFx: Density kernel AB normalised to        9.000 electrons (spin 1).
+HFx: Density kernel AB normalised to        8.000 electrons (spin 2).
+HFx: Density kernel CD normalised to        9.000 electrons (spin 1).
+HFx: Density kernel CD normalised to        8.000 electrons (spin 2).
+  + B:       1 [0]
+  + B:       2 [1]
+  + B:       4 [2]
+  + B:       5 [3]
+  + B:       2 [0]
+  + B:       3 [1]
+  + B:       4 [1]
+  + B:       6 [3]
+  + B:       5 [2]
+HFx: Exchange matrix symmetric to  3.73 digits (rms).
+HFx: Hartree-Fock exchange energy (spin 1):     -0.891710841460 Ha.
+HFx: Hartree-Fock exchange energy (spin 2):     -0.773509295196 Ha.
+HFx: Hartree-Fock exchange energy (total):      -1.665220136656 Ha.
+<QC>      [atom_1_population]:         3.993111281502
+<QC>          [atom_1_charge]:         0.006888718498
+<QC>            [atom_1_spin]:         0.196280794856
+<QC>      [atom_2_population]:         4.899060742808
+<QC>          [atom_2_charge]:        -0.899060742808
+<QC>            [atom_2_spin]:        -0.013410518878
+<QC>      [atom_3_population]:         0.825314859693
+<QC>          [atom_3_charge]:         0.174685140307
+<QC>            [atom_3_spin]:         0.071630942204
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)    Spin (hbar)
+=================================================
+  C      1       3.993      0.007      0.20
+  C      2       4.899     -0.899     -0.01
+  H      3       0.825      0.175      0.07
+  H      4       0.768      0.232      0.02
+  H      5       0.768      0.232      0.02
+  N      6       5.747     -0.747      0.21
+=================================================
+
+        Bond         Population      Spin       Length (bohr)
+=============================================================
+ C     2 -- H     3        0.57     -0.11      2.07477
+ C     2 -- H     4        0.74     -0.03      2.07478
+ C     2 -- H     5        0.74     -0.03      2.07478
+ C     1 -- N     6        1.21     -0.26      2.18275
+ C     1 -- C     2        0.96      0.10      2.75852
+ H     3 -- H     4       -0.23     -0.07      3.36381
+ H     3 -- H     5       -0.23     -0.07      3.36381
+ H     4 -- H     5       -0.02      0.03      3.36387
+ C     1 -- H     3       -0.25     -0.07      3.99263
+ C     1 -- H     4       -0.15     -0.02      3.99271
+ C     1 -- H     5       -0.15     -0.02      3.99271
+ C     2 -- N     6       -0.07     -0.01      4.94126
+=============================================================
+
+
+============== Orbital energy and occupancy information for spin 1 =============
+
+      Total number of orbitals:      15
+   Number of occupied orbitals:       9.000000000
+   Occupancy sum (eigenvalues):       9.000000000
+                 HOMO-LUMO gap:       0.104411378 Eh
+                 Mid-gap level:       0.280630205 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.624289011   0.9999993
+                            2    -0.541044429   0.9999997
+                            3    -0.273121255   0.9999996
+                            4    -0.238695830   0.9999998
+                            5    -0.237646360   1.0000000
+                            6    -0.084058492   0.9999991
+                            7    -0.071945777   0.9999991
+                            8    -0.054201296   0.9999993
+                            9     0.228424516   0.9999900
+                        .......   --- gap ---   .........
+                           10     0.332835894   0.0000002
+                           11     0.395430779   0.0000003
+                           12     0.471974010   0.0000107
+                           13     0.487651237   0.0000007
+                           14     0.531704259   0.0000011
+                           15     1.208080871   0.0000010
+ 
+<QC>    [energy_eigenvalue_1]:        -0.624289011452
+<QC>    [energy_eigenvalue_n]:         1.208080870564
+<QC>            [occupancy_1]:         0.999999265376
+<QC>            [occupancy_n]:         0.000001039914
+
+================================================================================
+
+============== Orbital energy and occupancy information for spin 2 =============
+
+      Total number of orbitals:      15
+   Number of occupied orbitals:       8.000000000
+   Occupancy sum (eigenvalues):       8.000000000
+                 HOMO-LUMO gap:       0.361016099 Eh
+                 Mid-gap level:       0.162296668 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.606425262   0.9999993
+                            2    -0.533606177   0.9999998
+                            3    -0.257510737   0.9999998
+                            4    -0.235260085   0.9999997
+                            5    -0.221764187   0.9999992
+                            6    -0.067525664   0.9999993
+                            7    -0.046297006   0.9999992
+                            8    -0.018211382   0.9999992
+                        .......   --- gap ---   .........
+                            9     0.342804717   0.0000003
+                           10     0.356419576   0.0000010
+                           11     0.404260176   0.0000002
+                           12     0.492420873   0.0000007
+                           13     0.511347804   0.0000005
+                           14     0.549195849   0.0000009
+                           15     1.222335521   0.0000009
+ 
+<QC>    [energy_eigenvalue_1]:        -0.606425261959
+<QC>    [energy_eigenvalue_n]:         1.222335521049
+<QC>            [occupancy_1]:         0.999999321915
+<QC>            [occupancy_n]:         0.000000934058
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+    Spin 1
+| Orbital  Energy (eV)  Norm     |
+| HOMO-5   -6.49524404  1.000000 | 
+| HOMO-4   -6.46668651  1.000000 | 
+| HOMO-3   -2.28734794  1.000000 | 
+| HOMO-2   -1.95774420  1.000000 | 
+| HOMO-1   -1.47489232  1.000000 | 
+| HOMO      6.21574736  1.000000 | 
+| LUMO      9.05692553  1.000000 | 
+| LUMO+1   10.76021901  1.000000 | 
+| LUMO+2   12.84306632  1.000000 | 
+| LUMO+3   13.26966536  1.000000 | 
+| LUMO+4   14.46840908  1.000000 | 
+| LUMO+5   32.87355321  1.000000 | 
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+    Spin 2
+| Orbital  Energy (eV)  Norm     |
+| HOMO-5   -7.00722371  1.000000 | 
+| HOMO-4   -6.40175265  1.000000 | 
+| HOMO-3   -6.03451058  1.000000 | 
+| HOMO-2   -1.83746681  1.000000 | 
+| HOMO-1   -1.25980563  1.000000 | 
+| HOMO     -0.49555692  1.000000 | 
+| LUMO      9.32819100  1.000000 | 
+| LUMO+1    9.69867017  1.000000 | 
+| LUMO+2   11.00047912  1.000000 | 
+| LUMO+3   13.39945376  1.000000 | 
+| LUMO+4   13.91448177  1.000000 | 
+| LUMO+5   14.94437948  1.000000 | 
+================================================================================
+ 
+=============== Density of States (DOS) calculation for UP spin ================
+Writing "acetonitrile_anion_hfx_obc_UP_DOS.txt" ...  done
+================================================================================
+ 
+============== Density of States (DOS) calculation for DOWN spin ===============
+Writing "acetonitrile_anion_hfx_obc_DN_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "acetonitrile_anion_hfx_obc.val_bands" ... done
+SWX: Destroying [val%hfx_swex]... done
+
+Cleaning up after remote NGWF capability... done. 
+SWX: Clean-up... done.
+SWRI: Clean-up... done.
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      55.654s on      4 proc(s)                                    
+TOTAL TIME:        55.655s on      4 proc(s)                                    
+================= AVERAGE TIMINGS FROM ALL PROCS (CUMULATIVE) ==================
+|| TAG                                    #calls    cpu time   %total  Gflops ||
+|| hfx_determine_my_d_atoms             :     5        0.00s   0.000%  ------ ||
+|| hfx_split_pair_list                  :     5        0.00s   0.000%  ------ ||
+|| hfx_determine_my_a_atoms             :     5        0.00s   0.000%  ------ ||
+|| swri_metric_mat_consistency          :     5        0.00s   0.000%  ------ || (3 procs only)
+|| hash_table_purge_[TCDKNBLKS_AB]      :     2        0.00s   0.000%  ------ ||
+|| hash_table_purge_[DKNBLKS_AB]        :     2        0.00s   0.000%  ------ ||
+|| onetep.F90 final imbalance           :     1        0.00s   0.000%  ------ ||
+|| hash_table_purge_[TCDKNBLKS_BA]      :     2        0.00s   0.000%  ------ ||
+|| hfx_main_comms_imbalance             :    31        0.00s   0.000%  ------ ||
+|| onetep.F90 main loop imbalance       :     1        0.00s   0.000%  ------ ||
+|| swri_metric_mat_sc                   :     1        0.00s   0.000%  ------ ||
+|| swri_metric_mat_wait_send            :     3        0.00s   0.000%  ------ ||
+|| swri_metric_mat_cheb_gen_nodes       :     1        0.00s   0.000%  ------ ||
+|| hfx_determine_ppd_list               :     5        0.00s   0.000%  ------ ||
+|| swri_metric_mat_oc_work_imbalance    :     2        0.00s   0.001%  ------ ||
+|| hash_table_purge_[COEFFS]            :     6        0.00s   0.001%  ------ ||
+|| sparse_set_to_garbage                :    44        0.00s   0.001%  ------ ||
+|| hash_table_purge_[ALISTS]            :     6        0.00s   0.001%  ------ ||
+|| swri_metric_mat_wait_req_master      :     5        0.00s   0.004%  ------ || (1 procs only)
+|| neighbour_list_populate              :     5        0.00s   0.001%  ------ ||
+|| parallel_prepare_fd_halos_request    :   186        0.00s   0.002%  ------ ||
+|| remote_pack_ngwf                     :    75        0.00s   0.002%  ------ ||
+|| hash_table_purge_[TILES]             :     1        0.00s   0.002%  ------ ||
+|| hash_table_purge_[DKNBLKS_CD]        :    31        0.00s   0.002%  ------ ||
+|| hfx_all_ad_for_this_b_store          :    69        0.00s   0.002%  ------ ||
+|| swri_metric_mat_RSH_rotation         :     5        0.00s   0.003%  ------ || (3 procs only)
+|| remote_obtain_matrix_block           :    45        0.00s   0.003%  ------ ||
+|| hash_table_purge_[VMETRIC]           :     1        0.00s   0.003%  ------ ||
+|| hfx_contract_over_dkn_cc_dkn_get     :   279        0.00s   0.003%  ------ ||
+|| swri_vmatrixblock_sc                 :    80        0.00s   0.003%  ------ ||
+|| basis_extract_function_from_box      :    45        0.00s   0.003%  ------ ||
+|| pseudopotentials_nonlocal_mat        :     5        0.00s   0.004%  ------ ||
+|| hash_table_purge_[XAB]               :    31        0.00s   0.004%  ------ ||
+|| hf_exchange_calculate_imbalance      :    31        0.00s   0.004%  ------ ||
+|| swri_metric_mat_dispatch             :  4419        0.00s   0.005%  ------ ||
+|| hfx_comms_metric                     :     5        0.00s   0.005%  ------ ||
+|| hfx_determine_bc_pairs               :     5        0.00s   0.006%  ------ ||
+|| hfx_comms_xmatrix_imbalance          :    31        0.00s   0.006%  ------ ||
+|| hfx_comms_gradient_imbalance         :     4        0.00s   0.006%  ------ ||
+|| hash_table_purge_[DLISTS]            :     6        0.00s   0.006%  ------ ||
+|| swri_metric_mat_allocs               :     1        0.00s   0.006%  ------ ||
+|| ngwf_gradient_coeffs                 :     2        0.00s   0.008%  ------ ||
+|| hfx_determine_alists                 :     5        0.00s   0.008%  ------ ||
+|| hash_table_purge_[PPD_NGWFS_DD]      :     6        0.00s   0.008%  ------ ||
+|| swri_metric_mat_symmetry             :     1        0.01s   0.009%  ------ ||
+|| sparse_init                          :     1        0.01s   0.010%  ------ ||
+|| hash_table_purge_[AKETS_DKN_LOC]     :     4        0.01s   0.012%  ------ ||
+|| sparse_embed_hotelling_invert_embed  :     5        0.01s   0.012%  ------ ||
+|| pseudo_make_structure_factor         :     1        0.01s   0.012%  ------ ||
+|| dense_eigensolve                     :     2        0.01s   0.012%  ------ ||
+|| remote_obtain_dkn_block              :  1197        0.01s   0.013%  ------ ||
+|| parallel_prepare_fd_halos_alloc      :   186        0.01s   0.014%  ------ ||
+|| hfx_determine_a_ppd_list_for_b       :   108        0.01s   0.014%  ------ ||
+|| hfx_comms_dkn                        :    37        0.01s   0.015%  ------ ||
+|| hash_table_purge_[SWOP_HITS]         :     1        0.01s   0.015%  ------ ||
+|| swri_metric_mat_wait_req_worker      :     4        0.01s   0.025%  ------ || (3 procs only)
+|| swri_build_matrix_2                  :    90        0.01s   0.020%  ------ ||
+|| basis_dot_function_with_box          :  2287        0.01s   0.021%  ------ ||
+|| remote_obtain_ngwf                   :   258        0.01s   0.023%  ------ ||
+|| openbc_locps_on_grid                 :     1        0.01s   0.025%  ------ ||
+|| hash_table_purge_[AKETS_DKN_MY]      :     4        0.02s   0.027%  ------ ||
+|| function_ops_brappd_ketppd           :     5        0.02s   0.027%  ------ ||
+|| remote_unpack_ngwf_no_sphere         :  2036        0.02s   0.029%  ------ ||
+|| hfx_comms_ngwfs                      :    20        0.02s   0.029%  ------ ||
+|| hfx_accum_q_beta                     :   270        0.02s   0.029%  ------ ||
+|| hash_table_purge_[NGWFS]             :    12        0.02s   0.031%  ------ ||
+|| swri_swop_calc_all_in_ppd_fast       :  5000        0.02s   0.033%  ------ ||
+|| parallel_prepare_fd_halos_satisfy    :   186        0.02s   0.034%  ------ ||
+|| hfx_determine_dlists                 :     5        0.02s   0.036%  ------ ||
+|| hash_table_purge_[PPD_PRODUCTS]      :     6        0.02s   0.041%  ------ ||
+|| basis_add_function_to_box            :  4275        0.02s   0.041%  ------ ||
+|| parallel_prepare_fd_halos_comms_imbal:   186        0.02s   0.042%  ------ ||
+|| palser_mano_kernel_optimise          :     2        0.02s   0.043%  ------ ||
+|| hfx_populate_swop_cache_imbalance    :     2        0.02s   0.044%  ------ ||
+|| hash_table_purge_[SWOPS_IN_PPDS]     :     3        0.03s   0.046%  ------ ||
+|| lnv_gradient_norm                    :    15        0.03s   0.048%  ------ ||
+|| hfx_gradient_term2_qexpand3          :   450        0.03s   0.048%  ------ ||
+|| hfx_calc_p_ac                        :    72        0.03s   0.049%  ------ ||
+|| remote_unpack_ngwf                   :  2887        0.03s   0.053%  ------ ||
+|| hfx_gradient_term2_part0             :    12        0.03s   0.056%  ------ ||
+|| swri_metric_mat_home_sws             :     1        0.03s   0.059%  ------ ||
+|| ngwfs_initialise_from_radial         :     1        0.04s   0.065%  ------ ||
+|| hash_table_list                      :   207        0.04s   0.067%  ------ ||
+|| swri_metric_mat_eval_swpot           :   303        0.04s   0.069%  ------ ||
+|| parallel_prepare_fd_halos_clear      :   186        0.04s   0.070%  ------ ||
+|| basis_copy_function_to_box           :   502        0.04s   0.077%  ------ ||
+|| kernel_purify                        :    46        0.04s   0.080%  ------ ||
+|| swri_metric_mat_cheb_expand          :   303        0.05s   0.089%  ------ ||
+|| hfx_populate_swop_cache_bookkeeping  :     1        0.05s   0.095%  ------ ||
+|| hfx_comms_xmatrix                    :    31        0.06s   0.100%  ------ ||
+|| swri_metric_mat_cheb_int_product     : 12453        0.06s   0.104%  ------ ||
+|| kernel_fix                           :    15        0.06s   0.105%  ------ ||
+|| sparse_trace                         :  1512        0.06s   0.112%  ------ ||
+|| hash_table_purge_[EXPANSIONS]        :     7        0.07s   0.133%  ------ ||
+|| fourier_apply_box_pair               :    71        0.08s   0.146%  78.382 ||
+|| projectors_init_fftbox_recip         :     7        0.09s   0.163%  ------ ||
+|| integrals_kinetic                    :     5        0.10s   0.173%  ------ ||
+|| hfx_contract_over_dkn_cc_main        :   279        0.10s   0.181%  ------ ||
+|| projectors_gradient_batch            :     2        0.10s   0.184%  ------ ||
+|| sparse_product                       :  1559        0.11s   0.189%  ------ ||
+|| projectors_func_ovlp_box             :     5        0.11s   0.199%  ------ ||
+|| parallel_prepare_fd_halos_comms_wait :   186        0.11s   0.200%  ------ ||
+|| hfx_gradient_term2_part1             :    12        0.12s   0.211%  ------ ||
+|| hash_table_free                      :    90        0.12s   0.222%  ------ ||
+|| eigenstates_calculate                :     1        0.13s   0.240%  ------ ||
+|| hfx_populate_swop_cache_sort         :     1        0.14s   0.246%  ------ ||
+|| internal_tile_by_chebs               :     3        0.15s   0.275%  ------ ||
+|| hfx_populate_swop_cache_calc         :     1        0.16s   0.282%  ------ ||
+|| hfx_grad_ket_dkn_baccum              :     4        0.16s   0.286%  ------ ||
+|| hfx_gradient_term2_part2             :    30        0.17s   0.297%  ------ ||
+|| hfx_calc_aa_dd_ngwf_prods_in_ppds    :     5        0.17s   0.302%  ------ ||
+|| swri_metric_mat_main_loop            :     1        0.17s   0.304%  ------ ||
+|| density_init_guess_real              :     1        0.17s   0.313%  ------ ||
+|| hfx_all_ad_for_this_b_main           :    69        0.19s   0.339%  ------ ||
+|| swx_my_ngwf_pair_fitting             :     5        0.19s   0.340%  ------ ||
+|| swx_expand_my_ngwf_pairs             :     5        0.19s   0.341%  ------ ||
+|| hfx_all_ad_for_this_b                :    69        0.19s   0.341%  ------ ||
+|| linalg_dgesv                         :   693        0.19s   0.350%  ------ ||
+|| parallel_prepare_fd_halos            :   186        0.20s   0.364%  ------ ||
+|| hfx_expand_ngwf_pairs                :     5        0.22s   0.394%  ------ ||
+|| hfx_gradient_term2_imbal             :     2        0.23s   0.409%  ------ ||
+|| swri_metric_mat_oc                   :     1        0.23s   0.413%  ------ ||
+|| swri_init_container_stage_2          :     1        0.24s   0.424%  ------ ||
+|| cell_grid_deposit_box_real           :   610        0.24s   0.439%  ------ ||
+|| density_batch_row_sums               :    30        0.26s   0.465%  ------ ||
+|| hfx_comms_gradient                   :     4        0.29s   0.521%  ------ ||
+|| hfx_populate_swop_cache              :     1        0.35s   0.625%  ------ ||
+|| hfx_calc_expansion_for_q             :   450        0.35s   0.634%  ------ ||
+|| hfx_gradient_term2_qexpand2          :   450        0.36s   0.638%  ------ ||
+|| density_fftbox_deposit_to_cell       :   300        0.37s   0.666%  ------ ||
+|| integrals_locpot_mat_els_batch       :    37        0.38s   0.689%  ------ ||
+|| hfx_calc_expansions_bb_cc            :   562        0.41s   0.735%  ------ ||
+|| finite_difference_derivative         :   186        0.44s   0.783%  ------ ||
+|| swx_swop_quantity_overlap_ppd_fast   :   693        0.45s   0.801%  ------ ||
+|| hfx_main_work_imbalance              :    31        0.47s   0.843%  ------ ||
+|| hfx_gradient_term2_qexpand           :   450        0.52s   0.938%  ------ ||
+|| hfx_contract_over_dkn_cc_expa_get    :   279        0.53s   0.945%  ------ ||
+|| hfx_dkn_indep_preparation            :     5        0.59s   1.063%  ------ ||
+|| ngwf_gradient_build_batch            :     2        0.63s   1.126%  ------ ||
+|| swx_expansion_2_fast                 :   693        0.67s   1.207%  ------ ||
+|| cell_grid_extract_box_real           :  1017        0.73s   1.318%  ------ ||
+|| hfx_gradient_term2_part3             :    30        0.93s   1.670%  ------ ||
+|| density_fftbox_interpolate_multiply  :   300        1.01s   1.812%  ------ ||
+|| hfx_contract_over_dkn_cc             :    69        1.03s   1.845%  ------ ||
+|| fourier_apply_box                    :   906        1.11s   2.000% 356.119 ||
+|| ngwf_gradient_batch                  :     2        1.11s   2.003%  ------ ||
+|| hfx_main_ngwf_grad1                  :     2        1.23s   2.212%  ------ ||
+|| hfx_gradient_term2                   :     2        1.50s   2.693%  ------ ||
+|| hamiltonian_energy_components        :     1        1.58s   2.848%  ------ ||
+|| sw_init                              :     1        1.59s   2.858%  ------ ||
+|| properties_calculate                 :     1        1.67s   2.994%  ------ ||
+|| hfx_gradient                         :     4        2.11s   3.800%  ------ ||
+|| fourier_apply_cell_forward           :   248        2.28s   4.102%  11.490 ||
+|| multigrid_prepare_bound_cond         :    31        2.39s   4.294%  ------ ||
+|| fourier_apply_cell_backward          :   248        2.42s   4.354%  10.828 ||
+|| hfx_main_ngwf_grad2                  :     2        2.70s   4.852%  ------ ||
+|| openbc_locps_radial                  :     1        2.71s   4.877%  ------ ||
+|| energy_and_force_init_cell           :     1        2.92s   5.245%  ------ ||
+|| potential_apply_to_ngwf_batch        :    37        4.74s   8.526%  ------ ||
+|| density_batch_interp_deposit         :    30        4.85s   8.716%  ------ ||
+|| integrals_locpot_dbl_grid            :    37        5.27s   9.473%  ------ ||
+|| ngwf_gradient_lnv                    :     2        5.57s  10.015%  ------ ||
+|| density_on_dbl_grid                  :    30        5.83s  10.468%  ------ ||
+|| xc_energy_potential                  :    31        5.89s  10.580%  ------ ||
+|| hfx_main                             :    31        6.30s  11.319%  ------ ||
+|| hf_exchange_calculate                :    31        6.37s  11.445%  ------ ||
+|| dl_mg_solver_calls                   :    31       18.55s  33.323%  ------ ||
+|| multigrid_calculate_hartree          :    31       21.79s  39.145%  ------ ||
+|| hamiltonian_lhxc_calculate           :    29       33.11s  59.487%  ------ ||
+|| lnv_denskernel_optimise_cg           :     3       36.20s  65.041%  ------ ||
+|| ngwf_cg_optimise                     :     1       46.58s  83.696%  ------ ||
+|| energy_and_force_calculate           :     1       52.42s  94.183%  ------ ||
+|| total_time                           :     1       55.65s 100.000%  ------ ||
+================================================================================
+Overhead of generating timer report: 
+- 0 ms averaging over threads,
+- 1 ms ensuring consistency across MPI ranks,
+- 1 ms printing in order.
+
+Job completed: 21-09-2022 12:00 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

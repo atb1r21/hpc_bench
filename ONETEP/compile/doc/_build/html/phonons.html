@@ -1,0 +1,611 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Phonon calculations &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Transition States and NEB" href="index_transition_states.html" />
+    <link rel="prev" title="Born-Oppenheimer Molecular Dynamics" href="BOMD.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="phonon-calculations">
+<h1>Phonon calculations<a class="headerlink" href="#phonon-calculations" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Fabiano Corsetti, Imperial College London</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">September, 2013</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<p>We make use of the harmonic approximation, in which the total energy of
+the system <span class="math">\(E^\mathrm{tot}\)</span> is expanded to quadratic order in the
+displacement of the ions about their equilibrium positions:</p>
+<div class="math">
+\[E^\mathrm{tot} = E^\mathrm{eq} + \frac{1}{2} \sum_{a,\alpha,\kappa,a',\alpha',\kappa'} u_{a,\alpha,\kappa} \phi_{\kappa,\kappa'}^{\alpha,\alpha'} \left ( a,a' \right ) u_{a',\alpha',\kappa'},\]</div>
+<p>where <span class="math">\(E^\mathrm{eq}\)</span> is the equilibrium energy and
+<span class="math">\(u_{a,\alpha,\kappa}\)</span> denotes a small displacement of ion
+<span class="math">\(\alpha\)</span> belonging to unit cell <span class="math">\(a\)</span> in the Cartesian
+coordinate direction <span class="math">\(\kappa\)</span> from its equilibrium position;
+<span class="math">\(\boldsymbol{\phi} \left ( a,a' \right )\)</span> is known as the force
+constants matrix, defined as</p>
+<div class="math">
+\[\phi_{\kappa,\kappa'}^{\alpha,\alpha'} \left ( a,a' \right ) = \frac{\partial^2 E}{\partial u_{a,\alpha,\kappa} \partial u_{a',\alpha',\kappa'}}.\]</div>
+<p>It can be shown that the phonon frequencies
+<span class="math">\(\omega_{\mathbf{q},n}\)</span> at wavevector <span class="math">\(\mathbf{q}\)</span> are the
+eigenvalues of the dynamical matrix
+<span class="math">\(\mathbf{D} \left ( \mathbf{q} \right )\)</span>, which can be calculated
+from the Fourier transform of the force constants matrix:</p>
+<div class="math" id="equation-dynamical-mat">
+<span class="eqno">(1)<a class="headerlink" href="#equation-dynamical-mat" title="Permalink to this equation">¶</a></span>\[D_{\kappa,\kappa'}^{\alpha,\alpha'} \left ( \mathbf{q} \right ) = \frac{1}{\sqrt{M_\alpha M_{\alpha'}}} \sum_a \phi_{\kappa,\kappa'}^{\alpha,\alpha'} \left ( a,0 \right ) \mathrm{e}^{-\mathrm{i} \mathbf{q} \cdot \mathbf{R}_a},\]</div>
+<p>where <span class="math">\(M_\alpha\)</span> is the mass of ion <span class="math">\(\alpha\)</span> and
+<span class="math">\(\mathbf{R}_a\)</span> is the lattice vector displacement for unit cell
+<span class="math">\(a\)</span>. The vibrational free energy for the unit cell is then given
+by</p>
+<div class="math" id="equation-free-energy">
+<span class="eqno">(2)<a class="headerlink" href="#equation-free-energy" title="Permalink to this equation">¶</a></span>\[F \left ( T \right ) = \frac{1}{2} \sum_{\mathbf{q},n} \omega_{\mathbf{q},n} + k_\mathrm{B} T \sum_{\mathbf{q},n} \ln{\left ( 1-\mathrm{e}^{-\omega_{\mathbf{q},n}/k_\mathrm{B} T} \right )},\]</div>
+<p>where the first term is the zero-point energy of the system, and the
+second term is the temperature-dependent part of the free energy. In the
+limit of an infinite periodic system the sum over <span class="math">\(\mathbf{q}\)</span>
+should be replaced by an integral of the phonon dispersion curves over
+the first Brillouin zone.</p>
+<p>The <code class="docutils literal"><span class="pre">phonon</span></code> module in onetep uses the <em>finite-displacement</em> method to
+calculate the phonon frequencies of the system; for molecules (the
+default), only the <span class="math">\(\Gamma\)</span>-point frequencies
+<span class="math">\(\omega_{\mathbf{0},n}\)</span> are calculated, while for supercells of
+bulk crystal, any arbitrary q point <span class="math">\(\omega_{\mathbf{q},n}\)</span> can be
+calculated. The elements of the force constants matrix are calculated by
+a central-difference formula, using either 2 (the default) or 4
+displacements:</p>
+<div class="math" id="equation-fd">
+<span class="eqno">(3)<a class="headerlink" href="#equation-fd" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{cases}
+\phi_{\kappa,\kappa'}^{\alpha,\alpha'} \approx \frac{F_{\alpha,\kappa}^+ - F_{\alpha,\kappa}^-}{2d} &amp; \text{\texttt{phonon\_sampling 1} (2 disps.)} \\
+\phi_{\kappa,\kappa'}^{\alpha,\alpha'} \approx \frac{- F_{\alpha,\kappa}^{2+} + 8 F_{\alpha,\kappa}^+ - 8 F_{\alpha,\kappa}^- + F_{\alpha,\kappa}^{2-}}{12d} &amp; \text{\texttt{phonon\_sampling 2} (4 disps.)}
+\end{cases},\end{split}\]</div>
+<p>where <span class="math">\(F_{\alpha,\kappa}^\pm\)</span> is the force on ion <span class="math">\(\alpha\)</span>
+in direction <span class="math">\(\kappa\)</span> caused by a displacement <span class="math">\(\pm d\)</span> of
+ion <span class="math">\(\alpha'\)</span> in direction <span class="math">\(\kappa'\)</span>, and
+<span class="math">\(F_{\alpha,\kappa}^{2\pm}\)</span> is the same for a displacement
+<span class="math">\(\pm 2d\)</span>. Therefore, <span class="math">\(6N\)</span>/<span class="math">\(12N\)</span> calculations are
+needed in total, where <span class="math">\(N\)</span> is the number of atoms in the system.
+However, each of these calculations is simply a small perturbation on
+the equilibrium configuration. Therefore, the converged set of NGWFs
+<span class="math">\(\left \{ \xi_\beta \left ( \mathbf{r} \right ) \right \}\)</span> and
+density kernel <span class="math">\(\mathbf{K}\)</span> that are obtained from a preliminary
+ground-state calculation on the equilibrium structure are used as the
+starting guess for each of the displacement calculations.</p>
+</div>
+<div class="section" id="overview-of-the-phonon-module">
+<h2>Overview of the <code class="docutils literal"><span class="pre">phonon</span></code> module<a class="headerlink" href="#overview-of-the-phonon-module" title="Permalink to this headline">¶</a></h2>
+<p>A phonon calculation in onetep is divided into three stages:</p>
+<ol class="arabic simple">
+<li>A ground-state calculation is performed for the unperturbed
+configuration, as specified in the input file. The forces on the ions
+are then calculated, and the code checks that the magnitude of the
+force on every ion is smaller than the value specified by
+<code class="docutils literal"><span class="pre">phonon_fmax</span></code>, as the starting configuration must correspond to a
+minimum in the energy landscape for the phonon calculation to be
+meaningful. If this requirement is not met, the calculation is
+interrupted.</li>
+<li>Each ion is displaced in turn in the <span class="math">\(+\)</span>ve and <span class="math">\(-\)</span>ve
+x-, y-, and z-directions by a distance <span class="math">\(d\)</span> (and, optionally,
+<span class="math">\(2d\)</span>). For each displacement a separate ground-state
+calculation is performed. The initial description of the electronic
+structure is read in each time from the converged files
+<code class="docutils literal"><span class="pre">&lt;seedname&gt;.dkn</span></code> and <code class="docutils literal"><span class="pre">&lt;seedname&gt;.tightbox_ngwfs</span></code> for the
+unperturbed structure that have been obtained from Stage 1; the
+overwriting of these files is therefore disabled at the start of
+Stage 2. After each set of <span class="math">\(+\)</span>ve/<span class="math">\(-\)</span>ve
+displacements, one row of the force constants matrix is calculated
+and written to the file <code class="docutils literal"><span class="pre">&lt;seedname&gt;.force_consts_&lt;i&gt;</span></code>, where
+<code class="docutils literal"><span class="pre">&lt;i&gt;</span></code> is the number identifier of the row (going from 1 to
+<span class="math">\(3N\)</span> for an <span class="math">\(N\)</span>-atom system). It is important to note
+that <em>not all rows are necessarily computed</em>, if some vibrational
+degrees of freedom are switched off (see section on selecting degrees of freedom below), and/or a
+supercell calculation of bulk crystal is being performed
+(see section on supercell calculations below); however, <code class="docutils literal"><span class="pre">&lt;i&gt;</span></code> retains the same value as it
+would have if all <span class="math">\(3N\)</span> rows were to be used.</li>
+<li>The rows of the force constants matrix are read back in from the
+files <code class="docutils literal"><span class="pre">&lt;seedname&gt;.force_consts_&lt;i&gt;</span></code>, and the full force constants
+matrix is constructed. The dynamical matrix can then be calculated
+for the desired q points and diagonalized to find the phonon
+frequencies. First, the phonon frequencies are calculated on a
+regular grid of q points (<span class="math">\(\Gamma\)</span> only for a molecule); in
+either case, the <span class="math">\(\Gamma\)</span>-point frequencies only are printed to
+standard output. Then, the following thermodynamic quantities are
+calculated on the full grid and printed to standard output: the
+zero-point energy, and the free energy, entropy, internal energy, and
+specific heat within a user-specified temperature range. The phonon
+DOS is also calculated on the full grid and written to the file
+<code class="docutils literal"><span class="pre">&lt;seedname&gt;.qdos</span></code>. Additionally, the user can specify a list of
+arbitrary q points, for which the phonon frequencies (and,
+optionally, the corresponding eigenvectors) are calculated and
+written to the file <code class="docutils literal"><span class="pre">&lt;seedname&gt;.phonon_freqs</span></code>. Finally, a list of
+<span class="math">\(\Gamma\)</span>-point modes <code class="docutils literal"><span class="pre">&lt;j&gt;</span></code> can be specified for which
+animation files <code class="docutils literal"><span class="pre">&lt;seedname&gt;.phonon_&lt;j&gt;.xyz</span></code> are written.</li>
+</ol>
+<p>This division in stages is done so as to allow for a <em>task farming</em>
+approach (see section on task farming for details).</p>
+</div>
+<div class="section" id="selecting-degrees-of-freedom">
+<h2>Selecting degrees of freedom<a class="headerlink" href="#selecting-degrees-of-freedom" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="18%" />
+<col width="18%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><code class="docutils literal"><span class="pre">phonon_vib_free</span></code></th>
+<th class="head">x</th>
+<th class="head">y</th>
+<th class="head">z</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">0</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">1</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">2</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">3</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">4</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">5</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">6</span></code></td>
+<td><code class="docutils literal"><span class="pre">F</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">7</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+<td><code class="docutils literal"><span class="pre">T</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>Table: Allowed options for keyword <code class="docutils literal"><span class="pre">phonon_vib_free</span></code>.</p>
+<p>The input file allows the user to select only a subset of the complete
+vibrational degrees of freedom of the entire system, as well as to
+specify different finite-displacement options for each
+<span class="math">\(\left ( \alpha, \kappa \right )\)</span> pair. This is controlled through
+two keywords: <code class="docutils literal"><span class="pre">phonon_vib_free</span></code> and <code class="docutils literal"><span class="pre">phonon_exception_list</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">phonon_vib_free</span></code> is an integer parameter controlling the global
+default of which Cartesian directions are ‘switched on’ for all ions.
+The options are listed in Table&nbsp;[table:free]. The default option is
+<code class="docutils literal"><span class="pre">7</span></code>, corresponding to all three Cartesian directions being switched on
+(i.e., all vibrational degrees of freedom are allowed).</p>
+<p><code class="docutils literal"><span class="pre">phonon_exception_list</span></code> is a block in which the user can list specific
+<span class="math">\(\left ( \alpha, \kappa \right )\)</span> pairs with options differing
+from the global defaults defined by <code class="docutils literal"><span class="pre">phonon_vib_free</span></code>,
+<code class="docutils literal"><span class="pre">phonon_sampling</span></code>, and <code class="docutils literal"><span class="pre">phonon_finite_disp</span></code>. An example of doing so
+is as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">phonon_vib_free</span> <span class="mi">3</span>
+<span class="n">phonon_sampling</span> <span class="mi">1</span>
+<span class="n">phonon_finite_disp</span> <span class="mf">1.4e-1</span> <span class="n">bohr</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">phonon_exception_list</span>
+<span class="mi">10</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mf">0.9</span>
+<span class="mi">15</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mf">1.0</span>
+<span class="mi">36</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mf">1.0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">phonon_exception_list</span>
+</pre></div>
+</div>
+<p>Here, we have first defined the global defaults; <code class="docutils literal"><span class="pre">phonon_vib_free</span> <span class="pre">3</span></code>
+corresponds to only the x- and y-directions being selected for the
+calculation, and the z-direction being switched off. Then, in the
+<code class="docutils literal"><span class="pre">phonon_exception_list</span></code> block, we list three exceptions:</p>
+<ul class="simple">
+<li>displacement of ion <code class="docutils literal"><span class="pre">10</span></code> in the z-direction (<code class="docutils literal"><span class="pre">3</span></code>) is switched on
+(<code class="docutils literal"><span class="pre">1</span></code>), with a value of <code class="docutils literal"><span class="pre">phonon_sampling</span></code> of <code class="docutils literal"><span class="pre">2</span></code>, and a value of
+<code class="docutils literal"><span class="pre">phonon_finite_disp</span></code> of <code class="docutils literal"><span class="pre">0.9</span></code> <span class="math">\(\times\)</span> the global value
+(i.e., <code class="docutils literal"><span class="pre">1.26e-1</span> <span class="pre">bohr</span></code>);</li>
+<li>displacement of ion <code class="docutils literal"><span class="pre">15</span></code> in the x-direction (<code class="docutils literal"><span class="pre">1</span></code>) is switched off
+(<code class="docutils literal"><span class="pre">0</span></code>), with the last two parameters not being read;</li>
+<li>displacement of ion <code class="docutils literal"><span class="pre">36</span></code> in the y-direction (<code class="docutils literal"><span class="pre">2</span></code>) is switched off
+(<code class="docutils literal"><span class="pre">0</span></code>), with the last two parameters not being read.</li>
+</ul>
+</div>
+<div class="section" id="bulk-crystal-supercell-calculations">
+<h2>Bulk crystal supercell calculations<a class="headerlink" href="#bulk-crystal-supercell-calculations" title="Permalink to this headline">¶</a></h2>
+<p>Phonon calculations for crystalline systems can be performed in onetep
+using a supercell approach, with either a real-space truncation of the
+force constants matrix, or a Slater-Koster style interpolation. The size
+of the supercell is chosen by the user; obviously, larger supercells
+will produce more accurate results at arbitrary q points.</p>
+<p>It is the responsability of the user to provide the correct supercell
+lattice vectors and atomic coordinates in the usual way. Additionally,
+the <code class="docutils literal"><span class="pre">supercell</span></code> block must be specified to inform the <code class="docutils literal"><span class="pre">phonon</span></code>
+module that the system is a supercell of bulk material; otherwise, it
+will be assumed to be a molecule. An example of doing so is as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">lattice_cart</span>
+<span class="n">ang</span>
+<span class="mf">5.3938105</span> <span class="mf">5.3938105</span> <span class="mf">0.0000000</span>
+<span class="mf">5.3938105</span> <span class="mf">0.0000000</span> <span class="mf">5.3938105</span>
+<span class="mf">0.0000000</span> <span class="mf">5.3938105</span> <span class="mf">5.3938105</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">lattice_cart</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">positions_abs</span>
+<span class="n">ang</span>
+<span class="n">Si</span> <span class="mf">0.000000000</span> <span class="mf">0.000000000</span> <span class="mf">0.000000000</span>
+<span class="n">Si</span> <span class="mf">0.000000000</span> <span class="mf">2.696905250</span> <span class="mf">2.696905250</span>
+<span class="n">Si</span> <span class="mf">2.696905250</span> <span class="mf">0.000000000</span> <span class="mf">2.696905250</span>
+<span class="n">Si</span> <span class="mf">2.696905250</span> <span class="mf">2.696905250</span> <span class="mf">5.393810500</span>
+<span class="n">Si</span> <span class="mf">2.696905250</span> <span class="mf">2.696905250</span> <span class="mf">0.000000000</span>
+<span class="n">Si</span> <span class="mf">2.696905250</span> <span class="mf">5.393810500</span> <span class="mf">2.696905250</span>
+<span class="n">Si</span> <span class="mf">5.393810500</span> <span class="mf">2.696905250</span> <span class="mf">2.696905250</span>
+<span class="n">Si</span> <span class="mf">5.393810500</span> <span class="mf">5.393810500</span> <span class="mf">5.393810500</span>
+<span class="n">Si</span> <span class="mf">1.348452625</span> <span class="mf">1.348452625</span> <span class="mf">1.348452625</span>
+<span class="n">Si</span> <span class="mf">1.348452625</span> <span class="mf">4.045357875</span> <span class="mf">4.045357875</span>
+<span class="n">Si</span> <span class="mf">4.045357875</span> <span class="mf">1.348452625</span> <span class="mf">4.045357875</span>
+<span class="n">Si</span> <span class="mf">4.045357875</span> <span class="mf">4.045357875</span> <span class="mf">6.742263125</span>
+<span class="n">Si</span> <span class="mf">4.045357875</span> <span class="mf">4.045357875</span> <span class="mf">1.348452625</span>
+<span class="n">Si</span> <span class="mf">4.045357875</span> <span class="mf">6.742263125</span> <span class="mf">4.045357875</span>
+<span class="n">Si</span> <span class="mf">6.742263125</span> <span class="mf">4.045357875</span> <span class="mf">4.045357875</span>
+<span class="n">Si</span> <span class="mf">6.742263125</span> <span class="mf">6.742263125</span> <span class="mf">6.742263125</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">positions_abs</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">supercell</span>
+<span class="mi">2</span> <span class="mi">2</span> <span class="mi">2</span>
+<span class="mi">1</span>
+<span class="mi">9</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">supercell</span>
+</pre></div>
+</div>
+<p>Within the <code class="docutils literal"><span class="pre">supercell</span></code> block, the first line gives the shape of the
+supercell (<code class="docutils literal"><span class="pre">2</span></code><span class="math">\(\times\)</span><code class="docutils literal"><span class="pre">2</span></code><span class="math">\(\times\)</span><code class="docutils literal"><span class="pre">2</span></code>), and
+subsequent lines list the ions in the <code class="docutils literal"><span class="pre">positions_abs</span></code> block that
+belong to the ‘base’ unit cell (of course, this supercell is too small
+to give sensible results for a phonon calculation, and is probably too
+small to run in onetep anyway; a 1000-atom cubic supercell of Si gives
+excellent results however!)</p>
+<p>When a supercell calculations is specified, only the ions within the
+unit cell are displaced, although the forces on all ions in the system
+are used to calculate the elements of the dynamical matrix from
+Eq. eq:<cite>dynamical_mat</cite>. It is also possible to specify
+<code class="docutils literal"><span class="pre">phonon_vib_free</span></code> and <code class="docutils literal"><span class="pre">phonon_exception_list</span></code> in a supercell
+calculation, although only the ions listed in the <code class="docutils literal"><span class="pre">supercell</span></code> block
+can be included in the <code class="docutils literal"><span class="pre">phonon_exception_list</span></code> block.</p>
+</div>
+<div class="section" id="task-farming">
+<h2>Task farming<a class="headerlink" href="#task-farming" title="Permalink to this headline">¶</a></h2>
+<p>The most efficient way of performing a phonon calculation is by task
+farming, as the full force constants matrix is built up from many
+perturbed-structure calculations, each of which is completely
+independent. This can be done with the following steps:</p>
+<ol class="arabic simple">
+<li>Run <code class="docutils literal"><span class="pre">phonon_farming_task</span> <span class="pre">1</span></code> as a single job; this is essentially a
+standard single-point energy-and-force onetep calculation. Find the
+line in the main output file which gives the
+<code class="docutils literal"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">force</span> <span class="pre">constants</span></code> needed for the phonon calculation you
+have specified (this will be between 1 and <span class="math">\(3N\)</span>).</li>
+<li>Divide the total number of force constants that need to be calculated
+between the desired number of jobs. Prepare the onetep input file for
+each job specifying <code class="docutils literal"><span class="pre">phonon_farming_task</span> <span class="pre">2</span></code> and a subset of the
+force constant calculations in the <code class="docutils literal"><span class="pre">phonon_disp_list</span></code> block. Make
+sure every job has access to the files <code class="docutils literal"><span class="pre">&lt;seedname&gt;.dkn</span></code> and
+<code class="docutils literal"><span class="pre">&lt;seedname&gt;.tightbox_ngwfs</span></code> obtained from the unperturbed
+calculation in the previous step.</li>
+<li>Collect all the <code class="docutils literal"><span class="pre">&lt;seedname&gt;.force_consts_&lt;i&gt;</span></code> files and place them
+in the same directory. Finally, run <code class="docutils literal"><span class="pre">phonon_farming_task</span> <span class="pre">3</span></code> as a
+single job, to construct the full force constants matrix and perform
+the post-processing calculations.</li>
+</ol>
+</div>
+<div class="section" id="keywords">
+<h2>Keywords<a class="headerlink" href="#keywords" title="Permalink to this headline">¶</a></h2>
+<p>The phonon calculation is selected by specifying <code class="docutils literal"><span class="pre">task</span> <span class="pre">phonon</span></code>. All
+other keywords related to the module are optional. They are:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_farming_task</span></code> [Integer]</div>
+<div class="line">Select which stage to perform (as described in Sec.&nbsp;[sec:farm]).
+Can be either <code class="docutils literal"><span class="pre">1</span></code>, <code class="docutils literal"><span class="pre">2</span></code>, <code class="docutils literal"><span class="pre">3</span></code> for a single stage, or <code class="docutils literal"><span class="pre">0</span></code> for
+all stages. Default is <code class="docutils literal"><span class="pre">0</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_sampling</span></code> [Integer]</div>
+<div class="line">Finite-difference formula to use (see Eq. eq:<cite>fd</cite>). Default is
+<code class="docutils literal"><span class="pre">1</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_finite_disp</span></code> [Physical]</div>
+<div class="line">Ionic displacement distance <span class="math">\(d\)</span>. Default is <code class="docutils literal"><span class="pre">1.0e-1</span> <span class="pre">bohr</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_fmax</span></code> [Physical]</div>
+<div class="line">Maximum ionic force allowed in the unperturbed system. Default is
+<code class="docutils literal"><span class="pre">5.0e-3</span> <span class="pre">ha/bohr</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_energy_check</span></code> [Logical]</div>
+<div class="line">Perform a sanity check that the total energy doesn’t decrease upon
+ionic displacement. Default is <code class="docutils literal"><span class="pre">F</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_vib_free</span></code> [Integer]</div>
+<div class="line">Default allowed vibrational degrees of freedom for all ions (see
+Sec.&nbsp;[sec:free] for details). Default is <code class="docutils literal"><span class="pre">7</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_exception_list</span></code> [Block]</div>
+<div class="line">List of exceptions to the global defaults defined by
+<code class="docutils literal"><span class="pre">phonon_vib_free</span></code>, <code class="docutils literal"><span class="pre">phonon_sampling</span></code>, and
+<code class="docutils literal"><span class="pre">phonon_finite_disp</span></code> (see Sec.&nbsp;[sec:free] for details). Default
+is unspecified.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">supercell</span></code> [Block]</div>
+<div class="line">Definition of the supercell used for crystalline material (see
+Sec.&nbsp;[sec:supercell] for details). Default is unspecified.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_disp_list</span></code> [Block]</div>
+<div class="line">List of force constant calculations to perform for Stage 2. Note
+that the total number of force constant calculations is given in
+the main output file in the line <code class="docutils literal"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">force</span> <span class="pre">constants</span></code>;
+this will be less than or equal to <span class="math">\(3N\)</span>. The numbers listed
+in the <code class="docutils literal"><span class="pre">phonon_disp_list</span></code> block should go from 1 to this number;
+<em>they can only be equated to the label</em> <code class="docutils literal"><span class="pre">&lt;i&gt;</span></code> <em>if all</em> <span class="math">\(3N\)</span>
+<em>force constants are calculated</em>. If unspecified, all displacements
+are performed. Default is unspecified. Example:</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">phonon_disp_list</span>
+<span class="mi">1</span>
+<span class="mi">3</span>
+<span class="mi">5</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">phonon_disp_list</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_grid</span></code> [Block]</div>
+<div class="line">Definition of the regular grid of q points used for the computation
+of thermodynamic quantities and the phonon DOS. Default is
+<code class="docutils literal"><span class="pre">1</span> <span class="pre">1</span> <span class="pre">1</span></code> (i.e., <span class="math">\(\Gamma\)</span> point only). Example:</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">phonon_grid</span>
+<span class="mi">10</span> <span class="mi">10</span> <span class="mi">10</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">phonon_grid</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_SK</span></code> [Logical]</div>
+<div class="line">Use a Slater-Koster style interpolation for q points instead of a
+real-space cutoff of the force constants matrix elements. Default
+is <code class="docutils literal"><span class="pre">F</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_tmin</span></code> [Physical]</div>
+<div class="line">Lower bound of the temperature range for the computation of
+thermodynamic quantities, expressed as an energy
+(<span class="math">\(k_\mathrm{B} T\)</span>). Default is <code class="docutils literal"><span class="pre">0.0</span> <span class="pre">hartree</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_tmax</span></code> [Physical]</div>
+<div class="line">Upper bound of the temperature range for the computation of
+thermodynamic quantities. Default is <code class="docutils literal"><span class="pre">2.0e-3</span> <span class="pre">hartree</span></code>
+(<span class="math">\(\simeq 632\)</span> K).</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_deltat</span></code> [Physical]</div>
+<div class="line">Temperature step for the computation of thermodynamic quantities.
+Default is <code class="docutils literal"><span class="pre">1.5e-5</span> <span class="pre">hartree</span></code> (<span class="math">\(\simeq 5\)</span> K).</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_min_freq</span></code> [Physical]</div>
+<div class="line">Minimum phonon frequency for the computation of thermodynamic
+quantities, expressed as an energy (<span class="math">\(\hbar \omega\)</span>);
+frequencies lower than this are discarded. Default is
+<code class="docutils literal"><span class="pre">3.6e-6</span> <span class="pre">hartree</span></code> (<span class="math">\(\simeq 5\)</span> cm<span class="math">\(^{-1}\)</span>).</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_DOS</span></code> [Logical]</div>
+<div class="line">Calculate the phonon DOS and write to file. Default is <code class="docutils literal"><span class="pre">T</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_DOS_min</span></code> [Real]</div>
+<div class="line">Lower bound of the phonon DOS range (in cm<span class="math">\(^{-1}\)</span>). Default
+is <code class="docutils literal"><span class="pre">0.0</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_DOS_max</span></code> [Real]</div>
+<div class="line">Upper bound of the phonon DOS range (in cm<span class="math">\(^{-1}\)</span>). Default
+is <code class="docutils literal"><span class="pre">1000.0</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_DOS_delta</span></code> [Real]</div>
+<div class="line">Frequency step for the phonon DOS calculation (in
+cm<span class="math">\(^{-1}\)</span>). Default is <code class="docutils literal"><span class="pre">10.0</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_qpoints</span></code> [Block]</div>
+<div class="line">List of additional q points for which to calculate the phonon
+frequencies, in fractional coordinates of the reciprocal unit cell
+vectors. For non-supercell calculations only the <span class="math">\(\Gamma\)</span>
+point can be specified. Default is unspecified. Example:</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">phonon_qpoints</span>
+<span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">0.0</span>
+<span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">0.1</span>
+<span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">0.2</span>
+<span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">0.3</span>
+<span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">0.4</span>
+<span class="mf">0.0</span> <span class="mf">0.0</span> <span class="mf">0.5</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">phonon_qpoints</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_write_eigenvecs</span></code> [Logical]</div>
+<div class="line">Write the eigenvectors as well as the phonon frequencies to file
+for the additional q points. Default is <code class="docutils literal"><span class="pre">F</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_animate_list</span></code> [Block]</div>
+<div class="line">List of <span class="math">\(\Gamma\)</span>-point modes (where <code class="docutils literal"><span class="pre">1</span></code> is the lowest) for
+which to write xyz animation files. Default is unspecified.
+Example:</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">phonon_animate_list</span>
+<span class="mi">2</span>
+<span class="mi">6</span>
+<span class="mi">33</span>
+<span class="mi">34</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">phonon_animate_list</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">phonon_animate_scale</span></code> [Real]</div>
+<div class="line">Relative scale of the amplitude of the vibration in the xyz
+animation. Default is <code class="docutils literal"><span class="pre">1.0</span></code>.</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="additional-notes">
+<h2>Additional notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">¶</a></h2>
+<p>Phonon calculations are quite sensitive to the accuracy of the ionic
+forces calculated for the perturbed structures. Therefore, it is
+advisable to make sure that the forces are well-converged with respect
+to the usual parameters: cut-off energy, number and radius of NGWFs, and
+spatial cut-off of the density kernel.</p>
+<p>Furthermore, it is also important to make sure that for a given set of
+parameters the forces are properly converged at the end of the energy
+minimization procedure, and that the numerical noise is reduced to a
+minimum; the code will not check this automatically, and the forces
+generally converge slower than the total energy. To ensure an accurate
+result, therefore, the following values for the convergence threshold
+parameters are suggested:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">ngwf_threshold_orig</span> <span class="pre">1.0e-7</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">lnv_threshold_orig</span> <span class="pre">1.0e-11</span></code>.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_dynamics.html">Dynamics</a><ul>
+      <li>Previous: <a href="BOMD.html" title="previous chapter">Born-Oppenheimer Molecular Dynamics</a></li>
+      <li>Next: <a href="index_transition_states.html" title="next chapter">Transition States and NEB</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/phonons.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

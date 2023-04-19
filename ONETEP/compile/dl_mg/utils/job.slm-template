@@ -1,0 +1,72 @@
+#!/bin/bash -l
+#SBATCH --nodes=1
+#SBATCH --time=60
+#SBATCH --exclusive
+#SBATCH --partition=AMD_7763_2s_64c_2t_hdr100_256GB_3200
+#
+
+comp=intel
+
+module purge 
+
+case $comp in
+intel) module use ~martynf/PrgEnv/etc/modulefiles
+       module load compilers/intel/19.5.281 openmpi/intel/4.0.5.2
+       ;;
+gnu) module load openmpi/gnu/4.0.5.2
+     ;;
+*) 
+     echo "wrong compiler $comp" ; exit 1
+     ;;
+esac
+module list
+
+build=opt
+grid=65,97,129
+#platform="parallel_generic"
+
+root=`pwd`
+outd=$root/out-$(date +%y%m%d-%H%M%S)
+
+#runlist="mpi-mg mpi-cg nompi-mg nompi-cg"
+runlist="mg cg"
+#pmlist="mpi+omp omp"
+pmlist="omp"
+
+mask=mask_cpu:FF
+for ((i=1;i<16;++i)); do mask="$mask",$(echo "obase=16;ibase=16;FF*2^(8*$i)" | bc); done
+
+for pm in $pmlist
+do
+  if [ "$pm" = mpi+omp ]
+  then
+    tag=mpi 
+    plt=parallel_generic
+  elif [ "$pm" = omp ]
+  then
+    tag=nompi
+    plt=serial_gnu
+    comp=gnu
+  fi
+  set -x
+  (cd $root/.. && make PLATFORM=$plt BUILD=$build COMP=$comp EXE=tsuite.exe clean test)
+  [ $? = 0 ] || { echo "build failed" ; exit 1 ; }
+  exe=`readlink -f ../tsuite.exe`
+  set +x
+  
+  for r in $runlist
+  do
+    if [ "$r" = mg ]
+    then
+      use_cg=F
+    elif [ "$r" = cg ]
+    then
+      use_cg=T
+    fi
+    echo "======================== $tag $r =============================================================="
+     
+    mkdir -p $outd/"$tag"-$r && cd $outd/"$tag"-$r
+    bash $root/../utils/test_suite.sh -mpiexec=srun -mpiopts="-v --cpu-bind=v,$mask" -use_cg=$use_cg -v -grid=$grid -par-mode=$pm -exe=$exe
+  done
+done
+

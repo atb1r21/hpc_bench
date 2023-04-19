@@ -1,0 +1,34 @@
+#
+# ONETEP configuration file for PGI compilers on Southampton RHEL6.5 Desktops
+# Created by Karl Wilkinson and Jacek Dziedzic on 27/02/2015.
+#
+# Compiler:  	PGI
+# MPI:       	yes
+# OpenMP:    	yes
+# SCALAPACK: 	no
+
+# The following modules should be loaded.
+# intel/mkl/14.0          pgi/14.9       openmpi/1.6.4/pgi
+# Note that loading openmpi/1.6.4/pgi loads pgi/13.6, which you must
+# then manually unload.
+
+# Also, MKL on our PCs is set up such that it does not provide mkl_service.mod
+# in a format recognized by the PGI compiler. To work around it:
+# 1) locate mkl_service.f90
+# 2) copy it to a directory of your choice
+# 3) run 'pgf90 -c mkl_service.f90' in this directory to create mkl_service.mod
+# 4) set MODPATH below to the name of this directory.
+
+F90 = mpif90
+
+MODPATH = /home/jd12g09/ONETEP_sky/devel/lib/mkl_mod_pgi
+MKLROOT = /local/software/intel/2013.4.183/composer_xe_2013.4.183/mkl
+MPIROOT = /local/software/openmpi/1.6.4/pgi
+MKLINC = -I$(MKLROOT)/include/fftw -I$(MODPATH)
+MKLLIBS = -Wl,--start-group  $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a $(MKLROOT)/lib/intel64/libmkl_pgi_thread.a $(MKLROOT)/lib/intel64/libmkl_core.a -Wl,--end-group -ldl
+
+FFLAGS = -fast -mp -Mbackslash -DMKL_FFTW3 -DMPI -DNOMPIIO -DPGI_BUG $(MKLINC)
+LIBS = $(MKLLIBS) -lm -lpthread
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -Mbounds -traceback -mp
+COMPILER = PORTLAND-pgf90-on-LINUX

@@ -1,0 +1,938 @@
+==================================================================================
+It's Wed Sep 21 10:51:52 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 11246 11247 11248 11249)...
+    - ONETEP arguments: Pt3O_SW.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test49
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test49/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test49/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack Pt3O_SW.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:51 (+0100)
+ 
+Reading parameters from file "Pt3O_SW.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+   Determining the default number of threads...
+      No default threads set at compilation time: defaulting to 1.
+      OpenMP library call suggests 10 threads.
+      Hybrid MPI-OpenMP compilation detected.
+      Number of MPI processes > 1.
+      OMP_NUM_THREADS environment variable present and
+      its value matches the one obtained from the OpenMP library call.
+      Using this value as default.
+      Default threads: 10
+      Default applies to threads_max and threads_num_fftboxes.
+      Settings in the input file override this default.
+   ... done
+
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: read_denskern overridden to T because of task PROPERTIES.
+
+
+WARNING: read_tightbox_ngwfs overridden to T because of task PROPERTIES.
+
+
+Resetting ngwf_cg_rotate to TRUE for EDFT calculations
+
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     P  P  P     |
+BC: | Local pseudopotential | pspot_bc [3]    |     P  P  P     |
+BC: | Van der Waals         | vdw_bc          |     P  P  P     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "Pt3O_SW.dat" ...    
+  Number of PPD points along a3 set to 1.  This is 
+  the default value, it may have been provided also in the input file.
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                     : properties                                           
+cutoff_energy            : 450 eV                                               
+kernel_cutoff            : 20 Ang                                               
+xc_functional            : RPBE                                                 
+k_zero                   : 2.5 1/bohr                                           
+edft                     : T                                                    
+edft_smearing_width      : 0.1 eV                                               
+edft_maxit               : 10                                                   
+maxit_ngwf_cg            : 20                                                   
+paw                      : T                                                    
+do_properties            : T                                                    
+cube_format              : F                                                    
+write_density_plot       : F                                                    
+popn_calculate           : F                                                    
+ngwf_analysis            : F                                                    
+dos_smear                : 0.3 eV                                               
+pdos_max_l               : 2                                                    
+pdos_pseudoatomic        : F                                                    
+pdos_reduce_sws          : F                                                    
+print_qc                 : T                                                    
+read_denskern            : F                                                    
+read_tightbox_ngwfs      : F                                                    
+read_hamiltonian         : F                                                    
+write_denskern           : T                                                    
+write_tightbox_ngwfs     : T                                                    
+write_hamiltonian        : T                                                    
+write_xyz                : F                                                    
+output_detail            : VERBOSE                                              
+timings_level            : 2                                                    
+%block lattice_cart                                                             
+Ang                                                                             
+15.000   0.000   0.000                                                          
+0.000  15.000   0.000                                                           
+0.000   0.000  15.000                                                           
+%endblock lattice_cart                                                          
+%block species                                                                  
+Pt Pt 78 9 9.0                                                                  
+O  O  8  4 9.0                                                                  
+%endblock species                                                               
+%block species_atomic_set                                                       
+Pt "SOLVE conf=5d9 6s1 6p0"                                                     
+O  "SOLVE"                                                                      
+%endblock species_atomic_set                                                    
+%block species_pot                                                              
+Pt "../../pseudo/platinum.paw"                                                  
+O  "../../pseudo/oxygen.paw"                                                    
+%endblock species_pot                                                           
+%block species_pdos_groups                                                      
+Pt O                                                                            
+Pt                                                                              
+O                                                                               
+%endblock species_pdos_groups                                                   
+%block positions_abs                                                            
+     Hash =   000002574724102665746706
+%endblock positions_abs                                                         
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<<<< PAW Dataset information >>>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/platinum.paw; rc = 2.50 bohr; shape type =  2; rshape = 2.26 bohr;
+  Atomic number: 78;  ionic charge: 10.000000
+    Partial Wave 1: l = 0
+    Partial Wave 2: l = 0
+    Partial Wave 3: l = 1
+    Partial Wave 4: l = 1
+    Partial Wave 5: l = 2
+    Partial Wave 6: l = 2
+  Core charge supplied for Nonlinear Core Corrections
+File: ../../pseudo/oxygen.paw; rc = 1.31 bohr; shape type =  3; rshape = 1.31 bohr;
+  Atomic number:  8;  ionic charge:  6.000000
+    Partial Wave 1: l = 0
+    Partial Wave 2: l = 0
+    Partial Wave 3: l = 1
+    Partial Wave 4: l = 1
+  Core charge supplied for Nonlinear Core Corrections
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  Pt         3        27        54
+  O          1         4         8
+.......   ......    ......    ......
+Totals:      4        31        62
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   45 x  45 x  45
+                              FFT-box:   45 x  45 x  45
+                                  PPD:    5 x   5 x   1
+Grid space d1=  0.629908711528a0 (KE cutoff=  19.14471Eh = 520.95404eV)
+Grid space d2=  0.629908711528a0 (KE cutoff=  19.14471Eh = 520.95404eV)
+Grid space d3=  0.629908711528a0 (KE cutoff=  19.14471Eh = 520.95404eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     45    45    45
+          Real-space ('12') slabs/proc (min max mean):     11    12    11
+         Recip-space ('23') slabs/proc (min max mean):      5     6     5
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:     90    90    90
+          Real-space ('12') slabs/proc (min max mean):     22    23    22
+         Recip-space ('23') slabs/proc (min max mean):     11    12    11
+********************************************************************************
+
+Atom SCF Calculation for Pt : Z (AE atom) =  78 : Z (PS atom) =  10
+Config String: 5d9 6s1 6p0
+Orbitals (num,occ):  3     9.00 1.00 0.00
+Orbitals   (num,l):  3        2    0    1
+Real-space Grid (nr,dr,rmax): 1015    0.0088757396    9.0000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   40    4   99.2231758464
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  2    3.0000000000  100.0000000000
+  1        -30.9786726187    0.4128008778   28.2095717741   -3.0387979194
+  2        -19.5855491553   -4.4905682709   23.2160000205   -2.5640769190
+  3        -31.1234952956   -1.3846482379   25.7622023419   -3.2602533026
+  4        -27.2227557147   -2.4488810803   24.8600764268   -2.8703898662
+  5        -27.5483861318   -2.1232918240   25.1938800882   -2.8384136935
+  6        -27.1888120246   -2.1530328380   25.1909642822   -2.7872083644
+  7        -27.0302009246   -2.1481189972   25.2104488256   -2.7596991835
+  8        -26.9524930109   -2.1449393579   25.2211004294   -2.7458148565
+  9        -26.8977806981   -2.1427258455   25.2286863125   -2.7359391901
+ 10        -26.8591818304   -2.1411961598   25.2340791249   -2.7289027653
+ 11        -26.8319311062   -2.1401377736   25.2379140901   -2.7238854137
+ 12        -26.8126877440   -2.1394030071   25.2406431438   -2.7203067419
+ 13        -26.7990985279   -2.1388911866   25.2425862881   -2.7177542004
+ 14        -26.7895027791   -2.1385336981   25.2439702575   -2.7159338525
+ 15        -26.7827276760   -2.1382835205   25.2449560131   -2.7146360097
+ 16        -26.7779447147   -2.1381082219   25.2456580317   -2.7137109935
+ 17        -26.7745685931   -2.1379853047   25.2461578397   -2.7130519389
+ 18        -26.7721858423   -2.1378990929   25.2465135458   -2.7125825518
+ 19        -26.7705044110   -2.1378386277   25.2467665843   -2.7122483747
+ 20        -26.7693180382   -2.1377962313   25.2469465021   -2.7120105484
+ 21        -26.7684810739   -2.1377665167   25.2470743656   -2.7118413548
+ 22        -26.7678906839   -2.1377457018   25.2471651901   -2.7117210302
+ 23        -26.7674742751   -2.1377311300   25.2472296731   -2.7116354886
+ 24        -26.7671806098   -2.1377209357   25.2472754322   -2.7115746948
+ 25        -26.7669735288   -2.1377138089   25.2473078892   -2.7115315024
+ 26        -26.7668275179   -2.1377088302   25.2473309007   -2.7115008244
+ 27        -26.7667245762   -2.1377053549   25.2473472084   -2.7114790410
+ 28        -26.7666520056   -2.1377029307   25.2473587605   -2.7114635774
+ 29        -26.7666008496   -2.1377012412   25.2473669406   -2.7114526029
+ 30        -26.7665647917   -2.1377000645   25.2473727308   -2.7114448160
+ 31        -26.7665393774   -2.1376992457   25.2473768279   -2.7114392922
+ 32        -26.7665214660   -2.1376986764   25.2473797259   -2.7114353746
+ 33        -26.7665088431   -2.1376982808   25.2473817752   -2.7114325966
+ 34        -26.7664999477   -2.1376980062   25.2473832239   -2.7114306271
+ 35        -26.7664936793   -2.1376978158   25.2473842476   -2.7114292311
+ 36        -26.7664892622   -2.1376976838   25.2473849709   -2.7114282417
+ 37        -26.7664861498   -2.1376975924   25.2473854818   -2.7114275405
+ 38        -26.7664839568   -2.1376975292   25.2473858425   -2.7114270438
+ 39        -26.7664824115   -2.1376974855   25.2473860972   -2.7114266919
+ 40        -26.7664813228   -2.1376974553   25.2473862770   -2.7114264426
+ 41        -26.7664805557   -2.1376974345   25.2473864038   -2.7114262661
+ 42        -26.7664800152   -2.1376974202   25.2473864933   -2.7114261410
+ 43        -26.7664796343   -2.1376974103   25.2473865565   -2.7114260525
+ 44        -26.7664793660   -2.1376974035   25.2473866010   -2.7114259898
+ 45        -26.7664791770   -2.1376973989   25.2473866324   -2.7114259454
+ 46        -26.7664790438   -2.1376973957   25.2473866545   -2.7114259140
+ 47        -26.7664789499   -2.1376973935   25.2473866701   -2.7114258918
+Atom SCF converged after  47 iterations to a total energy of    -26.76647895
+
+Atom SCF Calculation for O  : Z (AE atom) =   8 : Z (PS atom) =   6
+Config String:
+Orbitals (num,occ):  2     2.00 4.00
+Orbitals   (num,l):  2        0    1
+Real-space Grid (nr,dr,rmax): 1015    0.0088757396    9.0000000000
+Spherical Bessel Basis (nsws,lmax,cutoff):   40    2   99.2231758464
+Confining potential (l,width,scale):  0    3.0000000000  100.0000000000
+Confining potential (l,width,scale):  1    3.0000000000  100.0000000000
+  1         -9.5210551375   -7.6378970721   10.1554458387   -2.0005937552
+  2        -14.2705823404   -2.9659570327   13.7999999041   -1.9919182532
+  3        -15.1242462976   -3.1206591754   13.6618532728   -2.1940219790
+  4        -15.5979535743   -3.0646542912   13.7264659315   -2.2899139125
+  5        -15.7560385154   -3.0838726758   13.7074285404   -2.3293585430
+  6        -15.8336751316   -3.0793705593   13.7128436887   -2.3467822006
+  7        -15.8621235439   -3.0814989537   13.7108531102   -2.3539431869
+  8        -15.8750963386   -3.0811473690   13.7113637984   -2.3570214081
+  9        -15.8801002637   -3.0813936073   13.7111647085   -2.3582929831
+ 10        -15.8822876445   -3.0813749401   13.7112143892   -2.3588317359
+ 11        -15.8831562182   -3.0814061935   13.7111946087   -2.3590549066
+ 12        -15.8835267956   -3.0814074726   13.7111993792   -2.3591486519
+ 13        -15.8836763936   -3.0814119359   13.7111973478   -2.3591875194
+ 14        -15.8837393320   -3.0814126787   13.7111977629   -2.3592037568
+ 15        -15.8837649799   -3.0814133921   13.7111975304   -2.3592104881
+ 16        -15.8837756836   -3.0814135867   13.7111975529   -2.3592132899
+ 17        -15.8837800692   -3.0814137108   13.7111975202   -2.3592144507
+ 18        -15.8837818910   -3.0814137537   13.7111975174   -2.3592149326
+ 19        -15.8837826399   -3.0814137764   13.7111975116   -2.3592151321
+ 20        -15.8837829501   -3.0814137852   13.7111975100   -2.3592152148
+ 21        -15.8837830779   -3.0814137895   13.7111975088   -2.3592152490
+ 22        -15.8837831308   -3.0814137912   13.7111975084   -2.3592152632
+Atom SCF converged after  22 iterations to a total energy of    -15.88378313
+
+BC: +++++++++++++++ Summary of boundary conditions ++++++++++++++
+BC: |       Component       |     Keyword     |   Periodicity   |
+BC: |                       |                 |     X  Y  Z [1] |
+BC: |-----------------------------------------------------------|
+BC: | Ion-ion               | ion_ion_bc [2]  |     P  P  P     |
+BC: | Local pseudopotential | pspot_bc [3]    |     P  P  P     |
+BC: | Van der Waals         | vdw_bc          |     P  P  P     |
+BC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BC: P: Periodic, O: Open.
+BC: [1] Not strictly along X, Y, Z but rather along lattice vectors A1, A2, A3.
+BC: [2] Also affected by: pbc_correction_cutoff, cutoff_coulomb_type,
+BC:     is_smeared_ion_rep, is_implicit_solvent, openbc_ion_ion.
+BC: [3] Also affected by: is_smeared_ion_rep, is_implicit_solvent, openbc_pspot.
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...
+... using space-filling curve
+... NGWF load balancing: max      9;  min      4;  average      8
+... Projector load balancing: max     18;  min      8;  average     16
+... done
+Calculating Ewald energy ...
+              Ewald: real-space energy =           68.074031
+        Ewald: reciprocal-space energy =            5.993239
+         Ewald: (sum_charge)**2 energy =           14.401184
+         Ewald: (sum_charge**2) energy =           14.934562
+                          Ewald energy =           44.731524
+Basis initialisation ...... NGWF spheres initialised
+... Projector spheres initialised
+... NGWF tight boxes initialised
+... Projector tight boxes initialised
+... Tight-boxes gathered
+... NGWF basis size (local,global):         54875       188525
+... PAW projector initialisation
+... done
+
+============================= Charge Augmentation ==============================
+                           Aug box size:   21 x  21 x  21
+================================================================================
+
+========================== Sparse matrix information ===========================
+                        Overlap matrix filling: 100.00%
+                        Density kernel filling: 100.00%
+              NGWF-Proj overlap matrix filling: 100.00%
+                    Aug Overlap matrix filling: 100.00%
+                    Hamiltonian matrix filling: 100.00%
+                  NGWF diagonal matrix filling:  26.95%
+                             KS matrix filling: 100.00% 
+                           KSKS matrix filling: 100.00% 
+================================================================================
+
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "Pt3O_SW.tightbox_ngwfs" ...  done
+============ Calculation of NGWF S^-1 using Hotelling algorithm ================ 
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.53095950E+01     0.96237403E+00
+               2       0.50953773E+01     0.92655546E+00
+               3       0.47460269E+01     0.85996825E+00
+               4       0.42193891E+01     0.74408914E+00
+               5       0.35090496E+01     0.65859062E+00
+               6       0.27265474E+01     0.57173548E+00
+               7       0.21181635E+01     0.45380263E+00
+               8       0.17560565E+01     0.34070504E+00
+               9       0.15000098E+01     0.31752007E+00
+              10       0.12913711E+01     0.29422782E+00
+              11       0.10679960E+01     0.25509189E+00
+              12       0.78613587E+00     0.19197553E+00
+              13       0.43672501E+00     0.10873809E+00
+              14       0.13530352E+00     0.34887473E-01
+              15       0.13110435E-01     0.35917272E-02
+              16       0.12734335E-03     0.38085970E-04
+              17       0.13196841E-07     0.42877565E-08
+              18       0.43791662E-14     0.15681900E-14
+================================================================================
+Calculating core density ...
+================================= Core Density =================================
+               Core den box size:   39 x  39 x  39
+================================================================================
+ ... done
+
+Reading density kernel from file "Pt3O_SW.dkn" ... done
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:      31
+        Occupancy sum (kernel):      18.000000000
+   Occupancy sum (eigenvalues):      18.000000000
+                 HOMO-LUMO gap:       0.001361051 Eh
+                 Mid-gap level:      -0.154177580 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.940950925   1.0000000
+                        .......   ...........   .........
+                            9    -0.217352759   1.0000000
+                           10    -0.214422183   0.9999999
+                           11    -0.209714259   0.9999998
+                           12    -0.207912782   0.9999996
+                           13    -0.201576105   0.9999978
+                           14    -0.191880304   0.9999700
+                           15    -0.184360702   0.9997671
+                           16    -0.180551279   0.9993506
+                           17    -0.162636454   0.9209644
+                           18    -0.154858105   0.5853264
+                        ....... -- gap at 0K -- .........
+                           19    -0.153497054   0.4922797
+                           20    -0.131288737   0.0022807
+                           21    -0.116756323   0.0000442
+                           22    -0.113828118   0.0000199
+                           23    -0.018806543   0.0000000
+                           24     0.004757234   0.0000000
+                           25     0.008864782   0.0000000
+                           26     0.062309723   0.0000000
+                           27     0.075917171   0.0000000
+                           28     0.076473164   0.0000000
+                        .......   ...........   .........
+                           31     0.146605603   0.0000000
+ 
+<QC>    [energy_eigenvalue_1]:        -0.940950925129
+<QC>    [energy_eigenvalue_n]:         0.146605603212
+<QC>            [occupancy_1]:         0.999999999957
+<QC>            [occupancy_n]:         0.000000008935
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO-5   -5.48516491  1.000000 | 
+| HOMO-4   -5.22132875  1.000000 | 
+| HOMO-3   -5.01670998  1.000000 | 
+| HOMO-2   -4.91305031  1.000000 | 
+| HOMO-1   -4.42556310  1.000000 | 
+| HOMO     -4.21390347  1.000000 | 
+| LUMO     -4.17686738  1.000000 | 
+| LUMO+1   -3.57254831  1.000000 | 
+| LUMO+2   -3.17710120  1.000000 | 
+| LUMO+3   -3.09742071  1.000000 | 
+| LUMO+4   -0.51175207  1.000000 | 
+| LUMO+5    0.12945092  1.000000 | 
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "Pt3O_SW_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "Pt3O_SW.val_bands" ... done
+ 
+================ Projected Density of States (pDOS) calculation ================
+ 
+Constructing AM resolved functions  ...Writing NGWF plot files in formats: ...
+  done
+  done
+ 
+Performing overlap integrals ...  done
+ 
+Computing pDOS weights ...  done
+<QC>     [lcao_overlap_trace]:        68.109269212595
+<QC> [inv_lcao_overlap_trace]:      5512.349066298749
+ 
+All bands spilling parameter =   0.03 %
+Occupancy-weighted spilling parameter =   0.02 %
+<QC>   [lcao_ngwf_lcao_trace]:        44.443382296251
+ 
+ => Outputting data for OptaDOS <=
+ 
+Writing pDOS weights to file "Pt3O_SW.val_pdos_bin" ... done
+ 
+Writing band gradients to file "Pt3O_SW.val_dome_bin" ... done
+ 
+Writing Castep output cell file to "Pt3O_SW-out.cell" ... done
+ 
+ => Computing Gaussian smeared pDOS <= 
+Writing "Pt3O_SW_PDOS.txt" ...  done
+<QC>   [pdoswts(l=0,eig_i=1)]:         0.595880629215
+<QC>   [pdoswts(l=1,eig_i=1)]:         0.200057533073
+<QC>   [pdoswts(l=2,eig_i=1)]:         0.203959946234
+<QC>   [pdoswts(l=3,eig_i=1)]:         0.082385179033
+<QC>   [pdoswts(l=4,eig_i=1)]:         0.185010037168
+<QC>   [pdoswts(l=5,eig_i=1)]:         0.202792859544
+<QC>   [pdoswts(l=6,eig_i=1)]:         0.513495450182
+<QC>   [pdoswts(l=7,eig_i=1)]:         0.015047495904
+<QC>   [pdoswts(l=8,eig_i=1)]:         0.001167086690
+<QC>   [pdoswts(l=0,eig_i=2)]:         0.057558795963
+<QC>   [pdoswts(l=1,eig_i=2)]:         0.629185863493
+<QC>   [pdoswts(l=2,eig_i=2)]:         0.312712736939
+<QC>   [pdoswts(l=3,eig_i=2)]:         0.057546652204
+<QC>   [pdoswts(l=4,eig_i=2)]:         0.071137918092
+<QC>   [pdoswts(l=5,eig_i=2)]:         0.296146918463
+<QC>   [pdoswts(l=6,eig_i=2)]:         0.000012143759
+<QC>   [pdoswts(l=7,eig_i=2)]:         0.558047945400
+<QC>   [pdoswts(l=8,eig_i=2)]:         0.016565818477
+<QC>   [pdoswts(l=0,eig_i=3)]:         0.085473168403
+<QC>   [pdoswts(l=1,eig_i=3)]:         0.587622959268
+<QC>   [pdoswts(l=2,eig_i=3)]:         0.326414748181
+<QC>   [pdoswts(l=3,eig_i=3)]:         0.062039873116
+<QC>   [pdoswts(l=4,eig_i=3)]:         0.083558169224
+<QC>   [pdoswts(l=5,eig_i=3)]:         0.308541280062
+<QC>   [pdoswts(l=6,eig_i=3)]:         0.023433295288
+<QC>   [pdoswts(l=7,eig_i=3)]:         0.504064790044
+<QC>   [pdoswts(l=8,eig_i=3)]:         0.017873468119
+<QC>   [pdoswts(l=0,eig_i=4)]:         0.080115004868
+<QC>   [pdoswts(l=1,eig_i=4)]:         0.604703441490
+<QC>   [pdoswts(l=2,eig_i=4)]:         0.314660719356
+<QC>   [pdoswts(l=3,eig_i=4)]:         0.055199441204
+<QC>   [pdoswts(l=4,eig_i=4)]:         0.075706172729
+<QC>   [pdoswts(l=5,eig_i=4)]:         0.297714772447
+<QC>   [pdoswts(l=6,eig_i=4)]:         0.024915563664
+<QC>   [pdoswts(l=7,eig_i=4)]:         0.528997268761
+<QC>   [pdoswts(l=8,eig_i=4)]:         0.016945946909
+<QC>   [pdoswts(l=0,eig_i=5)]:         0.218495966837
+<QC>   [pdoswts(l=1,eig_i=5)]:         0.169569677987
+<QC>   [pdoswts(l=2,eig_i=5)]:         0.611718511576
+<QC>   [pdoswts(l=3,eig_i=5)]:         0.143805526871
+<QC>   [pdoswts(l=4,eig_i=5)]:         0.038050587300
+<QC>   [pdoswts(l=5,eig_i=5)]:         0.571617259590
+<QC>   [pdoswts(l=6,eig_i=5)]:         0.074690439966
+<QC>   [pdoswts(l=7,eig_i=5)]:         0.131519090687
+<QC>   [pdoswts(l=8,eig_i=5)]:         0.040101251986
+<QC>   [pdoswts(l=0,eig_i=6)]:         0.022041043877
+<QC>   [pdoswts(l=1,eig_i=6)]:         0.066332142528
+<QC>   [pdoswts(l=2,eig_i=6)]:         0.911452286985
+<QC>   [pdoswts(l=3,eig_i=6)]:         0.022039267224
+<QC>   [pdoswts(l=4,eig_i=6)]:         0.035411442912
+<QC>   [pdoswts(l=5,eig_i=6)]:         0.833458854758
+<QC>   [pdoswts(l=6,eig_i=6)]:         0.000001776653
+<QC>   [pdoswts(l=7,eig_i=6)]:         0.030920699616
+<QC>   [pdoswts(l=8,eig_i=6)]:         0.077993432227
+<QC>   [pdoswts(l=0,eig_i=7)]:         0.015811415070
+<QC>   [pdoswts(l=1,eig_i=7)]:         0.066533987756
+<QC>   [pdoswts(l=2,eig_i=7)]:         0.917458564363
+<QC>   [pdoswts(l=3,eig_i=7)]:         0.015328745013
+<QC>   [pdoswts(l=4,eig_i=7)]:         0.025490134211
+<QC>   [pdoswts(l=5,eig_i=7)]:         0.845712889965
+<QC>   [pdoswts(l=6,eig_i=7)]:         0.000482670057
+<QC>   [pdoswts(l=7,eig_i=7)]:         0.041043853545
+<QC>   [pdoswts(l=8,eig_i=7)]:         0.071745674398
+<QC>   [pdoswts(l=0,eig_i=8)]:         0.146888945001
+<QC>   [pdoswts(l=1,eig_i=8)]:         0.050509268536
+<QC>   [pdoswts(l=2,eig_i=8)]:         0.802224871528
+<QC>   [pdoswts(l=3,eig_i=8)]:         0.104757321290
+<QC>   [pdoswts(l=4,eig_i=8)]:         0.019554572975
+<QC>   [pdoswts(l=5,eig_i=8)]:         0.790041601615
+<QC>   [pdoswts(l=6,eig_i=8)]:         0.042131623711
+<QC>   [pdoswts(l=7,eig_i=8)]:         0.030954695561
+<QC>   [pdoswts(l=8,eig_i=8)]:         0.012183269913
+<QC>   [pdoswts(l=0,eig_i=9)]:         0.025882034505
+<QC>   [pdoswts(l=1,eig_i=9)]:         0.044319906469
+<QC>   [pdoswts(l=2,eig_i=9)]:         0.929698747525
+<QC>   [pdoswts(l=3,eig_i=9)]:         0.025874740660
+<QC>   [pdoswts(l=4,eig_i=9)]:         0.033560447220
+<QC>   [pdoswts(l=5,eig_i=9)]:         0.867084738661
+<QC>   [pdoswts(l=6,eig_i=9)]:         0.000007293845
+<QC>   [pdoswts(l=7,eig_i=9)]:         0.010759459250
+<QC>   [pdoswts(l=8,eig_i=9)]:         0.062614008864
+<QC>  [pdoswts(l=0,eig_i=10)]:         0.027157415033
+<QC>  [pdoswts(l=1,eig_i=10)]:         0.037630694307
+<QC>  [pdoswts(l=2,eig_i=10)]:         0.935112723245
+<QC>  [pdoswts(l=3,eig_i=10)]:         0.023612505083
+<QC>  [pdoswts(l=4,eig_i=10)]:         0.025522863862
+<QC>  [pdoswts(l=5,eig_i=10)]:         0.877764678175
+<QC>  [pdoswts(l=6,eig_i=10)]:         0.003544909949
+<QC>  [pdoswts(l=7,eig_i=10)]:         0.012107830446
+<QC>  [pdoswts(l=8,eig_i=10)]:         0.057348045071
+<QC>  [pdoswts(l=0,eig_i=11)]:         0.017851927325
+<QC>  [pdoswts(l=1,eig_i=11)]:         0.106593571714
+<QC>  [pdoswts(l=2,eig_i=11)]:         0.875443794316
+<QC>  [pdoswts(l=3,eig_i=11)]:         0.017813544438
+<QC>  [pdoswts(l=4,eig_i=11)]:         0.057713710555
+<QC>  [pdoswts(l=5,eig_i=11)]:         0.846588100074
+<QC>  [pdoswts(l=6,eig_i=11)]:         0.000038382887
+<QC>  [pdoswts(l=7,eig_i=11)]:         0.048879861159
+<QC>  [pdoswts(l=8,eig_i=11)]:         0.028855694242
+<QC>  [pdoswts(l=0,eig_i=12)]:         0.188227208449
+<QC>  [pdoswts(l=1,eig_i=12)]:         0.150462624724
+<QC>  [pdoswts(l=2,eig_i=12)]:         0.661226766172
+<QC>  [pdoswts(l=3,eig_i=12)]:         0.140809711461
+<QC>  [pdoswts(l=4,eig_i=12)]:         0.072657844939
+<QC>  [pdoswts(l=5,eig_i=12)]:         0.611338186216
+<QC>  [pdoswts(l=6,eig_i=12)]:         0.047417496988
+<QC>  [pdoswts(l=7,eig_i=12)]:         0.077804779786
+<QC>  [pdoswts(l=8,eig_i=12)]:         0.049888579956
+<QC>  [pdoswts(l=0,eig_i=13)]:         0.033956724497
+<QC>  [pdoswts(l=1,eig_i=13)]:         0.123518509365
+<QC>  [pdoswts(l=2,eig_i=13)]:         0.842425698163
+<QC>  [pdoswts(l=3,eig_i=13)]:         0.031158206675
+<QC>  [pdoswts(l=4,eig_i=13)]:         0.073721725323
+<QC>  [pdoswts(l=5,eig_i=13)]:         0.798380869824
+<QC>  [pdoswts(l=6,eig_i=13)]:         0.002798517823
+<QC>  [pdoswts(l=7,eig_i=13)]:         0.049796784042
+<QC>  [pdoswts(l=8,eig_i=13)]:         0.044044828339
+<QC>  [pdoswts(l=0,eig_i=14)]:         0.000028616109
+<QC>  [pdoswts(l=1,eig_i=14)]:         0.016397735991
+<QC>  [pdoswts(l=2,eig_i=14)]:         0.983420141764
+<QC>  [pdoswts(l=3,eig_i=14)]:         0.000028561360
+<QC>  [pdoswts(l=4,eig_i=14)]:         0.016124844118
+<QC>  [pdoswts(l=5,eig_i=14)]:         0.979245304999
+<QC>  [pdoswts(l=6,eig_i=14)]:         0.000000054749
+<QC>  [pdoswts(l=7,eig_i=14)]:         0.000272891873
+<QC>  [pdoswts(l=8,eig_i=14)]:         0.004174836765
+<QC>  [pdoswts(l=0,eig_i=15)]:         0.000125199635
+<QC>  [pdoswts(l=1,eig_i=15)]:         0.025158944204
+<QC>  [pdoswts(l=2,eig_i=15)]:         0.974585738004
+<QC>  [pdoswts(l=3,eig_i=15)]:         0.000123765715
+<QC>  [pdoswts(l=4,eig_i=15)]:         0.023718295852
+<QC>  [pdoswts(l=5,eig_i=15)]:         0.962273475504
+<QC>  [pdoswts(l=6,eig_i=15)]:         0.000001433920
+<QC>  [pdoswts(l=7,eig_i=15)]:         0.001440648352
+<QC>  [pdoswts(l=8,eig_i=15)]:         0.012312262500
+<QC>  [pdoswts(l=0,eig_i=16)]:         0.000355755268
+<QC>  [pdoswts(l=1,eig_i=16)]:         0.024127713004
+<QC>  [pdoswts(l=2,eig_i=16)]:         0.975376693845
+<QC>  [pdoswts(l=3,eig_i=16)]:         0.000254563939
+<QC>  [pdoswts(l=4,eig_i=16)]:         0.023462286673
+<QC>  [pdoswts(l=5,eig_i=16)]:         0.958801675935
+<QC>  [pdoswts(l=6,eig_i=16)]:         0.000101191329
+<QC>  [pdoswts(l=7,eig_i=16)]:         0.000665426331
+<QC>  [pdoswts(l=8,eig_i=16)]:         0.016575017910
+<QC>  [pdoswts(l=0,eig_i=17)]:         0.002649399435
+<QC>  [pdoswts(l=1,eig_i=17)]:         0.082789594784
+<QC>  [pdoswts(l=2,eig_i=17)]:         0.914424201240
+<QC>  [pdoswts(l=3,eig_i=17)]:         0.002649393954
+<QC>  [pdoswts(l=4,eig_i=17)]:         0.079407618103
+<QC>  [pdoswts(l=5,eig_i=17)]:         0.913389156930
+<QC>  [pdoswts(l=6,eig_i=17)]:         0.000000005481
+<QC>  [pdoswts(l=7,eig_i=17)]:         0.003381976681
+<QC>  [pdoswts(l=8,eig_i=17)]:         0.001035044310
+<QC>  [pdoswts(l=0,eig_i=18)]:         0.045219573031
+<QC>  [pdoswts(l=1,eig_i=18)]:         0.285481940816
+<QC>  [pdoswts(l=2,eig_i=18)]:         0.669048188949
+<QC>  [pdoswts(l=3,eig_i=18)]:         0.042697736760
+<QC>  [pdoswts(l=4,eig_i=18)]:         0.139560768394
+<QC>  [pdoswts(l=5,eig_i=18)]:         0.631575098163
+<QC>  [pdoswts(l=6,eig_i=18)]:         0.002521836270
+<QC>  [pdoswts(l=7,eig_i=18)]:         0.145921172422
+<QC>  [pdoswts(l=8,eig_i=18)]:         0.037473090786
+<QC>  [pdoswts(l=0,eig_i=19)]:         0.068504713849
+<QC>  [pdoswts(l=1,eig_i=19)]:         0.295636386314
+<QC>  [pdoswts(l=2,eig_i=19)]:         0.635653088698
+<QC>  [pdoswts(l=3,eig_i=19)]:         0.068496879675
+<QC>  [pdoswts(l=4,eig_i=19)]:         0.163894783344
+<QC>  [pdoswts(l=5,eig_i=19)]:         0.598566992621
+<QC>  [pdoswts(l=6,eig_i=19)]:         0.000007834174
+<QC>  [pdoswts(l=7,eig_i=19)]:         0.131741602970
+<QC>  [pdoswts(l=8,eig_i=19)]:         0.037086096076
+<QC>  [pdoswts(l=0,eig_i=20)]:         0.251329334772
+<QC>  [pdoswts(l=1,eig_i=20)]:         0.356275515819
+<QC>  [pdoswts(l=2,eig_i=20)]:         0.392084432521
+<QC>  [pdoswts(l=3,eig_i=20)]:         0.165226425789
+<QC>  [pdoswts(l=4,eig_i=20)]:         0.183334674627
+<QC>  [pdoswts(l=5,eig_i=20)]:         0.382254347955
+<QC>  [pdoswts(l=6,eig_i=20)]:         0.086102908983
+<QC>  [pdoswts(l=7,eig_i=20)]:         0.172940841192
+<QC>  [pdoswts(l=8,eig_i=20)]:         0.009830084567
+<QC>  [pdoswts(l=0,eig_i=21)]:         0.209559327629
+<QC>  [pdoswts(l=1,eig_i=21)]:         0.496636883911
+<QC>  [pdoswts(l=2,eig_i=21)]:         0.293576248476
+<QC>  [pdoswts(l=3,eig_i=21)]:         0.202987778069
+<QC>  [pdoswts(l=4,eig_i=21)]:         0.313450728917
+<QC>  [pdoswts(l=5,eig_i=21)]:         0.204179578031
+<QC>  [pdoswts(l=6,eig_i=21)]:         0.006571549560
+<QC>  [pdoswts(l=7,eig_i=21)]:         0.183186154994
+<QC>  [pdoswts(l=8,eig_i=21)]:         0.089396670446
+<QC>  [pdoswts(l=0,eig_i=22)]:         0.176091452731
+<QC>  [pdoswts(l=1,eig_i=22)]:         0.501643655671
+<QC>  [pdoswts(l=2,eig_i=22)]:         0.322011612603
+<QC>  [pdoswts(l=3,eig_i=22)]:         0.175970860569
+<QC>  [pdoswts(l=4,eig_i=22)]:         0.311019703369
+<QC>  [pdoswts(l=5,eig_i=22)]:         0.223992263880
+<QC>  [pdoswts(l=6,eig_i=22)]:         0.000120592162
+<QC>  [pdoswts(l=7,eig_i=22)]:         0.190623952301
+<QC>  [pdoswts(l=8,eig_i=22)]:         0.098019348724
+<QC>  [pdoswts(l=0,eig_i=23)]:         0.074007099717
+<QC>  [pdoswts(l=1,eig_i=23)]:         0.698929777504
+<QC>  [pdoswts(l=2,eig_i=23)]:         0.226853574734
+<QC>  [pdoswts(l=3,eig_i=23)]:         0.017651025101
+<QC>  [pdoswts(l=4,eig_i=23)]:         0.622294377048
+<QC>  [pdoswts(l=5,eig_i=23)]:         0.071413313180
+<QC>  [pdoswts(l=6,eig_i=23)]:         0.056356074617
+<QC>  [pdoswts(l=7,eig_i=23)]:         0.076635400456
+<QC>  [pdoswts(l=8,eig_i=23)]:         0.155440261554
+<QC>  [pdoswts(l=0,eig_i=24)]:         0.013870913482
+<QC>  [pdoswts(l=1,eig_i=24)]:         0.574713145776
+<QC>  [pdoswts(l=2,eig_i=24)]:         0.411156945334
+<QC>  [pdoswts(l=3,eig_i=24)]:         0.013868711106
+<QC>  [pdoswts(l=4,eig_i=24)]:         0.563348095336
+<QC>  [pdoswts(l=5,eig_i=24)]:         0.204764703242
+<QC>  [pdoswts(l=6,eig_i=24)]:         0.000002202377
+<QC>  [pdoswts(l=7,eig_i=24)]:         0.011365050440
+<QC>  [pdoswts(l=8,eig_i=24)]:         0.206392242092
+<QC>  [pdoswts(l=0,eig_i=25)]:         0.015903006576
+<QC>  [pdoswts(l=1,eig_i=25)]:         0.566262583703
+<QC>  [pdoswts(l=2,eig_i=25)]:         0.417552152036
+<QC>  [pdoswts(l=3,eig_i=25)]:         0.015657968198
+<QC>  [pdoswts(l=4,eig_i=25)]:         0.539813508802
+<QC>  [pdoswts(l=5,eig_i=25)]:         0.212230448958
+<QC>  [pdoswts(l=6,eig_i=25)]:         0.000245038378
+<QC>  [pdoswts(l=7,eig_i=25)]:         0.026449074901
+<QC>  [pdoswts(l=8,eig_i=25)]:         0.205321703079
+<QC>  [pdoswts(l=0,eig_i=26)]:         0.244163255479
+<QC>  [pdoswts(l=1,eig_i=26)]:         0.592011380307
+<QC>  [pdoswts(l=2,eig_i=26)]:         0.163283198362
+<QC>  [pdoswts(l=3,eig_i=26)]:         0.025171928572
+<QC>  [pdoswts(l=4,eig_i=26)]:         0.508074040009
+<QC>  [pdoswts(l=5,eig_i=26)]:         0.151956478893
+<QC>  [pdoswts(l=6,eig_i=26)]:         0.218991326907
+<QC>  [pdoswts(l=7,eig_i=26)]:         0.083937340297
+<QC>  [pdoswts(l=8,eig_i=26)]:         0.011326719469
+<QC>  [pdoswts(l=0,eig_i=27)]:         0.052408590361
+<QC>  [pdoswts(l=1,eig_i=27)]:         0.534641917082
+<QC>  [pdoswts(l=2,eig_i=27)]:         0.412292682313
+<QC>  [pdoswts(l=3,eig_i=27)]:         0.023480032023
+<QC>  [pdoswts(l=4,eig_i=27)]:         0.397764110466
+<QC>  [pdoswts(l=5,eig_i=27)]:         0.359899709237
+<QC>  [pdoswts(l=6,eig_i=27)]:         0.028928558338
+<QC>  [pdoswts(l=7,eig_i=27)]:         0.136877806616
+<QC>  [pdoswts(l=8,eig_i=27)]:         0.052392973076
+<QC>  [pdoswts(l=0,eig_i=28)]:         0.031012965303
+<QC>  [pdoswts(l=1,eig_i=28)]:         0.521905743990
+<QC>  [pdoswts(l=2,eig_i=28)]:         0.446367478257
+<QC>  [pdoswts(l=3,eig_i=28)]:         0.030325772413
+<QC>  [pdoswts(l=4,eig_i=28)]:         0.376871787480
+<QC>  [pdoswts(l=5,eig_i=28)]:         0.383491544513
+<QC>  [pdoswts(l=6,eig_i=28)]:         0.000687192890
+<QC>  [pdoswts(l=7,eig_i=28)]:         0.145033956511
+<QC>  [pdoswts(l=8,eig_i=28)]:         0.062875933744
+<QC>  [pdoswts(l=0,eig_i=29)]:         0.000186020771
+<QC>  [pdoswts(l=1,eig_i=29)]:         0.280711849674
+<QC>  [pdoswts(l=2,eig_i=29)]:         0.718337512902
+<QC>  [pdoswts(l=3,eig_i=29)]:         0.000185938457
+<QC>  [pdoswts(l=4,eig_i=29)]:         0.280119368690
+<QC>  [pdoswts(l=5,eig_i=29)]:         0.716378339237
+<QC>  [pdoswts(l=6,eig_i=29)]:         0.000000082315
+<QC>  [pdoswts(l=7,eig_i=29)]:         0.000592480984
+<QC>  [pdoswts(l=8,eig_i=29)]:         0.001959173665
+<QC>  [pdoswts(l=0,eig_i=30)]:         0.300960767889
+<QC>  [pdoswts(l=1,eig_i=30)]:         0.251849734804
+<QC>  [pdoswts(l=2,eig_i=30)]:         0.446348533997
+<QC>  [pdoswts(l=3,eig_i=30)]:         0.298688259118
+<QC>  [pdoswts(l=4,eig_i=30)]:         0.141723957678
+<QC>  [pdoswts(l=5,eig_i=30)]:         0.389506568315
+<QC>  [pdoswts(l=6,eig_i=30)]:         0.002272508770
+<QC>  [pdoswts(l=7,eig_i=30)]:         0.110125777126
+<QC>  [pdoswts(l=8,eig_i=30)]:         0.056841965682
+<QC>  [pdoswts(l=0,eig_i=31)]:         0.282304569244
+<QC>  [pdoswts(l=1,eig_i=31)]:         0.284404949255
+<QC>  [pdoswts(l=2,eig_i=31)]:         0.432428540118
+<QC>  [pdoswts(l=3,eig_i=31)]:         0.282173440346
+<QC>  [pdoswts(l=4,eig_i=31)]:         0.146933501658
+<QC>  [pdoswts(l=5,eig_i=31)]:         0.377628769991
+<QC>  [pdoswts(l=6,eig_i=31)]:         0.000131128898
+<QC>  [pdoswts(l=7,eig_i=31)]:         0.137471447597
+<QC>  [pdoswts(l=8,eig_i=31)]:         0.054799770127
+ 
+ => Computing Occupancy-weighted Gaussian smeared pDOS <= 
+Writing "Pt3O_SW_occ_PDOS.txt" ...  done
+  => Band centres: 
+<QC>           [band_centres]:       -10.113281898542
+ S band centre of group 1:  -10.113282 eV
+<QC>           [band_centres]:        -5.856112430072
+ P band centre of group 1:   -5.856112 eV
+<QC>           [band_centres]:        -2.264847757615
+ D band centre of group 1:   -2.264848 eV
+<QC>           [band_centres]:        -4.984199005222
+ S band centre of group 2:   -4.984199 eV
+<QC>           [band_centres]:        -5.869875508256
+ P band centre of group 2:   -5.869876 eV
+<QC>           [band_centres]:        -2.256145575168
+ D band centre of group 2:   -2.256146 eV
+<QC>           [band_centres]:       -16.007240204763
+ S band centre of group 3:  -16.007240 eV
+<QC>           [band_centres]:        -5.849241760211
+ P band centre of group 3:   -5.849242 eV
+<QC>           [band_centres]:        -2.455976055909
+ D band centre of group 3:   -2.455976 eV
+  Band centres done. <=
+  => Integrated number of electrons in each AM band: 
+ S num electrons of group 1:    3.158134
+ P num electrons of group 1:    6.584858
+ D num electrons of group 1:   26.249193
+ S num electrons of group 2:    1.688637
+ P num electrons of group 2:    2.192640
+ D num electrons of group 2:   25.106098
+ S num electrons of group 3:    1.469498
+ P num electrons of group 3:    4.392218
+ D num electrons of group 3:    1.143095
+  Integrated number of electrons done. <=
+================================================================================
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      17.345s on      4 proc(s)                                    
+TOTAL TIME:        17.345s on      4 proc(s)                                    
+==================== AVERAGE TIMINGS FROM ALL PROCS (SELF) =====================
+++ TAG                                    #calls    cpu time   %total  Gflops ++
+++ sparse_set_to_garbage                :     3        0.00s   0.000%  ------ ++
+++ onetep.F90 main loop imbalance       :     1        0.00s   0.001%  ------ ++
+++ onetep.F90 final imbalance           :     1        0.00s   0.001%  ------ ++
+++ aug_nonlocal_mat                     :     1        0.00s   0.002%  ------ ++
+++ hartree_on_grid                      :     1        0.00s   0.002%  ------ ++
+++ paw_dij_hartree                      :     1        0.00s   0.003%  ------ ++
+++ restart_kernel_read                  :     1        0.00s   0.003%  ------ ++
+++ fourier_apply_box_pair               :     4        0.00s   0.004% 174.009 ++
+++ sparse_embed_hotelling_invert_embed  :     1        0.00s   0.007%  ------ ++
+++ cell_grid_extract_box_real           :    11        0.00s   0.008%  ------ ++
+++ basis_add_function_to_box            :   240        0.00s   0.008%  ------ ++
+++ ewald_calculate_energy               :     1        0.00s   0.010%  ------ ++
+++ paw_tcore_hartree_on_grid            :     1        0.00s   0.015%  ------ ++
+++ pseudo_make_structure_factor         :     1        0.00s   0.017%  ------ ++
+++ sparse_trace                         :    21        0.00s   0.017%  ------ ++
+++ density_on_dbl_grid                  :     1        0.00s   0.025%  ------ ++
+++ density_fftbox_deposit_to_cell       :     9        0.01s   0.034%  ------ ++
+++ density_batch_row_sums               :     1        0.01s   0.035%  ------ ++
+++ properties_calculate                 :     1        0.01s   0.042%  ------ ++
+++ dense_eigensolve                     :     1        0.01s   0.045%  ------ ++
+++ sparse_init                          :     1        0.01s   0.047%  ------ ++
+++ basis_copy_function_to_box           :   116        0.01s   0.052%  ------ ++
+++ paw_tcore_density                    :     1        0.01s   0.053%  ------ ++
+++ density_fftbox_interpolate_multiply  :     9        0.01s   0.054%  ------ ++
+++ integrals_locpot_dbl_grid            :     1        0.01s   0.055%  ------ ++
+++ basis_extract_function_from_box      :   142        0.01s   0.060%  ------ ++
+++ hamiltonian_lhxc_calculate           :     1        0.01s   0.075%  ------ ++
+++ integrals_kinetic                    :     1        0.01s   0.075%  ------ ++
+++ xc_energy_potential                  :     1        0.02s   0.094%  ------ ++
+++ fourier_apply_cell_forward           :     5        0.02s   0.100%  10.397 ++
+++ sparse_product                       :    55        0.02s   0.101%  ------ ++
+++ eigenstates_calculate                :     1        0.02s   0.123%  ------ ++
+++ augmentation_screen_dij              :     1        0.02s   0.126%  ------ ++
+++ cell_grid_deposit_box_real           :   122        0.02s   0.134%  ------ ++
+++ fourier_apply_cell_backward          :     6        0.02s   0.135%   9.227 ++
+++ projectors_init_fftbox_recip         :     2        0.03s   0.146%  ------ ++
+++ restart_ngwfs_tightbox_input         :     1        0.03s   0.151%  ------ ++
+++ integrals_locpot_mat_els_batch       :     1        0.04s   0.210%  ------ ++
+++ potential_apply_to_ngwf_batch        :     1        0.05s   0.261%  ------ ++
+++ augmentation_density_on_grid         :     1        0.05s   0.302%  ------ ++
+++ density_batch_interp_deposit         :     1        0.06s   0.328%  ------ ++
+++ basis_dot_function_with_box          :  9214        0.06s   0.347%  ------ ++
+++ paw_dij_xc                           :     1        0.07s   0.400%  ------ ++
+++ fourier_apply_box                    :   208        0.10s   0.560% 105.431 ++
+++ energy_and_force_calculate           :     1        0.11s   0.620%  ------ ++
+++ dense_normal_eigensolve              :     1        0.11s   0.636%  ------ ++
+++ projectors_func_ovlp_box             :     2        0.17s   0.998%  ------ ++
+++ main_program_(onetep.F90)            :     1        0.32s   1.823%  ------ ++
+++ sw_recp_generate                     :   135        0.47s   2.700%  ------ ++
+++ paw_dataset_init                     :     2        0.93s   5.348%  ------ ++
+++ sw_init                              :     3        1.70s   9.803%  ------ ++
+++ eigenstates_pdos                     :     1        2.12s  12.237%  ------ ++
+++ energy_and_force_init_cell           :     1        3.18s  18.352%  ------ ++
+++ function_ops_brappd_ketppd           :     4        7.53s  43.389%  ------ ++
+================================================================================
+Overhead of generating timer report: 
+- 0 ms averaging over threads,
+- 0 ms ensuring consistency across MPI ranks,
+- 3 ms printing in order.
+
+Job completed: 21-09-2022 10:52 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

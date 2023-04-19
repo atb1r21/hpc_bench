@@ -1,0 +1,370 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DFT+\(U\)(+\(J\)) &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Constrained Density Functional Theory (cDFT)" href="cDFT.html" />
+    <link rel="prev" title="Correlation and Constrained DFT" href="index_correlation_constrained.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dft">
+<h1>DFT+<span class="math">\(U\)</span>(+<span class="math">\(J\)</span>)<a class="headerlink" href="#dft" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">David D. O’Regan, Trinity College Dublin</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">July 2015</td>
+</tr>
+</tbody>
+</table>
+<p>DFT+<span class="math">\(U\)</span> is fully and self-consistently implemented in ONETEP,
+together with a number of advanced ancillary functionalities. The method
+is linear-scaling with respect to system size, exhibiting no systematic
+tendency to slow convergence to the ground-state. DFT+<span class="math">\(U\)</span> in its
+conventional fixed-projector form introduces only a small increase in
+computational pre-factor with respect to the underlying
+exchange-correlation functional [O-Regan2012].</p>
+<p><strong>PLEASE NOTE: Seven columns are now required in the Hubbard block in
+order to allow for</strong> <span class="math">\(+J\)</span> <strong>calculations. Older input files with six
+columns will not yield incorrect results, but the code will exit.</strong></p>
+<div class="section" id="a-very-short-introduction-to-dft">
+<h2>A very short introduction to DFT+<span class="math">\(U\)</span><a class="headerlink" href="#a-very-short-introduction-to-dft" title="Permalink to this headline">¶</a></h2>
+<p>DFT+<span class="math">\(U\)</span> [Anisimov1991], [Anisimov1997], [Dudarev1998], also
+known as LDA+<span class="math">\(U\)</span> or LSDA+<span class="math">\(U\)</span>, is a method used to
+improve the description of so-called strongly correlated materials
+offered by DFT within conventional approximations for
+exchange-correlation (XC) such as the LSDA and <span class="math">\(\sigma\)</span>-GGA,
+quantitatively and even qualitatively. These functionals, based on the
+locally-evaluated density and its gradients, can sometimes fail to
+reproduce the physics associated with localised orbitals of <span class="math">\(3d\)</span>
+and <span class="math">\(4f\)</span> character characteristic of conventionally-classed
+strongly correlated materials, a category consisting of not only
+first-row transition metals and their oxides, but also lanthanoid oxide
+materials, and other materials such as certain magnetic semiconductors
+and organometallic molecules.</p>
+<p>Typically, the LDA and its extensions underestimate local magnetic
+moments and the tendency to favour high-spin ground-states in such
+materials, and the insulating gap in cases where it is related to
+electron localisation. Underestimation of the gap due to the absence, in
+the LDA, of the derivative discontinuity with respect to orbital
+occupancy in the exact XC-funtional may be confounded by an
+underestimation of the exchange splitting induced by local magnetic
+moments.</p>
+<p>The DFT+U correction term is usually thought of as an explicit
+mean-field treatment of the exchange-correlation energy contributed by
+the correlated sites (subspaces projected out with functions of
+<span class="math">\(3d\)</span> and or <span class="math">\(4f\)</span> character) within the Hubbard model,
+including a double-counting correction for that contribution already
+included in the LDA term. The flavour implemented in ONETEP is the
+basis-set independent, rotationally invariant quadratic penalty
+functional of Ref [Cococcioni2005], defined by the
+additive energy correction</p>
+<div class="math">
+\[E_{DFT+U} \left[ n^{(I) (\sigma)} \right] =  \sum_{I \sigma} \frac{U^{(I)}}{2} \rm{Tr}
+\left[  n^{(I) (\sigma)} \left( 1 -  n^{(I) (\sigma)} \right)\right].\]</div>
+<p>Here, <span class="math">\(U\)</span> is an estimate of the scalar screened density-density
+Coulomb repulsion between localised orbitals. The occupancy matrix of
+the correlated site <span class="math">\(I\)</span>, for spin channel <span class="math">\(\sigma\)</span>, is
+defined, in the case of orthonormal projector functions <span class="math">\(\lbrace \lvert \varphi^{(I)}_m \rangle \rbrace\)</span>, and density-matrix
+<span class="math">\(\hat{\rho}^{(\sigma)}\)</span>, by</p>
+<div class="math">
+\[n^{(I)(\sigma)}_{m m'} = \langle \varphi_m^{(I)} \rvert \hat{\rho}^{(\sigma)}
+\lvert \varphi_{m'}^{(\sigma)} \rangle.\]</div>
+<p>Put simply, if the system under study comprises open <span class="math">\(3d\)</span> or
+<span class="math">\(4f\)</span> sub-shells, then there is a good chance that the LDA will
+find a minimum energy by partly occupying and leaving degenerate the
+Kohn-Sham orbitals strongly overlapping with these states, rather than
+splitting them into occupied and virtual Hubbard bands. This leads to an
+underestimation of the insulating gap and any associated magnetic order.
+In this case, the DFT+<span class="math">\(U\)</span> method can be used to penalise the
+non-integer occupancy of these orbitals, tending to fill states with
+occupancy greater than <span class="math">\(0.5\)</span> and empty states with occupancy less
+than <span class="math">\(0.5\)</span>, as can be seen from the expression for the
+DFT+<span class="math">\(U\)</span> potential</p>
+<div class="math">
+\[\hat{V}^{(\sigma)}_{DFT+U} = \sum_{I}  U^{(I)}
+ \lvert \varphi_m^{(I)} \rangle
+\left( \frac{1}{2} \delta_{m m'} - n^{(I) (\sigma)}_{m m'} \right)  \langle
+\varphi_{m'}^{(I)} \rvert .\]</div>
+<p>The DFT+<span class="math">\(U\)</span> term may be considered as a correction which cancels
+the contribution to the energy arising due to the spurious
+self-interaction of a partially occupied
+orbital [Cococcioni2005]. In this case, the <span class="math">\(U\)</span>
+parameter is the curvature of the total energy with respect to the
+occupancy of the correlated manifold - which should be a piece-wise
+linear curve were Janak’s theorem satisfied [Janak1978] –
+which can be computed using linear-response theory (among other methods
+such as constrained DFT) according to the prescription given in
+Refs. [Cococcioni2005], [Kulik2006].</p>
+</div>
+<div class="section" id="how-to-activate-dft-in-onetep">
+<h2>How to activate DFT+<span class="math">\(U\)</span> in ONETEP<a class="headerlink" href="#how-to-activate-dft-in-onetep" title="Permalink to this headline">¶</a></h2>
+<p>In order to activate the DFT+<span class="math">\(U\)</span> functionality, the <strong>hubbard</strong>
+block is added to the input file. For example, in the case of a system
+containing iron and cerium atoms incorrectly described by the
+exchange-correlation functional, which we suspect could benefit from the
+DFT+<span class="math">\(U\)</span> correction to improve the description of localisation,
+we might use the <code class="docutils literal"><span class="pre">hubbard</span></code> block:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="n">block</span> <span class="n">hubbard</span>
+  <span class="n">Fe1</span>   <span class="mi">2</span>   <span class="mf">4.0</span>   <span class="mf">0.0</span>  <span class="o">-</span><span class="mf">10.0</span>   <span class="mf">0.00</span>   <span class="mf">1.0</span>
+  <span class="n">Fe2</span>   <span class="mi">2</span>   <span class="mf">4.0</span>   <span class="mf">0.0</span>  <span class="o">-</span><span class="mf">10.0</span>   <span class="mf">0.00</span>  <span class="o">-</span><span class="mf">1.0</span>
+  <span class="n">Ce1</span>   <span class="mi">3</span>   <span class="mf">6.0</span>   <span class="mf">0.0</span>  <span class="o">-</span><span class="mf">10.0</span>   <span class="mf">0.50</span>   <span class="mf">0.0</span>
+<span class="o">%</span> <span class="n">endblock</span> <span class="n">hubbard</span>
+</pre></div>
+</div>
+<p>The columns of the <code class="docutils literal"><span class="pre">hubbard</span></code> block are described as follows:</p>
+<ol class="arabic">
+<li><p class="first">The species label, e.g. <span class="math">\(Fe1\)</span> for iron atoms of a first type in
+the cell, <span class="math">\(Fe2\)</span> for iron atoms of a second kind, etc. Only the
+species to which orbitals to be corrected by DFT+<span class="math">\(U\)</span> are
+assigned should be listed in this block.</p>
+</li>
+<li><p class="first">The angular momentum channel of the projectors used to delineate the
+strongly correlated sites on Hubbard atoms this type, e.g.
+<span class="math">\(l=2\)</span> for <span class="math">\(Fe1\)</span>. Conventionally, the radial quantum
+number <span class="math">\(r=l+1\)</span> is used to generate atom-centred atomic
+projectors, so that <span class="math">\(l=2\)</span> gives <span class="math">\(3d\)</span> orbitals,
+<span class="math">\(l=3\)</span> gives <span class="math">\(4f\)</span> orbitals etc. (please get in contact if
+you need to use a <span class="math">\(r \ne l+1\)</span> combination, or multiple
+sub-shells per atom).</p>
+</li>
+<li><p class="first">The value of the Hubbard <span class="math">\(U\)</span> for this sub-shell, in
+electron-volts. Most users will simply work with the value for
+<span class="math">\(U\)</span> that they find corrects the band-gap or bond-lengths in the
+system they wish to study. Methods do, however, exist to estimate its
+value, for example the linear-response technique
+[Cococcioni2005], [Kulik2006], which is implemented in
+ONETEP.</p>
+</li>
+<li><p class="first">The value of the Hund’s exchange <span class="math">\(J\)</span> for this sub-shell, in
+electron-volts. The rotationally invariant exchange corrective term
+described in detail in Ref. [Himmetoglu2011] is fully
+implemented in ONETEP (including forces etc), and activated for any
+<span class="math">\(J \ne 0\)</span>.</p>
+</li>
+<li><p class="first">This number <span class="math">\(Z\)</span> selects how the radial part of the projector
+functions used to describe the <span class="math">\(1s\)</span>, <span class="math">\(2p\)</span>, <span class="math">\(3d\)</span> or
+<span class="math">\(4f\)</span> atomic orbitals entering the DFT+<span class="math">\(U\)</span> functional
+are defined. In the case that <span class="math">\(\mathbf{ Z &lt; 0}\)</span>, a subset of
+the orbitals generated by solving the atomic problem subject to the
+pseudopotential for the species in question are chosen (in which case
+the projectors form a subset of the initial guesses for the ONETEP
+NGWFs); here the magnitude of the negative Z makes no difference. In
+the case that <span class="math">\(\mathbf{ Z &gt; 0}\)</span>, for more advanced users, this
+number is the effective charge divided by the ratio of effective
+masses used to generate projectors in the form of solutions to the
+hydrogenic Schrödinger equation. A good guess for this number might
+be the Clementi-Raimondi effective charge, tabulated in
+Refs. [Clementi1963], [Clementi1967], and the choice of
+radial profile does matter [O-Regan2010]. In both
+cases, the projectors are effectively renormalised within an
+atom-centred sphere with the same radius as the NGWFs on that atom.</p>
+</li>
+<li><p class="first">An additional potential acting on the subspace in question, the
+prefactor <span class="math">\(\alpha\)</span> is here entered in electron-volts. This is
+needed, for example, in order to locally vary the potential in order
+to determine the value of <span class="math">\(U\)</span> which is consistent with the
+screened response in the system with linear-response
+theory [Cococcioni2005], [Kulik2006], or to break a
+spatial symmetry, such as in a mixed-valence system. In the example
+given, we are additionally penalising the occupancy on cerium
+<span class="math">\(4f\)</span> atomic orbitals.</p>
+</li>
+<li><p class="first">The spin-splitting factor, in electron-volts, which is deducted from
+the <span class="math">\(\alpha\)</span> factor for the spin-up channel and added to
+<span class="math">\(\alpha\)</span> for the spin-down channel. In the example shown here
+we’re promoting spin-up magnetisation for iron atoms <span class="math">\(Fe1\)</span>, and
+spin-down for <span class="math">\(Fe2\)</span>. This can be very useful for appropriately
+breaking magnetic symmetries in antiferromagnetic solids or
+open-shell singlet molecules, or for estimating the magnetic
+susceptibility or exchange coupling.</p>
+<p><strong>N.B.</strong> Users may find the DFT+<span class="math">\(U\)</span> functionality useful in
+cases of systems even when the DFT+<span class="math">\(U\)</span> correction is not
+needed (setting the all <span class="math">\(U\)</span> parameters to zero does not disable
+the functionality). The implementation offers a very inexpensive
+method for carrying out carefully-defined atom-centred atomic
+population analysis, or breaking symmetries in spin or charge ordered
+systems.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="compatibility">
+<h2>Compatibility<a class="headerlink" href="#compatibility" title="Permalink to this headline">¶</a></h2>
+<p>The DFT+<span class="math">\(U\)</span> functionality is fully compatible with almost all
+other parts of the ONETEP code, such as listed below, since it simply
+involves an additional term in the Hamiltonian and ionic forces. Please
+get in touch first if you would like to use a more exotic combination of
+these functionalities:</p>
+<ol class="arabic simple">
+<li>Total-energy minimisation and ionic forces</li>
+<li>Geometry optimisation, molecular dynamics and phonon calculations</li>
+<li>All other functionals including hybrids and Van der Waals functionals</li>
+<li>Implicit solvation</li>
+<li>The PAW formalism and ultrasoft pseudopotentials</li>
+<li>Constrained DFT</li>
+<li>Local density of states (including a correlated subspace
+decomposition)</li>
+<li>Natural bond orbital calculations</li>
+<li>Conduction-band optimisation and Fermi’s Golden Rule spectra</li>
+<li>Calculations of changes in electric polarisation</li>
+<li>Time-dependent DFT</li>
+<li>Electronic transmission calculations</li>
+</ol>
+<p>The extension of the DFT+<span class="math">\(U\)</span> implementation to cluster Dynamical
+mean-field theory has also been implemented in ONETEP; for an example of
+its capabilities see Ref. [Weber2012].</p>
+</div>
+<div class="section" id="using-ngwfs-and-projector-self-consistency">
+<h2>Using NGWFs and projector self-consistency<a class="headerlink" href="#using-ngwfs-and-projector-self-consistency" title="Permalink to this headline">¶</a></h2>
+<p>Any reasonable set of localised atomic-like functions may, in principle,
+be used for the projectors defining the correlated subspaces in
+DFT+<span class="math">\(U\)</span>; the choice is somewhat arbitrary and the description
+“atomic orbitals” does not uniquely define them. One possible approach
+is to use Wannier functions for the Kohn-Sham orbitals, so that the
+correlated subspaces are proper subspaces of the Kohn-Sham Hilbert
+space. Indeed, there is numerical evidence to suggest that Maximally
+Localised Wannier Functions (MLWFs) [Marzari1997], [Souza2001],
+in particular, provide a basis that maximises a particular measure of
+the on-site Coulomb repulsion [Miyake2008], and MLWFs are
+in common use as a minimal basis with which to construct tight-binding
+models from first-principles.</p>
+<p>In ONETEP, a set of variationally-optimised nonorthogonal generalised
+Wannier functions (NGWFs) are generated as a by-product of total-energy
+minimisation. NGWFs exhibit some similar properties to MLWFs and other
+flavours of localised Wannier functions, and, for example, can be used
+to calculate finite-difference response properties in a similar
+way [O-Regan2012-2]. As they are conveniently available in
+ONETEP, we have made it possible to re-use the NGWFs from the end of a
+ground-state calculation as a set of Hubbard projectors with which to
+define the DFT+<span class="math">\(U\)</span> correction. For this, it was necessary to
+develop a tensorially-consistent formulation of DFT+<span class="math">\(U\)</span> in order
+to accommodate nonorthogonal projector
+functions [O-Regan2011]; projector nonorthogonality
+for a given subspace is automatically compensated for.</p>
+<p>In order to ensure that NGWFs with appropriate symmetry are chosen as
+Hubbard projectors for a given atom, those <span class="math">\(n\)</span> NGWFs
+<span class="math">\(\lvert \phi_\alpha \rangle\)</span> that maximise <span class="math">\(\sum^n_{m,\alpha }\langle \varphi_m  \rvert  \phi^\alpha \rangle \langle \phi_\alpha \rvert \varphi_m \rangle\)</span>, for a given set of
+<span class="math">\(n\)</span> hydrogenic orbitals <span class="math">\(\lvert \varphi_m \rangle\)</span>, defined
+in the <code class="docutils literal"><span class="pre">hubbard</span></code> block, are selected for the task. The keyword
+<code class="docutils literal"><span class="pre">hubbard_max_iter</span></code>, (defaulting to <span class="math">\(0\)</span>), sets the task to
+<code class="docutils literal"><span class="pre">HUBBARDSCF</span></code>, which performs a self-consistency cycle over the Hubbard
+projectors, demonstrated in
+Refs. [O-Regan2010], [O-Regan2011]. The density from one
+minimisation is re-used at the beginning of the next, and setting
+<code class="docutils literal"><span class="pre">hubbard_max_iter</span></code> to <span class="math">\(2\)</span> one can carry out a DFT+<span class="math">\(U\)</span>
+calculation using the LDA NGWFs as projectors.</p>
+<p>The keywords <code class="docutils literal"><span class="pre">hubbard_energy_tol</span></code>, <code class="docutils literal"><span class="pre">hubbard_conv_win</span></code>, and
+<code class="docutils literal"><span class="pre">hubbard_proj_mixing</span></code> are used to manage the Hubbard projector
+self-consistency cycle. For convergence, the ground state energy must
+deviate less than <code class="docutils literal"><span class="pre">hubbard_energy_tol</span></code> (defaulting to
+<span class="math">\(10^{-8}Ha\)</span>) from one <code class="docutils literal"><span class="pre">HUBBARDSCF</span></code> iteration to the next, over
+<code class="docutils literal"><span class="pre">hubbard_conv_win</span></code> (defaulting to <span class="math">\(2\)</span>) iterations. A fraction
+<code class="docutils literal"><span class="pre">hubbard_proj_mixing</span></code> (defaulting to <span class="math">\(0.0\)</span>) of the previous
+Hubbard projectors may be mixed with the new ones in order to accelerate
+the procedure, although this has never been found to be necessary.
+Setting <code class="docutils literal"><span class="pre">hubbard_proj_mixing</span></code> to a negative value causes the
+projectors to be read in from a <code class="docutils literal"><span class="pre">.tightbox_hub_projs</span></code> file, for
+restarting a <code class="docutils literal"><span class="pre">HUBBARDSCF</span></code> calculation or for a variety of
+post-processing tasks.</p>
+<p>[O-Regan2012] D. D. O’Regan, N. D. M. Hine, M. C. Payne and A. A. Mostofi, Phys. Rev. B <strong>85</strong>, 085107 (2012).</p>
+<p>[Anisimov1991] J. Z. V. I. Anisimov and O. K. Andersen, Phys. Rev. B <strong>44</strong>, 943 (1991).</p>
+<p>[Anisimov1997] V. I. Anisimov, F. Aryasetiawan, and A. I. Liechtenstein, J. Phys.: Condens. Matter <strong>9</strong>, 767 (1997).</p>
+<p>[Dudarev1998] S. L. Dudarev, Phys. Rev. B <strong>57</strong>, 3 (1998).</p>
+<p>[Cococcioni2005] M. Cococcioni and S. de Gironcoli, Phys. Rev. B <strong>71</strong>, 035105 (2005).</p>
+<p>[Janak1978] J. F. Janak, Phys. Rev. B <strong>18</strong>, 12 (1978).</p>
+<p>[Kulik2006] H. J. Kulik, M. Cococcioni, D. A. Scherlis and N. Marzari, Phys. Rev. Lett. <strong>97</strong>, 103001 (2006).</p>
+<p>[Himmetoglu2011] B. Himmetoglu, R. M. Wentzcovitch, and M. Cococcioni, Phys. Rev. B,<strong>84</strong>, 115108 (2011).</p>
+<p>[Clementi1963] E. Clementi and D.L. Raimondi, J. Chem. Phys. <strong>38</strong>, 2686 (1963).</p>
+<p>[Clementi1967] E. Clementi, D.L. Raimondi, and W.P. Reinhardt, J. Chem. Phys. <strong>47</strong>, 1300 (1967).</p>
+<p>[O-Regan2010] D. D. O’Regan, N. D. M. Hine, M. C. Payne and A. A. Mostofi, Phys. Rev. B <strong>82</strong>, 081102 (2010).</p>
+<p>[Weber2012] C. Weber, D. D. O’Regan, N. D. M. Hine, M. C. Payne, G. Kotliar and P. B. Littlewood, Phys. Rev. Lett. <strong>108</strong>, 256402 (2012).</p>
+<p>[Marzari1997] N. Marzari and D. Vanderbilt, Phys. Rev. B <strong>56</strong>, 12847 (1997).</p>
+<p>[Souza2001] I. Souza, N. Marzari and D. Vanderbilt, Phys. Rev. B <strong>65</strong>, 035109 (2001).</p>
+<p>[Miyake2008] T. Miyake and F. Aryasetiawan, Phys. Rev. B <strong>77</strong>, 085122 (2008).</p>
+<p>[O-Regan2012-2] D. D. O’Regan, M. C. Payne, and A. A. Mostofi, Phys. Rev. B <strong>85</strong>, 193101 (2012).</p>
+<p>[O-Regan2011] D. D. O’Regan, M. C. Payne and A. A. Mostofi, Phys. Rev. B <strong>83</strong>, 245124 (2011).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_correlation_constrained.html">Correlation and Constrained DFT</a><ul>
+      <li>Previous: <a href="index_correlation_constrained.html" title="previous chapter">Correlation and Constrained DFT</a></li>
+      <li>Next: <a href="cDFT.html" title="next chapter">Constrained Density Functional Theory (cDFT)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/ONETEP_DFT+U_README.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

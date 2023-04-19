@@ -1,0 +1,1119 @@
+commit aa970f727ef36adfda3980a4822b2284680fa6e3
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Dec 20 22:53:08 2013 +0000
+
+    version that works
+
+commit d74832192cf4dc5df31947f807994d2a857b2a6b
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Dec 20 14:51:49 2013 +0000
+
+    runs but buggy; memory leaks found in dl_mg
+
+commit 82c0cf29efa3ebc329b63751b1d68e8879635fd7
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Dec 20 13:47:16 2013 +0000
+
+    debug on tmic2
+
+commit 056c0ea147c9c95867ef7e392b3298a2595193ed
+Merge: b3675cd 0aa00b9
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Dec 20 13:23:29 2013 +0000
+
+    Merge branch 'pbe' into gather-scatter
+
+commit b3675cd621a7f93b962e84c5b262296124872380
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Dec 20 13:23:10 2013 +0000
+
+    compiles
+
+commit 3517d95733b4d191ac423be6741cfddb728b7816
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Dec 19 23:43:12 2013 +0000
+
+    backup; movinh to pbe
+
+commit 0aa00b9100ea69c9098760b5feaf97c103c85a94
+Author: Dr Lucian Anton <lanton@eslogin008.(none)>
+Date:   Thu Dec 19 23:42:36 2013 +0000
+
+    some correction for linear case
+
+commit b246e028e1451c17f8471d0e0246bf2f5a1b5447
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Dec 3 17:00:26 2013 +0000
+
+    corrected error found in onetep runs in which dl_mg drops ranks
+
+commit 97d5612b8ffb50d24000e080364c63488db13f78
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Nov 12 13:05:15 2013 +0000
+
+    non-linear prolongation with npz > 1 broken, probable in prolongation
+
+commit 92588a34280e7ea796844afb5cd1d4a18c23235f
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Nov 11 23:29:47 2013 +0000
+
+    bug eliminated (name clash), prolong loop interface redone, full tests needed
+
+commit d9f39488571eb7b8968ecd44988589a1bf27fe0f
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Nov 11 22:36:55 2013 +0000
+
+    more prints, no solution
+
+commit 0bea757323e78e1f17c77153461e2d970989b8ca
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Nov 11 19:41:44 2013 +0000
+
+    debug prits in prolong
+
+commit f9b9420642486b96f2690a40af345152946e6af7
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Nov 11 17:20:14 2013 +0000
+
+    needs debugginh for MPI ranks > 1
+
+commit 31c8982407ae672d2489b98fe487fbf299e2d8ce
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Nov 10 22:16:49 2013 +0000
+
+    first solution proposed for prolongation in FSA
+
+commit bd357236d07ef9a71d0e1b073e68a4b4c1d0cda7
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Nov 10 09:42:56 2013 +0000
+
+    more corrections, non-homogenous bc broken, most probable in prolongation
+
+commit 8ca7882e7c5f7dd2c69551205ec6929595a90915
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sat Nov 9 22:26:04 2013 +0000
+
+    non-homogenous bc work on mono-grid(partial tests), debug needed for multigrid
+
+commit 0a33bae95a5d2091faf999f58dbcf5bd2de49366
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Nov 6 11:18:27 2013 +0000
+
+    partial implementation of BC for FAS
+    
+    Note form dl_mg::set_bc
+    
+     ! N.B. in some loops below we use extended range to catch
+     !      the edges and the corners of boundaries for
+     !      they are needed in prolongation.
+     !      The extended loops are along x,y for bottom and top faces
+     !      and x for W and E
+     ! N.N.B. below the finest level the boundary values are needed also
+     !        for prolongation in their halo regions
+     !        We don't exchange the boundary in this initalisation (non-linear case)
+     !        However the boundary halos must be exchanged at the first halo exchage.
+     !        I should check this argument one again carefully
+    
+     ! partial implementation, it transfers boundary data only for top and bottom sides
+     ! this is enough for ONETEP 1D topology along z axis
+
+commit 10b11dcf6fa5ee857d7bc2b752d284002ebcb744
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Nov 5 17:13:56 2013 +0000
+
+    mpiexec switch
+
+commit 8c0afb4481f3a20e4a2efe14ddfbbaabd268b92f
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Nov 5 16:56:25 2013 +0000
+
+    test ok on idp+gcc, but  crashed on laptop
+
+commit 5a7af21e8a279f02ff893a659e93f11cc28b6f19
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Nov 5 16:02:29 2013 +0000
+
+    finishing the update with laptop latest
+
+commit 4440be9f0d460fe7eff919d09c2087d8fe481c0d
+Merge: d3c643a 19f6ba9
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Nov 5 16:01:07 2013 +0000
+
+    merge from laptop
+
+commit 19f6ba9951d3f11f6a93ffa2da7e90069e702a30
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Nov 5 14:59:33 2013 +0000
+
+    bc transfer for 1d z MPI topology, needs debugging for linear case
+
+commit d55e19db7c642d36697bbff5fdba01b78fb4e9e7
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Oct 28 18:09:27 2013 +0000
+
+    changed the set_bc a bit, the trick for non-linear does not work
+
+commit d5ad942a7c048d0da06b926303f261ab6358e4fe
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Oct 28 15:57:22 2013 +0000
+
+    partial implementation of set bc (non-linear included); needs debuging
+
+commit 2cea1a50d6d6b45da680361705853551583afa57
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Oct 28 12:06:15 2013 +0000
+
+    compilation corrections to the previous commit
+
+commit 5b3b922ea392aa57007546c63525b1506d2ad4cc
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Oct 28 12:04:01 2013 +0000
+
+    residual set to 0 on boundary inside transfer_data_to_output
+
+commit 45241696662a09b5db9fe573b404668a68d8f9bf
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Sep 25 10:34:35 2013 +0100
+
+    eps_full removed from mg_test
+
+commit 2a6643d1710e7ec41aa5c8326e93d837776527f0
+Merge: 9103e15 c506595
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Sep 25 10:20:52 2013 +0100
+
+    Merge branch 'debug2309' of wonder:~/Projects/idp/ONETEP into debug2309
+
+commit 9103e1559d622c943a68cb294b10bafad0d45ff3
+Merge: f7b68ed 7ae8b93
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Sep 25 10:20:35 2013 +0100
+
+    Merge branch 'debug2309' of hector:~/ONETEP into debug2309
+
+commit 7ae8b932e0cc0c8f81b5cd3c8778c5d08499f00d
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Sep 25 10:18:10 2013 +0100
+
+    uninitialised vars trapped by gfortran
+
+commit c5065958654053ab4961935e90ef4d9d1435981a
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Sep 25 10:16:39 2013 +0100
+
+    small correction to reference array initialisation(commented out)
+
+commit f7b68edb1e91db76c2777eafc958c6f5f2156742
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Sep 24 23:52:48 2013 +0100
+
+    added openmp threads to tests 27 28
+
+commit 6851cf0aede4db2256955c0dec64b4d5c3123b6c
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Sep 24 20:49:31 2013 +0100
+
+    replaced alpha*rho with alpha,rho i.e. scaled copy
+    
+    fixed the makefile issues, inc, debug flags ...
+    and whatever
+
+commit 0cb7378627a0f4102beb43b9c12f8d474eae93ba
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Sep 24 16:32:12 2013 +0100
+
+    inc file dependecy restored with correct directory
+
+commit bef990ce14406b2d81023e07dcb72ed490737fb9
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Sep 24 16:25:06 2013 +0100
+
+    mg_test with onetep test26 integrated
+
+commit a384c09cc4b491834a451850b085586cb7ee765f
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Sep 23 18:01:05 2013 +0100
+
+    removed bz2 file
+
+commit ae6d3d384113421317ad2b4f145182088fbd8e97
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Sep 23 17:55:29 2013 +0100
+
+    debug prints here and there
+
+commit d35cb0cfffcd54a56e35fb7d62ea8ba21b5d0407
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Sep 23 17:54:54 2013 +0100
+
+    onetep target passed to multigrid makefile
+
+commit 6da50bfde6abda1c186de58860bc35f046526be5
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Sep 23 17:53:52 2013 +0100
+
+    debug flags added in onetep platform
+
+commit a73d9ad28e02ca0b4ea95a5794bd266c56d592ab
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Sep 23 08:41:46 2013 +0100
+
+    code received from Jacek
+
+commit d3f08c3a9b387a9d8c6e0473352c8920f2fb1793
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sat Sep 14 20:15:33 2013 +0100
+
+    test suite improved:
+    
+    1) model names are checked against a list of know tests
+    2) if a test residual diff is larger that a given tolerance
+       a warn flag is added to the test output line and its log and out files are
+       saved in special named files.
+       The rest of the log and out files are removed
+
+commit 730a886fad071898779b76f0228cd2e95fa9cad4
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Sep 9 13:55:51 2013 +0100
+
+    last workhare (linear, no agg) replaced with block_set in resrelpro
+
+commit d06ec7b99f5b339cca7389089203b95969f14fb2
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Sep 8 23:44:42 2013 +0100
+
+    command argument to select model added to test_suite
+
+commit cf8fc1cf2a8423a7bace653850f514e280e39c3c
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Sep 8 20:33:03 2013 +0100
+
+    first touch added in data transfer, NOT for eps_full
+
+commit 34c876458558aa5b81256e9ab9a4e2db55b73e45
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Sep 8 17:57:13 2013 +0100
+
+    pbc but sorted out
+
+commit 171ec84ac08019ce949210fb1cce72cf563e8a8c
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Sep 8 17:02:53 2013 +0100
+
+    blocked copy and set added in kernels, pbc broken
+
+commit 5cbd358fe946e7479be3b785295521bfad485cee
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Sep 8 09:03:32 2013 +0100
+
+    reverted to a simpler blocking (along y), I need to study more to write a good general solution
+
+commit 25d423619a2d37487a1312a4de1eaeafeb4d3bb4
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sat Sep 7 17:29:18 2013 +0100
+
+    beta reported in log file for non-linear case
+
+commit c8861ed127284566c031097cff3672a149947679
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sat Sep 7 17:11:12 2013 +0100
+
+    sor omega=1.2 help exponetial pbe
+
+commit c26fc7fe6e8277d461a6ab6d8e410a3bbc770d3c
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sat Sep 7 13:22:34 2013 +0100
+
+    PBC errors corrected
+    
+    even in PBC case one has to collects left points next to the local
+    boundary. This migh be slighly inneficient, but is safe.
+    
+    I more detailed analysis is needed in prolongation subroutine.
+
+commit d64f28b539e417f6229bd57abc67baaf4311f6d5
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Sep 6 17:39:01 2013 +0100
+
+    PBC broken fir 1D mpi
+    
+    ! first succes of automatic test script
+    PBC needs debuging, backup
+
+commit b06281d73d45014fc73d663a8bff444fce60e7e5
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Sep 6 16:16:10 2013 +0100
+
+    first version of an automated test suite
+
+commit d6ef8e65ee92ca6c32f24d67e4852857ca682f54
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Sep 6 13:11:43 2013 +0100
+
+    version that converges ok-ish with qudratic approximation but fails with exponential
+
+commit e2d76daa7b6bf215f21991de7e6b4ed678150e3b
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Sep 6 06:56:34 2013 +0100
+
+    non-linear test almost done (formally)
+    
+      non-linear solution obtained only for very small beta (1.0e-3)
+      returned return is not right, please check dl_mg and converges test
+
+commit b8060dc503c239a8679110723a24d4bc92afaaf5
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Sep 5 17:55:12 2013 +0100
+
+    implementing pbe test, backup
+
+commit af3058a1f9b45432897b0f2d4b0d37d038d2cb52
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Sep 5 14:28:19 2013 +0100
+
+    multiplicative factor for density and initial solution guess flag added
+
+commit 92fd09c8503bb262ecb428e3cf9bb6fd31f2aedd
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Sep 3 10:36:53 2013 +0100
+
+    elementary tests ok
+
+commit 151c53222abcaa419b42d6263d1488ed5b518790
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Sep 2 17:45:00 2013 +0100
+
+    error message scketch, needs compilation
+
+commit 476f927cadc9dec05893a782c65085711c7beb0a
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Sep 2 16:02:28 2013 +0100
+
+    small corection in onetep test driver
+
+commit 5337d21b868fc916208832bdb6162119de8891b3
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Aug 30 10:03:12 2013 +0100
+
+    more adaptation for onetep data tests
+
+commit 6930de6d5b610e0027dd4456d5aac57346f1f7ef
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Aug 30 09:25:07 2013 +0100
+
+    onetep test driver added in utils
+
+commit d3c643a0761d70b400391803ab23c7e9a72d1968
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Aug 29 23:00:33 2013 +0100
+
+    corrections imposed by gcc in idp, NOTE: one workshare was changed in single in prolongation
+
+commit 793123c04470afe29063d16e1cecb7efaa256425
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Aug 29 17:07:41 2013 +0100
+
+    small typo corrected
+
+commit 929a7b9d98f2cc679e03b99221acaa656d43105f
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Aug 29 12:22:53 2013 +0100
+
+    stencil loop done with blocks
+    
+    Profiling on Hector has shown that
+    simple minded OMP Do took a lot
+    of time for narrow domains ( ONETEP style).
+    
+    I redone it with block
+
+commit da92f6c19373022235cd1aa003698ddb39c13cf5
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Aug 28 12:22:43 2013 +0100
+
+    thread timer from cco branch
+
+commit ba17db0b4edc5dbb961918b61c65cc64ffc6406d
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Aug 28 12:14:33 2013 +0100
+
+    halo buffers used in smoother allocated outside V cycle loop
+
+commit 6c709e32923489b923c5e8c8b69b109dd32e02e9
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Aug 23 10:17:56 2013 +0100
+
+    one more wrong index
+
+commit 5700abc245307e9f926bd80e30fdaf7b908e3305
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Aug 22 16:40:28 2013 +0100
+
+    version that runs in non-linear mode
+    
+    it converges for beta=0.01 but not 0.1
+    
+    BC are 0
+    next step is to extent for arbitrary BC
+      in FAS BC are needed at every level
+      PBC must be investigatres as well
+
+commit 6c62cb4a3df1f13f5cf62a3cc3033b2177448aec
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Aug 22 15:45:28 2013 +0100
+
+    version that work on FSA(linear) with ranks and threads
+
+commit 0048b3e13147e132550f9d5dd8aa172ef4dada87
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Aug 22 12:34:41 2013 +0100
+
+    nasty bugs found in prolongate, did I messed up commits in July?
+
+commit b36b28566b10ff900c8deb0a82f01c50457f652a
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Aug 22 08:45:14 2013 +0100
+
+    debugging mpi 122, moving to previous commit
+
+commit c6cbfe2b2212c7b8738684e43c86b2f297078272
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Aug 21 18:45:23 2013 +0100
+
+    accuracy limit reset to 0.85, way?
+
+commit cdfb5be6e7fcfe1bf59eccca2090ac5371a5d870
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Aug 21 18:32:59 2013 +0100
+
+    version that work linearly on non-linear branch
+    
+    a lot of code simplification
+    
+    the tolerance should be smaller at cosrse level for FAS
+
+commit a5727f2660fdc16fa001eb41282b5470742b4781
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Aug 19 18:16:21 2013 +0100
+
+    debugging nonlinear, take care of discretisation erro param and other changes
+
+commit b9583c492b8c713a8f5ca404850504399bf56d21
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Aug 19 10:08:15 2013 +0100
+
+    PBC bug with red-black isolated temporarly
+    
+    Investigate whether the PBC and MPI topology are checked for consistency
+
+commit 1fc8617433bcac53c93217020a707f06db6b5042
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Aug 14 10:01:32 2013 +0100
+
+    PBC and DBC work ok on small tests
+    
+    red-black transfer is still outstanding for PBC
+    
+    all debug print from mg_relax,  activate with preprocessor macros,
+    was put in  debug subroutine at the end of dl_mg_resrelpro
+
+commit a6ec6a7abe68ed8abad0a8b825cc6647fb130c8a
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Aug 13 22:13:01 2013 +0100
+
+    pbc works if all ranks stay active (small tests)
+
+commit 9e7096a182cb9cc64e3ccde84bfa66958b3fec15
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Aug 13 18:39:16 2013 +0100
+
+    DBC works with the new prolong map
+
+commit b0cb3596a7e8febc1dec1a5732bb561c854fd91a
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Aug 13 17:00:08 2013 +0100
+
+    inc file left behind
+
+commit b2c4bdeff3edbd865b06537ee33562ce72c12ec9
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Aug 13 16:57:13 2013 +0100
+
+    PBC added, testing DBC; backup
+
+commit 56e3b6d92202837ef6fe7efa00918bb219d7423e
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Aug 12 17:51:30 2013 +0100
+
+    corrected linear component damaged in non-linear tests
+    
+    small correction in openMP block computation
+    
+    I decided to add PBC in pbe, non-linear bit is almost
+    ortogonal to BC, so save some merging and messing time
+
+commit 601386c753b09583707761bfa49346faee89f41e
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Aug 12 15:22:35 2013 +0100
+
+    nonlinear runs on 1 rank, very poor convergence
+
+commit 6afaf1dbb527b845f171fc50cd704c9938b2ca7d
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Aug 11 20:28:29 2013 +0100
+
+    debugging, giong to csemic2
+
+commit b58947d2a1d7fd8fcb695cbfe35c50af8592e586
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Aug 11 17:35:15 2013 +0100
+
+    non-linear computation activated if the environment variable DL_MG_NONLINEAR is non-empty
+
+commit c3c4ed6600e9c001f6b1bbd3af50d4fda45934cc
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Aug 11 17:17:11 2013 +0100
+
+    correctiona array added for non-linear case: mg%d, the same range as mg%p, neede to compute the corrrection in prolongation
+
+commit 60b3aa6908aa187c1337a242c9e2875f95e76a4a
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Aug 11 11:10:55 2013 +0100
+
+    residual kernel inserted in lower level functions of *resrelpro
+
+commit ded6204d3284a0010bc39a64687e23ec3fcf2903
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Aug 11 10:10:27 2013 +0100
+
+    small corrections after a mini-review
+
+commit 925884c3c36bee7737a26bd6a130afb6fb02f064
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Aug 9 17:40:21 2013 +0100
+
+    non linear model tests functions
+
+commit d211ebc53c2e34060da8fdae3db071c92cc02158
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Aug 9 17:39:17 2013 +0100
+
+    nonlinear kernels in, compiles
+
+commit 5a6c6fa1077a43ad13c605e54750b2e6ec51c8ad
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Aug 5 08:59:19 2013 +0100
+
+    started PBE kernels, backup
+
+commit 52bb13fe525f559d5772e02c82b2c75dd8de760f
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 30 16:21:05 2013 +0100
+
+    improved blocking
+    
+    It should work fine for default size ( local grid)
+    
+      The previous version was generatinc imbalanced blocks
+      because the firat block was allowd to grow as a square.
+      See the comments in cache blocks )( from dl_mg_grids).
+    
+      some updates in the platforms and related files.
+
+commit 992ba0470533cb81d06173fe01ac216b2ae8ee7a
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Jul 28 18:37:24 2013 +0100
+
+    optimistion idea added in TODO
+
+commit db221940d7a71ddbb9267978a4e871a9a29d511c
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Jul 26 16:25:37 2013 +0100
+
+    loop blocking report in log file
+    
+    more changes:
+    
+    1) block build algorithm was changed.
+       it uses alternative side growth in y,z plane in order to keep close to a square.
+       Problem : if Nthreads = 2 and block size is -1
+       the domain is not split equally btween the two threads but
+       in 4 unequal domains. Hmm! Should one need to use dynamic schedling in the loops?
+       A smarter block build, or at least with some ifs to catch trivial cases?
+    
+    2)  In dl_mg_info the access to dl_mg_common_data is better controled with
+        the help of use ...., only : ....
+        in all procedures
+
+commit 4d6075c9b294d593c16208ca5555d0f4ef748c78
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Aug 19 13:49:19 2013 +0100
+
+    corrected if in bc check, not catched by serial test
+
+commit 69df1fcba1ace531fe19ee16a55663cfbec71d09
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Aug 19 10:33:34 2013 +0100
+
+    array pdate dome with workshare in prolong aggrecation case
+
+commit df42063fcb678fa366faec1c6fa471470222e680
+Merge: 454dd28 f3944ba
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Aug 18 20:05:21 2013 +0100
+
+    Merge branch 'debug1708' into release_2407
+
+commit f3944ba32a2d0b4f84cd56339b44140aae98b005
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Aug 18 19:58:40 2013 +0100
+
+     test against accidental BC changes for dirichlet BC
+
+commit e83e02d5679699c068ee0d54ae7eca0ba3a657a4
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Aug 18 19:07:47 2013 +0100
+
+    boundary bug corrected
+    
+    data exchange in prolongation with MPI activation
+    was operating on the global grid boundaries.
+    This shouldn't ever happen. A test that test that checks if
+    solution BC are identical to input pot BC is necessary.
+
+commit 454dd2884720d72a76f0efb0d57403d60ea41f7e
+Merge: 69b91e8 b739264
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Aug 9 10:04:19 2013 +0100
+
+    Merge branch 'release_2407' of hector:~/ONETEP into release_2407
+
+commit b739264a5e4ff98332cc55e9b825ca9795b29fb0
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Aug 9 09:46:38 2013 +0100
+
+     reinsered null communicator test in dl_mg_init and dl_mg_solver
+    
+        this is needed for cases in which some ranks don't have fine grid
+        points (it happens in onetep)
+    
+        This change was added in release by the end of June but somehow lost in July code exchanges.
+
+commit 078d06807718e464384cfa3e7ba7e2593cd95ddc
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 25 21:55:47 2013 +0100
+
+    pot file left behind
+
+commit 69b91e84d0b8f7b1a241dede205c37bcc34a8cf8
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 25 15:42:53 2013 +0100
+
+    clean_test file from 3517 added in
+
+commit a80691e849e93c18df3b92802da9b4d2a45d8bb8
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 25 15:23:35 2013 +0100
+
+    pseudo nitrogen left behind
+
+commit 411a31d700939645feb23d38e5dabc6ba7a3bf85
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 25 14:38:55 2013 +0100
+
+    a src file left behind
+
+commit 3de43aa34dd53f51d709c3f9439210681f7abd4c
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 25 14:25:33 2013 +0100
+
+    2 utils file left behind
+
+commit e991720bb11160c97656584448ac84c96ebab3f6
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 25 14:15:43 2013 +0100
+
+    removed TAGS which is not 3.5.1.7
+
+commit 0a3149688c71eafea5506d68cf3c33f9cef90a66
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 25 14:08:15 2013 +0100
+
+    manual merge of received  3.5.1.7 with devel dl_mg
+
+commit 6c4d1bd2e1c393e55e1ff07de0bc60c0ab3fceed
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Jul 24 22:17:01 2013 +0100
+
+    testing last omp on latest version of onetep
+
+commit e281f80d4eb9633925e7e0736994f4998aba61d1
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Jul 24 12:06:44 2013 +0100
+
+    restored 1D comm optimisation, bug was elsewhere
+
+commit 2742b57195bb14d4ebb82cc985621174fe1cd6fe
+Merge: 68f3e62 03874c7
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Jul 24 12:03:46 2013 +0100
+
+    Merge branch 'debug_compute_norm' into blocked_omp
+
+commit 03874c70c43b4d3c71632386602958aa9f694359
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Jul 24 12:01:35 2013 +0100
+
+    error in compute norm error
+    
+    added in level in mg_t, it might be useful in other subroutines
+
+commit 68f3e6236a03363c54f31d54d53a4848685d1b21
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 23 18:01:13 2013 +0100
+
+    1d MPI optimisation produces wrongresults, reverted, needs checks
+
+commit 3ec168471e840974f1d17e8b5603783b6abfdf20
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 23 09:48:52 2013 +0100
+
+    blocked loop extended throughout dl_mg_resrelpro module
+    
+    min_block_size and block_size can be fixed with optional
+    arguments in dl_mg_init
+    
+    the function compute norm uses block sizes from top level
+    at all levels. Matter of fact is that the norm is computed at
+    top level or bottom level if no debug is engaged.
+    To be reconsidered later.
+
+commit c6f00ccfb5942eecf983d1b952fc38f5b1287b59
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Jul 22 17:58:22 2013 +0100
+
+    trying blk_size = max_blk /  nthreads
+
+commit f51bf51933fe04e2c8d6ef66a9dbeac0afc03843
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Jul 22 17:25:18 2013 +0100
+
+    prologation loop blocked
+    
+    careful with the inital loop limits and block start, some adjustment
+    are needed
+
+commit 674efd86ef39756275ff9ec6b142264ce7ddb4a2
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Jul 22 16:29:18 2013 +0100
+
+    do loop chunk set to 1, helps cache?
+
+commit 56cce8a36730416e9869f0b90bac785cae385a40
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Jul 22 16:15:24 2013 +0100
+
+    restrict loop blocked
+
+commit 593eb1aa430bddb8d3dac64fe798c5ed5f76022b
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Jul 22 14:58:17 2013 +0100
+
+    more elaboration on block sizes
+    
+    blocking is done in y,z plane
+    trying to get some work for every threads using
+    
+    blk_size = max ( nx * ny * nz / nthreads, nx)
+    
+    If blk_size < 16 ( two cache line in DP) we use only one thread
+
+commit 7fc58817f45038e971d36752836a0ce63a0c2a6b
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Jul 12 18:06:43 2013 +0100
+
+    tests up to nth 3 2x2x2 mpi look good, next is performance investigation
+
+commit 22b2932323593e1453ab9bf07dce5b8625b124bc
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Jul 12 17:34:14 2013 +0100
+
+    blocking size 1 works, need to check the rest
+
+commit f07cba2b9d296aac1a1c50f1a9a71477f78c13e1
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Jul 12 16:37:58 2013 +0100
+
+    first blocked version, compiles
+
+commit bd2f8a2561ea5d2b7399c2ff9255c7ad22d1961b
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 11 18:00:28 2013 +0100
+
+    experiment with blocked rb loops
+
+commit bcd04fdc2da4d8dc3457d5bcb12cb2b50d097378
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Jul 10 18:55:37 2013 +0100
+
+    collapse clause produces wrong results with intel, removed
+
+commit 389bd1504266eb2f2280b85644688232f9ff9cf2
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed Jul 10 17:31:04 2013 +0100
+
+    small corrections triggered by ifort on scarf
+
+commit 898f2947d844745f1b9f1cba9ab347f8301c7486
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 17:23:53 2013 +0100
+
+    makefile corrections from tmic2 tests
+
+commit 010d7babda9c847c600e7416c7389d9592942acc
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 16:49:14 2013 +0100
+
+    Makefile bits
+
+commit ca10f06af3f172d04fcaaddded01bb5c9c73dda1
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 16:48:05 2013 +0100
+
+    hector script sample added
+
+commit 294d957a18ff36e043409614346ef8d420d55c27
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 16:40:01 2013 +0100
+
+    run script and sample input form dl_mg_test
+
+commit 97d2841ac83d0e5b8d60b250bc4e8f4d5608ed46
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 14:23:31 2013 +0100
+
+    platforms brought in
+
+commit b81210db908cc671c915f906eeef04bb7c8ab44e
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 14:15:49 2013 +0100
+
+    util source files added
+
+commit 8dcbf5ea4e2bb96935aefd6221ca3e0adf66d643
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 13:51:47 2013 +0100
+
+    mg_tests added
+
+commit 1811b106d7e4b6fd3a326b35ea17d34ba8100662
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 12:34:19 2013 +0100
+
+    added main_mg.F90
+
+commit c7dc0498001efb0ac2de7a5cd13f506a12cc100d
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 12:31:48 2013 +0100
+
+    added grid_diagrams.f90
+
+commit 875a7a979abe2c8dbb4ac95f562c31b3f8848cd7
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jul 9 12:30:20 2013 +0100
+
+    chek_q.f90 added to devel branch
+
+commit 412c946adf8550c73c0a59cfc47201b75b2139ae
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Jul 4 12:02:22 2013 +0100
+
+    missing string continuation found by cray compiler, openmp flag fixed for hector
+
+commit 6f84cbbb534a9329fb2e1eda5dbe095b7497d163
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Jul 1 09:15:59 2013 +0100
+
+    multigrid with 3D MPI decomposition and OpenMP
+    
+    in esdf_key_mod.F90 some blanks removed from of a comment for the sake of
+    NAG compiler ( about line 1070)
+
+commit 8cd2a4354ba84f3ca69eb61367be6c971a928b3e
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Mon Jul 1 09:03:52 2013 +0100
+
+    version 3.4 received from Karl
+
+commit 6263736e9308bf72a4c13a9063087321ca90b5b6
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sun Jun 9 11:34:28 2013 +0100
+
+    version 3.3.9.10 recieved from Jacek
+
+commit 65e6a7a22b2200f2f3159161413a4cc5960303a5
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Sat Jun 8 17:25:34 2013 +0100
+
+    dl_mg and onetep adapted to handle ranks that don't participate in MG solution
+    
+    comms_cart_create was generalised to select only ranks that have a non-empty fine grid.
+    comms_rank was added to comms_mod ( obvious what it does ).
+    pub_null_comm added to public variables in comms_mod.
+    
+    dl_mg_init and dl_mg_solver accept MPI_COMM_NULL communicator, on those ranks
+    nothing is done.
+    
+    Active ranks must have inner grid points, an assertion checks this in set_grids.
+    
+    Make file adapted for cray compiler. This compiler does not creates modules in default mode,
+    but needs the object files directory in include directory list.
+
+commit 759262af6cbcd46ce6c671d7115b340e62751c0a
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu May 23 10:28:29 2013 +0100
+
+    dl_mg Makefile that avoids unnecessary recompilation in ONETEP build
+    
+    uses explicit object directory
+
+commit 6f75fb967b13f8469c96d1e202b4406ba680c42b
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed May 8 15:20:12 2013 +0100
+
+    makefile added to dl_mg, ONETEP makefiles simplified
+
+commit 82b530369aff5dcf1c30e1dfb5365fa553090bc7
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Wed May 8 15:16:10 2013 +0100
+
+    README update
+
+commit 8100b1216c63f298df342fb51eb1cb0be0b7df23
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue May 7 06:40:57 2013 +0100
+
+    version received from Jacek on 06/05/13
+
+commit d79396644fd5249622807c7569de1f7d774a40c0
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu May 2 10:24:32 2013 +0100
+
+    TODO and README files added. README is a stub.
+
+commit 6335803920f81c080249caa09fc51c72e4e0a9df
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu May 2 09:09:21 2013 +0100
+
+    MG using grid vertices
+    
+       MPI parallelism is quite general:
+    
+       The computation can start with an arbitrary number of ranks
+       (at least one grid layer per rank is needed though).
+       During restriction the ranks that get 0 grid layers are dropped, they
+       rejoin at corresponding prolongation step.
+    
+       Full aggregation can be used at lower level, the aggregation level
+       can be set with the dl_mg_init parameter "full_aggregation_size".
+    
+       Because the prolongation with spawning (rejoining ranks) needs communication
+       and with little computation al lower levels
+       full aggregation is advisable. The optimum aggregation level is to be found.
+       First experiments show that aggregation does not improve performance in 1D decomposition.
+    
+       NOTE: this version implement 1D MPI decomposition.
+
+commit 633a5f0628a8ee44a5a7e75be416c1fca1abc1be
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu May 2 08:44:49 2013 +0100
+
+    MG grid and boundary conditions reset to ONETEP intial setup
+
+commit 21ced377a3aff619a6a131c71aa391bc4a5cfd30
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu May 2 15:57:19 2013 +0100
+
+    nag compiler activated in conf.hector,
+    
+        a bunch of corrections following compilation with nag
+
+commit b8efd23950802236188ec4e4fe4e9c9bb34ea4e6
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu May 2 08:38:01 2013 +0100
+
+    lines split for gfortran sake
+
+commit 0c9961cf2869dfd58f9dca46e0dfea1e344a0d1f
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Apr 19 16:06:00 2013 +0100
+
+    box summation extended over all MG grid points
+
+commit eeaf51602210c6c8b44fdfe4f9510e73e8787051
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Fri Apr 19 15:16:13 2013 +0100
+
+    irq array reshaped to 1D for the sake of open mpi
+
+commit 37a21042d0d778e10f912c178c7da205e2dc5c27
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Apr 18 15:56:28 2013 +0100
+
+    full array section passed to mpi_waitall
+    
+    The Fortran book recommends to pass array section for
+    assumed size dummy argument.
+    
+    even the argument irg(1:1,1:1) should work, but if the implementation
+    of MPI_waitall changes, there migth be trouble.
+
+commit 301f1578114d4971bee46fa31fca340b78a5d5d4
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Apr 18 15:45:27 2013 +0100
+
+    comms_ ... used in multigrid_methodes instead of MPI calls
+    
+    brought initialisation of multigrid to ONETEP coding format
+
+commit 7c5956731cce56fd188b69a54efa27d0db07cefe
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Apr 18 13:51:25 2013 +0100
+
+    internal DL_MG depencies added in src/Makefile
+    
+    dependecies were generated with nagfor -mode=depend
+    a few adjustment were done in config.hector
+    no need to use dl_mg for -I flag
+
+commit d69b26539f1c58332f7162aa3000bb69c9ea9912
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Apr 18 13:50:55 2013 +0100
+
+    left behind new source file
+
+commit 73e960d645b3c6ca9b79305bae03d574e08015e8
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Apr 18 08:48:05 2013 +0100
+
+    v 3.3.6.0 received from Jacek with DL_MG added
+
+commit 0633d48d5a7d3643e62692e00a07c88664083cf2
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Thu Apr 11 09:45:00 2013 +0100
+
+    dl_mg files  on top of ONETEP 3.3.4.0 received on 15th January 2013
+    
+    other changes:
+    
+    1) src/Makefile uses DL_MG
+    2) conf.hector was updated
+    3) new boundary condition needed chages in cell_grid_mod.F90 and finite_differences_mod.F90
+    4) string continuation & added in src/esdf_key_mod.F90
+
+commit c24f3f7003ad2d66321755dfd30293c3f747bd6f
+Author: Lucian Anton <lucian.anton@stfc.ac.uk>
+Date:   Tue Jan 15 10:10:01 2013 +0000
+
+    version 3.3.4.0 received from Jacek on 15th January 2013

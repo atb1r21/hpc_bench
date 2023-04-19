@@ -1,0 +1,1083 @@
+!>\mainpage
+!! DL_MG - a hybrid parallel (MPI+OpenMP), high order finite difference multigrid solver for the 
+!! Poisson Boltzmann Equation on 3D cuboid domains
+!! -------------------------
+!!
+!! \version \verbinclude VERSION
+!!
+!! \authors Lucian Anton, James Womack, Jacek Dziedzic and others
+!!
+!!\section overview Overview
+!!
+!! DL_MG solves the Poisson-Boltzmann Equation defined by the following
+!! general expression \anchor PBE
+!! \f[
+!!  \nabla[\epsilon(\vec r)\nabla\phi(\vec r)] = \alpha \rho(\vec r) +
+!!  \lambda \sum_i c_i q_i \exp[-\beta (q_i \phi(\vec r) + V(\vec r))] \ ,
+!! \f]
+!! in 3D over a cuboid domain with \ref PBC "periodic", Dirichlet and
+!! mixed boundary conditions.
+!! In the above equation \f$\epsilon(\vec r)\f$ is the relative permittivity,
+!! \f$\phi(\vec r)\f$ is the electric potential,
+!! \f$\rho(\vec r)\f$ is the charge density,
+!! \f$ q_i\f$ and \f$c_i\f$
+!! are the electric charge and the average bulk concentration (\f$ N_i/V \f$)
+!! for the ion type \f$ i\f$ of the electrolyte respectively,
+!! \f$\beta=1/k_BT\f$ is the inverse temperature,
+!! \f$V(\vec r)\f$ is the steric potential which accounts for the short
+!! range repulsion effect between electrolyte ions and solute,
+!! \f$\alpha\f$ and \f$\lambda\f$ are constants which depend on
+!! the used units systems.
+!!
+!! Specialised algorithms are used to solve the Poisson Equation
+!! \f[
+!!  \nabla[\epsilon(\vec r)\nabla\phi(\vec r)] = \alpha \rho(\vec r) \ ,
+!! \f]
+!!and for the linearised Poisson Boltzmann Equation, \anchor linPBE
+!! \f[
+!!  \nabla[\epsilon(\vec r)\nabla\phi(\vec r)]
+!!  +\lambda \beta \sum_i c_i q_{i}^2 \exp[-\beta V(\vec r)]\phi(\vec r)= \alpha \rho(\vec r) \ .
+!! \f]
+!!
+!!More information on the algorithms used in the solver is available in \ref implementation.
+!!
+!!
+!! \section build Build
+!!
+!! The source code is available at <a href="http://dlmg.org"> dlmg.org </a>.
+!!
+!! The easiest way to use DL_MG is to build it as a library and link it to
+!! your application. A few make variable must be defined in a
+!! platforms/\<name\>.inc file. For guidance the user is advised to
+!! inspect the files platforms/archer.inc, which is for ARCHER system
+!! that offers several compilers via the module environment, or
+!! platforms/parallel_laptop.inc, platforms/serial_gnu.inc which
+!! were used on workstations.
+!!
+!! The following make variables control the build:
+!! * FC           : fortran compile command
+!! * USE_OPENMP   : 'yes' enables OpenMP, 'no' disables it
+!! * USE_MPI      : if defined enables the MPI build
+!! * BUILD        : must be set to `opt` or `debug`.
+!!
+!! \section usage Usage
+!!
+!! The calling application can access DL_MG public subroutines and constants with `use dl_mg` statement.
+!!
+!! Solver initialisation is done with \ref dl_mg::dl_mg_init "dl_mg_init".
+!! The sought solution is computed by calling the generic interface
+!! \ref dl_mg::dl_mg_solver() "dl_mg_solver" which selects the Poisson
+!! or the Poisson-Boltzmann solver according to the input parameters.
+!!
+!! If the application needs to solve another problem (i.e. new grid sizes or boundary conditions)
+!! the internal data structures must be clean with \ref dl_mg::dl_mg_free "dl_mg_free" before calling
+!! dl_mg_init.
+!!
+!! A set of \ref params_inc "public constants" are available,
+!! the error codes are described in \ref ErrorCodes.
+!!
+!! The error codes message can be obtain from the \ref ErrorCodes "error code" with !
+!! \ref dl_mg::dl_mg_error_string "dl_mg_error_string".
+!!
+!! DL_MG version can be obtained with \ref dl_mg::dl_mg_version "dl_mg_version".
+!!
+!!
+!! \section embeded Note on embeded grid data
+!!
+!! The input arrays do not need to provide any halo space. However if in the calling routine
+!! the problem's grid is embeded in a larger array the calling routine
+!! must pass to the solver only the array section which contains the problem domain grid
+!! data using modern Fortran array section synthax, e. g., if
+!! potential array `pot` contains grid data starting from indices `sx,
+!! sy, sz` the solver must be called as follow
+!!
+!! `call dl_mg_solver(..., pot(sx:,sy:,sz:), ...)` .
+!!
+!! There is no need to provide the endpoints because they are derived from the initialisation data passed to dl_mg::dl_mg_init().
+!!
+!! \section restrictions Restrictions and Limitations
+!!
+!! * The multigrid is efficient only if the grid sizes comply with the  constrains described in \ref GridConstrains.
+!!
+!! * This code is not thread safe! It is design to use threads but it must be called outside of OpenMP regions.
+!!
+!! * Single precision is not implemented.
+!!
+!! * Each MPI rank used by the solver must be associated with a local
+!! grid that contains a non-zero number of global grid inner points,
+!! i.e. not only boundary values in the case the Dirichlet boundary
+!! condition.
+!!
+!! \section issues Known Problems
+!!
+!! Executables generated by Intel compiler (versions 16.x-17.x) with debug flags  crash if run with more than
+!! one OpenMP threads.
+!!
+!!\copyright Copyright (c) 2013, the Numerical Algorithms Group Ltd.
+!!All rights reserved.  Redistribution and use in source and binary
+!!forms, with or without modification, are permitted provided that the
+!!following conditions are met: Redistributions of source code must
+!!retain the above copyright notice, this list of conditions and the
+!!following disclaimer.  Redistributions in binary form must reproduce
+!!the above copyright notice, this list of conditions and the
+!!following disclaimer in the documentation and/or other materials
+!!provided with the distribution.  THIS SOFTWARE IS PROVIDED BY THE
+!!COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+!!IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+!!WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+!!ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+!!CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+!!SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+!!LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+!!USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+!!ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+!!OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+!!OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+!!SUCH DAMAGE.
+!!
+!!\page params_inc Public Constants
+!!\include src/dl_mg_common_params.inc
+
+!> \brief Contains public subroutines: initialisation/clean,
+!! solver interface, version and error reporting
+!!
+module dl_mg
+  implicit none
+  private
+
+  include "dl_mg_common_params.inc"
+
+  public :: dl_mg_init, dl_mg_solver, &
+       dl_mg_error_string, dl_mg_version, dl_mg_free, &
+       dl_mg_solver_status, &
+       DL_MG_BC_PERIODIC, DL_MG_BC_NEWMANN, DL_MG_BC_DIRICHLET, &
+       DL_MG_MAX_ERROR_STRING, &
+       DL_MG_VERSION_STRING_LENGTH, &
+       DL_MG_SUCCESS, &
+       DL_MG_ERR_NITER, &
+       DL_MG_ERR_NEWTON_DAMP, &
+       DL_MG_ERR_NEWTON_DAMP_DERFUN, &
+       DL_MG_ERR_DEFCO_ITER, &
+       DL_MG_ERR_DEFCO_UNPHYSICAL, &
+       DL_MG_ERR_DEFCO_DAMPING, &
+       DL_MG_ERR_DEFCO_DERPOT
+
+  interface dl_mg_solver
+     module procedure dl_mg_solver_poisson, dl_mg_solver_pbe
+  end interface dl_mg_solver
+
+  logical, save :: initialised = .false., initialised_nonlin = .false.
+
+contains
+  !> Collects the parameters needed for DL_MG internal initialisation
+  subroutine dl_mg_init(nx_global, ny_global, nz_global, &
+       dx_, dy_, dz_, bc_,&
+       gstart, gend,  &
+       commin_, &
+       report_unit_, report_file_, &
+       full_aggregation_size, full_aggregation_level, &
+       min_thread_chunk, block_size, &
+       errors_return, ierror)
+    !$  use omp_lib
+    use dl_mg_grids
+    use dl_mg_common_data
+    use dl_mg_mpi
+    use dl_mg_defco_fd, only: dl_mg_defco_fd_initialise, max_order
+    use dl_mg_info
+    use dl_mg_timer
+    use dl_mg_errors
+    !use dl_mg_conjugate_gradient_method, only : set_conj_grad => set_params
+    !use dl_mg_second_order_solvers, only : set_second_order => set_params
+    implicit none
+
+    integer, intent(in)                :: nx_global !< global grid size along x,
+                                                    !! see \ref GridConstrains for
+                                                    !! the recommended size
+    integer, intent(in)                :: ny_global !< global grid size along y, see above
+    integer, intent(in)                :: nz_global !< global grid size along z, see above
+
+    real(wp), intent(in)               :: dx_ !< size of grids unit step along x
+    real(wp), intent(in)               :: dy_ !< size of grids unit step along y
+    real(wp), intent(in)               :: dz_ !< size of grids unit step along z
+    integer, dimension(3), intent(in)  :: bc_ !< boundary conditions along x, y, z.
+                                              !! Accepted values:
+                                              !! DL_MG_BC_DIRICHLET,
+                                              !! DL_MG_PERIODIC.
+    integer, dimension(3), intent(in)  :: gstart  !< coordinates of the start point in the global index space 
+                                                  !< for the subdomain held by this rank
+    integer, dimension(3), intent(in)  :: gend    !<  coordinates of the end point in the global index space 
+                                                  !< for the subdomain held by this rank
+    integer, intent(in)                :: report_unit_     !< IO unit to be used by DL_MG for reporting
+    character(len=*), intent(in)       :: report_file_ !< name of DL_MG log file
+    integer, intent(in)                :: commin_             !< MPI communicator
+    !! it must be equipped with a Cartesisian topology which relates the
+    !! the local domain to its neighbours
+    !> parameters controlling coarse grid agregation (experimental feature)
+    integer, optional, intent(in)      :: full_aggregation_size, full_aggregation_level
+    integer, optional, intent(in)      :: block_size !< The local grid domain
+    !! can be split in blocks of size block_size along y direction
+    !! for better cache performance. Blocking may help cache efficency
+    !! for local domain that don't fit in cache memory.
+    !! is recommented to setits value to a multiple of number of threads
+    !! if set <= 0 the default value are used see set_loop_blocks
+    integer,  optional, intent(in)     :: min_thread_chunk !< minimum block size
+    !! per thread in y direction to use for loop blocking (default is 3).
+    !! at the coarse level of multigrid is better to let som thread lazy rather
+    !! having them fighting over the cache lines
+    !! It does not make sense to use a value less than 3 because the Laplace stencil
+    !! uses 3 grid layers.
+    !! if set <= 0 the default value are used see set_loop_blocks
+    logical, optional, intent(in)       :: errors_return !< if present and true don't abort on error,
+    !!just return the error code
+    integer, optional, intent(out)      :: ierror !< error flag
+
+    integer na(3), nap1(3), d, max_halo_thickness(3)
+    logical return_on_error
+
+    if (present(ierror)) ierror = DL_MG_SUCCESS
+
+    if (present(errors_return)) &
+         abort_on_failure = .not. errors_return
+
+    if (initialised) then
+       call handle_error(DL_MG_ERR_INIT, ierror)
+       return
+    endif
+
+    ! try to avoid using a serial build executable in a MPI parallel run
+#ifndef MPI
+    if ( .not. check_assertion(all( (/ nx_global, ny_global, nz_global /)  &
+         ==  (gend - gstart +1)), DL_MG_ERR_NOMPI)) then
+       call handle_error(DL_MG_ERR_NOMPI, ierror)
+       return
+    endif
+#endif
+
+    ! nothing to do on this rank
+#ifdef MPI
+    if ( commin_ == MPI_COMM_NULL) then
+       mg_comm = MPI_COMM_NULL
+       return
+    endif
+#endif
+
+    ! set common data
+
+    ! Boundary conditions
+    bc(:) = bc_(:)
+
+    if ( any(bc == DL_MG_BC_NEWMANN) ) then
+       call handle_error(DL_MG_ERR_NEUMANN_BC, ierror)
+       return
+    endif
+
+    do d = 1, 3
+       if ( .not. check_assertion(( bc(d) == DL_MG_BC_PERIODIC &
+            .or. bc(d) == DL_MG_BC_DIRICHLET), DL_MG_ERR_UNKNOWN_BC)) then
+          call handle_error(DL_MG_ERR_UNKNOWN_BC, ierror)
+          return
+       endif
+    end do
+
+    if (all(bc == DL_MG_BC_PERIODIC)) then
+       fullpbc = .true.
+    end if
+
+    nap1 = (/ nx_global, ny_global, nz_global /)
+
+    do d=1,3
+       if (bc(d) == DL_MG_BC_PERIODIC) then
+          na(d) = nap1(d)
+       else
+          ! number of internal grid points for DBC
+          na(d) = nap1(d) - 2
+       endif
+    enddo
+
+    nx = na(1) ;  ny = na(2) ;   nz = na(3)
+    nxb= nap1(1); nyb = nap1(2); nzb = nap1(3)
+
+    dx = dx_; dy = dy_; dz = dz_
+    grid_weight = dx * dy * dz
+    report_unit = report_unit_
+    isx = gstart(1); isy = gstart(2); isz = gstart(3)
+    iex = gend(1);   iey = gend(2);   iez = gend(3)
+    mx  = iex - isx + 1
+    my  = iey - isy + 1
+    mz  = iez - isz + 1
+
+    if (present(full_aggregation_size)) then
+       full_agg_size = full_aggregation_size ! default is 0
+    endif
+
+    if (present(full_aggregation_level)) then
+       full_agg_level = full_aggregation_level ! default is 0
+    endif
+
+    ! N.B. full_aggregation_size takes precedence over full_aggregation_level
+
+    restriction_weight = dl_mg_half_weight_restriction
+
+    !$  nthreads = omp_get_max_threads()
+
+    call set_mpi_comm(commin_, ierror)
+    ! if not aborting on error the caller subroutine must return if it receives
+    ! an error signal
+    if (present(ierror)) then
+       if ( ierror /= DL_MG_SUCCESS) return
+    endif
+
+    call set_nprocs
+
+    call set_mg_grids(ierror)
+    if (present(ierror)) then
+       if ( ierror /= DL_MG_SUCCESS) return
+    endif
+    
+    ! Calculate maximum halo thickness based on max_order. Currently the
+    ! maximum halo thickness is equal in all directions.
+    ! TODO This is currently simply set to max_order since the halo can never
+    ! exceed this size. However, it could probably be more intelligently
+    ! determined based on the boundary conditions and sizes of data blocks
+    ! along each Cartesian direction
+    max_halo_thickness(:) = max_order
+
+    call mg_timer(INIT,0,0,0)
+
+    call mg_info_init(report_file_)
+
+    call set_loop_blocks(min_thread_chunk, block_size)
+
+    call write_comms_structure(mg)
+
+    initialised = .true.
+
+  end subroutine dl_mg_init
+
+
+  !> Poisson Equation driver
+  subroutine dl_mg_solver_poisson(eps, eps_mid, alpha, rho, &
+       pot, fd_order, &
+       tol_res_rel, tol_res_abs, &
+       tol_pot_rel, tol_pot_abs, &
+       tol_cg_res_rel, tol_cg_res_abs, &
+       tol_vcycle_res_rel, tol_vcycle_res_abs, &
+       tol_level_1_res_rel, tol_level_1_res_abs, &
+       mg_max_conv_rate, &
+       max_iters_defco, &
+       max_iters_cg, &
+       max_iters_vcycle, &
+       max_iters_level_1, &
+       v_iterations, &
+       omega_sor, &
+       use_cg,    &
+       use_pot_in, use_damping, res, ierror)
+    use dl_mg_mpi_header
+    use dl_mg_params
+    use dl_mg_errors
+    use dl_mg_common_data, only : mg_comm
+    use dl_mg_utils, only : compute_rho_sum
+    use dl_mg_defco, only : dl_mg_defco_defect_corr_solver
+    use dl_mg_convergence_params, only : dl_mg_set_conv_params
+    use dl_mg_utils, only : check_error_code
+    implicit none
+
+    real(wp),intent(in)               :: eps(:, :, :) !< relative permitivity on the grid points,
+    !! ignored if the finite difference order is 2
+    real(wp),intent(in)               :: eps_mid(:, :, :, :) !< relative permitivity, at the points
+    !! located halfway between the grid points in each direction.
+    !! the fourth index stores the direction: 1 -> x, 2 ->y, 3 -> z
+    !! E.g.: eps_mid(i,j,k,1) is associated with the middle point of grid segment between (i,j,k)  and (i+1,j,k).
+
+    real(wp), intent(in)              :: alpha        !< multiplicative constant for \f$\rho\f$
+    !! defined by the units used
+    real(wp), intent(in)              :: rho(:, :, :) !< r.h.s. term (charge density)
+    real(wp), intent(inout)           :: pot(:, :, :) !< the potential to be computed, see \ref embeded
+    integer, intent(in)               :: fd_order     !< finite difference order used in defect correction
+    real(wp), optional, intent(out)   :: res(:, :, :) !< the residual
+    logical, optional, intent(in)     :: use_pot_in   !< start iterating from this potential,
+    !! if not present starts from 0 inside the domain
+    real(wp), optional, intent(in)    :: tol_res_rel  !< relative tolerance parameter for the
+                                                      !< residual of the top iteration (defect correction if fd_order > 2, else  multigrid).
+    !! See \ref ConvCrit
+    real(wp), optional, intent(in)    :: tol_res_abs  !< absolute tolerace ...
+    real(wp), optional, intent(in)    :: tol_pot_rel  !< relative tolerance parameter for the potential of the top 
+                                                      !< iteration (used only in defect correction)
+    real(wp), optional, intent(in)    :: tol_pot_abs  !< absolute tolerace for the potential
+    real(wp), optional, intent(in)    :: tol_cg_res_rel !< relative tol for conjugate gradient iterations
+    real(wp), optional, intent(in)    :: tol_cg_res_abs !< absolute ...
+    real(wp), optional, intent(in)    :: tol_vcycle_res_rel !< relative tol for V cycle iterations
+    real(wp), optional, intent(in)    :: tol_vcycle_res_abs !< absolute ...
+    real(wp), optional, intent(in)    :: tol_level_1_res_rel !< tolerance for multgrig coarse loop, 
+                                                             !< used only if number of levels > 1
+    real(wp), optional, intent(in)    :: tol_level_1_res_abs !< absolute tolerance ...
+    real(wp), optional, intent(in)    :: mg_max_conv_rate !< largest allowed convergence rate, i.e. the inverse ratio
+                                                          !< of two consecutive residuals in the multigrid solver
+
+    integer, optional, intent(in) :: max_iters_defco !< maximum number of iterations for the higher order correction
+    integer, optional, intent(in) :: max_iters_cg !< maximum number of CG iterations
+    integer, optional, intent(in) :: max_iters_vcycle !< maximum number of V cycles (recommended value not more that 50)
+    !! at the coarsest level
+    integer, optional, intent(in) :: max_iters_level_1 !< max number of iteration
+    integer, optional, intent(in) :: v_iterations(2)  !< number of relaxation iteration on the V-cycle branches
+
+    real(wp), optional, intent(in):: omega_sor !< SOR relaxation parameter
+    logical, optional, intent(in) :: use_cg
+    logical, optional, intent(in)     :: use_damping  !< if true use error damping in defect correction loop
+
+    integer, optional, intent(out)    :: ierror       !< error flag
+
+    integer eq_type
+
+    character(len=*), parameter :: selfname = "dl_mg_solver_poisson"
+
+    ! nothing to do on this rank
+#ifdef MPI
+    if ( mg_comm == MPI_COMM_NULL) then
+       if (present(ierror)) then
+          ierror = DL_MG_SUCCESS
+       endif
+       return
+    endif
+#endif
+
+    eq_type = EQ_POISSON
+
+    if (.not. check_assertion(initialised, DL_MG_ERR_NOINIT_POISSON) ) then
+       call handle_error(DL_MG_ERR_NOINIT_POISSON, ierror)
+       return
+    endif
+
+    call dl_mg_set_conv_params(eq_type, fd_order, &
+         tol_res_rel, tol_res_abs, &
+         tol_pot_rel, tol_pot_abs, &
+         tol_cg_res_rel = tol_cg_res_rel, &
+         tol_cg_res_abs = tol_cg_res_abs, &
+         tol_vcyc_res_rel = tol_vcycle_res_rel, &
+         tol_vcyc_res_abs = tol_vcycle_res_abs, &
+         tol_level_1_res_rel = tol_level_1_res_rel, &
+         tol_level_1_res_abs = tol_level_1_res_abs, &
+         mg_max_conv_rate = mg_max_conv_rate, &
+         max_iters_defco = max_iters_defco, &
+         max_iters_cg = max_iters_cg, &
+         max_iters_vcyc = max_iters_vcycle, &
+         max_iters_level_1 = max_iters_level_1, &
+         v_iterations = v_iterations, &
+         omega_sor = omega_sor, &
+         use_cg = use_cg)
+
+    call compute_rho_sum(rho)
+
+    call dl_mg_defco_defect_corr_solver(eq_type, eps, eps_mid, alpha,  &
+         rho, fd_order, pot, &
+         use_pot_in=use_pot_in, use_damping=use_damping, &
+         res=res, ierror=ierror )
+
+    call check_error_code(ierror)
+
+    !    call dlmg_solver_base(eps_rel, alpha=alpha, rho=rho, &
+    !       pot=pot, tol=tol, res=res, ierror=ierror)
+
+  end subroutine dl_mg_solver_poisson
+
+
+  !> solves PBE with steric potential
+  subroutine dl_mg_solver_pbe(eps, eps_mid, alpha, rho, &
+       lambda, temp, nion, c, q,                       &
+       pot, fd_order,                                   &
+       tol_res_rel, tol_res_abs,                        &
+       tol_pot_rel, tol_pot_abs,                        &
+       tol_newton_res_rel, tol_newton_res_abs,          &
+       tol_cg_res_rel, tol_cg_res_abs,                  &
+       tol_vcycle_res_rel, tol_vcycle_res_abs,          &
+       tol_level_1_res_rel, tol_level_1_res_abs,        &
+       tol_mu_rel, tol_mu_abs,                          &
+       mg_max_conv_rate,                                &
+       max_iters_defco,                                 &
+       max_iters_cg,                                    &
+       max_iters_vcycle,                                &
+       max_iters_level_1,                               &
+       max_iters_newton,                                &
+       v_iterations,                                    &
+       use_cg,                                          &
+       omega_sor,                                       &
+       linearised, der_pot, steric_weight, expcap,      &
+       res, use_fas, use_pot_in, use_damping,           &
+       neutralisation_method,                           &
+       neutralisation_ion_ratios,                       &
+       ! return values used internally
+       betamu_electrostatic,                            &
+       steric_weight_average,                           &
+       used_ion_concentrations,                          &
+       used_neutralisation_ratios,                    &
+       ierror)
+    use dl_mg_mpi_header
+    use dl_mg_params
+    use dl_mg_common_data, only : mg_comm
+    use dl_mg_defco, only : dl_mg_defco_defect_corr_solver
+    use dl_mg_convergence_params, only : dl_mg_set_conv_params
+    use dl_mg_errors
+    use dl_mg_utils, only : test_charge_neutrality, dl_mg_init_nonlin, &
+         return_betamu_gamma_ion_concentrations, check_error_code
+    use dl_mg_nonlinear_model, only : free_nonlinear
+    use dl_mg_neutralisation_with_ions, only : free_neutralisation
+    implicit none
+
+    real(wp), intent(in)              :: eps(:,:,:) !< relative permitivity on the grid points,
+    !! ignored if the finite difference order is 2
+    real(wp), intent(in),target       :: eps_mid(:, :, :, :) !< relative permitivity, at the points
+    !! located halfway between the grid points in each direction
+    !! E.g.: eps_mid(i,j,k,1) is associated with the middle point of grid segment between (i,j,k)  and (i+1,j,k).
+    real(wp), intent(in)              :: alpha !< multiplicative constant for \f$\rho\f$
+    !! defined by the units used
+    real(wp), intent(in)               :: rho(:, :, :)!< charge density
+
+    real(wp), intent(in) :: lambda    !> Multiplicative constant for the Boltzmanm term.
+    !! If is zero the poisson equation is solved
+    real(wp), intent(in) :: temp      !< temperature in Kelvin
+    integer, intent(in) :: nion      !< Number of ionic species
+    real(wp), intent(in) :: c(nion)  !< Concentrations of ionic species in
+    !! \f$ r_{Bohr}^{-3}\f$, where \f$ r_{Bohr}\f$ is the Bohr radius.
+    !! \b Note: the concentration must be defined in relation to the accesible ion
+    !! volume, not the grid domain volume.
+    !! These quantities differ when steric weight is used, see this \ref ciGamma "note".
+    real(wp), intent(in) :: q(nion)  !< Electric charge in electron charge units of each ionic specie present in solution.
+    real(wp), intent(inout)           :: pot(:, :, :) !< solution to be sought, see \ref embeded
+    integer, intent(in)               :: fd_order     !< derivatives approximation order in finite diferences
+    real(wp), optional, intent(in)    :: tol_res_rel  !< relative tolerance parameter for the residual of the top iteration
+                                                      !< (defect correction if fd_order > 2, else applies to Newton or linearised PBE).
+    !! See \ref ConvCrit
+    real(wp), optional, intent(in)    :: tol_res_abs  !< absolute tolerace ...
+    real(wp), optional, intent(in)    :: tol_pot_rel  !< relative tolerance parameter for the potential of the top iteration 
+                                                      !< (used only in defect correction)
+    real(wp), optional, intent(in)    :: tol_pot_abs  !< absolute tolerace for the potential
+    real(wp), optional, intent(in)    :: tol_newton_res_rel !< relative tol for newton iteration
+    real(wp), optional, intent(in)    :: tol_newton_res_abs !< absolute ...
+    real(wp), optional, intent(in)    :: tol_cg_res_rel !< relative tol for CG 
+    real(wp), optional, intent(in)    :: tol_cg_res_abs !< absolute ...
+    real(wp), optional, intent(in)    :: tol_vcycle_res_rel !< relative tol for V cycle iterations
+    real(wp), optional, intent(in)    :: tol_vcycle_res_abs !< absolute ...
+    
+    real(wp), optional, intent(in)    :: tol_level_1_res_rel !< tolerance for multgrig coarse loop, used only 
+                                                             !< if number of levels > 1
+    real(wp), optional, intent(in)    :: tol_level_1_res_abs !< absolute tolerance ...
+    real(wp), optional, intent(in)    :: tol_mu_rel !< relative tolerance for excess electrostatic potential
+    real(wp), optional, intent(in)    :: tol_mu_abs !< absolute tolerance for excess electrostatic potential
+    real(wp), optional, intent(in)    :: mg_max_conv_rate !< largest allowed convergence rate, i.e. the inverse ratio 
+                                                          !< of two consecutive residuals in the multigrid solver
+    integer, optional, intent(in) :: max_iters_defco !< maximum number of iterations for the higher order correction
+    integer, optional, intent(in) :: max_iters_newton !< maximum number of iteration for Newton
+    integer, optional, intent(in) :: max_iters_cg !< maximum number of CG iterations
+    integer, optional, intent(in) :: max_iters_vcycle !< maximum number of V cycles (recommended value not more that 50)
+    !! at the coarsest level
+    integer, optional, intent(in) :: max_iters_level_1 !< max number of iteration
+    integer, optional, intent(in) :: v_iterations(2)  !< number of relaxation iteration on the V-cycle branches
+
+    real(wp), optional, intent(in):: omega_sor !< SOR relaxation parameter
+    
+    logical, optional, intent(in)      :: use_cg ! use Conjugate Gradient for the second order linearised equations
+    logical,  optional, intent(in)    :: linearised !< use linereased version
+    real(wp), optional, intent(in)    :: der_pot(:,:,:) !< potential function at which the
+    !! derivative of the Boltzmann term is
+    !! computed (if not present defaults to  0)
+    real(wp), optional, intent(in) :: steric_weight(:,:,:) !< steric weight in  the Boltzmann term,
+                                                           !< i.e. \f$ e^{(-\beta V_{steric}(r))} \f$
+    real(wp), optional, intent(in) :: expcap !< cap of the exponential argument in the Boltzmann term
+    real(wp), optional, intent(out)   :: res(:, :, :) !< residual at the of computation
+    logical, optional, intent(in) :: use_fas !< use Full Approximation Scheme
+    !! to solve non-linear PBE, the default is Newton method
+    logical, optional, intent(in)     ::  use_pot_in !< start iterating from this potential,
+    !! if not present starts from 0
+    logical, optional, intent(in)     :: use_damping  !< if present and true use error damping in defect correction loop
+    integer, optional, intent(in) :: neutralisation_method !< select the \ref ntrl_mtd "neutralisation method" for PBE with PBC
+    real(wp), optional, intent(in) :: neutralisation_ion_ratios(nion) !< ratios of ion mixing when neutralisation_method 
+                                                                      !< is set to dl_mg_neutralise_with_ions_fixed
+    !!  non-negative reals, no need to be normalised to 1.
+    real(wp), optional, intent(out)   :: betamu_electrostatic(nion) !<  array containing \f$ \mu_i /(k_B  T) \f$
+    !! computed in the Newton solver or in the defect correction section
+    !!  see \ref PBC
+    real(wp), optional, intent(out)   :: used_ion_concentrations(nion) !< array containing the bulk ion concentration
+                                                                       !< used in PBE solution.
+    !!It might differ from the input concentration when neutralisation_method is set to dl_mg_neutralise_with_ions_fixed
+    !! or to dl_mg_neutralise_with_ions_auto.
+    real(wp),optional, intent(out)    :: used_neutralisation_ratios(nion) !< array containing the neutralisation
+    !! ratios used to shift the bulk concentrations. Relevant only if neutralisation_method is set to dl_mg_neutralise_with_ions_fixed
+    !! or to dl_mg_neutralise_with_ions_auto
+    real(wp), optional, intent(out)   :: steric_weight_average !< \f$ (1/V) \int_V e^{(-\beta V_{steric}(r))} dv\f$
+                                                               !! useful if the calling app wants to compute
+                                                               !! the ions distribution functions
+
+    integer, optional, intent(out)    :: ierror
+
+    ! locals
+    integer eq_type
+
+    ! nothing to do on this rank
+#ifdef MPI
+    if ( mg_comm == MPI_COMM_NULL) then
+       if (present(ierror)) then
+          ierror = DL_MG_SUCCESS
+       endif
+       return
+    endif
+#endif
+
+    if (.not. check_assertion( initialised, &
+         DL_MG_ERR_NOINIT_PBE) ) then
+       call handle_error(DL_MG_ERR_NOINIT_PBE, ierror)
+       return
+    endif
+
+
+    call dl_mg_init_nonlin(eq_type,     &
+         lambda, temp, nion, c, q, rho, steric_weight,  &
+         der_pot, expcap,                           &
+         linearised, use_fas,                       &
+         neutralisation_method,                     &
+         neutralisation_ion_ratios,                 &
+         ierror)
+
+    if (ierror == DL_MG_SUCCESS) then
+       call dl_mg_set_conv_params(eq_type, fd_order, &
+            tol_res_rel,         tol_res_abs, &
+            tol_pot_rel,         tol_pot_abs, &
+            tol_newton_res_rel,  tol_newton_res_abs,&
+            tol_cg_res_rel, tol_cg_res_abs,           &
+            tol_vcycle_res_rel,  tol_vcycle_res_abs,&
+            tol_level_1_res_rel, tol_level_1_res_abs, &
+            tol_mu_rel,          tol_mu_abs,          &
+            mg_max_conv_rate, &
+            max_iters_defco, &
+            max_iters_newton, &
+            max_iters_cg, &
+            max_iters_vcycle, &
+            max_iters_level_1, &
+            v_iterations, &
+            omega_sor,&
+            use_cg)
+
+       call dl_mg_defco_defect_corr_solver(eq_type, eps, eps_mid, alpha, &
+            rho, fd_order, pot, &
+            der_pot=der_pot, steric_weight=steric_weight, &       ! optional
+            use_pot_in=use_pot_in, use_damping=use_damping, & ! optional
+            res=res, ierror=ierror )                        ! optional
+
+           call test_charge_neutrality(temp, rho, pot, steric_weight)
+    end if
+
+    call check_error_code(ierror)
+
+    call return_betamu_gamma_ion_concentrations(nion, &
+         betamu_electrostatic, &
+         used_ion_concentrations, &
+         used_neutralisation_ratios, steric_weight_average)
+
+    call free_nonlinear
+    call free_neutralisation
+
+  end subroutine dl_mg_solver_pbe
+
+
+  !> return the last updated in the newton status
+  !! could be useful to asses the quality of a partital solution
+  !! when the the solver returns with an error
+  subroutine dl_mg_solver_status(nwt_iteration, nwt_solution_norm, &
+       nwt_residual_norm, &
+       nwt_target_residual_norm, &
+       nwt_ierror, &
+       defco_iteration, &
+       defco_solution_norm, &
+       defco_residual_norm, &
+       defco_error_norm, &
+       defco_target_residual_norm, &
+       defco_ierror)
+    use dl_mg_params, only : wp
+    use dl_mg_info, only : s => newton_status, &
+         d => defco_status
+    implicit none
+
+    integer, intent(out), optional :: nwt_iteration, nwt_ierror
+    real(wp), intent(out), optional :: nwt_solution_norm, nwt_residual_norm, &
+         nwt_target_residual_norm
+    integer, intent(out), optional :: defco_iteration, defco_ierror
+    real(wp), intent(out), optional :: defco_solution_norm, defco_residual_norm, &
+         defco_error_norm, &
+         defco_target_residual_norm
+
+    if (present(nwt_iteration)) nwt_iteration = s%iter
+    if (present(nwt_solution_norm)) nwt_solution_norm = s%sol_norm
+    if (present(nwt_residual_norm)) nwt_residual_norm = s%res_norm
+    if (present(nwt_target_residual_norm)) nwt_target_residual_norm = s%tol
+    if (present(nwt_ierror)) nwt_ierror = s%status ! DL_MG_SUCCESS or a DL_MG_ERR_*
+
+    if (present(defco_iteration)) defco_iteration         = d%iter
+    if (present(defco_solution_norm)) defco_solution_norm = d%sol_norm
+    if (present(defco_error_norm)) defco_error_norm       = d%error_norm
+    if (present(defco_residual_norm)) defco_residual_norm = d%res_norm
+    if (present(defco_target_residual_norm)) defco_target_residual_norm = d%target_res_norm
+    if (present(defco_ierror)) defco_ierror = d%ierror ! DL_MG_SUCCESS or a DL_MG_ERR_*
+  end subroutine dl_mg_solver_status
+
+
+  !> returns the error string associated with an error code
+  subroutine dl_mg_error_string(err_code, msg, len_str)
+    use dl_mg_errors, only : get_errmsg
+    implicit none
+    integer, intent(in) :: err_code  !< see \ref params_inc
+    character(len=*), intent(out) :: msg !< string describing the error code,
+    !!  its length must be at lest DL_MG_MAX_ERROR_STRING
+    integer, optional, intent(out) :: len_str !< returns the length of the actual message
+
+    ! perhaps I sould add the rank in error message ?!?
+
+    if (len(msg) < DL_MG_MAX_ERROR_STRING ) then
+       write(0,*) "DL_MG: dl_mg_error_string : WARNING input character legth is&
+            & shorter than DL_MG_MAX_ERROR_STRING"
+    endif
+
+    call get_errmsg(err_code, msg)
+
+    ! jd: Workaround for gfortran 7.0.x and 7.1.x bug
+    ! Error: '__builtin_memset': specified size 18446744073709551609 exceeds maximum object size 9223372036854775807
+    ! cf: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=79929
+    ! JCW: Update 10/05/2018
+    ! JCW: Fixed in GFortran 8.x, but not backported to 7.x (see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=79929)
+    ! JCW: Permanent workaround for GFortran 7.x suggested by jme52
+#if defined(__GFORTRAN__) && __GNUC__ == 7
+#else
+    msg = "DL_MG: "//msg
+#endif
+
+     if (present(len_str)) then
+        len_str = len_trim(msg)
+     endif
+
+   end subroutine dl_mg_error_string
+
+   !> returns the version string
+   subroutine dl_mg_version(version_string)
+     use dl_mg_info, only : get_version
+     implicit none
+
+     character(len=*), intent(out) :: version_string !< length must be at least DL_MG_VERSION_STRING_LENGTH, see \ref params_inc
+
+     if (len(version_string) < DL_MG_VERSION_STRING_LENGTH) then
+        write(*,*) "Warning character argument provided for DL_MG version string is too short"
+        write(*,*) "It must have lenght >=",  DL_MG_VERSION_STRING_LENGTH
+        write(*,*) " You can use the variable DL_MG_VERSION_STRING_LENGTH to set its length"
+        version_string(:)="*"
+        return
+     else
+        call get_version(version_string)
+     endif
+   end subroutine dl_mg_version
+
+   !> Free solver data structures
+   !!
+   !! This is needed if the application solves more than one PBE or PE problem.
+   !!
+   !! Note: the arrays used to compute the solution are deallocated at the end of dl_mg_poisson_solver or
+   !! dl_mg_pbe_solver. This subroutine frees some internal data structures and resets the internal
+   !! initialisation flags. After this call a new problem can be initialised.
+   subroutine dl_mg_free()
+     use dl_mg_grids, only : mg, free_fd
+     use dl_mg_common_data, only : blk, report_unit
+     use dl_mg_timer, only : timer_free
+     implicit none
+
+     ! Local variables
+     logical :: report_unit_exists
+     logical :: report_file_open
+
+     initialised = .false.
+     initialised_nonlin = .false.
+
+     if (allocated(mg)) deallocate(mg)
+     if (allocated(blk)) deallocate(blk)
+
+     call free_fd
+
+     call timer_free
+
+     ! JCW: Close report_unit. The application may provide a new IO unit in the
+     ! JCW: subsequent calculation, so to avoid multiple units accessing
+     ! JCW: report_file, close the unit if currently open.
+     inquire(unit=report_unit,exist=report_unit_exists,opened=report_file_open)
+     if (report_unit_exists.and.report_file_open) then
+        ! JCW: Check unit is opened, since we expect only the unit on the root
+        ! JCW: MPI rank to have an opened IO unit.
+        ! JCW: Check for existence of unit, since the calling program may specify
+        ! JCW: non-existing unit numbers for non-root MPI ranks.
+        close(report_unit)
+     end if
+
+   end subroutine dl_mg_free
+
+ end module dl_mg
+
+!>\page implementation Implementation Details
+!!
+!>\section algorithm Algorithm Description
+!!
+!!The main components of the mutigrid solver used in DL_MG were
+!!selected following the standard recommendations for PE and
+!!PBE solvers. The grid stencils are derived by discretisation of the
+!!differential operator at each level (geometric approach) with the
+!!finite differences method using 7 point stencil. Coarsening is
+!!achieved by doubling the lattice constant in all dimensions,
+!!smoothing uses Gauss-Seidel red-black method, inter-grid transfers
+!!are performed with half-weight restriction and bilinear
+!!interpolation. With these components one can build a close to
+!!optimal and efficient solver for the PE and PBE, provided that the
+!!models used for the permittivity and charge density are smooth and
+!!without strong anisotropies \ref Trottenberg.
+!!
+!>The V-cycle was selected for multigrid iterations as generally
+!!recommended for parallel computations \ref Trottenberg, \ref Chow. MPI
+!!parallelism is used for data decomposition; the cuboid global grid is
+!!distributed amongst MPI ranks using a 3D topology.  As the coarse
+!!grids are derived from the fine grids by removing the points with even
+!!index coordinates in all directions, no data is exchanged between MPI
+!!ranks during inter-grid transfers.  The number of MPI ranks can vary
+!!across multigrid levels because some ranks could be assigned zero grid
+!!points below a certain coarsening level, depending upon the global grid
+!!size and MPI topology at the finest level.  MPI communication at each
+!!level is done in a separate communicator that includes only the active
+!!ranks. Domain halos are exchanged with non-blocking
+!!sends and receives, the edge and corner points of the local domains are
+!!transfered between ranks by using ordered communication along axes
+!!between nearest neighbours \ref Trottenberg.
+!!
+!>OpenMP parallelism is implemented using one parallel region that
+!!covers the V-cycle loop and the subroutine which builds the stencil
+!!coefficients. The local domain is decomposed in thread blocks with an
+!!algorithm that ensures equal work for all threads even in the case of
+!!very thin local domains (situation encountered in ONETEP in certain use
+!!cases).  Block sizes can be tuned also for better cache
+!!utilisation. First touch policy is used to ensure optimal memory
+!!access on NUMA architectures.  MPI communication inside OpenMP regions
+!!is handled by the master thread (the so-called funnelled mode), mainly
+!!for reasons of portability. Data transfers between MPI buffers and
+!!halos are done using one thread per local grid side with the help of
+!!`single` directives.
+!!
+!>The non-linear solver algorithm uses the Newton method and it follows closely
+!!\ref Holst paper.
+!!
+ !! More details on implementation and performance are available in
+ !!\ref JCW2018 "JC Womak 2018" and these reports: [1](http://www.hector.ac.uk/cse/distributedcse/reports/onetep/onetep.pdf),
+!! [2](http://www.archer.ac.uk/community/eCSE/eCSE01-004/eCSE01-004-final-report.pdf).
+!!
+!!\section Defco Higher order finite difference correction
+!!
+!!Higher order discretisation correction can be added to the second
+!!order solution obtained with the multigrid or Newton solvers.
+!!The finite difference approximation for the potential
+!!derivatives can be computed for orders \f$k=2p,\  p=2,\dots,6\f$.
+!!Asymmetric formulas are
+!!used at the boundaries in the case of Dirichlet boundary conditions.
+!!
+!!The correction is computed iteratively starting form the expression
+!!
+!! \f[ A_k(\phi_2 +\delta_k) = f \f]
+!!
+!!  where \f$A_k\f$ is the lhs of PE or PBE which uses finite differences
+!! of order \f$k\f$ for the derivatives, \f$\phi_2\f$ is
+!!  the second order solution obtained with the multigrid or Newton solvers,
+!! \f$\delta_k\f$ is the higher order correction and \f$ f\f$ is
+!!  the charge density.  An approximate higher order correction can be computed
+!!  efficiently by using the second order operator as an approximation for \f$ A_k \f$, that is
+!!
+!! \f[ A_2 \delta_{k}^{(n+1)} =  f - A_k \phi_{2}^{(n)} \ .\f]
+!!
+!! The found \f$ \delta_{k}^{(n+1)} \f$ is added to the current potential
+!! and the procedure is repeated until the convegence test is satified.
+!! In the case of PBE
+!! \f$A_2\f$ in the above equation is the linerisation of the PBE operator
+!! around the current value of the potential.
+!!
+!! An error damping procedure is provided that can be used to find
+!! a scale factor \f$s\f$ for
+!! the correction \f$ \delta_{k}^{(n+1)} \f$ such that the defect norm
+!! decreases during iterative process, i.e.
+!!
+!! \f[ || A_k(\phi^{(n)} + s \delta^{(n+1)}) -f || < ||
+!! A_k(\phi^{(n)}) -f || \f]
+!! with \f$s \le 1\f$. This can help to find
+!! the solution for cases which don't converge or have a poor
+!! convergence rate.
+!!
+!!
+!!\section ConvCrit Convergence Criteria
+!!
+!! DL_MG uses the following convergence test for the multigrid and Newton solvers
+!! \f[|| r || < \mbox{max} (\tau_{\mbox{abs}},\, \tau_{\mbox{rel}} || \alpha \rho ||) \ ,\f]
+!! where \f$ r \f$ is the multigrid residual.
+!! For the higher order discretisation correction the convergence is achieved at step \f$ i+1 \f$ if both
+!! following conditions are true:
+!! \f{eqnarray*}{
+!!  ||\phi^{(i)} -\phi^{(i+1)}|| & < & \mbox{max}(\tau_{\mbox{abs}}^{\phi},\, \tau_{\mbox{rel}}^{\phi}||\phi^{(i)}||) \\\
+!!  ||r_{k}^{(i+1)}|| & < & \mbox{max}(\tau_{\mbox{abs}}^{r},\, \tau_{\mbox{rel}}^{r} ||r_{k}^{(0)}||) \ ,
+!!  \f}
+!!
+!! where \f$ r_{k}^{(i)} \f$ are residuals of the higher order
+!! correction iterations. In both cases the set of parameters
+!! \f$\tau_{<>}^{<>}\f$ are chosen with sensible default values and
+!! they can be set via optional arguments, see
+!! dl_mg::dl_mg_solver_poisson(), dl_mg::dl_mg_solver_pbe().
+!!
+!! If the PBE solver is run with the constrain to conserve the number of ions
+!! for the electrolyte, see \ref PBC,  an aditional convergence test for
+!! the excess chemical potential \f$\mu_i\f$ is used:
+!!\f[
+!! | \mu_i^{(i+1)}-\mu_i^{(i)} | < \mbox{max}(\tau_{\mbox{abs}}^{\mu},\, \tau_{\mbox{rel}}^{\mu}|\mu_i^{(i)}|)
+!!\f]
+!! in Newton and defect correction loops.
+!!
+!!\section GridConstrains Grid Size Constrains
+!!
+!!In order to generate enough multigrid levels, the global grid
+!!must have sizes given by \f$[q_1 2^{n_1}+\delta_1, q_2 2^{n_2}+\delta_2, q_3
+!!2^{n_3}+\delta_3]\f$ with \f$q_i \le 20\f$ for an
+!!efficient solution at the coarsest level. \f$\delta_i\f$ is 1 or 0 for Dirichlet 
+!!or periodic boundary conditions, respectively, in direction \f$ i\f$.
+!!
+!!\section PBC Periodic boundary conditions (PBC) for PBE
+!!
+!! In the case of  PBC the Laplacian operator cancels the potential zero mode
+!! on the lhs of PE or PBE equations therefore for consistency
+!! the charge distribution on rhs has to satisfy the same condition, i.e.:
+!!\f[
+!!   \int_V  \left[\alpha\rho(\vec r) + \lambda\sum_i q_i c_i \gamma(\vec r) \exp \left( -q_i\beta\phi(\vec r)
+!!   \right) \right]dv = 0
+!!\f]
+!!
+!!where \f$ \gamma(\vec r) = \exp (-\beta V (\vec r)) \f$ is the steric weight function.
+!!
+!! DL_MG ofers several option to satisfy the neutrality condition:
+!!
+!! \subsection jellium Uniform background (jellium) neutralisation
+!!
+!!One way to satisfy the charge neutrality constraint is to neutralise the solute charge with an uniform background of opposite 
+!!charge whose density is chosen such that the total charge in the computation cell is zero,
+!! i.e., \f$ \rho(\vec r) \rightarrow \rho(\vec r) -(1/V)\int_V\rho(\vec r)dv \f$.
+!! It follows that the total charge of the electrolyte is zero and one has to fix the chemical potential of each electrolyte
+!! species such that average concentration in the computational cell is the bulk concentration \ref JD2020 "J Dziedzic 2020". 
+!! In some more detail we have as follow:
+!!Starting from a mean field free energy functional one can
+!!show that the ions concentration depend on the excess chemical
+!!potential introduced by the steric potential \f$\mu_i^{ex}\f$ and on the
+!!electrostatic potential contribution to the chemical potential
+!!\f$\mu_i^{el}\f$:
+!!\f[ \mu_i = \mu_i^{ex} +\mu_i^{el} =
+!!-\beta^{-1}\ln\Gamma +\mu_i^{el} \f]
+!!where \f$\Gamma = (1/V)\int_V
+!!\gamma(\vec r)dv\f$ is the fraction of accessible volume for ions.
+!!
+!!With these definitions the concentration of species \f$ i \f$ can be rewritten as follows:
+!!\f[
+!!    c_i^{PBC}(\vec r) = \frac{c_i}{\Gamma} \gamma(\vec r)\exp \left (-\beta q_i\phi(\vec r) + \beta\mu_i^{el} \right) \ .
+!!\f]
+!!
+!!From the ion number conservation condition
+!!\f$N_i = c_i V = \int_V  c_i^{PBC}(\vec r) dv\f$
+!!one can derive the following  equations for the excess electrostatic chemical
+!!potentials:
+!!\f[
+!!    \mu_i^{el} = -\beta^{-1}\ln \left[\frac{1}{V\Gamma}\int_V \gamma(\vec r)\exp \left(-\beta q_i\phi(\vec r) \right) dv \right],
+!!\f]
+!!that must be satisfied together with PBE.
+!!
+!! The ion concentration \f$c_i^{PBC}\f$ is invariant under the combined shifts
+!!\f{eqnarray*}{
+!! \phi(\vec r) &\rightarrow & \phi(\vec r) + \mbox{const} \\
+!! \mu_i        &\rightarrow & \mu_i + q_i\  \mbox{const}
+!!\f}
+!! The solver break this symmetry by selecting \f$\phi(\vec r)\f$ with the property
+!! \f$ \int_V \gamma(\vec r) \phi(\vec r) dv = 0 \f$.
+!!
+!!The above equations can be used to derive \f$ c_i^{PBC}(\vec r) \f$ for the linearised PBE.
+!!After a little algebra we find for the first order in \f$ \beta\phi \f$
+!!\f[
+!! c_i^{PBC}(\vec r) \approx \frac{c_i}{\Gamma}\gamma(\vec r)\left[1 - \beta q_i(\phi(\vec r) - \bar\phi)\right]
+!!\f]
+!!where the potential shift
+!!\f[
+!!   \bar{\phi} = \frac{1}{\Gamma V} \int_V \gamma(\vec r)\phi(\vec r) dv
+!!\f]
+!! ensures that the PBC condition is satisfied. As in the case on full PBE the solver
+!! returns \f$ \phi(\vec r) -\bar\phi\f$.
+!! For this choice it can be shown that \f$\mu_i^{el}=0\f$ in the linear approximation.
+!! The linerised concentration is used to find the electrostatic potential by solving
+!! the linearised \ref linPBE "PBE".
+!! The ionic concentration should be compute with
+!!\f[
+!! c^{PBC-\mbox{lin}}_i(\vec r) = \frac{c_i}{\Gamma} \gamma(\vec r)\exp \left (-\beta q_i\phi^{\mbox{lin}}(\vec r)\right)
+!!\f]
+!! in order the preserve the non-negative property of the ion concentration.
+!! The jellium neutralisation is the default selection in DL_MG when full PBC are used.
+!!
+!!
+!!\subsection necs Neutralisation by electrolyte concentrations shift (NECS)
+!!
+!! In many cases of interest PBC is an useful computational tool even when
+!! there is no natural background charge neutralisation for the
+!! solute.  For these cases DL_MG can achieve electroneutrality by
+!! shifting the electrolyte concentrations from the bulk values such
+ !! that the total charge of the computation cell is zero, i.e.
+ !!\f[
+ !! c_i = c_i^\infty -x_i \frac{Q_s}{q_i V\Gamma} \ ,
+ !! \f]
+ !! where \f$x_i\f$ are the shift parameters and \f$ Q_s=\int_V \rho(\vec r)dv \f$ is the solute charge.
+ !!The value
+!! of the shift of each ion species is found from the asymptotic
+!! condition on the electrolyte concentration ratios, see \ref Bhandari2020.
+!! This method has several sub-cases which can be selected in the
+ !! solver interface with of the parameters defined in this \ref ntrl_mtd "include" file.
+!!
+ !! The solver interface returns optionally the values of the quantities used for neutralisation,
+ !! such as chemical potentials \f$ \mu_i/(\beta T)\f$,
+ !!steric weight average \f$ (1/V) \int_V e^{(-\beta V_{steric}(r))} dv\f$,
+ !! shifted ion concentrations \f$ \{c_i\}\f$ , and concentration shifts\f$ \{x_i\}\f$.
+!!
+!! \anchor ciGamma <b>A note on the definition of the ion concentrations:</b>
+!!In the above expressions the average electrolyte concentrations are defined as
+!!\f$N_i/V\f$ where \f$V\f$
+!!is volume of periodic cell. The previous expressions show that
+!!the average electrolyte  concentrations
+!!defined against the ion accessible volume,
+!!i.e. \f$c_i^{(\Gamma)} = N_i/(V\Gamma) = c_i/\Gamma\f$,  is a more suitable
+!! quantity. Therefore the solver uses \f$c_i^{(\Gamma)}\f$ and one should
+!!pay attention to use the correct definition
+ !!for the corresponding argument of dl_mg::dl_mg_solver_pbe. This choice for the
+ !! definition of average concentration is more suite for models in which
+ !! the solute extends in the computational cell in one or two dimensions, e.g. a slab geometry.
+!!
+!!
+!!\page references References
+!!
+!! <ol>
+!! <li> \anchor JCW2018 James C Womack, Lucian Anton, Jacek Dziedzic, Phil J Hasnip, Matt I J Probert, Chris-Kriton Skylaris
+!!              **DL_MG: A Parallel Multigrid Poisson and Poisson-Boltzmann Solver for Electronic Structure Calculations in 
+!!              Vacuum and Solution** J. Chem. Theory Comput. 2018, 14, 3, 14121432 <br>
+!! <li> \anchor JD2020 Jacek Dziedzic, Arihant Bhandari, Lucian Anton, Chao Peng, James C Womack, 
+!!              Marjan Famili, Denis Kramer, Chris-Kriton Skylaris, **A Practical Approach to Large Scale Electronic
+!!              Structure Calculations in Electrolyte Solutions via Continuum-Embedded Linear-Scaling DFT**  
+!!              J. Phys. Chem. C 2020, 124, 14, 78607872; https://doi.org/10.1021/acs.jpcc.0c00762<br>
+!! <li> \anchor Bhandari2020 Arihant Bhandari, Lucian Anton, Jacek Dziedzic, Chao Peng, Denis Kramer and Chris-Kriton Skylaris
+!!              **Electronic structure calculations in electrolyte solutions: Methods for neutralization of extended charged
+!!              interfaces** J. Chem. Phys. 153, 124101 (2020); https://doi.org/10.1063/5.0021210
+!! <li> \anchor Trottenberg  Ulrich Trottenberg, Cornelius Oosterlee and Anton Schuller,  *Multigrid*,  Academic Press, 2001. <br>
+!! <li> \anchor Chow  Edmond Chow, Robert D. Falgout, Jonathan J. Hu, Raymong S. Tuminaro, and Ulrike Meier Yang,
+!!    **A Survey of Parallelization Techniques for Multigrid Solver** in *Parallel Processing For Scientific Computing*,
+!! Heroux, Raghavan, and Simon, editors, SIAM, series on Software, Environments, and Tools (2006).
+!! <li> \anchor Holst  M. Holst and F. Saied,
+!!    **Numerical solution of the nonlinear Poisson-Boltzmann equation: Developing more robust and efficient methods**, <br>
+!!    J. Comput. Chem., 16 (1995), pp. 337-364; http://ccom.ucsd.edu/~mholst/pubs/dist/Hols94e.pdf
+!! </ol>
+!!
+!> \page ErrorCodes Error Codes
+!! \snippet src/dl_mg_errors.F90 error-codes
+!!
+!!> \page ntrl_mtd Charge neutralisation options
+!! \include src/dl_mg_neutralisation_with_ions_params.inc

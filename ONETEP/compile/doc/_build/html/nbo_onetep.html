@@ -1,0 +1,647 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ONETEP to GENNBO FILE.47 Input Parameters &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Density derived electrostatic and chemical (DDEC) electron density partitioning" href="ddec.html" />
+    <link rel="prev" title="Population Analysis" href="index_population.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="onetep-to-gennbo-file-47-input-parameters">
+<h1>ONETEP to GENNBO <code class="docutils literal"><span class="pre">FILE.47</span></code> Input Parameters<a class="headerlink" href="#onetep-to-gennbo-file-47-input-parameters" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Louis Lee, University of Cambridge (<code class="docutils literal"><span class="pre">lpl24&#64;cam.ac.uk</span></code>)</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="standalone-nbo-5-program-gennbo">
+<h2>Standalone nbo 5 Program gennbo<a class="headerlink" href="#standalone-nbo-5-program-gennbo" title="Permalink to this headline">¶</a></h2>
+<p>The standalone version of the NBO program
+(GENNBO) [Glendening] accepts parameters from an input
+ASCII free-format <code class="docutils literal"><span class="pre">FILE.47</span></code> containing atomic coordinates and matrix
+information, as printed by ONETEP if the Natural Population
+Analysis [Reed1985] subroutine is called during a
+<code class="docutils literal"><span class="pre">PROPERTIES</span></code> calculation, by specifying the keyword <code class="docutils literal"><span class="pre">write_nbo:</span> <span class="pre">T</span></code>.
+The NBO formalism allows one transform a converged 1-particle
+wavefunction in an atom-centred bases into a set of highly-local
+‘Natural Bond Orbitals’, which are one and two (or three)-centred ‘lone’
+and ‘bond’ pairs recognizable as chemical bonds from a classical Lewis
+structure standpoint [Reed1988].
+Details of the NBO formalism are discussed
+elsewhere [Reed1985], [Reed1988], [MacKerell1998].</p>
+<div class="section" id="compiling-gennbo">
+<h3>Compiling GENNBO<a class="headerlink" href="#compiling-gennbo" title="Permalink to this headline">¶</a></h3>
+<p>Compilation of the standalone GENNBO does not involve ONETEP in any way.
+As of writing, the latest nbo release is version
+5.9 [Glendening]. Compilation instructions are listed here
+for convenience, based on some trial-and-error when the arcane <code class="docutils literal"><span class="pre">g77</span></code>
+compiler listed in the nbo manual is unavailable.</p>
+<p>To compile GENNBO, first, compile the activator, <code class="docutils literal"><span class="pre">enable.f</span></code>:</p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">gfortran</span> <span class="pre">-o</span> <span class="pre">enable</span> <span class="pre">enable.f</span></code></div></blockquote>
+<p>then run the <code class="docutils literal"><span class="pre">enable</span></code> program. Complete the selections to generate the
+standalone GENNBO source <code class="docutils literal"><span class="pre">gennbo.f</span></code>.</p>
+<p>By default, GENNBO limits the number of atoms and basis in the
+<code class="docutils literal"><span class="pre">FILE.47</span></code> input to 200 and 2000 respectively. This can be increased by
+replacing all instances of <code class="docutils literal"><span class="pre">MAXATM</span> <span class="pre">=</span> <span class="pre">200</span></code> and <code class="docutils literal"><span class="pre">MAXBAS</span> <span class="pre">=</span> <span class="pre">2000</span></code> to a
+user-specified value, up to a limit of 999 and 9999 respectively (higher
+values are possible, albeit accompanied by illegible output due to
+format overflow. In principle one could modify the code even further to
+remedy this issue.).</p>
+<p>The following command should compile GENNBO correctly on x64
+architectures, when no modification is made to the <code class="docutils literal"><span class="pre">gennbo.f</span></code> source:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">gfortran</span> <span class="pre">-fdefault-integer-8</span> <span class="pre">-fno-sign-zero</span> <span class="pre">-m64</span> <span class="pre">-o</span> <span class="pre">gennbo</span> <span class="pre">gennbo.f</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">ifort</span> <span class="pre">-i8</span> <span class="pre">-m64</span> <span class="pre">-f77rtl</span> <span class="pre">-o</span> <span class="pre">gennbo</span> <span class="pre">gennbo.f</span></code></div>
+</div>
+</div></blockquote>
+<p>For the 32-bit version, integer length should be set to 4 bytes instead
+(e.g. <code class="docutils literal"><span class="pre">-i4</span></code> in <code class="docutils literal"><span class="pre">ifort</span></code>). If <code class="docutils literal"><span class="pre">MAXATM</span></code> and <code class="docutils literal"><span class="pre">MAXBAS</span></code> have been
+increased then the memory model should also be set to allow data
+<span class="math">\(&gt; 2\)</span> GB, by adding a <code class="docutils literal"><span class="pre">-mcmodel=medium</span></code> flag. For <code class="docutils literal"><span class="pre">ifort</span></code>, an
+additional <code class="docutils literal"><span class="pre">-shared-intel</span></code> flag is most likely necessary.</p>
+<p>Then, to run:</p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">gennbo</span> <span class="pre">&lt;</span> <span class="pre">FILE.47</span> <span class="pre">&gt;</span> <span class="pre">output.out</span></code></div></blockquote>
+</div>
+</div>
+<div class="section" id="onetep-npa-generation-routine">
+<h2>ONETEP NPA Generation Routine<a class="headerlink" href="#onetep-npa-generation-routine" title="Permalink to this headline">¶</a></h2>
+<p>The Natural Population Analysis [Reed1985] method of
+computing atomic charges is implemented in ONETEP. The routine
+transforms the set of non-orthogonal, optimized NGWFs into a set of
+orthogonal atom-centred ‘Natural Atomic Orbitals’ (NAOs) via an
+‘occupancy-weighted symmetric orthogonalization’ procedure, which serves
+to maximise the resemblance of the final orthogonal orbitals to their
+initial non-orthogonal parents (a la Löwdin orthogonalization), weighted
+according to the parent orbital occupancies. Therefore, vacant,
+highly-diffuse orbitals are free to distort to achieve orthogonality
+with their more highly-preserved occupied counterpart. This ensures that
+the final NAO population (the ‘Natural Population’) remains stable with
+respect to basis set size.</p>
+<p>Once in the NAO basis, further transformations such as pair-block
+density matrix diagonalization produce the final set of NBOs – these
+procedures are performed by nbo 5 from the <code class="docutils literal"><span class="pre">FILE.47</span></code> output of ONETEP,
+which contains relevant matrices in the NAO basis. The NAO routine is
+performed internally in ONETEP as nbo 5 requires pseudo-atomic orbitals
+(such as Gaussian-type orbitals) with free-atom symmetries and
+orthogonality within each atom, a property not rigorously satisfied by
+the optimized NGWFs.</p>
+<p>The NPA module in ONETEP performs at its best for large systems when
+compiles with the ScaLapack linear algebra package, as it takes
+advantage of the distributed memory storage of dense global matrices,
+such as the inverse square root of the overlap matrix that needs to be
+computed for the ‘occupancy-weighted symmetric orthogonalization’ step.
+This has the unfortunate side effect of rendering the NAO transformation
+a cubic-scaling method. However, this step occurs only once during the
+routine, and should be comparable to the time needed to generate
+canonical molecular orbitals.</p>
+</div>
+<div class="section" id="list-of-available-parameters">
+<h2>List of Available Parameters<a class="headerlink" href="#list-of-available-parameters" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="colwidths-given docutils" id="id12">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">NAO Generation (Default)</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="30%" />
+<col width="8%" />
+<col width="14%" />
+<col width="8%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Keyword</th>
+<th class="head">Type</th>
+<th class="head">Default</th>
+<th class="head">Level</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">write_nbo</span></code></td>
+<td>L</td>
+<td>F</td>
+<td>B</td>
+<td>Enables Natural Population Analysis (NPA) and writing of GENNBO input file <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_nbo.47</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nbo_init_lclowdin</span></code></td>
+<td>L</td>
+<td>T</td>
+<td>E</td>
+<td>Performs atom-local Löwdin
+orthogonalisation on NGWFs as the first step before constructing NAOs</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">nbo_write_lclowdin</span></code></td>
+<td>L</td>
+<td>F</td>
+<td>E</td>
+<td>Writes full matrices (all atoms)
+in the atom-local Löwdin-orthogonalized basis to <code class="docutils literal"><span class="pre">FILE.47</span></code> (For
+reference/testing/comparison purposes). Output will be
+<code class="docutils literal"><span class="pre">&lt;seedname&gt;_lclowdin_nbo.47</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nbo_write_npacomp</span></code></td>
+<td>L</td>
+<td>F</td>
+<td>B</td>
+<td>Writes NAO charges for all
+orbitals to standard output</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">nbo_write_dipole</span></code></td>
+<td>L</td>
+<td>F</td>
+<td>B</td>
+<td>Computes and writes dipole matix to
+<code class="docutils literal"><span class="pre">FILE.47</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nbo_scale_dm</span></code></td>
+<td>L</td>
+<td>T</td>
+<td>E</td>
+<td>Scales partial density matrix output to
+<code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_nbo.47</span></code> in order to achieve charge integrality</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">nbo_scale_spin</span></code></td>
+<td>L</td>
+<td>T</td>
+<td>E</td>
+<td>Scales <span class="math">\(\alpha\)</span> and
+<span class="math">\(\beta\)</span> spins independently to integral chrage when partial
+matrices are printed and <code class="docutils literal"><span class="pre">nbo_scale_dm</span> <span class="pre">=</span> <span class="pre">T</span></code>. Inevitably means spin
+density values from GENNBO are invalid and one should calculate them
+manually from the <span class="math">\(\alpha\)</span> and <span class="math">\(\beta\)</span> NPA populations.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nbo_write_species</span></code></td>
+<td>B</td>
+<td>N/A</td>
+<td>B</td>
+<td><p class="first">Block of lists of species to be
+included in the partial matrix output of <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_nbo.47</span></code>. If
+not present all atoms will be included. E.g. specified will default to
+AUTO. E.g.:</p>
+<div class="last line-block">
+<div class="line"><code class="docutils literal"><span class="pre">%block</span> <span class="pre">nbo_write_species</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">C1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">H1</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">nbo_write_species</span></code></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="colwidths-given docutils" id="id13">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">NAO Generation (Default) continued</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="30%" />
+<col width="8%" />
+<col width="14%" />
+<col width="8%" />
+<col width="40%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nbo_species_ngwflabel</span></code></td>
+<td>B</td>
+<td>AUTO</td>
+<td>I</td>
+<td><p class="first">Optional user-defined
+(false) <em>lm</em>-label for NGWFs according to GENNBO convention. Species
+not specified will default to AUTO. E.g.:</p>
+<div class="last line-block">
+<div class="line"><code class="docutils literal"><span class="pre">%block</span> <span class="pre">nbo_species_ngwflabel</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">C1</span> <span class="pre">&quot;1N</span> <span class="pre">151N</span> <span class="pre">152N</span> <span class="pre">153N&quot;</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">H1</span> <span class="pre">AUTO</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">%endblock</span> <span class="pre">nbo_species_ngwflabel</span></code></div>
+<div class="line">-N suffix denotes NMB orbital. If
+’SOLVE’ orbitals are used, this block should be present as ’AUTO’
+initialisation assumes orbitals were also initialised as ’AUTO’.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">nbo_aopnao_scheme</span></code></td>
+<td>T</td>
+<td>ORIGINAL</td>
+<td>E</td>
+<td>The AO to PNAO scheme to
+use. Affects the ’<em>lm</em>-averaging’ and diagonalisation steps in the
+initial AO to PNAO, NRB <em>lm</em>-averaging, and rediagonaliation
+transformations (the ’<strong>N</strong>’ transformations in
+[Reed1985]). For testing purposes only - so far none
+of the other schemes apart from <code class="docutils literal"><span class="pre">ORIGINAL</span></code> works. Possbile values
+are: <code class="docutils literal"><span class="pre">ORIGINAL</span></code> - default, as in [Reed1985] with
+<em>lm</em>-averaging <code class="docutils literal"><span class="pre">DIAGONALIZATION</span></code> - Diagonalises entire atom-centred
+sub-block w/o <em>lm</em>-averaging or splitting between different angular
+channels. <code class="docutils literal"><span class="pre">NONE</span></code> - Skips all ’<strong>N</strong>’ transformations.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nbo_pnao_analysis</span></code></td>
+<td>L</td>
+<td>F</td>
+<td>E</td>
+<td>Perform s/p/d/f analysis on the
+PNAOs (analogous to <code class="docutils literal"><span class="pre">ngwf_analysis</span></code>)</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="colwidths-given docutils" id="id14">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">Orbital Plotting</span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="30%" />
+<col width="8%" />
+<col width="14%" />
+<col width="8%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Keyword</th>
+<th class="head">Type</th>
+<th class="head">Default</th>
+<th class="head">Level</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">plot_nbo</span></code></td>
+<td>L</td>
+<td>F</td>
+<td>B</td>
+<td>Instructs ONETEP to read the relevant
+orbital transformation output from GENNBO, determined by the flag
+<code class="docutils literal"><span class="pre">nbo_plot_orbtype</span></code> and plots the orbitals specified in
+<code class="docutils literal"><span class="pre">%block</span> <span class="pre">nbo_list_plotnbo</span></code>. <code class="docutils literal"><span class="pre">write_nbo</span></code> and <code class="docutils literal"><span class="pre">plot_nbo</span></code> are
+mutually exclusive. Scalar field plotting must be enabled (e.g.
+<code class="docutils literal"><span class="pre">cube_format</span> <span class="pre">=</span> <span class="pre">T</span></code>).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">nbo_plot_orbtype</span></code></td>
+<td>T</td>
+<td>N/A</td>
+<td>B</td>
+<td><p class="first">The type of GENNBO-generated
+orbitals to read and plot. Possible values and their associated GENNBO
+transformation files must be present, as follows:</p>
+<div class="last line-block">
+<div class="line"><code class="docutils literal"><span class="pre">NAO</span></code> - <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao.33</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">NHO</span></code> - <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao.35</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">NBO</span></code> - <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao.37</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">NLMO</span></code> - <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao.39</span></code></div>
+<div class="line">NLMO is only
+defined for the full system i.e. partitioned <code class="docutils literal"><span class="pre">FILE.47</span></code> will give
+meaningless NLMOs. Except for NLMO, adding a ’P’ prefix e.g. ’PNAO’ to
+the value of <code class="docutils literal"><span class="pre">nbo_plot_orbtype</span></code> causes the non-orthogonalised PNAOs
+to be used in plotting instead of NAOs. PNAOs are of the normal type,
+i.e. when <code class="docutils literal"><span class="pre">RPNAO</span> <span class="pre">=</span> <span class="pre">F</span></code> in GENNBO (default).</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">nbo_list_plotnbo</span></code></td>
+<td>B</td>
+<td>N/A</td>
+<td>B</td>
+<td>The list of <code class="docutils literal"><span class="pre">nbo_plot_orbtype</span></code>
+orbitals to be plotted, identified by their indices as in the GENNBO
+output. Specify each index on a new line.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="colwidths-given docutils" id="id15">
+<caption><span class="caption-number">Table 5 </span><span class="caption-text">Output files</span><a class="headerlink" href="#id15" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_nbo.47</span></code></th>
+<th class="head">Always written. Contains partial matrices according to <code class="docutils literal"><span class="pre">%block</span> <span class="pre">nbo_write_species</span></code>.</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">&lt;seedname&gt;_lclowdin_nbo.47</span></code></td>
+<td>Written if <code class="docutils literal"><span class="pre">nbo_write_lclowdin</span> <span class="pre">=</span> <span class="pre">T</span></code>. Always contains all atoms in the atom-local Löwdin-orthogonalized basis. If <code class="docutils literal"><span class="pre">nbo_init_lclowdin</span> <span class="pre">=</span> <span class="pre">T</span></code> and all atoms are included <code class="docutils literal"><span class="pre">&lt;seedname&gt;_lclowdin_nbo.47</span></code> = <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_nbo.47</span></code> except for ordering of atomic centers (will be fixed in newer releases).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_atomindex.dat</span></code></td>
+<td>Contains mapping of atomic indices of the potentially subset of the full system in <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_nbo.47</span></code> to the real atomic index of the full system (since labels have to be consecutive). Real atomic index refers to original input order in ONETEP.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">&lt;seedname&gt;_inittr_nao_nbo.dat</span></code></td>
+<td>Raw NGWF to NAO transformation read for plotting (i.e. when <code class="docutils literal"><span class="pre">plot_nbo</span> <span class="pre">=</span> <span class="pre">T</span></code>)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">&lt;seedname&gt;_inittr_pnao_nbo.dat</span></code></td>
+<td>Raw NGWF to PNAO transformation read for plotting (i.e. when <code class="docutils literal"><span class="pre">plot_nbo</span> <span class="pre">=</span> <span class="pre">T</span></code>). PNAOs are of the ’normal’ type, i.e when <code class="docutils literal"><span class="pre">RPNAO</span> <span class="pre">=</span> <span class="pre">F</span></code> in GENNBO.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">&lt;seedname&gt;_nbo_DEBUG.dat</span></code></td>
+<td>Contains various debugging info. Only written if compiled in debug mode.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="orbital-labelling-with-pseudoatomic-solver">
+<h3>Orbital labelling with pseudoatomic solver<a class="headerlink" href="#orbital-labelling-with-pseudoatomic-solver" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>GENNBO labels in <code class="docutils literal"><span class="pre">%block</span> <span class="pre">nbo_species_ngwflabel</span></code> should always be
+explicitly given when <code class="docutils literal"><span class="pre">SOLVE</span></code> is used to initialise the NGWFs. The
+label string is however limited to 80 characters in ONETEP, which
+should be fine up to <span class="math">\(1s2sp3spd4sp\)</span>. This will be fixed later
+unless it is urgently required.</li>
+<li>Make sure the orbitals selected for plotting are valid. The NPA
+routine assumes that the appropriate transformation file from GENNBO
+in the same directory is correct, and only complains if it encounters
+an EOF, but not if the wrong transformation file is given (e.g. from
+a different system with a larger basis).</li>
+<li>Do not rename the GENNBO-generated transformation files. ONETEP
+expects them to have the name <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao.xx</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="orbital-plotting">
+<h3>Orbital plotting<a class="headerlink" href="#orbital-plotting" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>In order to plot the various orbitals, first run the output
+<code class="docutils literal"><span class="pre">FILE.47</span></code> through GENNBO to obtain the relevant orbital vectors.
+Refer to the nbo 5 manual for details on how to print these (e.g. to
+print NBOs in the input <code class="docutils literal"><span class="pre">FILE.47</span></code> basis, set <code class="docutils literal"><span class="pre">AONBO=W</span></code> in the
+<code class="docutils literal"><span class="pre">$NBO</span></code> block).</li>
+<li>For some reason, the <code class="docutils literal"><span class="pre">PLOT</span></code> keyword itself in GENNBO doesn’t work.
+This might have something to do with the ’<code class="docutils literal"><span class="pre">ORTHO</span></code> bug’.</li>
+</ul>
+</div>
+<div class="section" id="ortho-bug">
+<h3>’<code class="docutils literal"><span class="pre">ORTHO</span></code> bug’<a class="headerlink" href="#ortho-bug" title="Permalink to this headline">¶</a></h3>
+<p>The nbo 5 program up till circa April/May 2011 had a bug whereby
+specifying the <code class="docutils literal"><span class="pre">ORTHO</span></code> flag causes the program to crash. The nbo 5
+developers seem to have fixed most of this and given me the an updated
+version, but residual bug could remain (have they made the fix a general
+release yet?). This is of course fixable by running the
+<code class="docutils literal"><span class="pre">&lt;seedname&gt;_lclowdin_nbo.47</span></code> file through GENNBO instead, albeit this
+would mean one can’t do DM partitioning.</p>
+</div>
+</div>
+<div class="section" id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="obtaining-order-perturbation-estimates-of-the-secondary-hyperconjugation-in-water-dimer-hydrogen-bond">
+<h3>Obtaining <span class="math">\(2^{\mathrm{nd}}\)</span>-order Perturbation Estimates of the <span class="math">\(n\rightarrow\sigma^*\)</span> Secondary Hyperconjugation in Water Dimer (Hydrogen Bond)<a class="headerlink" href="#obtaining-order-perturbation-estimates-of-the-secondary-hyperconjugation-in-water-dimer-hydrogen-bond" title="Permalink to this headline">¶</a></h3>
+<p>The hydrogen bond stabilization in water dimer can be attributed to the
+non-classical ’charge transfer’ interaction between two water molecules
+due to delocalization of the electronic charge from the oxygen lone pair
+<span class="math">\(n\)</span> of the donor monomer to the <span class="math">\(\sigma^*\)</span> O–H antibond of
+the acceptor [Reed1988]. The expansion
+of the variational space to included non-Lewis, formally vacant antibond
+NBOs leads to an energetic lowering compared to the ideal Lewis
+configuration (all Lewis NBO occupancy = 2 <em>e</em>), which can be estimated
+via <span class="math">\(2^{\mathrm{nd}}\)</span>-order perturbation theory as the ’charge
+transfer’ energetic component of the dimer interaction.</p>
+<p>From a converged SCF calculation in ONETEP using the reference
+coordinates below (given in Angstroms):</p>
+<blockquote>
+<div><div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span>  <span class="n">positions_abs</span>
+<span class="n">ang</span>
+ <span class="n">O</span>  <span class="mf">10.6080354926368</span> <span class="mf">12.5000150953008</span> <span class="mf">12.5705695516353</span>
+ <span class="n">H</span>  <span class="mf">10.4341376488693</span> <span class="mf">12.5000119731552</span> <span class="mf">13.5119746410112</span>
+ <span class="n">H1</span> <span class="mf">11.5729802892758</span> <span class="mf">12.5000098564464</span> <span class="mf">12.5000098564464</span>
+ <span class="n">H</span>  <span class="mf">13.9638274701977</span> <span class="mf">13.2691512541917</span> <span class="mf">12.2000071259853</span>
+ <span class="n">O1</span> <span class="mf">13.4760438789916</span> <span class="mf">12.5000098564464</span> <span class="mf">12.5000098564464</span>
+ <span class="n">H</span>  <span class="mf">13.9638258826660</span> <span class="mf">11.7308667653340</span> <span class="mf">12.2000083960106</span>
+<span class="o">%</span><span class="n">endblock</span>  <span class="n">positions_abs</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>with the pseudoatomic solver employing a minimal NGWF basis (1 NGWF on
+H, 4 on O) with a 10.0 a<span class="math">\(_0\)</span> NGWF radius cutoff, PBE
+exchange-correlation functional, norm-conserving pseudopotential with
+pseudized <span class="math">\(1s\)</span> core for O, and a 1200 eV psinc cutoff in a 25.0
+a<span class="math">\(_0\)</span> cubic simulation cell, one should run a <code class="docutils literal"><span class="pre">PROPERTIES</span></code>
+calculation with the additional keywords as such:</p>
+<blockquote>
+<div><div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">write_nbo</span><span class="p">:</span> <span class="n">T</span>
+<span class="o">%</span><span class="n">block</span> <span class="n">species_ngwflabel</span>
+ <span class="n">H</span>  <span class="s2">&quot;1N&quot;</span>
+ <span class="n">O</span>  <span class="s2">&quot;1N 152N 153N 151N&quot;</span>
+ <span class="n">H1</span> <span class="s2">&quot;1N&quot;</span>
+ <span class="n">O1</span> <span class="s2">&quot;1N 152N 153N 151N&quot;</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_ngwflabel</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>where the <code class="docutils literal"><span class="pre">species_ngwflabel</span></code> block tells the NPA routine in ONETEP
+how to label each NGWF. The order of <span class="math">\(m\)</span> for each <span class="math">\(l\)</span> in the
+<span class="math">\(Y(l,m)\)</span> isn’t straightforward, and follows the pattern of e.g.
+“152 153 151” i.e. <span class="math">\(m=\{-1,0,1\}\)</span> for <span class="math">\(l=1\)</span>, and “251 253
+255 252 254” for <span class="math">\(l=2\)</span>. I’ve yet to look at how others are
+arranged, though this is not very important unless one is interested in
+’NHO Directionality and Bond Bending’ analysis, as in the NBO scheme,
+all <span class="math">\(m\)</span> of the same <span class="math">\(l\)</span> are treated equally. The order of
+each <span class="math">\(Y(l,m)\)</span> should follow that of the pseudoatomic solver, which
+does them in principal quantum number (<span class="math">\(n\)</span>) increments (with
+multiple-<span class="math">\(\zeta\)</span> basis, the split-valence set of <span class="math">\(Y(l,m)\)</span>
+probably comes first i.e. <span class="math">\(Y^{\zeta1}(l,m)\)</span> then
+<span class="math">\(Y^{\zeta2}(l,m)\)</span> before the next <span class="math">\(n\)</span>. The “N” suffix
+denotes valence orbital in the ground state, which in the case of H,
+“1N” is the <span class="math">\(1s\)</span> orbital. Make sure the correct orbitals are
+marked as valence as they would appear in the ground state (even if the
+pseudoatomic solver basis was initialized in an excited configuration).
+In this example, the pseudoatomic solver block would have explicitly
+been:</p>
+<blockquote>
+<div><div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_atomic_set</span>
+ <span class="n">H</span>  <span class="s2">&quot;SOLVE conf=1s1&quot;</span>
+ <span class="n">O</span>  <span class="s2">&quot;SOLVE conf=1sX 2s2 2p4&quot;</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_atomic_set</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>ONETEP should run and produce an NPA output listing the NPA charges on
+each atom, and print a <code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_nbo.47</span></code> file. This <code class="docutils literal"><span class="pre">.47</span></code> file
+serves as the input for GENNBO.</p>
+<p>If we wanted to generate NBOs and visualize them, insert the keyword
+<code class="docutils literal"><span class="pre">AONBO=W</span></code> in the <code class="docutils literal"><span class="pre">$NBO</span></code> block of the <code class="docutils literal"><span class="pre">.47</span></code> file before running it
+through GENNBO. GENNBO will output a report containing NBO information,
+including the <span class="math">\(2^{\mathrm{nd}}\)</span>-order perturbation estimates, and
+a <code class="docutils literal"><span class="pre">.37</span></code> file containing the NBO vectors in terms of the <code class="docutils literal"><span class="pre">.37</span></code> input
+basis (don’t change any of the <code class="docutils literal"><span class="pre">.47</span></code>, <code class="docutils literal"><span class="pre">.37</span></code> etc. filenames).</p>
+<p>First, we can see that the <span class="math">\(2^{\mathrm{nd}}\)</span>-order perturbation
+report shows one prominenet interaction, namely one between the occupied
+lone pair of oxygen from one H<span class="math">\(_2\)</span>O unit (<code class="docutils literal"><span class="pre">LP</span> <span class="pre">(</span> <span class="pre">2)</span> <span class="pre">O</span> <span class="pre">5</span></code>) to
+the O–H antibond of the other (<code class="docutils literal"><span class="pre">BD*(</span> <span class="pre">2)</span> <span class="pre">O</span> <span class="pre">1-</span> <span class="pre">H</span> <span class="pre">3</span></code>) with an estimate of
+15.32 kcal/mol, corresponding to the hydrogen bond in water dimer:</p>
+<blockquote>
+<div><div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">SECOND</span> <span class="n">ORDER</span> <span class="n">PERTURBATION</span> <span class="n">THEORY</span> <span class="n">ANALYSIS</span> <span class="n">OF</span> <span class="n">FOCK</span> <span class="n">MATRIX</span> <span class="n">IN</span> <span class="n">NBO</span> <span class="n">BASIS</span>
+
+    <span class="n">Threshold</span> <span class="k">for</span> <span class="n">printing</span><span class="p">:</span>   <span class="mf">0.50</span> <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>
+   <span class="p">(</span><span class="n">Intermolecular</span> <span class="n">threshold</span><span class="p">:</span> <span class="mf">0.05</span> <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span><span class="p">)</span>
+                                                         <span class="n">E</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="n">E</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="n">E</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="n">F</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+     <span class="n">Donor</span> <span class="n">NBO</span> <span class="p">(</span><span class="n">i</span><span class="p">)</span>              <span class="n">Acceptor</span> <span class="n">NBO</span> <span class="p">(</span><span class="n">j</span><span class="p">)</span>       <span class="n">kcal</span><span class="o">/</span><span class="n">mol</span>   <span class="n">a</span><span class="o">.</span><span class="n">u</span><span class="o">.</span>    <span class="n">a</span><span class="o">.</span><span class="n">u</span><span class="o">.</span>
+<span class="o">===============================================================================</span>
+
+<span class="n">within</span> <span class="n">unit</span>  <span class="mi">1</span>
+      <span class="kc">None</span> <span class="n">above</span> <span class="n">threshold</span>
+
+<span class="kn">from</span> <span class="nn">unit</span>  <span class="mi">1</span> <span class="n">to</span> <span class="n">unit</span>  <span class="mi">2</span>
+  <span class="mf">2.</span> <span class="n">BD</span> <span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">1</span><span class="o">-</span> <span class="n">H</span> <span class="mi">3</span>       <span class="mf">11.</span> <span class="n">BD</span><span class="o">*</span><span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">H</span> <span class="mi">4</span><span class="o">-</span> <span class="n">O</span> <span class="mi">5</span>         <span class="mf">0.08</span>    <span class="mf">0.67</span>    <span class="mf">0.007</span>
+  <span class="mf">2.</span> <span class="n">BD</span> <span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">1</span><span class="o">-</span> <span class="n">H</span> <span class="mi">3</span>       <span class="mf">12.</span> <span class="n">BD</span><span class="o">*</span><span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">5</span><span class="o">-</span> <span class="n">H</span> <span class="mi">6</span>         <span class="mf">0.08</span>    <span class="mf">0.67</span>    <span class="mf">0.007</span>
+
+<span class="kn">from</span> <span class="nn">unit</span>  <span class="mi">2</span> <span class="n">to</span> <span class="n">unit</span>  <span class="mi">1</span>
+  <span class="mf">3.</span> <span class="n">BD</span> <span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">H</span> <span class="mi">4</span><span class="o">-</span> <span class="n">O</span> <span class="mi">5</span>       <span class="mf">10.</span> <span class="n">BD</span><span class="o">*</span><span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">1</span><span class="o">-</span> <span class="n">H</span> <span class="mi">3</span>         <span class="mf">0.10</span>    <span class="mf">0.83</span>    <span class="mf">0.008</span>
+  <span class="mf">4.</span> <span class="n">BD</span> <span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">5</span><span class="o">-</span> <span class="n">H</span> <span class="mi">6</span>       <span class="mf">10.</span> <span class="n">BD</span><span class="o">*</span><span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">1</span><span class="o">-</span> <span class="n">H</span> <span class="mi">3</span>         <span class="mf">0.10</span>    <span class="mf">0.83</span>    <span class="mf">0.008</span>
+  <span class="mf">7.</span> <span class="n">LP</span> <span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">5</span>            <span class="mf">10.</span> <span class="n">BD</span><span class="o">*</span><span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">1</span><span class="o">-</span> <span class="n">H</span> <span class="mi">3</span>         <span class="mf">0.18</span>    <span class="mf">0.49</span>    <span class="mf">0.008</span>
+  <span class="mf">8.</span> <span class="n">LP</span> <span class="p">(</span> <span class="mi">2</span><span class="p">)</span> <span class="n">O</span> <span class="mi">5</span>            <span class="mf">10.</span> <span class="n">BD</span><span class="o">*</span><span class="p">(</span> <span class="mi">1</span><span class="p">)</span> <span class="n">O</span> <span class="mi">1</span><span class="o">-</span> <span class="n">H</span> <span class="mi">3</span>        <span class="mf">15.32</span>    <span class="mf">0.60</span>    <span class="mf">0.085</span>
+
+<span class="n">within</span> <span class="n">unit</span>  <span class="mi">2</span>
+      <span class="kc">None</span> <span class="n">above</span> <span class="n">threshold</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Noting down the orbital numbers, we can then proceed to plot them by
+running another properties calculation in ONETEP with the following
+block:</p>
+<blockquote>
+<div><div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">write_nbo</span>   <span class="p">:</span> <span class="n">F</span>
+<span class="n">plot_nbo</span>    <span class="p">:</span> <span class="n">T</span>
+<span class="n">cube_format</span> <span class="p">:</span> <span class="n">T</span>
+<span class="n">nbo_plot_orbtype</span> <span class="p">:</span> <span class="n">NBO</span>
+<span class="o">%</span><span class="n">block</span> <span class="n">nbo_list_plotnbo</span>
+  <span class="mi">8</span>
+ <span class="mi">10</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">nbo_list_plotnbo</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>where <code class="docutils literal"><span class="pre">write_nbo</span></code> needs to be set to <code class="docutils literal"><span class="pre">F</span></code>. ONETEP will then read the
+<code class="docutils literal"><span class="pre">&lt;seedname&gt;_inittr_nao_nbo.dat</span></code> file printed during the first run and
+the <code class="docutils literal"><span class="pre">.37</span></code> file to plot the orbitals specified in the
+<code class="docutils literal"><span class="pre">nbo_list_plotnbo</span></code> block into Gaussian cube files.</p>
+<p>An example result is displayed in a figure available in the published
+paper.</p>
+</div>
+<div class="section" id="notes-on-selectively-passing-sub-region-sub-matrices-into-gennbo">
+<h3>Notes on Selectively Passing sub-region sub-matrices into GENNBO<a class="headerlink" href="#notes-on-selectively-passing-sub-region-sub-matrices-into-gennbo" title="Permalink to this headline">¶</a></h3>
+<p>To circumvent the limitations on system size in GENNBO, and for
+convenience, we could output only matrix elements corresponding to atoms
+within a selected sub-region of a large system. To do so, during an NPA
+analysis run (not plotting) within a properties run in ONETEP, the
+following should be specified:</p>
+<blockquote>
+<div><div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">nbo_write_species</span>
+ <span class="n">O1</span>
+ <span class="n">H1</span>
+ <span class="n">C1</span>
+ <span class="o">...</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">nbo_write_species</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>ONETEP would then print only matrix elements belongning to species
+specified by the labels in the <code class="docutils literal"><span class="pre">%block</span> <span class="pre">nbo_write_species</span></code> block to
+<code class="docutils literal"><span class="pre">&lt;seedname&gt;_nao_nbo.47</span></code>. Due to GENNBO insisting on integral charges,
+the density matrix in the <code class="docutils literal"><span class="pre">.47</span></code> file is re-scaled downwards to the
+nearest lowest integral number, to avoid the possibility of orbitals
+having occupancies <span class="math">\(&gt; 2\)</span> <em>e</em>, which also annoys GENNBO. To
+minimize the impact of this technical re-scaling to the NBO results, a
+sufficiently-sized partition should be chosen in
+<code class="docutils literal"><span class="pre">%block</span> <span class="pre">nbo_write_species</span></code> so that <span class="math">\(1/N_e &lt;&lt; 1\)</span>, where
+<span class="math">\(N_e\)</span> is the number of electrons in the partition.</p>
+<p>The final results fron NBO analysis that depend on the density matrix
+will then need to be de-scaled to arrive at the correct value (e.g. NPA
+charges, NBO occupancies, <span class="math">\(2^{\mathrm{nd}}\)</span>-order perturbation
+estimates, while orbital energies don’t require de-scaling).</p>
+<p>Note that the region included in <code class="docutils literal"><span class="pre">%block</span> <span class="pre">nbo_write_species</span></code> should
+have buffer atoms, which minimally should include the next-nearest
+neighbour atom bonded to the last atom in the selection – that way, the
+severing of a bond would only affect NBOs centred on the buffer atom,
+and not anywhere else.</p>
+<p>As a final note, there is a possibility that during an NBO search,
+slightly different NBO pictures are obtained when passing only part of
+the matrix as compared to analyzing the full system – this can be caused
+by the fact that during an NBO search, the nbo 5 program iterates
+through different occupancy thresholds (<span class="math">\(n_{min}\)</span>) for deciding
+upon whether an orbital is a lone pair/NBO. If one is pedantic about
+this, then <span class="math">\(n_{min}\)</span> can be fixed by specifying the
+<code class="docutils literal"><span class="pre">THRESH</span> <span class="pre">=</span></code><span class="math">\(n_{min}\)</span> keyword manually in the <code class="docutils literal"><span class="pre">$NBO</span></code> block in
+the <code class="docutils literal"><span class="pre">.47</span></code> file, where <span class="math">\(n_{min}\)</span> is defined by the user.</p>
+<p>[Glendening] E. D. Glendening, J. K. Badenhoop, A. E. Reed, J. E. Carpenter, J. A. Bohmann, C. M. Morales, F. Weinhold; NBO 5.9 (<a class="reference external" href="http://www.chem.wisc.edu/~nbo5">http://www.chem.wisc.edu/~nbo5</a>) &amp; the NBO 5.9 Manual, Theoretical Chemistry Institute, University of Wisconsin, Madison, WI.</p>
+<p>[Reed1985] A. E. Reed, R. B. Weinstock, F. Weinhold <em>J. Chem. Phys.</em> <strong>1985,</strong> <em>83,</em> 735-746.</p>
+<p>[Reed1988] A. E. Reed, L. A. Curtiss, F. Weinhold <em>Chem. Rev.</em> <strong>1988,</strong> <em>88,</em> 899-926.</p>
+<p>[MacKerell1998] A. D. MacKerell, Jr., B. Brooks, C. L. Brooks III, L. Nilsson, B. Roux, Y. Won, M. Karplus, in Encyclopedia of Computational Chemistry; R. Schleyer et al. Eds.; John Wiley &amp; Sons, Chichester, <strong>1998</strong>; Vol. 3, Chapter ‘Natural Bond Orbital Methods’, pp 1792-1811.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_population.html">Population Analysis</a><ul>
+      <li>Previous: <a href="index_population.html" title="previous chapter">Population Analysis</a></li>
+      <li>Next: <a href="ddec.html" title="next chapter">Density derived electrostatic and chemical (DDEC) electron density partitioning</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/nbo_onetep.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

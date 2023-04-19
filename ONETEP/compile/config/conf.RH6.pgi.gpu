@@ -1,0 +1,21 @@
+F90 = pgf90
+
+MPIROOT=/local/scratch/kaw2e11/software/openmpi_1.6.4/pgi/
+FFTWROOT=/local/scratch/kaw2e11/software/fftw/pgi/
+
+#export PATH=/local/scratch/kaw2e11/software/openmpi_1.6.4/pgi/bin:$PATH
+#export LD_LIBRARY_PATH=/local/scratch/kaw2e11/software/openmpi_1.6.4/pgi/lib:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=/local/scratch/kaw2e11/software/fftw/pgi/lib:$LD_LIBRARY_PATH
+
+
+FFLAGS = -DGPU_PGI -DFFTW3 -DMPI -I$(MPIROOT)include -I$(FFTWROOT)include -I$(MPIROOT)lib/
+
+OPTFLAGS = -O3 -fast
+DEBUGFLAGS = -g -C
+
+MPILIBS= -L$(MPIROOT)lib/ -lmpi_f90 -lmpi_f77 -lmpi -lopen-rte -lopen-pal -ldl -Wl,--export-dynamic -lnsl -lutil -ldl
+
+ACCFLAGS = -ta=nvidia -Mcuda=6.5
+ACCLIBS = -L/usr/lib64/nvidia -L$(CUDAROOT)/lib64/ -lcufft -lcudart
+
+LIBS = $(MPILIBS) -llapack -lblas -L$(FFTWROOT)lib/ -lfftw3_omp -lfftw3 -lm

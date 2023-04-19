@@ -1,0 +1,109 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Distributed Multipole Analysis in a spin-polarised !
+! system, with the electrostatic metric, also using  !
+! Hartree-Fock exchange. DMA Bessel averaging and    !
+! charge scaling is also tested.                     !
+!                                                    !
+! Test system is acetonitrile anion.                 !
+!                                                    !
+! Created by Jacek Dziedzic in February 2015.        !
+!                                                    !
+! Updated by James C. Womack in June 2019 to use     !
+! higher quality Chebyshev interpolation settings    !
+! for SWRI (now practical due to new 2Dn-1Da         !
+! electrostatic metric matrix scheme).               !
+! Removed SWRI->SWEX filtering, as new HFx paraleli- !
+! sation scheme does not support it, JD 21/07/2019.  !
+! This happened in v5.1.7, but note that the v5.2.0  !
+! benchmark *does* have the filtering (and thus      !
+! produces different results) because the HFx changes!
+! were not official by the time of the v5.2.0 rele-  !
+! ase.                                               !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+print_qc T
+
+%block swri
+  for_hfx_and_dma 2 9 V 12 12 WE
+%endblock swri
+
+%block species_swri-for_hfx_and_dma
+H
+C
+N
+%endblock species_swri-for_hfx_and_dma
+
+ 
+do_properties T 
+
+dma_calculate T 
+dma_use_ri for_hfx_and_dma
+dma_max_l 2
+dma_max_q 9
+dma_metric ELECTROSTATIC
+dma_bessel_averaging T
+dma_scale_charge T
+
+hfx_use_ri for_hfx_and_dma
+hfx_max_l 2
+hfx_max_q 9
+hfx_metric ELECTROSTATIC
+hfx_bessel_rad_nptsx 300000
+hfx_memory_limit 2000
+hfx_memory_weights 0 5 1
+ 
+charge -1
+
+maxit_pen 0
+maxit_ngwf_cg 8                 ! Just a quick run
+minit_lnv 5
+maxit_lnv 5
+ 
+write_denskern F
+write_tightbox_ngwfs F
+ 
+output_detail VERBOSE 
+write_density_plot F
+dx_format F
+cube_format F
+ 
+xc_functional B3LYP
+ 
+%block species
+ H   H   1 1 7.0
+ C   C   6 4 7.0
+ N   N   7 4 7.0
+%endblock species
+
+%block species_pot
+ H   "../../pseudo/hydrogen.recpot"
+ C   "../../pseudo/carbon.recpot"
+ N   "../../pseudo/nitrogen.recpot"
+%endblock species_pot
+
+psinc_spacing 0.5 0.5 0.5
+ 
+%block lattice_cart 
+ 31.50000000000000      0.000000000000000       0.000000000000000        
+ 0.000000000000000      31.50000000000000       0.000000000000000        
+ 0.000000000000000      0.000000000000000       31.50000000000000       
+%endblock lattice_cart 
+ 
+%block positions_abs 
+C      14.00000000      14.53351903      14.00000000
+C      13.99982048      11.77500345      14.00000000
+H      15.94190413      11.04495093      14.00000000
+H      13.02877865      11.04502463      15.68193440
+H      13.02877865      11.04502463      12.31806560
+N      14.00023055      16.71626696      14.00000000
+%endblock positions_abs

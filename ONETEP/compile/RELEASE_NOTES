@@ -1,0 +1,309 @@
+           ONETEP 6.0 Academic Release
+           ===========================
+
+New features:
+
+* The Hartree-Fock exchange (HFx) engine has been rewritten by Jacek
+  Dziedzic. It is now massively parallel and scales well for large numbers 
+  of OMP threads. With adequate resources (Ncores ~= Natoms) it is now 
+  possible to run hybrid functional calculations for up to ~3000 atoms. 
+  Smaller systems (<300 atoms) should see very impressive performance gains.
+  The new approach is characterised by extremely good strong scaling and
+  permits using many more CPU cores than atoms (Ncores ~= 10*Natoms).
+  For more details see the updated documentation on www.onetep.org.
+
+* The solvation model has been extended by Arihant Bhandari and Jacek
+  Dziedzic to potentially include electrolyte, modeled as Boltzmann ions
+  (Poisson-Boltzmann solvation). Ionic accessibility is defined using
+  a solute density isosurface combined with radial cutoffs, which prevents
+  the ions from reaching unphysically large concentrations close to the
+  solute. A bespoke technique for keeping the total simulation cell
+  charge-neutral in PBC has been implemented. Corresponding extensions to
+  DL_MG have been implemented by Lucian Anton.
+  For more details see the updated documentation on www.onetep.org.
+
+* Speed boost to spectral function projection - should be significantly
+  faster than previously
+  
+* Several bugfixes, i.a.: EDFT convergence, EDFT restarts, EDA, FOE, LPDOS,
+  augmentation, hash tables, EMFT, RPA TDDFT, 1x1x1 PPDs, memory leaks.
+
+
+           ONETEP 5.2 Academic Release
+           ===========================
+
+New features:
+
+* Embedded Mean Field Theory, Developed by Robert Charlton and Joe Prentice,
+  allows for calculations with "embedded" subregions treated at a
+  different level of theory from the surroundings.
+
+* The code for the creation of the metric matrix in the spherical wave basis
+  during a Hartree Fock calculation has been completely re-designed by
+  James Womack so that rather than 3D numerical integrals, it performs 2D
+  analytic, 1D numerical integrals. This should be much faster and much less
+  resource-intensive, and removes one of the bottlenecks preventing
+  widespread use of HFx-including functionals. The other, the poor-scaling
+  of HFx comms, is currently being addressed by Jacek Dziedzic for
+  inclusion in the next release. Distributed multipole analysis (DMA) 
+  calculations will also benefit from the acceleration of metric matrix 
+  evaluations.
+
+* Partial Density of States functionality by Jolyon Aarons and Lucas Verga
+  enables decomposition of eigenstates into their contributions from
+  different sites, different types of orbital, etc. 
+
+* Electron Localisation Descriptors: Rebecca Clements has implemented the
+  Electron Localisation Function (ELF) and has also added experimental support
+  for the Localised Orbital Locator (LOL).
+
+* NEB Functionality has been completed, tested and made much more user-friendly
+  by Kevin Duff.
+
+* Improvements to Cutoff Coulomb in the slab geometry by Gabriel Bramley.
+
+* Improvements to PAW forces, PAW+LR-TDDFT, treatment of core density in PAW,
+  by Nicholas Hine.
+
+* Improvements to Bandstructure Projection - more user-friendly.
+
+
+           ONETEP 5.0 Academic Release
+           ===========================
+
+New features:
+
+* Ensemble DFT calculations now support non-fixed (free) spin, as well
+  as general support for non-integer net spin and non-integer system
+  charge in EDFT. See documentation on edft_spin_fix for more information.
+
+* New implementation (not yet extensively validated) of Nudged Elastic
+  Band transition state searching. Beads are calculated in image-parallel
+  and will each produce their own ONETEP output files of the form
+  onetep#.out, onetep#.dkn, etc. Calculation summaries will be written to
+  stdout.
+
+* Initial support for meta-GGA XC functionals. Two XC functionals (PKZB and
+  B97M-rV) are available for use in energy, force, bandstructure etc 
+  calcalations. This functionality is still under development and is not yet
+  compatible with some other functionality (notably PAW and spin-polarization).
+  Contact James C. Womack if you are interested in testing this new
+  functionality.
+
+* Initial support for full periodic boundary condition implicit solvation
+  calculations. Again, this is still under development and has not been
+  well-tested in combination with other functionality (notably PAW and forces).
+  Contact James C. Womack if you are interested in testing this new
+  functionality. 
+
+* Major release upgrade for the packaged DL_MG multigrid library upgraded
+  (to v2.0). This release features bug fixes, performance improvements and
+  brings the high-order defect correction procedure into the library itself.
+  This latest release of the DL_MG library is described in a recent publication
+  in JCTC (https://doi.org/10.1021/acs.jctc.7b01274). See http://www.dlmg.org
+  for further details on the library. 
+
+* Preconditioned Geometry Optimization: As a result of an eCSE-funded project
+  to speed up geometry optimisation, we have made available new preconditioning
+  code. See help file in documentation page, and input variables containing
+  "precon", or contact Jolyon Aarons for more info.
+
+* Dynamical Mean Field Theory calculations can now be performed, via a new
+  interface with the TOSCAM package. (TOSCAM will be released imminently;
+  contact Cedric Weber for more info on TOSCAM). See input variables containing
+  "dmft" for more info, or contact Edward Linscott.
+
+* Improvements to LR-TDDFT, including QNTO functionality by Jian-Hao Li.
+
+
+           ONETEP 4.4 Academic Release
+           ===========================
+
+New features:
+
+* Core loss spectra, particularly Electron Energy Loss Spectra (EELS)
+  but also XAS, may now be predicted as part of a conduction
+  properties calculation. Set cond_calc_eels : T to obtain an
+  elnes_bin file suitable for post-processing with OptaDOS to
+  generate spectra.
+
+* Numerous minor tweaks to make conduction NGWF optimisation and
+  LR-TDDFT easier to use and more efficient: Automatic setup of
+  number of conduction states (see documentation for cond_energy_range
+  and cond_energy_gap). New easier-to-read output for LR-TDDFT.
+  LR-TDDFT now compatible with PAW. Spin-polarised systems may be
+  possible but are not yet well-tested so are locked by default -
+  contact Tim Zuehlsdorff for more info if you want to try them.
+
+* Angular momentum (and locally) projected density of states, including
+  the calculation of band-centres and generation of OptaDOS input files.
+
+* Experimental Fermi Operator Expansion (FOE) functionality, allowing
+  for EDFT calculations without diagonalisation.
+
+* Molecular dynamics improvements: The history of DKN/NGWFs (for
+  extrapolation and propagation) is not local to a single calculation
+  but can be saved and used for restarts. Hybrid extended Lagrangian/SCF
+  (EL/SCF) and inertial (iEL/SCF) molecular dynamics propagation schemes
+  are now available for the density kernel and for the NGWFs (latter
+  still in development). The MD module now uses internal velocities
+  instead of atomic velocities, meaning integration is more stable. 
+
+
+
+           ONETEP 4.2 Academic Release
+           ===========================
+
+New features:
+
+* Major improvements to electronic transport functionality, including 
+  eigenchannel decomposition and visualisation, an O(N) Green's function 
+  method, greatly reduced memory requirements, and many optimisations and 
+  improvements. This functionality now scales linearly with system size,
+  and can be as large as 1,000s to 10,000s of atoms.
+
+* Time-Dependent DFT without the Tamm-Dancoff approximation (ie full
+  RPA TDDFT)
+
+* New Preconditioner for PAW, accelerates convergence greatly
+
+* Distributed Multipole Analysis
+
+* Improvements to OpenMP Parallelisation
+
+Technical Note:
+
+* Reading/Writing of NGWF restart files now uses MPI-IO, which requires
+  an MPI library supporting MPI-2.0 or above. Please contact the ODG
+  if you have any problem with this functionality. It can be disabled
+  by adding -DNOMPIIO to your config file.
+
+
+
+
+           ONETEP 4.0 Academic Release
+           ===========================
+
+New features:
+
+* OpenMP Parallelisation greatly improved
+
+* Time-Dependent DFT in the Linear-Response Formalism
+
+* Many changes to solvation functionality including auto-solvation
+
+* Extensive improvements to Hartree-Fock exchange calculations, enabling
+  much faster hybrid functional calculations
+
+* Projector Augmented Wave formalism completed (can now run with
+  GGAs)
+
+* Many other small additions of new functionality
+
+
+
+           ONETEP 3.4 Academic Release
+           ===========================
+
+New features:
+
+* OpenMP Parallelisation: ONETEP is now a hybrid OpenMP/MPI code! Currently
+  uses environment variables to determine thread count - this will change in
+  future.
+
+* New Multigrid functionality DL_MG, which is included by default
+  in the build, allowing Implicit Solvent calculations at a relatively
+  small extra computational cost compared to standard calculations!
+
+* Van der Waals Density Functionals, as per the implementation by
+  Roman-Perez and Soler (PRL 2009) of the method of Dion et al. Available
+  flavours at present are: VDWDF, VDWDF2, VDWDFK, OPTPBE, OPTB88.
+
+* Transport calculations, in the Greens Function formalism.
+
+* Initial version of functionality for metallic systems with no bandgap.
+
+
+
+           ONETEP 3.2 Academic Release
+           ===========================
+
+New features:
+
+* Calculation of Optical Spectra - works on top of a COND
+  calculation to enable Kohn-Sham level treatment of optical
+  properties
+
+* Improvements to pseudoatomic solver - now able to automatically
+  generate multiple-zeta + polarisation basis sets: eg try
+  entering "DZP" in species_atomic_set and -1 in the field for
+  the number of NGWFs in the species block
+
+* Many improvements to MD functionality - new thermostates,
+  extrapolation of density matrix, and much more
+
+* Natural Bond Orbital population analysis. 
+
+* Phonon calculation functionality, by finite displacements, plus
+  calculation of thermodynamical quantities.
+
+* Many improvements to Kernel DIIS.
+
+* Improved parallelisation in sparse algebra and NGWF comms
+
+* Numerous minor fixes, improvements, redesigns and other changes.
+
+
+  NB: New default values of many input parameters: these will
+  cause small (or sometimes not-so-small!) changes to the results of
+  most simulations: please check carefully to see what has changed
+  and try to ensure you are running with the same parameters before
+  complaining that something is broken!
+
+
+
+           ONETEP 3.0 Academic Release
+           ===========================
+
+New features:
+
+* Conduction NGWF optimisation. Optimises a new set of NGWFs
+  to describe the unoccupied (or 'conduction') states of a
+  calculation. Set task 'COND' to activate, and see the
+  help file in doc/conduction.tex for more information.
+
+* Pseudoatomic Solver. Initialises NGWFs to the orbitals of
+  the pseudoatom corresponding to the pseudopotential used,
+  solved within the same sphere (and with the same cutoff
+  energy). See doc/pseudoatomic_solver.tex for more details.
+
+* New options for treatment of electrostatics: Implicit 
+  solvation, real-space local pseudopotentials, improvements
+  to Martyna-Tuckerman and Cutoff Coulomb.
+  
+* New optimisation methods - Kernel DIIS and NGWF DIIS: 
+  Kernel DIIS minimises the energy with respect to the density
+  kernel elements using Hamiltonian diagonalisation (this method
+  ensures exact integer occupancies), while NGWF DIIS
+  minimises the energy with respect to the NGWF coefficients.
+
+* Updated DFT+U functionality: can now initialise to pseudoatomic
+  orbital projectors (using any negative value of 'Z' in the
+  block hubbard definition).
+
+* Communications "groups" defined through comms_group_size to
+  take advantage of shared-memory parallelism. Set this
+  input variable to the size of a shared-memory unit to see
+  improvements in the speed of sparse algebra and whole-cell
+  operations.
+
+* Many internal changes, redesigns, optimisations and
+  extensions. For example, the whole-cell grid code can cope 
+  with less than one slab per processor (ie some MPI processes 
+  hold no slabs). This is best used in combination with 
+  comms_group_size > 1 to ensure that such processes are not
+  idle during whole-cell operations.
+
+* Initial version of Projector Augmented Wave formalism -
+  contact Nick Hine (ndmh3@cam.ac.uk) before attempting to 
+  use this at present.

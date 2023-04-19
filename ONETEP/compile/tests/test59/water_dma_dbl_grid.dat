@@ -1,0 +1,90 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Distributed Multipole Analysis with                !
+! NGWF-swpot overlaps calculated on the double grid  !
+! (experimental functionality).                      !
+!                                                    !
+! Test system is a deformed water molecule.          !
+! The electrostatic metric is used.                  !
+! Bessel averaging and charge scaling are tested too.!
+!                                                    !
+! Created by Jacek Dziedzic in February 2017.        !
+!                                                    !
+! Updated by James C. Womack in June 2019 to use     !
+! higher quality Chebyshev interpolation settings    !
+! for SWRI (now practical due to new 2Dn-1Da         !
+! electrostatic metric matrix scheme).               !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+print_qc T
+
+%block swri
+  for_dma 2 8 V 16 16 WE
+%endblock swri
+
+%block species_swri-for_dma
+H
+O
+%endblock species_swri-for_dma
+
+swx_dbl_grid T 
+ 
+dma_calculate T 
+dma_use_ri for_dma
+dma_max_l 2
+dma_max_q 8
+dma_bessel_averaging T
+dma_scale_charge T
+
+do_properties T 
+ 
+charge 0 
+
+maxit_pen 0
+maxit_ngwf_cg 12
+minit_lnv 5
+maxit_lnv 5
+ 
+write_denskern F
+write_tightbox_ngwfs F
+ 
+output_detail VERBOSE 
+write_density_plot F
+dx_format F
+cube_format F
+ 
+xc_functional PBE 
+ 
+%block species
+ H   H   1 1 6.0
+ O   O   8 4 6.0
+%endblock species
+
+%block species_pot
+ H   "../../pseudo/hydrogen.recpot"
+ O   "../../pseudo/oxygen.recpot"
+%endblock species_pot
+
+psinc_spacing 0.5 0.5 0.5
+ 
+%block lattice_cart 
+ 25.50000000000000      0.000000000000000       0.000000000000000        
+ 0.000000000000000      25.50000000000000       0.000000000000000        
+ 0.000000000000000      0.000000000000000       25.50000000000000       
+%endblock lattice_cart 
+ 
+%block positions_abs 
+ang
+O      5.786000       5.268000       5.562000    
+H      6.264000       4.552000       5.979000    
+H      6.055000       5.233000       4.644000    
+%endblock positions_abs

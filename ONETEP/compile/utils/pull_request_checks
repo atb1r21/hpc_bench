@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Run a series of checks on ONETEP source code.
+# Exit code is the number of failed checks.
+
+# Written by Jose M. Escartin.
+# v0.2 (16th September 2018)
+
+# If running within the Bitbucket environment,
+# ensure that we are in the top directory of the repository.
+[ -n "${BITBUCKET_CLONE_DIR}" ] && cd ${BITBUCKET_CLONE_DIR}
+
+# Trap errors
+declare failed_checks=''
+declare num_failed_checks=0
+update_failed_checks () {
+   failed_command=$(sed -n "${2}p" < "${1}")
+   echo "======> Error signal raised in line ${2} of ${0} (${failed_command})."
+   failed_checks="${failed_checks}\n    ${3}"
+   num_failed_checks=$((num_failed_checks+1))
+}
+trap 'update_failed_checks "${BASH_SOURCE}" "${LINENO}" "${check_name}"' ERR
+
+
+##### Beginning of checks #####
+
+# Check dependencies.
+check_name=dependencies
+echo "===> Starting ${check_name} check."
+make checkdeps
+echo -e "===> Leaving ${check_name} check.\n"
+
+# Check consistency of ESDF keyword list.
+check_name=esdf
+echo "===> Starting ${check_name} check."
+make checkesdf
+echo -e "===> Leaving ${check_name} check.\n"
+
+# Check white space.
+check_name=whitespace
+echo "===> Starting ${check_name} check."
+./utils/check_whitespace
+echo -e "===> Leaving ${check_name} check.\n"
+
+# Make ONETEP with gfortran, MPI, OpenMP, ScaLAPACK, and no optimisation.
+arch=gfortran.openmpi.omp.scalapack.noopt
+check_name="compilation (ARCH=${arch})"
+echo "===> Starting ${check_name} check."
+make    clean  ARCH=${arch}
+make -j onetep ARCH=${arch}
+echo -e "===> Leaving ${check_name} check.\n"
+
+##### End of checks #####
+
+# Print overview of failed checks.
+if [ -n "${failed_checks}" ] || [ "${num_failed_checks}" -ne 0 ]
+then
+   if [ "${num_failed_checks}" -gt 1 ]
+   then
+      plural_str='s'
+   else
+      plural_str=''
+   fi
+   echo -e "Overview: ${num_failed_checks} check${plural_str} failed:${failed_checks}.\n"
+else
+   echo -e "Overview: All checks passed - well done!\n"
+fi
+
+# Restore default behaviour for trap.
+trap - ERR
+
+exit ${num_failed_checks}

@@ -1,0 +1,115 @@
+!=========================================================!
+! Input for calculation with the ONETEP program           !
+!                                                         !
+! Quality Control file for:                               ! 
+! C-chain.dat, transport module.                          !
+!                                                         !
+! Created by R. A. Bell on 21/08/2013                     !
+!                                                         !
+! Theory of Condensed Matter Group                        !
+! Cavendish Laboratory                                    !
+! University of Cambridge                                 !
+! JJ Thomson Avenue                                       !
+! Cambridge CB3 0HE                                       ! 
+! UK                                                      !
+!                                                         !
+!=========================================================!
+
+
+task                 : singlepoint
+cutoff_energy        : 500 eV
+maxit_pen            : 0
+maxit_ngwf_cg        : 0
+
+output_detail        : NORMAL
+print_qc             : T
+timings_level        : 2
+
+write_denskern       : F
+write_tightbox_ngwfs : F
+
+do_properties        : T
+write_density_plot   : F
+homo_plot            : -1
+lumo_plot            : -1
+homo_dens_plot       : -1
+lumo_dens_plot       : -1
+dos_smear            : -0.1 eV
+popn_calculate       : F
+
+#### transport parameters
+etrans_lcr               : T
+etrans_bulk              : T
+etrans_emin              : -10.0 eV
+etrans_emax              :  10.0 eV 
+etrans_enum              :  101
+etrans_eref_method       : LEADS
+etrans_num_eigchan       : 4
+etrans_plot_eigchan      : T
+etrans_lead_size_check   : F
+
+threads_max 1
+threads_num_fftboxes 1
+
+%block etrans_setup
+ 1   24
+%endblock etrans_setup
+
+%block etrans_leads
+ 1    4    5   8
+ 21  24   17  20
+%endblock etrans_leads
+
+%block etrans_plot_eigchan_energies
+eV
+0.15
+%endblock etrans_plot_eigchan_energies
+
+
+
+%block  lattice_cart
+ang
+  12.000    0.000    0.000
+   0.000   12.000    0.000
+   0.000    0.000   32.580
+%endblock  lattice_cart
+
+%block  species
+bohr
+C     C   6  4  6.0
+H     H   1  1  6.0
+%endblock  species
+
+%block  species_pot
+C     "../../pseudo/carbon.recpot"
+H     "../../pseudo/hydrogen.recpot"
+%endblock  species_pot
+
+%block  positions_abs
+ang
+ C 5.000 5.000   0.000
+ C 5.000 5.000   1.210
+ C 5.000 5.000   2.780
+ C 5.000 5.000   3.990
+ C 5.000 5.000   5.560
+ C 5.000 5.000   6.770
+ C 5.000 5.000   8.340
+ C 5.000 5.000   9.550
+ C 5.000 5.000  11.120
+ C 5.000 5.000  12.330
+ C 5.000 5.000  13.900
+ C 5.000 5.000  15.110
+ H 5.000 5.000  15.910
+ 
+ H 5.000 5.000  17.880
+ C 5.000 5.000  18.680
+ C 5.000 5.000  19.890
+ C 5.000 5.000  21.460
+ C 5.000 5.000  22.670
+ C 5.000 5.000  24.240
+ C 5.000 5.000  25.450
+ C 5.000 5.000  27.020
+ C 5.000 5.000  28.230
+ C 5.000 5.000  29.800
+ C 5.000 5.000  31.010
+%endblock  positions_abs

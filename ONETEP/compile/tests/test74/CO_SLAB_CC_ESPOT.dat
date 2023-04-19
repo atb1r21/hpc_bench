@@ -1,0 +1,71 @@
+! QC test for 2D (Slab type) Coulomb Cut-off with PAW
+! Created by Gabriel Bramley July 2019
+
+ ! read/write
+ print_qc T
+ read_denskern F
+ read_tightbox_ngwfs F
+ write_denskern F
+ write_tightbox_ngwfs F
+ write_hamiltonian T
+ write_xyz F
+ output_detail NORMAL
+ timings_level 0
+ do_properties T
+ write_density_plot T
+ CUBE_FORMAT T
+
+ ! task
+ task singlepoint
+ charge 0
+ cutoff_energy 400 eV
+ kernel_cutoff 1000 bohr
+ xc_functional PBE
+ paw T
+
+ ! density kernel optimisation
+ maxit_lnv            : 4
+ maxit_ngwf_cg        : 3
+
+ ! Coulomb Cut-off
+ COULOMB_CUTOFF_TYPE SLAB
+ COULOMB_CUTOFF_LENGTH 15 Ang
+
+ ! NGWF optimisation
+ occ_mix 1.0
+ elec_cg_max 0
+
+ %block species
+ C C 6  8 6.0
+ O O 8 13 6.0
+ %endblock species
+
+ %block species_atomic_set
+ C "SOLVE conf=2s2 2p2 3s0 3p0"
+ O "SOLVE conf=2s2 2p4 3s0 3p0 3d0"
+ %endblock species_atomic_set
+
+ %block species_pot
+ C "../../pseudo/carbon.paw"
+ O "../../pseudo/oxygen.paw"
+ %endblock species_pot
+
+%BLOCK LATTICE_CART
+ang
+15.0 0.0 0.0
+0.0 15.0 0.0
+0.0 0.0 15.0
+%ENDBLOCK LATTICE_CART
+
+%block padded_lattice_cart
+ang
+15.0 0.0 0.0
+0.0 15.0 0.0
+0.0 0.0 30.0
+%endblock padded_lattice_cart
+
+%BLOCK POSITIONS_ABS
+ang
+C 7.50 7.50 6.9360
+O 7.50 7.50 8.0640
+%ENDBLOCK POSITIONS_ABS

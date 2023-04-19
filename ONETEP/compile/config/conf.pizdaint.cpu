@@ -1,0 +1,18 @@
+#
+# ONETEP configuration file
+#
+# For CPU execution on Piz Daint at CSCS, originally by Levi Barnes, tweaked by Karl Wilkinson
+
+MPIF90 = ftn
+F90 = ftn
+FFLAGS = -dynamic -DFFTW3_NO_OMP -DMPI -DNOMPIIO -DPGI_BUG
+LIBS =  -lfftw3 -lm -llapack -lblas -lpthread -ldl -lmpich -lfmpich -mp -lcufft
+
+#LIBS = -lfftw3 -llapack -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_pgi_thread -lmkl_blacs_intelmpi_lp64 -pgf90libs -ldl -lpthread -lm
+#-lblas
+
+OPTFLAGS = -O2
+WARNINGFLAGS = -Wall -Wextra
+DEBUGFLAGS = -g -Mbounds -Mchkptr -Mchkstk -traceback
+COMPILER = PORTLAND-pgf90-on-LINUX
+

@@ -1,0 +1,10 @@
+# This works on the Imperial College London local HPC facility CX1. It
+# may not be thread-safe, as MKL is used alongside FFTW3, not MKL_FFTW
+# (see INSTALL).
+# Modules loaded: intel-suite mpi fftw
+F90 = mpiifort -qopenmp -diag-disable 8290,8291
+FFLAGS = -DFFTW3 -DSCALAPACK -DMPI -I${MKL_HOME}/include/intel64/lp64
+LIBS=-L${MKL_HOME}/lib/64 -mkl:cluster
+OPTFLAGS = -O3
+DEBUGFLAGS = -g -debug -check all -traceback -warn all -DTRACE -DDEBUG_ARRAYS
+COMPILER = INTEL-ifort-on-LINUX

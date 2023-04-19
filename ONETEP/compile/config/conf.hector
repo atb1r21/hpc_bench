@@ -1,0 +1,75 @@
+# This is an all-purpose config file for HECTOR, by Lucian Anton.
+# The programing environment is changed according the value of
+# COMP variable
+#
+# NOTES : 1. make clean is necessary if the compiler is changed !
+#         2. nag compiler is very good at checking the source code for errors
+#            but it won't link as some non-standard intrinsic are not provided
+
+# default values
+COMP=cray
+BUILD=opt
+
+PFLAGS = -DFFTW3 -DMPI
+LIBS = 
+# Compiler flags
+
+# Cray
+FLAGS_cray_opt : = -O ipa0
+FLAGS_cray_debug := -e D
+
+# PGI 
+FLAGS_pgi_opt := -fast -mp
+FLAGS_pgi_debug := -g -Mbounds -traceback -mp
+
+# GCC
+FLAGS_gcc_opt := -Ofast -ffree-line-length-0 -fopenmp
+FLAGS_gcc_debug := -g -fcheck=all -finit-real=snan -Wall -Wtabs -Wno-unused \
+                   -fbacktrace -ffpe-trap=invalid,zero,overflow -fsignaling-nans \
+                   -fdump-core -ffree-line-length-0 -fopenmp
+
+CFLAGS_gcc_opt   :=  -Wall -DONE_UNDERSCORE
+CFLAGS_gcc_debug := -g  -Wall -DONE_UNDERSCORE
+
+# NAG
+FLAGS_nag_opt   := -O3 
+FLAGS_nag_debug := -g90 -gline -C=all 
+
+# the flags are:
+FFLAGS = $(PFLAGS) $(FLAGS_$(COMP)_$(BUILD))
+
+# change environment acorrding to COMP value
+ifeq ($(strip $(COMP)),gcc)
+  MODULE_PRG := PrgEnv-gnu
+  FC := ftn
+else ifeq ($(strip $(COMP)),pgi)
+  MODULE_PRG := PrgEnv-pgi
+  FC := ftn
+  COMPILER := PORTLAND-pgf90-on-LINUX
+else ifeq ($(strip $(COMP)),cray)
+  MODULE_PRG := PrgEnv-cray
+  FC := ftn -em
+  UPPERCASE_MODULE = yes
+else ifeq ($(strip $(COMP)),nag)
+  MODULE_PRG := PrgEnv-gnu
+  FC := nagfor
+else
+  $(error unknown value of COMP = $(COMP))
+endif
+
+LOAD_MODULES := . /etc/bash.bashrc.local && module unload PrgEnv-gnu && module unload PrgEnv-pgi &&  module unload PrgEnv-cray && module load $(MODULE_PRG) && module load fftw && 
+
+# Nag compiler needs one more module and some fore compiler flags
+ifeq ($(COMP),nag)
+  LOAD_MODULES += module load Nag-f95 &&
+  FFLAGS += -D__PGI -DUSE_INCLUDE_MPIF -I$$MPICH_DIR/include -wmismatch=mpi_isend,mpi_recv,mpi_irecv,mpi_bcast,mpi_reduce,mpi_allreduce,mpi_alltoall,mpi_allgather,mpi_allgatherv,mpi_scatterv,mpi_gatherv
+endif
+
+# Add perftools module for profiling build
+ifeq ($(BUILD), profile)
+  FFLAGS =  $(PFLAGS) $(FLAGS_$(COMP)_opt)
+  CFLAGS = $(CFLAGS_$(COMP)_opt)
+  LOAD_MODULES +=  module load perftools &&
+endif
+
+F90 := $(LOAD_MODULES) $(FC)

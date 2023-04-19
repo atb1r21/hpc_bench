@@ -1,0 +1,192 @@
+#!/bin/bash
+
+########################################################################################
+#                                                                                      #
+# check_use_clauses: Checks the use clauses for symbols that are never referenced.     #
+#                                                                                      #
+# Written on 2012.03.06 by Jacek Dziedzic (jd12g09@soton.ac.uk)                        #
+# v1.50                                                                                #
+#                                                                                      #
+########################################################################################
+
+# Revision history:
+#       1.00 jd, original version
+#       1.40 jd, a bunch of improvements, 2015.04.10
+#            - warns when internals encountered
+#            - warns when #ifdefs etc encountered
+#            - parses OMP clauses (instead of treating as comments)
+#            - < and > are filtered out, so constructs like "<NORMAL.and." are handled correctly
+#            - line numbers added for ease
+#            - continued strings not inspected for scope entry
+#            - _DP handled correctly
+#            - interfaces likely handled correctly
+#       1.41 jme, also consider the main program (2016.08.14)
+#       1.50 jd, fixed bug which caused comparisons of current use clauses with a union of *all* previously used symbols in a file (2016.10.24)
+
+# Known limitations:
+#  - global use clauses (outside of a function or subroutine) are not inspected.
+#  - use clauses without "only:" are not inspected.
+#  - operators are ignored.
+#  - symbols 'referenced' only inside strings will appear used, unless they touch ' or ".
+#  - anything that uses the "=>" syntax (par=>pub%par) is ignored.
+#  - internal functions/subroutines confuse this simple script.
+#  - #ifdef, #if defined and friends confuse this simple script.
+#  - lines that *begin* with a continuation character, while legal, confuse this simple script.
+
+# --------------------------------------------------------------------------------------
+
+# Introduce myself
+tail -n +3 $0 2>/dev/null | head -n 9 2>/dev/null
+
+srcdir="../src" # default
+
+# Allow operation from the top-level directory
+if [ -d "src" ]; then
+  srcdir="./src"
+fi
+
+if [ $# -gt 1 ]; then
+  echo "Improper invocation." >&2
+  echo "Supply a source file name to check or run without arguments to check all .F90 files." >&2
+  echo "Aborting!" >&2
+  exit 1
+fi
+
+if [ $# -eq 1 ]; then
+  filelist=$1
+else
+  filelist=`ls $srcdir/*.F90`
+fi
+
+for f in $filelist; do
+
+  echo -n "$f: "
+
+  if [ ! -r $f ]; then
+    echo "Does not exist or is unreadable!"
+  else
+
+    # Parse the file and check use clauses
+    cat $f | sed "s/![^$].*//" | tr "[A-Z]" "[a-z]" | awk '
+    BEGIN {
+      use_list=""
+      had_problems_in_file=0
+    }
+
+    {
+      just_left_scope=0
+
+      # Determine if we are inside an interface
+      if($1 == "interface") {
+        in_interface=1
+      }
+      # Or if we have just left one
+      if($1 == "end" && $2 == "interface") {
+        in_interface=0
+      }
+
+      # Determine if we are inside a (sub)program.
+      if(! in_interface && ($1 == "program" || $1 == "subroutine" || $1 == "function" )) {
+        in_scope=1
+        had_internal=0
+        had_ifdef=0
+        current_scope=$1" "$2
+        sub(/\(.*/,"",current_scope)
+        current_scope=current_scope":"NR
+      }
+      if(! in_interface && ($2 == "function" && $1 != "end" && ! ($1 ~ "&"))) { # last condition prevents inspecting continued strings, e.g. "&unrecognised function basis identifier"
+        in_scope=1
+        current_scope=$2" "$3
+        sub(/\(.*/,"",current_scope)
+        current_scope=current_scope":"NR
+      }
+
+      # Or if we have just left one
+      if(! in_interface && ($1 == "end" && ($2 == "subroutine" || $2 == "function" || $2 == "program"))) {
+        in_scope=0
+        just_left_scope=1
+      }
+
+      # Got to a "contains", this acts like an end of scope
+      if(in_scope && $1 == "contains") {
+        in_scope=0
+        just_left_scope=1
+        had_internal=1
+      }
+
+      # Noticed an #ifdef, #ifndef or #if
+      if(in_scope && $1 ~ "#if") {
+        had_ifdef=1
+      }
+      
+      # Just left a (sub)program
+      if(just_left_scope) {
+        # Figure out whats been used
+        split(use_list,use_array," ")
+        split(used_list,used_array," ")
+        for(i=1;i<=length(used_array);++i) {
+          to_be_added=used_array[i]
+          gsub(/[@\\>\<"]/,"",to_be_added)
+          if(to_be_added != "") {
+            uses[to_be_added] = 1
+          }
+        }
+
+        # Show all those that have not been used
+        had_problems_here=0
+        for(i=1;i<=length(use_array);++i) {
+          offending_symbol=use_array[i]
+          if(! uses[offending_symbol]) {
+            # - Exclude operators() because they are declared differently
+            #   from how they are used
+            if(! (offending_symbol ~ "operator") && ! (offending_symbol ~ "=>")) {
+              if(! had_problems_in_file) printf("\n")
+              if(! had_problems_here) print "  in", current_scope
+              printf("     %s\n",use_array[i])
+              had_problems_here=1
+              had_problems_in_file=1
+            }
+          }
+        }
+        if(had_problems_here && had_internal) printf("  (take the above with a grain of salt, internals confuse me)\n")
+        if(had_problems_here && had_ifdef) printf("  (take the above with a grain of salt, #if/#ifdef/#ifndef confuse me)\n")
+        if(had_problems_here) printf("\n")
+
+        # - clean up
+        use_list=""
+        used_list=""
+        delete uses
+      }
+
+      # Determine if we are in a use clause (possibly continued)
+      if(! use_continuation) in_use_clause=0
+      use_continuation=0
+      if(in_scope && $1 == "use" && $0 ~ "only") in_use_clause=1
+      if(in_use_clause && $0 ~ "&") use_continuation=1
+
+      # If in a use clause, add the line to declared used symbols
+      if(in_use_clause) {
+        this_line=$0
+        sub(/&/,"",this_line)
+        sub(/use .*:/,"",this_line)
+        gsub(/,/," ",this_line)
+        use_list=use_list" "this_line
+      }  
+      
+      # If in a (sub)program, but not a use clause accumulate used symbols
+      if(in_scope && ! in_use_clause) {
+        this_line=$0
+        gsub(/[,.:;&*<>=+\-\%\/\(\)]/," ",this_line)
+        gsub(/_dp/," dp",this_line) # recognize _DP, but otherwise leave "_" alone
+        used_list=used_list" "this_line
+      }
+    }
+
+    END {
+      if(! had_problems_in_file) printf("OK\n\n")
+    }
+    '
+
+  fi # if file readable
+
+done # over files

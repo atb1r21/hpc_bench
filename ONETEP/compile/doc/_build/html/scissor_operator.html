@@ -1,0 +1,179 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Species Dependent Scissor Shifts &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Embedded Mean-Field Theory" href="EMFT_in_ONETEP.html" />
+    <link rel="prev" title="Cut-off Coulomb" href="cutoff_coulomb.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="species-dependent-scissor-shifts">
+<h1>Species Dependent Scissor Shifts<a class="headerlink" href="#species-dependent-scissor-shifts" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Nelson Yeung, University of Warwick</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Nicholas Hine, University of Warwick</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="scissor-hamiltonian">
+<h2>Scissor Hamiltonian<a class="headerlink" href="#scissor-hamiltonian" title="Permalink to this headline">¶</a></h2>
+<p>The scissor hamiltonian allows one to apply species-dependent and
+subspace-dependent energy-level shifts to the hamiltonian, which has the
+effect of shifting eigenvalues associated with specific layers of the
+material. One can separately shift the valence and conduction subspaces
+associated with each layer. This also affects the total energy, so must
+be applied with great care if you are using the total energy for any
+purpose. The idea is that a band-alignment correction can be applied to
+the individual layers of non-covalently-bonded layered materials, though
+there may well be many other applications as well. It would seem
+“unwise” at best to apply this approach to different regions of the same
+molecule or solid which are strongly bonded: results would be
+unpredictable and likely unphysical. One ideal use would be to correct
+the alignment of the band-edges of a layered material heterobilayer so
+that the appropriate heterostructure type was realised, for example
+straddled-gap rather than broken-gap, using shifts chosen by reference
+to beyond-DFT accuracy calculations of the individual materials, or from
+experimental techniques such as ARPES.</p>
+<p>In order to apply this shift, we define a scissor Hamiltonian operator
+as follows:</p>
+<div class="math">
+\[\hat{H}_\text{scissor} = \lvert\phi_\eta\rangle K_\text{shifted}^{\eta\delta}
+    \langle\phi_\delta\rvert \, ,\]</div>
+<p>where <span class="math">\(K_\text{shifted}\)</span> is the sum of the species-dependent
+shifted valence and conduction density kernel, which is defined as</p>
+<div class="math">
+\[K_\text{shifted} = \sum_L \left( \sigma_{v, L} K_L + \sigma_{c, L} (S^{-1}_L - K_L) \right)\,.\]</div>
+<p>The <span class="math">\(\sigma_v\)</span> and <span class="math">\(\sigma_c\)</span> are the shifts for valence
+and conduction states, respectively, and the sum is over layer
+<span class="math">\(L\)</span>. The scissor shifted eigenvalues are simply</p>
+<div class="math">
+\[H_\text{shifted} = H + S K_\text{shifted} S \, .\]</div>
+<p>The gradient of the scissor energy with respect to the NGWFs can be
+calculated using</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+    \begin{split}
+        \frac{\partial E_\text{scissor}}{\partial\phi_\gamma^*(\mathbf{r})}
+        &amp;=
+        K_n^{\beta\alpha} \frac{\partial}{\partial\phi_\gamma^*(\mathbf{r})}
+        \langle \phi_\alpha\rvert\hat{H}_\text{scissor}\lvert\phi_\beta\rangle \\
+        &amp;=
+        K_n^{\beta\alpha} \frac{\partial}{\partial\phi_\gamma^*(\mathbf{r})}
+        \langle\phi_\alpha\rvert\phi_\eta\rangle K_\text{shifted}^{\eta\delta}
+        \langle\phi_\delta\rvert\phi_\beta\rangle \\
+        &amp;=
+        K_\text{shifted}^{\beta\delta} S_{\delta\eta} K_n^{\eta\alpha} \left(
+            \phi_\beta + \sum_{ij} \tilde{p}^i(\mathbf{r}) O_{ij} {R^j}_\alpha
+        \right) \, .
+    \end{split}\end{aligned}\end{split}\]</div>
+<p>The approach has been reasonably well tested in the context of LNV
+calculations. As of April 2019 it has not been validated for EDFT,
+conduction NGWF optimisation, TDDFT etc, but these would be reasonably
+expected to work as well.</p>
+</div>
+<div class="section" id="performing-a-species-dependent-scissor-calculation">
+<h2>Performing a Species Dependent Scissor Calculation<a class="headerlink" href="#performing-a-species-dependent-scissor-calculation" title="Permalink to this headline">¶</a></h2>
+<p>To activate the shift, the <code class="docutils literal"><span class="pre">species_scissor</span></code> block must be present.
+The user must specify (on separate lines) groups of atom types, with
+each line finishing with two numbers representing the valence and
+conduction shifts to be applied to that group of species.</p>
+<p>For example, for a <span class="math">\(\textrm{MoS}_2\)</span> / <span class="math">\(\textrm{MoSe}_2\)</span>
+heterobilayer, we might use the following to correct the energies of the
+individual layers:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">species_scissor</span>
+<span class="n">Mo1</span> <span class="n">S</span>  <span class="o">-</span><span class="mf">0.5</span> <span class="mf">0.5</span>
+<span class="n">Mo2</span> <span class="n">Se</span> <span class="o">-</span><span class="mf">0.1</span> <span class="mf">0.8</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_scissor</span>
+</pre></div>
+</div>
+<p>This would have the effect of opening the gap of the
+<span class="math">\(\textrm{MoS}_2\)</span> layer by 1eV and opening the gap of the
+<span class="math">\(\textrm{MoSe}_2\)</span> layer by 0.9 eV, and shifting the alignment of
+the valence bands by 0.4 eV.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="cutoff_coulomb.html" title="previous chapter">Cut-off Coulomb</a></li>
+      <li>Next: <a href="EMFT_in_ONETEP.html" title="next chapter">Embedded Mean-Field Theory</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/scissor_operator.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

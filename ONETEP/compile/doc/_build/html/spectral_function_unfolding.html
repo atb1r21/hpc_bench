@@ -1,0 +1,244 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bandstructure (spectral-function) unfolding &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration Interaction (CI)" href="ci.html" />
+    <link rel="prev" title="Electronic transport calculations" href="transport.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="bandstructure-spectral-function-unfolding">
+<h1>Bandstructure (spectral-function) unfolding<a class="headerlink" href="#bandstructure-spectral-function-unfolding" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Gabriel Constantinescu, University of Cambridge</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line">As described in the Supplementary Information in the work of
+Constantinescu and Hine [Constantinescu2015],
+spectral function unfolding is the means through which one can study
+the bandstructure of the primitive cell from simulations involving
+(often complicated) supercells. For details theoretical descriptions,
+one should visit the aforementioned article
+[Constantinescu2015].</div>
+<div class="line">In this documentation, I will give a short explanation of the
+procedures required to unfold the bandstructure in a ONETEP
+“Properties” calculation. We strongly suggest that one reads the
+entire document carefully before attempting any calculations, as there
+are some stringent requirements along the way. For further details,
+please contact Gabriel Constantinescu, the code author. Essentially,
+all one will need is the following group of keywords and blocks:</div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">BSUNFLD_CALCULATE</span> <span class="p">:</span> <span class="n">T</span>
+<span class="n">BSUNFLD_TRANSFORMATION</span> <span class="p">:</span> <span class="n">t11</span> <span class="n">t12</span> <span class="n">t13</span> <span class="n">t21</span> <span class="n">t22</span> <span class="n">t23</span> <span class="n">t31</span> <span class="n">t32</span> <span class="n">t33</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">SPECIES_BSUNFLD_GROUPS</span>
+<span class="n">Species_name</span><span class="o">-</span><span class="mi">1</span> <span class="n">Species_name</span><span class="o">-</span><span class="mi">2</span> <span class="o">...</span> <span class="n">Species_name</span><span class="o">-</span><span class="n">N</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">SPECIES_BSUNFLD_GROUPS</span>
+
+<span class="n">BS_PERTURBATIVE_SOC</span> <span class="p">:</span> <span class="n">F</span>
+<span class="n">BSUNFLD_NUM_ATOMS_PRIM</span> <span class="p">:</span> <span class="n">nat_prim</span>
+<span class="n">BSUNFLD_RESTART</span> <span class="p">:</span> <span class="n">F</span>
+<span class="n">BSUNFLD_NUM_EIGENVALUES</span> <span class="p">:</span> <span class="n">num_eigvl</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">BSUNFLD_KPOINT_PATH</span>
+ <span class="n">fraction_G1_kpt</span><span class="o">-</span><span class="mi">1</span> <span class="n">fraction_G2_kpt</span><span class="o">-</span><span class="mi">1</span> <span class="n">fraction_G3_kpt</span><span class="o">-</span><span class="mi">1</span>
+ <span class="n">fraction_G1_kpt</span><span class="o">-</span><span class="mi">2</span> <span class="n">fraction_G2_kpt</span><span class="o">-</span><span class="mi">2</span> <span class="n">fraction_G3_kpt</span><span class="o">-</span><span class="mi">2</span>
+ <span class="o">...</span>
+ <span class="n">fraction_G1_kpt</span><span class="o">-</span><span class="n">N</span> <span class="n">fraction_G2_kpt</span><span class="o">-</span><span class="n">N</span> <span class="n">fraction_G3_kpt</span><span class="o">-</span><span class="n">N</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">BSUNFLD_KPOINT_PATH</span>
+
+<span class="n">BSUNFLD_NUM_KPTS_PATH</span> <span class="p">:</span> <span class="n">num_kpts_path</span>
+</pre></div>
+</div>
+<p>For each in turn:</p>
+<ul>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">BSUNFLD_CALCULATE</span></code> setting this to True will enable the calculation of the unfolded
+spectral function. Default: False</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">BSUNFLD_TRANSFORMATION</span></code> is a list of 9 integers representing the flattened transformation</div>
+</div>
+<p>matrix from the primitive cell to the supercell: <span class="math">\(\textbf{T}= \begin{bmatrix} t11 &amp; t12 &amp; t13 \\ t21 &amp; t22 &amp; t23 \\ t31 &amp; t32 &amp; t33 \end{bmatrix}\)</span>, where <span class="math">\(\textbf{T} \begin{bmatrix} \mathbf{a_1} \\ \mathbf{a_2} \\ \mathbf{a_3} \end{bmatrix} = \begin{bmatrix} \mathbf{A_1} \\ \mathbf{A_2} \\ \mathbf{A_3} \end{bmatrix}\)</span>, with <span class="math">\(\mathbf{a_i}\)</span> (<span class="math">\(\mathbf{A_i}\)</span>) being the
+lattice vectors of the primitive cell (supercell). For instance, <code class="docutils literal"><span class="pre">BSUNFLD_TRANSFORMATION</span></code> :
+4 0 0 0 4 0 0 0 1 would correspond to an implicit 4x4x1 supercell.
+Default: 1 0 0 0 1 0 0 0 1, corresponding to a 1x1x1 supercell.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">The block <code class="docutils literal"><span class="pre">SPECIES_BSUNFLD_GROUPS</span></code> contains the atoms on which we are projecting; one needs to
+specify the of the atoms species (can be different from the chemical
+symbol) on which the spectral function is projected. Currently, only
+one group at a time is allowed. Example:</div>
+</div>
+<blockquote>
+<div><div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">block</span> <span class="n">SPECIES_BSUNFLD_GROUPS</span>
+<span class="n">Mo</span> <span class="n">Se1</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">SPECIES_BSUNFLD_GROUPS</span>
+</pre></div>
+</div>
+<p>this projects onto the MoSe<span class="math">\(_2\)</span> monolayer in a
+MoSe<span class="math">\(_2\)</span>/WSe<span class="math">\(_2\)</span> heterostructure, where the Se atoms
+belonging to the MoSe<span class="math">\(_2\)</span> monolayer have been denoted as
+<em>Se1</em>.</p>
+</div></blockquote>
+</li>
+<li><div class="first line-block">
+<div class="line">The logical keyword <code class="docutils literal"><span class="pre">BS_PERTURBATIVE_SOC</span></code> controls the inclusion (True) or exclusion
+(False) of perturbative spin-orbit coupling in our calculation.
+Note that if set to True, the eigenvalues are no longer
+spin-degenerate and one will have twice the number of states. Since
+this option essentially quadruples the size of the Hamiltonian and
+overlap matrix, the calculation will be significantly slower.
+Default: False.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">The integer keyword <code class="docutils literal"><span class="pre">BSUNFLD_NUM_ATOMS_PRIM</span></code> indicates the number of atoms in the primitive
+cell onto which you are unfolding. This brings us to a major
+requirement of the code: while the projected atoms can be split
+across the list of all input atoms, <strong>the former must be grouped by primitive cells, always maintaining the same order of the atoms in the primitive cells!</strong> Example: if atoms <strong>At1</strong> and <strong>At2</strong> form a
+primitive cell, the input ordering “At3 <strong>At1 At2</strong> At4 <strong>At1 At2</strong> A3” is correct, while
+“At3 <strong>At1 At2</strong> At4 <strong>At2</strong> At3 <strong>At1</strong>” or “At3 <strong>At1 At2</strong> At4 <strong>At2 At1</strong> At3” are incorrect.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">The logical keyword <code class="docutils literal"><span class="pre">BSUNFLD_RESTART</span></code> controls whether one wishes to reuse previously
+calculated values for the spectral function. The restart procedure
+works as follows: the code writes a restart file
+(“unfolded<span class="math">\(\_\)</span>specfunc<span class="math">\(\_\)</span>red.dat”) where it
+stores the calculated values for the unfolded spectral function at
+unique k-points of the monolayer - the values that have not been
+calculated yet are filled with zeros. If this file is present and the
+restart keyword is set to true, the code will read in the previously
+calculated values and skip them in the current computations. The
+final output file (“unfolded<span class="math">\(\_\)</span>specfunc.dat”) will only be
+written once all the k-points have been dealt with.</div>
+</div>
+<div class="line-block">
+<div class="line">Each line in final output file or the restart file contains 8
+numbers: the eigenvalue (in eV), the real part of the unfolded
+spectral function (at that k-point and eigenvalue), the imaginary
+part of the unfolded spectral function, the eigenvalue count (from 1
+to <span class="math">\(2\cdot\)</span> BSUNFLD<span class="math">\(\_\)</span>NUM<span class="math">\(\_\)</span>EIGENVALUES,
+the x, y, and z component of the current primitive-cell k-point
+(<span class="math">\(\AA^{-1}\)</span>), and the index of the k-point (from 1 to the total
+number of considered k-points).</div>
+</div>
+<div class="line-block">
+<div class="line">After the final output file has been obtained, one can use a
+discretisation script (should be found on the ONETEP webside, in the
+utilities section), in order to obtain a file that is ready to plot
+with gnuplot.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">The integer keyword <code class="docutils literal"><span class="pre">BSUNFLD_NUM_EIGENVALUES</span></code> controls the number of eigenvalues (above and
+below the Fermi level) for which the spectral function is calculated.
+If set to negative values,
+<code class="docutils literal"><span class="pre">BSUNFLD_NUM_EIGENVALUES</span></code> will internally be
+set to the number of nondegenerate occupied eigenstates. Thus, in
+total, for each k-point, the spectral function will be calculated at
+<span class="math">\(2\cdot\)</span> <code class="docutils literal"><span class="pre">BSUNFLD_NUM_EIGENVALUES</span></code>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">The block <code class="docutils literal"><span class="pre">BSUNFLD_KPOINT_PATH</span></code> indicates the fractional coordinates of the different
+k-points that mark endpoints of desired paths through the <strong>primitive-cell Brillouin zone. The fractional coordinates are with respect to the implied reciprocal lattice vectors of the primitive cell, not the simulation cell (supercell).</strong></div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line"><code class="docutils literal"><span class="pre">BSUNFLD_NUM_KPTS_PATH</span></code> represents the number of k-points calculated along each path from
+the <code class="docutils literal"><span class="pre">BSUNFLD_KPOINT_PATH</span></code> block. This number includes the endpoints of each path. Default:
+2 (the endpoints only)</div>
+</div>
+</li>
+</ul>
+<p>[Constantinescu2015] Constantinescu,&nbsp;G.&nbsp;C.; Hine,&nbsp;N. D.&nbsp;M. <em>Phys. Rev. B</em> <strong>2015</strong>, <em>91</em>, 195416</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_spectroscopy.html">Spectroscopy and Transport</a><ul>
+      <li>Previous: <a href="transport.html" title="previous chapter">Electronic transport calculations</a></li>
+      <li>Next: <a href="ci.html" title="next chapter">Configuration Interaction (CI)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/spectral_function_unfolding.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

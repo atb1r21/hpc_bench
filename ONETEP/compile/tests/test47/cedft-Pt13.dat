@@ -1,0 +1,110 @@
+#========================================================!
+! Input for calculation with the ONETEP program          !
+!                                                        !
+! Quality Control file for:                              !
+! single-point atom_charge constrained-ENSEMBLE-DFT+U    !
+! with PAO projectors and selected set of cDFT-active    !
+! atoms (just to keep things simple...)                  !
+!                                                        !
+! Created by G. Teobaldi on 23/07/2014                   !
+! (..and based on Pt13.dat by Alvaro Ruiz Serrano        !
+!                                                        !
+! Stephenson Institute for Renewable Energy              !
+! Department of Chemistry                                !
+! University of Liverpool                                !
+! L69 3BX Liverpool, UK                                  !
+!                                                        !
+!========================================================!
+
+
+! read/write
+print_qc T
+read_denskern F
+read_tightbox_ngwfs F
+write_denskern F
+write_tightbox_ngwfs F
+write_hamiltonian T
+write_xyz F
+output_detail NORMAL
+timings_level 0
+
+! task
+task singlepoint
+charge 0
+cutoff_energy 300 eV
+kernel_cutoff 1000
+xc_functional RPBE
+
+! density kernel optimisation
+maxit_palser_mano 100
+maxit_pen 0
+edft T
+edft_smearing_width 0.1 eV
+edft_maxit 2
+edft_free_energy_thres 1.0e-3
+edft_rms_gradient_thres 1.0e-3
+edft_commutator_thres 1.0e-3
+
+! NGWF optimisation
+maxit_ngwf_cg 2
+occ_mix 1.0
+elec_cg_max 0
+k_zero 3.0
+
+########### CDFT-ZONE: START
+#### Species / l / Z (a.u) / U_occ(eV) / U_q_up(eV) / U_q_down(eV) / U_spin(eV) / N_ele_up / N_ele_down /N_up-N_down
+%block constrained_dft
+#             Uhub   Jhund Uq_up     Uq_down    Uspin  Nup   Ndown    DN
+### Uq > 0 : e-repulsive, cDFT-active
+cPt 2   -10   3.0    0.00 -0.15       0.10       0.0   3.00  2.10      0. 
+### U_hub<0, cDFT-INACTIVE
+Pt  2   -10  -3.0    0.00  0.00       0.00       0.0   3.00  2.10      0.
+%endblock constrained_dft
+
+cdft_guru         : T         # do not re-initialise cDFT=pot to 1 eV
+
+maxit_cdft_u_cg        : 2   # let the CG algorithm work a little...
+#maxit_cdft_u_cg        : 0    # single-point cDFT run
+
+cdft_hubbard           : T    # activate cDFT+U functionality
+cdft_atom_charge       : T    # perform cDFT on single-site (charge only)
+########### CDFT-ZONE: END
+
+
+%block species
+Pt  Pt 78 6 6.0
+cPt Pt 78 6 6.0
+%endblock species
+
+%block species_atomic_set
+Pt "SOLVE"
+cPt "SOLVE"
+%endblock species_atomic_set
+
+%block species_pot
+Pt "../../pseudo/platinum.recpot"
+cPt "../../pseudo/platinum.recpot"
+%endblock species_pot
+
+
+%block lattice_cart
+ 35.034   0.000   0.000
+  0.000  35.032   0.000
+  0.000   0.000  35.032
+%endblock lattice_cart
+
+%block positions_abs
+cPt    13.99909253    17.51398347    13.99909253
+Pt     17.51587320    13.99909253    13.99909253
+Pt     21.03265386    17.51398347    13.99909253
+Pt     17.51587320    21.03076414    13.99909253
+Pt     13.99909253    13.99909253    17.51587320
+Pt     13.99909253    17.51398347    21.03076414
+Pt     17.51587320    13.99909253    21.03076414
+Pt     17.51587320    17.51398347    17.51587320
+Pt     21.03265386    13.99909253    17.51587320
+Pt     21.03265386    17.51398347    21.03076414
+Pt     13.99909253    21.03076414    17.51587320
+Pt     17.51587320    21.03076414    21.03076414
+Pt     21.03265386    21.03076414    17.51587320
+%endblock positions_abs

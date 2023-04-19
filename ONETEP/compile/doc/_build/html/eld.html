@@ -1,0 +1,280 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Electron Localisation Descriptors &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Energy Decomposition Analysis (EDA)" href="EDA.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="electron-localisation-descriptors">
+<h1>Electron Localisation Descriptors<a class="headerlink" href="#electron-localisation-descriptors" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Rebecca J. Clements, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">James C. Womack, University of Southampton</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Chris-Kriton Skylaris, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">July 2019</td>
+</tr>
+</tbody>
+</table>
+<p>ONETEP now has the electron localisation descriptors:</p>
+<ul class="simple">
+<li>Electron Localisation Function (ELF) [Becke1990]</li>
+<li>Localised Orbital Locator (LOL) [Becke2000]</li>
+</ul>
+<p>These descriptors provide a visualisation tool for indicating the
+location of electron pairs, including bonding and lone pairs, and
+distinguishing between <span class="math">\(\sigma\)</span> and <span class="math">\(\pi\)</span> bonds. It is a
+dimensionless quantity in the range of <span class="math">\(0\)</span> and <span class="math">\(1\)</span>. The
+plots can be output in <span class="math">\(.cube\)</span> or <span class="math">\(.dx\)</span> format for
+visualisation as isosurfaces or volume slices.</p>
+<p>The ELF was first introduced by Edgecombe and Becke in 1990 for
+Hartree-Fock Theory, and later updated for Density Functional Theory by
+Savin <em>et al.</em>.
+[Becke1990], [Becke2000], [Savin1992] It is based
+on the Hartree Fock probability of finding two particles of the same
+spin <span class="math">\(\sigma\)</span> at two different positions of a multielectron
+system. From this, Edgecombe and Becke obtained the conditional
+probability of an electron existing in the proximity of a reference
+electron, which relates to electron localisation. The smaller the
+probability, the increased likelihood that the reference electron is
+localised, provided both the electrons are of the same spin. This
+probability vanishes to zero when the two electrons have the same
+position, in agreement with the Pauli principle.</p>
+<p>This probability is not upper-bounded and so for more convenient
+graphical interpretation, it is inverted. Localisation is represented at
+unity. Details are below.</p>
+<p>The LOL is similar to the ELF, but with a simpler representation, and produces cleaner plots in some cases. [Schmider2004]</p>
+<p>The ELF provides quantum Valence Shell Electron Pair Repulsion (VSEPR)
+representation of coordination compounds, and the identification of
+covalent bonding across crystalline solids and surfaces. This provides a
+useful tool for the main applications of ONETEP; biomolecular
+simulations, catalysis, and the design of nanostructured materials.</p>
+<div class="section" id="electron-localisation-function">
+<h2>Electron Localisation Function<a class="headerlink" href="#electron-localisation-function" title="Permalink to this headline">¶</a></h2>
+<p>The starting point to the ELF formula is the exact kinetic energy
+density for spin <span class="math">\(\sigma\)</span>,</p>
+<div class="math" id="equation-kedensity">
+<span class="eqno">(1)<a class="headerlink" href="#equation-kedensity" title="Permalink to this equation">¶</a></span>\[\tau_{\sigma}^{exact}(\textbf{r}) = \sum_{\alpha} \tau(\textbf{r};\alpha),\]</div>
+<p>where
+<span class="math">\(\tau(\textbf{r};\alpha)=(\nabla \psi_{\alpha}(\textbf{r})) \cdot \bigg( \nabla \sum_{\beta}K^{\alpha\beta}\psi_{\beta}(\textbf{r}) \bigg)\)</span></p>
+<p>defined in ONETEP [Womack2016] in terms of NGWFs
+where <span class="math">\(\beta\)</span> are all which overlap with <span class="math">\(\psi_{\alpha}\)</span>.
+Note that the standard <span class="math">\(\frac{1}{2}\)</span> coefficient in ONETEP is
+omitted for the purposes of the ELF, to follow the definition by Becke.
+The term <span class="math">\(\tau_{\sigma}^{exact}\)</span> is extended into a formula to
+describe electron localisation, a <em>non-negative</em> probability density.
+This will be called the Pauli kinetic energy, <span class="math">\(D_{\sigma}\)</span>. For
+the individual spin, the Pauli kinetic energy takes the form:</p>
+<div class="math">
+\[D_{\sigma} = \tau_{\sigma}^{exact} - \frac{1}{4} \frac{\left( \nabla n_{\sigma} \right) ^{2}} {n_{\sigma}}.\]</div>
+<p>where <span class="math">\(n_{\sigma}(\textbf{r})\)</span> is the charge density for each
+spin <span class="math">\(\sigma\)</span>, and <span class="math">\(\nabla n_{\sigma}(\textbf{r})\)</span> is its
+gradient. <span class="math">\(D_{\sigma}\)</span> is compared with the uniform electron gas
+as a reference, by taking the ratio:</p>
+<div class="math">
+\[\chi_{\sigma} = \frac {D_{\sigma}} {D_{\sigma}^{0}}.\]</div>
+<p>where</p>
+<div class="math">
+\[D_{\sigma}^{0} = \frac{3}{5} \left( 6\pi^{2} \right) ^{\frac{2}{3}} n_{\sigma}^{\frac{5}{3}}.\]</div>
+<p>The charge density is the local value of
+<span class="math">\(n_{\sigma} \left( \textbf{r} \right)\)</span> here and the coefficient is
+the Fermi constant.</p>
+<p>Hence, the measure of electron localisation has now become
+dimensionless. <span class="math">\(\chi_{\sigma}\)</span> is then reformulated to avoid the
+open bounds of the above formula, limiting the ELF to a more desirable
+finite range of values of <span class="math">\(0\)</span> to <span class="math">\(1\)</span> for visual
+representation:</p>
+<div class="math">
+\[ELF = \frac{1}{1+\chi_{\sigma}^{2}}\]</div>
+</div>
+<div class="section" id="localised-orbital-locator">
+<h2>Localised Orbital Locator<a class="headerlink" href="#localised-orbital-locator" title="Permalink to this headline">¶</a></h2>
+<p>The LOL is similar to the ELF. Again, the starting point is the exact
+kinetic energy for spin <span class="math">\(\sigma\)</span>, as in Equation <a class="reference internal" href="#equation-kedensity">(1)</a>,
+with the <span class="math">\(\frac{1}{2}\)</span> coefficient omitted.</p>
+<p>The uniform electron gas reference, <span class="math">\(D_{\sigma}^{0}\)</span>, is used
+again here, also known as the local spin density approximation (LSDA):</p>
+<div class="math">
+\[\tau_{\sigma}^{LSDA} = \frac{3}{5} \left( 6\pi^{2} \right) ^{\frac{2}{3}} n_{\sigma}^{\frac{5}{3}}.\]</div>
+<p>The ratio follows a similar structure to the ELF, except for it is
+inverted, which again, makes the quantity dimensionless:</p>
+<div class="math">
+\[t_{\sigma} = \frac {\tau_{\sigma}^{LSDA}} {\tau_{\sigma}^{exact}}.\]</div>
+<p>The quantity is reformulated to change the infinite range into a
+<span class="math">\(0\)</span> to <span class="math">\(1\)</span> range like before:</p>
+<div class="math">
+\[v_{\sigma} = \frac{t_{\sigma}} {1 + t_{\sigma}}\]</div>
+</div>
+<div class="section" id="how-to-use">
+<h2>How to use<a class="headerlink" href="#how-to-use" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="keywords">
+<h3>Keywords<a class="headerlink" href="#keywords" title="Permalink to this headline">¶</a></h3>
+<p>The keywords related to the implementation of the electron localisation
+descriptors are as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Keyword</span><span class="p">:</span>                <span class="n">Options</span> <span class="p">(</span><span class="n">default</span><span class="p">):</span>
+<span class="n">eld_calculate</span>           <span class="n">T</span><span class="o">/</span><span class="n">F</span> <span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="n">eld_function</span>            <span class="n">ELF</span><span class="o">/</span><span class="n">LOL</span> <span class="p">(</span><span class="n">ELF</span><span class="p">)</span>
+<span class="n">ke_density_calculate</span>    <span class="n">T</span><span class="o">/</span><span class="n">F</span> <span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="n">do_properties</span>           <span class="n">T</span><span class="o">/</span><span class="n">F</span> <span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="n">cube_format</span>             <span class="n">T</span><span class="o">/</span><span class="n">F</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span>
+<span class="n">dx_format</span>               <span class="n">T</span><span class="o">/</span><span class="n">F</span> <span class="p">(</span><span class="n">F</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Setting <span class="math">\(eld\_calculate\)</span> to true turns on the calculation. The
+calculation will not proceed if this keyword is missing or if it set
+to false.</li>
+<li>The keyword <span class="math">\(eld\_function\)</span> determines which of the ELF or LOL
+ONETEP is to calculate, by specifying either string. The default here
+is the ELF, provided the keyword <span class="math">\(eld\_calculate\)</span> has been
+specified.</li>
+<li>As part of this implementation, the kinetic energy density can now
+also be output, using the logical keyword
+<span class="math">\(ke\_density\_calculate\)</span>. This does not automatically output
+with <span class="math">\(eld\_calculate\)</span>.</li>
+<li>Electron localisation descriptors and kinetic energy density are
+available in the formats of <span class="math">\(.cube\)</span> or <span class="math">\(.dx\)</span> files.</li>
+<li>For spin polarised systems, there will be an ELF output for each spin
+individually, showing the electron localisation for one of the spins.</li>
+</ul>
+<p>In order to use any of the above keywords, ONETEP’s properties
+calculation must be enabled, using <span class="math">\(do\_properties\)</span> or setting the
+task to <span class="math">\(properties\)</span>, if reading in density results of an energy
+minimisation calculation. To produce the density plot during the
+original energy calculation, the input should include:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">task</span>                <span class="n">singlepoint</span>
+<span class="n">write_density_plot</span>  <span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-input-file">
+<h3>Example input file<a class="headerlink" href="#example-input-file" title="Permalink to this headline">¶</a></h3>
+<p>Below is an example input for using the ELF, for the water molecule:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">task</span>            <span class="n">singlepoint</span>
+<span class="n">cutoff_energy</span>   <span class="mf">900.0</span> <span class="n">eV</span>
+<span class="n">maxit_ngwf_cg</span>   <span class="mi">100</span>
+<span class="n">output_detail</span>   <span class="n">verbose</span>
+<span class="n">do_properties</span>   <span class="n">T</span>
+<span class="n">cube_format</span>     <span class="n">T</span>
+<span class="n">dx_format</span>       <span class="n">F</span>
+<span class="n">grd_format</span>      <span class="n">F</span>
+<span class="n">eld_calculate</span>   <span class="n">T</span>
+<span class="n">eld_function</span>    <span class="n">ELF</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">lattice_cart</span>
+<span class="mf">40.000000000000</span>    <span class="mf">0.000000000000</span>    <span class="mf">0.000000000000</span>
+ <span class="mf">0.000000000000</span>   <span class="mf">40.000000000000</span>    <span class="mf">0.000000000000</span>
+ <span class="mf">0.000000000000</span>    <span class="mf">0.000000000000</span>   <span class="mf">40.000000000000</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">lattice_cart</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">positions_abs</span>
+<span class="n">O</span> <span class="mf">20.000000000</span>  <span class="mf">20.000000000</span>  <span class="mf">20.000000000</span>
+<span class="n">H</span> <span class="mf">18.565580829</span>  <span class="mf">18.889354011</span>  <span class="mf">20.000000000</span>
+<span class="n">H</span> <span class="mf">21.434419171</span>  <span class="mf">18.889354011</span>  <span class="mf">20.000000000</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">positions_abs</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species</span>
+<span class="n">O</span> <span class="n">O</span> <span class="mi">8</span> <span class="mi">4</span> <span class="mf">8.0</span>
+<span class="n">H</span> <span class="n">H</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mf">8.0</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species</span>
+
+<span class="o">%</span><span class="n">block</span> <span class="n">species_pot</span>
+<span class="n">O</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">oxygen</span><span class="o">.</span><span class="n">recpot</span><span class="o">&gt;</span>
+<span class="n">H</span> <span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">hydrogen</span><span class="o">.</span><span class="n">recpot</span><span class="o">&gt;</span>
+<span class="o">%</span><span class="n">endblock</span> <span class="n">species_pot</span>
+</pre></div>
+</div>
+<p>[Becke1990] A. D. Becke and K. E. Edgecombe. A simple measure of electron localization in atomic and molecular systems. <em>J. Chem. Phys.</em>, 92(9):5397-5403, 1990.</p>
+<p>[Becke2000] A. D. Becke and H. L. Schmider. Chemical content of the kinetic energy density. <em>Journal of Molecular Structure (Theochem)</em>, 527:51–61, 2000.</p>
+<p>[Savin1992] A. Savin, O. Jepsen, J. Flad, O. K. Andersen, H. Preuss, and H. G. von Schnering. Electron localization in solid-state structures of the elements: the diamond structure. <em>Angewandte Chemie International Edition in English</em>, 31(2):187–188, 1992.</p>
+<p>[Schmider2000] H. Schmider and A. Becke. Chemical content of the kinetic energy density. <em>Journal of Molecular Structure (Theochem)</em>, 527(1):51 – 61, 2000.</p>
+<p>[Womack2016] J. C. Womack, N. Mardirossian, M. Head-Gordon, and C.-K. Skylaris. Self-consistent implementation of meta-gga functionals for the ONETEP linear-scaling electronic structure package. <em>The Journal of Chemical Physics</em>, 145(20):204114, 2016.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_properties.html">Properties</a><ul>
+      <li>Previous: <a href="EDA.html" title="previous chapter">Energy Decomposition Analysis (EDA)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/eld.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

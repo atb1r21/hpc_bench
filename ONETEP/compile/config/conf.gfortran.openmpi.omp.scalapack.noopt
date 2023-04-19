@@ -1,0 +1,16 @@
+# ONETEP configuration file for Debian 9 (stretch)
+# Created by Jose M Escartin, 12th September 2018.
+# v1.0
+#
+# Compiler:     GNU Fortran v6.3
+# MPI:          OpenMPI v2.0.2
+# OMP:          enabled
+# FFTW:         FFTW 3.3.5
+# ScaLAPACK:    1.8.0
+# Optimisation: disabled (in order to increase compilation speed).
+
+F90 = mpif90 -fopenmp
+FFLAGS = -DGFORTRAN -DMPI -DSCALAPACK -DFFTW3
+OPTFLAGS = -O0
+COMPILER = GNU-gfortran-on-LINUX
+LIBS = -lfftw3_omp -lfftw3 -lscalapack-openmpi -lblacs-openmpi -lblacsCinit-openmpi -llapack -lblas

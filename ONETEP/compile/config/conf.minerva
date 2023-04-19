@@ -1,0 +1,11 @@
+# Environment for compilation on the Minerva supercomputer at the Centre
+# for Scientific Computing, University of Warwick.
+# Tested & confirmed to work on 03/03/15 for the following environment:
+# module load ompi_threads/1.6.4/intel/12.1 intel/mkl/11.0
+
+F90 = mpif90 -openmp -diag-disable 8290,8291
+FFLAGS = -DMKL_FFTW3 -DMPI -DSCALAPACK -I$(MKLROOT)/include/intel64/lp64
+LIBS = -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -liomp5 -lmkl_scalapack_lp64 -lmkl_blacs_openmpi_lp64
+OPTFLAGS = -xHOST -O3 -ip -no-prec-div -traceback
+DEBUGFLAGS = -ftrapuv -g -CB -debug full -check all -traceback -DDEBUG_ARRAYS
+COMPILER = INTEL-ifort-on-LINUX

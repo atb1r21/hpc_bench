@@ -1,0 +1,48 @@
+#
+# ONETEP configuration file
+# for Red Hat Linux 6.5 PCs in Southampton.
+# Created by Jacek Dziedzic, 04/11/2016.
+# v1.01
+#
+# Compiler: 	Intel ifort v16.0.0.
+# MPI: 		Intel MPI, bundled with the above.
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the above.
+# ScaLAPACK:	Yes.
+#
+
+# It is crucial that you have the right set of modules loaded. Preferably
+# add the following lines to ~/.bashrc (without the #):
+#
+# module purge
+# module load intel/parallel_studio_xe_2016
+#
+# followed by any additional modules you might want. Subsequently ensure that the additional 
+# modules did not pull in anything Intel-related, and if so, unload them.
+#
+# With no additional modules loaded, I'm getting the following module list
+# 1) intel/parallel_studio_xe_2016
+#
+# The following lines added to ~/.bashrc (without the #) will ensure other environment details
+# are set up correctly:
+# ulimit -s unlimited
+# ulimit -c unlimited
+# export OMP_STACKSIZE=64M
+#
+
+F90 = mpiifort -openmp -mkl
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DMPI -DSTACK_TRACE_IN_ABORT -I$(MKLROOT)/include/fftw -diag-disable 8290,8291,7712,5462 -warn all
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -traceback -check all,noarg_temp_created -ftrapuv
+COMPILER = INTEL-ifort-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lmkl_blacs_intelmpi_lp64 -lpthread -lm
+
+# 8290, 8291 - suggest field widths
+# 7712 - unused variables
+# 5462 - global name too long (for linker, still within F2003 standard bounds)
+
+# NB. Link line generated using the link line advisor (below) with the dynamic option.
+# https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
+# Static linking, as hinted below did not work for me. It linked, but the MKLMPI_Get_wrappers error
+# occurred at runtime, and ldd showed that the executable depended on e.g. libmkl_intel_lp64.so.
+# https://software.intel.com/en-us/forums/intel-math-kernel-library/topic/590302

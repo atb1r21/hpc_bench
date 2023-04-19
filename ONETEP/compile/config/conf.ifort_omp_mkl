@@ -1,0 +1,9 @@
+F90 = ifort -I$(MKLINCLUDE)/intel64/lp64
+FFLAGS = -diag-disable 8290,8291 -DMKL_FFTW3 -DFFTW3_NO_OMP -DDEFAULT_THREADS=4
+
+OPTFLAGS = -qopenmp -O3
+DEBUGFLAGS = -qopenmp -g -C
+
+LIBS = -L$(MKLPATH) -lmkl_intel_lp64 -lmkl_core -lmkl_sequential -lpthread
+
+COMPILER = INTEL-ifort-on-LINUX

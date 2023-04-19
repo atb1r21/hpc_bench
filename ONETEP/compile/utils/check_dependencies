@@ -1,0 +1,473 @@
+#!/bin/bash
+
+########################################################################################
+#                                                                                      #
+# check_dependencies: Checks that module dependencies are OK in the ONETEP Makefile    #
+#                     ... and a few other things.                                      #
+#                                                                                      #
+# Written on 2010.12.15 by Jacek Dziedzic (jd12g09@soton.ac.uk)                        #
+# v1.52 2022.09.24                                                                     #
+#                                                                                      #
+########################################################################################
+
+# List of error codes:
+# --------------------
+# 0 - Success.
+# 1 - Correctly detected issues with the build.
+# 2 - Improper invocation.
+# 3 - 'cpp' preprocessor does not work in ANSI mode (or absent altogether).
+# 4 - 'cpp' preprocessor does not work in F95 mode.
+# 5 - No readable .F90 files found. Nothing to do.
+# 6 - No write permission in current directory.
+# 7 - Makefile absent or running from wrong directory.
+
+# Revision history:
+# -----------------
+#       1.00 jd, original version
+#       1.04 jd, welcome banner, preprocessing and -o added, -DMPI for default cppopts
+#       1.05 jd, Quintin's fix for tr warning
+#       1.06 jd, correctly eliminates .F90 files from dependency list, even if preceded by .o files
+#       1.07 jd, improved help
+#       1.08 jd, reordered output
+#       1.10 jd, gives names of .o files that need to be added or removed
+#       1.11 jd, fixed formatting in -v mode
+#       1.12 jd, works OK even if 'use' uses upper- or mixed-case (as is the case for esdf_mod.F90)
+#       1.13 jd, works with DCSE multigrid in a separate directory
+#       1.14 jss, fix output of final message and exit status
+#       1.15 jd, works with DL_MG multigrid that replaced DCSE multigrid
+#       1.16 jd, Dependencies tagged with "!! External dependency" in the source are deemed external.
+#       1.17 jd, ".o" files that have '$' in the name are assumed to be make variables and are ignored.
+#       1.18 jd, Checks that 'cpp' works OK first.
+#       1.19 jss, actually fix the exit status correctly this time...
+#       1.20 jss, Set fancy_terminal to have sensible default depending upon the context.
+#       1.21 jss, Update for new (cascade-avoiding) makefile.
+#       1.22 jd, Warns if it cannot figure out a mod name corresponding to an F90 file.
+#       1.23 jd, "ion" was grepped as part of "simulation_cell" and "basis" as part of "function_basis".
+#       1.24 jd, Traps careless use of #ifdef DEBUG.
+#       1.25 jd, Traps overlong lines.
+#       1.26 jd, Traps preprocessing errors and warnings.
+#       1.28 jd, Traps & in alloc_array macros.
+#       1.29 jd, Hopefully plays nice with cmth's preprocessor.
+#       1.30 jd, Sees OMP-only use clauses (!$ use).
+#       1.31 jd, Correctly operates from sibling directories of 'src' (utils, tests, etc).
+#       1.32 jd, Checks against indented preprocessor lines.
+#       1.33 jd, Ignores CPP error regarding C++-style comments (hopefully).
+#       1.34 jd, Ignores CPP error-like comment "this will be reported only once per input file".
+#       1.35 jd, Traps careless use of 'stop' statements.
+#       1.36 jd, Ignore #includes of mpif.h, because the header file cannot be found at this stage.
+#       1.37 jd, Allows for multiple entries for one .mod file in the Makefile -- these will be
+#                collated, assuming the preceding line matches "only ifdef ...", where ... is part
+#                of cppopts. See 'multigrid_methods_mod' in the Makefile to understand this.
+#       1.38 jd, "use ..., only: ..." is allowed in clauses tagged with "!! External dependency".
+#       1.39 jme, Replace one of the -ansi flags with the Fortran free format flag in order to
+#                avoid (multiline) C warnings from cpp.
+#       1.40 jd, Traps ensure cleanup of tmp files and allow clean ^C.
+#       1.41 jd, bugfix for the above.
+#       1.45 jd, Traps stray tabs in Makefile (anywhere outside the rules).
+#       1.47 jd, Checks if cpp works both in ANSI and F95 mode (traps 'error trying to exec 'f951': execvp: No such file or directory) 
+#                Fixed error codes.
+#       1.48 jd, Checks to ensure CWD is writable, needed for correct operation.
+#       1.50 jd, Checks for stack-based arrays with extensive sizes.
+#       1.52 jd, Works with GNU awk v5.1.0, where it looks like the handling of \\\ in `` changed.
+
+srcdir="../src" # default
+allowed_line_length=132 # F2003
+
+warnon() {
+  if [ $fancy_terminal -eq 1 ]; then
+    setterm -bold on
+    setterm -reverse on
+  fi
+}
+
+warnoff() {
+  if [ $fancy_terminal -eq 1 ]; then
+    setterm -bold off
+    setterm -reverse off
+  fi
+}
+
+abort() {
+  echo "Aborting!" >&2
+  cleanup
+  exit $errcode
+}
+
+syntax_help() {
+  echo "The correct syntax is: check_dependencies [-x] [-v] [-h] [-o cppopts]" >&2
+  echo "-x toggles the fancy terminal bold/reverse, which might be useful " >&2
+  echo "   when redirecting output to a file.  Fancy terminal bold/reverse is on by" >&2
+  echo "   default if output is sent to STDOUT and off by default otherwise." >&2
+  echo "-v turns on verbose mode, where more details are shown." >&2
+  echo "-h shows this help message and exits." >&2 
+  echo "-o lets you specify non-standard preprocessor #defines, say," >&2
+  echo "   -o \"-DACCELRYS -DMPI\" will check dependencies for an ACCELRYS build with MPI." >&2
+  echo "   The default set of #defines is \"$cppopts\"." >&2
+}
+
+cleanup() {
+  trap - SIGTERM SIGINT EXIT # Restore default behaviours for traps.
+  rm -f -- -.s # The file "-.s" is created by cpp in f95-cpp-input mode
+  rm -f "linenumbers.tmp" # This we create ourselves
+  rm -f "tmpfile.tmp" # This we create ourselves
+  exit
+}
+
+##########################################################################################
+# main()
+##########################################################################################
+
+# Set up traps to
+# - ensure cleanup of temporary files
+# - allow cleanly ^C'ing the script (otherwise only the children command gets ^C'ed).
+trap "trap - SIGTERM; echo; echo; echo \"***\" check_dependiecies terminated;  cleanup" SIGTERM
+trap "trap - SIGINT; echo; echo; echo \"***\" check_dependencies interrupted; cleanup" SIGINT
+trap "trap - EXIT; echo; echo; echo \"***\" check_dependencies finished; cleanup" EXIT
+
+# Turn fancy_terminal on by default only if writing to STDOUT.
+test -t 1 && fancy_terminal=1 || fancy_terminal=0
+verbose=0
+cppopts="-DMPI -DFFTW3" # default
+
+# Introduce myself
+tail -n +3 $0 2>/dev/null | head -n 9 2>/dev/null
+
+# Parse options, if any
+while getopts "o:xvh" flag; do
+  if [ "$flag" == "?" ] || [ "$flag" == "h" ] ; then
+    [ "$flag" == "h" ] || echo "Improper invocation." >&2
+    syntax_help
+    errcode=2; abort
+  fi
+  if [ "$flag" == "o" ]; then cppopts=$OPTARG; fi
+  if [ "$flag" == "x" ]; then [[ $fancy_terminal -eq 0 ]] && fancy_terminal=1 || fancy_terminal=0 ; fi
+  if [ "$flag" == "v" ]; then verbose=1; fi
+done
+
+if ! echo "" >tmpfile.tmp; then
+  echo -e "\nI do not have write permissions in current directory ("`pwd`"), but they are needed." >&2
+  errcode=6; abort
+fi
+
+echo 
+echo "Preprocessor:" `cpp --version | head -n 1`
+echo "Dependencies for the following compilation options: \"$cppopts\""
+echo
+
+# Allow operation from the top-level directory
+if [ -d "src" ]; then
+  srcdir="./src"
+fi
+
+# Check that cpp works correctly in ANSI mode, otherwise we'll claim all dependencies are broken
+echo "" | cpp -ansi >/dev/null
+result=$?
+if [ $result -ne 0 ]; then
+  echo "The C preprocessor (cpp) does not work in ANSI mode. Check your installation and your CPATH." >&2
+  errcode=3; abort
+fi
+
+# Check that cpp works correctly in F95 mode, otherwise we'll claim all dependencies are broken.
+# There are hoops to jump through, because we need to zap stdout (to strip cpp's output), 
+# but allow stderr (so that the user sees any error messages), but also filter it (so that 
+# they don't get to see the warning below).
+echo "" | cpp -x f95-cpp-input >/dev/null 2>stderr.tmp
+result=$?
+
+cat stderr.tmp | grep -v "Warning: Reading file .<stdin>. as free form$"
+rm -f stderr.tmp
+
+if [ $result -ne 0 ]; then
+  echo "The C preprocessor (cpp) does not work in F95 mode. Check your installation, particularly your gfortran installation, and your CPATH." >&2
+  errcode=4; abort
+fi
+
+# *** Go! ***
+at_least_one_broken=0
+
+# Ensure we are in the right directory
+if [ ! -r $srcdir/Makefile ]; then
+  echo -e "Cannot find Makefile in "`realpath $srcdir`". You are probably running from the wrong directory.\nRun from ONETEP's 'src' directory or ONETEP's toplevel directory." >&2
+  errcode=7; abort
+fi
+
+# Check for stray tabs in the Makefile
+exclusion_beg=`cat $srcdir/Makefile | grep -n "# General rules" | tr ":" " " | awk '{print $1}'`
+exclusion_end=`cat $srcdir/Makefile | grep -n "# Dependencies" | tr ":" " " | awk '{print $1}'`
+tabchar_issues=`cat $srcdir/Makefile | grep -nE $'\t' | tr ":" " " | awk -v ebeg=$exclusion_beg -v eend=$exclusion_end '{if($1<ebeg || $1>eend) print $1}' | tr "\n" " "`
+if [ ! -z "$tabchar_issues" ]; then
+  warnon
+  echo -e "BROKEN: Stray tabs in Makefile. Tabs are only allowed in the 'rules' section."
+  warnoff
+  cat $srcdir/Makefile | grep -nE $'\t' | tr ":" " " | awk -v ebeg=$exclusion_beg -v eend=$exclusion_end '{if($1<ebeg || $1>eend) print $0}' | sed "s/"$'\t'"/[TAB]/g"
+  echo 
+  at_least_one_broken=1
+fi
+
+for f in $srcdir/*.F90; do
+  if [ ! -r $f ]; then
+    echo "! No readable *.F90 files found in $srcdir, nothing to do!" >&2
+    errcode=5; abort
+  fi
+  echo "$f:" | awk '{printf("%-40s\t",$0)}'
+
+  # If no problems, assume everything is fine
+  is_ok=1
+
+  # Start by checking basic issues with alloc_array macros. "something_else" is used to temporarily
+  # disable alloc checker macro expansion, or else we wouldn't be able to grep for them. But we
+  # still need the preprocessor to handle #ifdefs for us. Comments need to be left alone (-ansi),
+  # or else the preprocessor will interpret string concatenation // as C-style comments.
+  cat $f | sed "s/alloc_checker_macros.fi/something_else/" | cpp -ansi $cppopts 2>/dev/null | awk '
+  {
+    if($0 ~ " alloc_array") {
+      if(($0 ~ "&") && status > 0) {
+        printf("\n\t\t\t\t\t\tBROKEN: Line %d uses & inside the alloc_array macro. This is not allowed: %s",NR,$0);
+        status++;
+      }
+      if(($0 ~ "&") && status == 0) {
+        printf("BROKEN: Line %d uses & inside the alloc_array macro. This is not allowed: %s",NR,$0);
+        status++;
+      }
+    }
+  }
+  END {
+    exit(status);
+  }'
+  alloc_array_issues=$?
+  if [ "$alloc_array_issues" -ne 0 ]; then
+    is_ok=0
+    echo
+  fi
+
+  # Look for lines that start with whitespace followed by #.
+  indented_preprocessor_line=`cat $f | grep -nE "^($| |"$'\t'")+#" | tr ":" " " | awk '{print $1}'`  # Funky $'\t' syntax lets grep tabs (and spaces).
+  if [ ! -z "$indented_preprocessor_line" ]; then
+    echo "BROKEN: Indented preprocessor directive at line $indented_preprocessor_line. While this is allowed by ANSI C, some compilers (*cough* ifort) will ignore these with just a quiet warning."
+    is_ok=0
+  fi
+
+  # Dry-run through the preprocessor, saving only the standard error. This can capture more involved
+  # issues with alloc check macros. Mundane warnings and errors that are filtered:
+  # - missing terminating ' or " (as preprocessor is fooled by Fortran-style continuations)
+  # - warning about trigraphs
+  # - issues with non-iso-C90 comments (actually Fortran string concatenations)
+  # - compilation terminated (can follow other errors, as a summary)
+  # NB: srcdir is added in the include line so that cpp can include 'alloc_checker_macros.fi' correctly regardless of whether we run from source root or from src
+  # '#include' lines with mpi are removed, because here we don't know the correct -I directory for MPI header files,
+  # and the preprocessor stops parsing once it cannot find the file. Filtering out all #includes is bad, because it
+  # interferes with the alloc checker. A better solution would be to white-list #includes that we want to keep.
+  # Comments are left alone again (-ansi), see description earlier.
+
+#  cat $f | grep -vE "#include .mpi" | cpp -ansi -I$srcdir $cppopts 2>&1 >/dev/null \
+#    | grep -vi "warning: missing terminating" \
+#    | grep -vi "warning: trigraph" \
+#    | grep -vi "C++ style comments" \
+#    | grep -vi "compilation terminated" \
+#    | grep -vi "this will be reported only once" \
+# jme: Use the Fortran free format flag to avoid (multiline) C warnings from cpp.
+  cat $f | grep -vE "#include .mpi" | cpp -x f95-cpp-input -I$srcdir $cppopts 2>&1 >/dev/null \
+    | grep -v "Warning: Reading file .<stdin>. as free form$" \
+    | awk '
+  {
+    if(status > 0) {
+      printf("\n\t\t\t\t\t\tBROKEN: Preprocessor issue. Don''t trust the line number, the actual error is likely (way) earlier %s",$0);
+      status++;
+    }
+    if(status == 0) {
+      printf("BROKEN: Preprocessor issue. Don''t trust the line number, the actual error is likely (way) earlier. %s",$0);
+      status++;
+    }
+  }
+  END {
+    exit(status);
+  }'
+  preprocessing_issues=$?
+  if [ "$preprocessing_issues" -ne 0 ]; then
+    is_ok=0
+    echo
+  fi
+
+  # Try to detect instances of grid-based local variables that wind up on the stack.
+  # 1) Preprocess to take #defines, #ifs and #ifdefs into account.
+  # 2) Get rid of preprocessor warning.
+  # 3) Strip comments.
+  # 4) Collate continuations.
+  # 5) Clean up after collating ($'\t' matches tabs).
+  # 6) Detect declarations.
+  # 7) Allow this in arguments, allocatables and pointers.
+  # 8) Look for grid-based dimensions, at least two of them.
+  error=`cat -n $f | cpp -x f95-cpp-input -I$srcdir $cppopts 2>&1 \
+    | grep -v "Warning: Reading file .<stdin>. as free form$" \
+    | sed -r -e "s/\![^\!].*//"  \
+    | awk '{if($NF ~ "&") {continuation=1;} else continuation=0; printf("%s%s", $0, (continuation>0 ? "" : "\n"))}' \
+    | sed "s/& *[0-9]*[ "$'\t'"]*//g" \
+    | grep "::" \
+    | grep -vi intent \
+    | grep -vi allocatable \
+    | grep -vi pointer \
+    | grep -i "%ld1" \
+    | grep -i "%ld2"`
+  result=$?
+
+  if [ $result -eq 0 ]; then
+    [ $is_ok -gt 0 ] && echo -e "BROKEN"
+    is_ok=0
+    warnon
+    echo -e "\tLocal, non-allocatable, non-pointer, grid-sized array will lead to stack overflow. Use an allocatable or pointer."
+    warnoff
+    echo "$error"
+  fi  
+
+  # Determine all modules specified in use clauses in current source:
+  # NB: modules tagged with " !! External dependency" get an asterisk appended at this stage. Using "only" in this context is now supported.
+  # NB: srcdir is added in the include line so that cpp can include 'alloc_checker_macros.fi' correctly regardless of whether we run from source root or from src
+  # During preprocessing comments are left alone in again (-ansi), see description earlier.
+  # Then comments are stripped, except when they begin with !$ so that we spare OMP-only use clauses. Then !$ is removed so that we see these use clauses.
+  # '#include' lines with mpi are removed, because here we don't know the correct -I directory for MPI header files,
+  # and the preprocessor stops parsing once it cannot find the file. Filtering out all #includes is bad, because it
+  # interferes with the alloc checker. A better solution would be to white-list #includes that we want to keep.
+  allused=`cat $f | grep -vE "#include .mpi" | cpp -ansi -I$srcdir $cppopts 2>/dev/null | sed -r -e "s/( |,.*)!! External dependency/*/" -e "s/![^\$].*//" -e "s/!\\\\$//" \
+    | grep -iE "^ *use " | tr ',' ' ' | awk '{printf "%s.mod\n",$2}' | tr '[A-Z]' '[a-z]' | sort | uniq`
+  if [ $verbose == 1 ]; then 
+    allused_printfriendly=`echo $allused | tr "\n" " " | awk '{if(NF==0) print "(none)"; else print $0}'`
+    echo
+    echo "Needs:         |$allused_printfriendly|"
+  fi
+  # Determine the module name of the current source
+  if [[ $f == $srcdir/onetep.F90 ]]; then
+      modfile=onetep.o
+  else
+      modfile=$(awk 's=tolower($0) s~/^ *module \y\w*\y *$/ && ! found {printf "%s.mod",tolower($2); found=1}' $f) # '
+  fi                                                                                                               # ^ the comment above works around a bug in mcedits syntax highlighting
+  if [ -z "$modfile" ]; then
+     echo "??? Cannot come up with a mod name corresponding to $f. Check for trailing spaces, CRLF linebreaks in $f"
+     continue
+  fi
+
+  # Determine the first line in the Makefile that corresponds to this .o
+  linenumbers=`grep -nE "^$modfile:" $srcdir/Makefile | tr ":" " " | awk '{print $1}'`
+  if [ -z "$linenumbers" ]; then
+     echo "*** (Module corresponding to) $f absent in the Makefile, ignoring"
+     continue
+  fi
+  # Typically there's only one entry. We currently have two for multigrid_methods_mod, where it additionally
+  # depends on dl_mg.mod iff DL_MG is compled in. To make things general, we scan over all entries, collating them.
+  n_entries=`echo $linenumbers | wc -w`
+  # Extract this line and all subsequent lines, provided they end with '\', from the Makefile
+  alldeclared=""
+
+  for linenumber in $linenumbers; do
+    let "prevlinenumber=linenumber-1"
+    prevline=`cat $srcdir/Makefile | awk -v line=$prevlinenumber 'NR==line'`
+
+    if [ ! -z "$prevline" ]; then
+      parsedprevline=`echo "$prevline" | sed -r "s/.*\!\! only ifdef //"`
+      cppopts_match=`echo $cppopts | awk -v ifdef="$parsedprevline" '{if($0 ~ ifdef) print 1; else print 0}'`
+    fi
+    if [ -z "$prevline" ] || [ $cppopts_match == 1 ]; then
+      relevantmakefilebit=`cat $srcdir/Makefile | sed "s/#.*//" | awk -v n=$linenumber -v backslash="\\\" 'NR>=n {if($0 !~ ".mod") exit; if($NF ~ backslash) continuation=1; else continuation=0; if(continuation>=0) {print $0; continuation--}}'`
+      #                                                                                ^ Avoids having the backslash inside `'"..."'` which behaves differently for different awks. Using $() doesn't help.
+      # Tidy it up: remove everything in front of ":", remove \, remove F90 files. 
+      # NB: [\\] avoids tr warning about trailing backslashes
+      alldeclared=$alldeclared" "$(echo $relevantmakefilebit | sed -e "s/.*: //" -e "s/[\\]/ /g" -e "s/   / /g" | sed -r "s/[^ ]*F90 *//g")
+    fi
+  done
+
+  # Check for careless #ifdef DEBUGs.
+  if ! ( echo $f | grep -q utils_mod.F90 ); then
+     if cat $f | grep -qE "^#ifdef DEBUG($| |"$'\t'")"; then # Funky $'\t' syntax lets grep tabs.
+       echo -e "BROKEN: We agreed '#ifdef DEBUG' would only be legal in utils_mod.\n\t\t\t\t\t\tPlease use if(pub_debug) or if(pub_debug_on_root) instead.\n\t\t\t\t\t\t'Whoever uses #ifdef DEBUG from now on will be shot on the spot.'"
+       is_ok=0
+       echo
+     fi
+  fi
+
+  # Check for careless stop statements.
+  # 1) Eliminates comments, except those starting with "!!",
+  # 2) Strips leading whitespace,
+  # 3) Checks for optional line number followed by optional whitespace followed by case-insensitive 'stop' followed by (whitespace or EOL).
+  # 4) Unless a '!' remains (which indicates a '!!' comment), this looks like a stop statement.
+  if cat $f | sed -r -e "s/\![^\!].*//" -e "s/^( |"$'\t'")*//" | grep -niE "^([0-9])*( |"$'\t'")*stop($| |"$'\t'")" | grep -v "\!" >linenumbers.tmp; then # Funky $'\t' syntax lets grep tabs.
+    echo -e "BROKEN: Respect users' rights to graceful aborts, do not use STOP.\n\t\t\t\t\t\tPlease use utils_abort() or utils_assert() instead."
+    cat linenumbers.tmp
+    is_ok=0
+    echo
+  fi
+
+  cat $f | awk -v max=$allowed_line_length '
+  {
+    l=length($0); 
+    if(l>max && status > 0) {
+      printf("\n\t\t\t\t\t\tBROKEN: Line %d exceeds F2003-mandated length limit: %d>%d.",NR,l,max);
+      status++;
+    }
+    if(l>max && status == 0) {
+      printf("BROKEN: Line %d exceeds F2003-mandated length limit: %d>%d.",NR,l,max);
+      status++;
+    }
+  }
+  END {
+    exit(status);
+  }'
+  line_length_violation=$?
+  if [ "$line_length_violation" -ne 0 ]; then
+    is_ok=0
+    echo
+  fi
+
+  # Check for missing dependencies
+  external_dependencies=0
+  external_list=""
+  for used in $allused; do
+    # Is this an external dependency?
+    if echo $used | grep -q "*"; then
+      is_external=1
+      let "external_dependencies++"
+      external_list="$external_list `echo $used | sed "s/*//"`"
+      continue
+    else
+      is_external=0
+    fi
+    if ! echo $alldeclared | grep -q $used; then
+      [ $is_ok -gt 0 ] && echo -e "BROKEN"
+      is_ok=0
+      echo -ne "\tMissing dependency: "
+      warnon
+      echo "$used "
+      warnoff
+    fi
+  done
+
+  # Check for unnecessary dependencies
+  for specified in $alldeclared; do
+    if ! echo $allused | sed -r "s/\*//g" | grep -Eq "(^| )$specified( |$)"; then
+      [ $is_ok -gt 0 ] && echo -e "BROKEN"
+      is_ok=0
+      echo -ne "\tUnnecessary dependency: "
+      warnon
+      echo "$specified "
+      warnoff
+    fi
+  done
+  if [ $is_ok -eq 1 ]; then 
+    verdict="OK"
+    if [ $external_dependencies -gt 0 ]; then
+      if [ $external_dependencies -eq 1 ]; then
+        suffix="y"
+      else
+        suffix="ies"
+      fi
+      verdict="$verdict (assuming $external_dependencies external dependenc$suffix satisfied:$external_list)"
+    fi
+  else
+    verdict=""
+    at_least_one_broken=1
+  fi
+  echo -e "$verdict"
+done
+
+echo
+echo "Done!"
+[ $at_least_one_broken -eq 1 ] && echo "Some problems remain. No candy." || echo "Hurray, your Makefile is in order, and your line lengths do not exceed $allowed_line_length. Have a candy."
+exit $at_least_one_broken

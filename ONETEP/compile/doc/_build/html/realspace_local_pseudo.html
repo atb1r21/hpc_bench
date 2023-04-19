@@ -1,0 +1,358 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Realspace local pseudopotential in ONETEP &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Solvent and Electrolyte Model" href="implicit_solvation_v3.html" />
+    <link rel="prev" title="Using van der Waals Density Functionals" href="VDW-DF.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="realspace-local-pseudopotential-in-onetep">
+<h1>Realspace local pseudopotential in ONETEP<a class="headerlink" href="#realspace-local-pseudopotential-in-onetep" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Jacek Dziedzic, University of Southampton</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Chris-Kriton Skylaris, University of Southampton</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<p>In standard ONETEP the local pseudopotential is obtained in reciprocal
+space by a discrete Fourier transform, by assuming the cell is
+periodically repeated in space. However, there are certain use-cases,
+where one is interested in the properties of an isolated (not
+periodically repeated) system. This is especially true if other energy
+terms, such the Hartree energy or the ion-ion energy are already
+calculated with open boundary conditions, which is the case, e.g., for
+implicit solvent calculations in ONETEP.</p>
+</div>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<p>Assume that <span class="math">\({v_{loc}\left(\vec{r}\right)}\)</span> is located on an atom
+<span class="math">\(A\)</span> at a position <span class="math">\(\vec{R}_A\)</span> and we want to determine the
+contribution to the local pseudopotential coming from this atom. Owing
+to the spherical symmetry of the potential, we have</p>
+<div class="math">
+\[{v_{loc,A}\left(\vec{r}\right)}= v_{loc}\left(\vec{r}-\vec{R}_A\right) = v_{loc}\left(\vert\vec{r}-\vec{R}_A\vert\right).\]</div>
+<p>The local pseudopotential is given to us in terms of its continuous
+Fourier coefficients,
+<span class="math">\({\tilde{v}_{loc}\left(\vert\vec{g}\vert\right)}\)</span>, read from a
+recpot file. To generate the pseudopotential at a point <span class="math">\(\vec{r}\)</span>
+in real space, we use the continuous Fourier transform:</p>
+<div class="math">
+\[v_{loc}\left(\vec{r}-\vec{R}_A\right) = \frac{1}{{\left(2\pi\right)}^{3}}\int {\tilde{v}_{loc}\left(\vec{g}\right)}e^{i\vec{g}\cdot \left(\vec{r}-\vec{R}_A\right)}d\vec{g}=\int{\tilde{v}_{loc}\left(\vec{g}\right)}e^{i\vec{g}\cdot \vec{x}}d\vec{g},\]</div>
+<p>where we have set <span class="math">\(\vec{x}=\vec{r}-\vec{R}_A\)</span>. Expanding the
+plane wave <span class="math">\(e^{i\vec{g}\cdot\vec{x}}\)</span> in terms of localised
+functions, we get</p>
+<div class="math">
+\[{v_{loc,A}\left(\vec{r}\right)}=
+\frac{1}{{\left(2\pi\right)}^{3}}
+\int {\tilde{v}_{loc}\left(\vec{g}\right)}\cdot \left[ 4\pi
+\sum_{l=0}^{\infty}
+\sum_{m=-l}^{l} i^l
+j_l\left( gx\right)
+Z_{lm}\left(\Omega_{\vec{g}}\right)
+Z_{lm}\left(\Omega_{\vec{x}}\right)
+d\vec{g}
+\right],\]</div>
+<div class="math" id="equation-eq4">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq4" title="Permalink to this equation">¶</a></span>\[{v_{loc,A}\left(\vec{r}\right)}=
+\frac{1}{{\left(2\pi\right)}^{3}}
+4\pi
+\sum_{l=0}^{\infty}
+\sum_{m=-l}^{l} i^l
+Z_{lm}\left(\Omega_{\vec{x}}\right)
+\underbrace{
+\int {\tilde{v}_{loc}\left(\vec{g}\right)}j_l\left( gx\right)
+Z_{lm}\left(\Omega_{\vec{g}}\right)
+d\vec{g}}_{I_1}.\]</div>
+<p>The orthogonality of harmonics means that all of the terms, except for
+that of <span class="math">\(l=m=0\)</span>, disappear and, after a change of coordinates
+(<span class="math">\(g^2\sin{\theta}\)</span> being the Jacobian), we obtain a new expression
+for the integral in (<a class="reference internal" href="#equation-eq4">(1)</a>):</p>
+<div class="math">
+\[I_1=
+\int\limits_{0}^{2\pi}
+\int\limits_{0}^{\pi}
+Z_{lm}\left(\Omega_{\vec{g}}\right)
+Z_{00}
+\sin{\theta}\,d\theta\,d\varphi
+\cdot\int\limits_{0}^{\infty}{\tilde{v}_{loc}\left(g\right)}{}j_l\left( gx\right)g^2 dg.\]</div>
+<p>With <span class="math">\(Z_{00}=1/{\sqrt{4\pi}}\)</span>, the double integral simplifies to
+1 and we obtain, after realizing that all terms except for <span class="math">\(l=0\)</span>
+disappear,</p>
+<div class="math">
+\[{v_{loc,A}\left(\vec{r}\right)}=
+\frac{1}{{\left(2\pi\right)}^{3}}
+4\pi
+\int {\tilde{v}_{loc}\left(g\right)}j_0\!\left( gx\right)g^2 dg
+=
+\frac{1}{{\left(2\pi\right)}^{3}}
+4\pi
+\int {\tilde{v}_{loc}\left(g\right)}\frac{\sin\left( g    x\right)}{gx}g^2\,dg.\]</div>
+<p>ONETEP uses a convention where an additional factor of <span class="math">\(4\pi\)</span> is
+needed when transforming between real and reciprocal space. Thus the
+final formula for the local pseudopotential at a distance of <span class="math">\(x\)</span>
+from an atom of species <span class="math">\(s\)</span> becomes</p>
+<div class="math" id="equation-eq7">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq7" title="Permalink to this equation">¶</a></span>\[{v^s_{loc}\left(x\right)}= \frac{2}{\pi}\int\limits_0^{\infty}
+{\tilde{v}^s_{loc}\left(g\right)}\frac{\sin\left(gx\right)}{x}g\,dg.\]</div>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>In practice, however, it is not possible to evaluate the integral
+<a class="reference internal" href="#equation-eq7">(2)</a> with <span class="math">\(\infty\)</span> as the upper limit, because
+<span class="math">\({\tilde{v}^s_{loc}\left(g\right)}\)</span> is defined in the recpot file
+only up to a <span class="math">\(g_{max}\)</span> of 100 Å<span class="math">\(^{-1}\)</span>. Furthermore, to
+ensure the results are consistent with standard ONETEP, we must lower
+this limit even more, to prevent aliasing, as high <span class="math">\(g\)</span>’s will
+not be representable on our reciprocal space grid. Thus, in practice we
+evaluate</p>
+<div class="math" id="equation-eq8">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq8" title="Permalink to this equation">¶</a></span>\[{v^s_{loc}\left(x\right)}= \frac{2}{\pi}\int\limits_0^{g_{cut}}
+{\tilde{v}^s_{loc}\left(g\right)}\frac{\sin\left(gx\right)}{x}g\,dg,\]</div>
+<p>where <span class="math">\(g_{cut}=2\pi\max{\left(d_1,d_2,d_3\right)}\)</span> (<span class="math">\(d_i\)</span>
+being the grid spacings of <code class="docutils literal"><span class="pre">pub_cell</span></code>) and will usually be in the
+order of 20-30 <span class="math">\(a_0^{-1}\)</span>.</p>
+<p>The integral is evaluated for <span class="math">\(x\)</span>’s on a fine radial grid
+running from <span class="math">\(0\)</span> to the maximum possible distance, which is the
+magnitude of the cell diagonal. The calculation is distributed across
+nodes (each node deals with a portion of the fine radial grid). The
+total pseudopotential for any point on the real space fine grid is
+evaluated by interpolation from the fine radial grid and by summing over
+all atoms. This calculation is distributed across nodes as well (each
+node deals with its own slabs of the real space fine grid). The default
+number of points in the radial grid is 100000 and can be changed with
+the directive <code class="docutils literal"><span class="pre">openbc_pspot_finetune_nptsx</span></code>.</p>
+<p>The integral <a class="reference internal" href="#equation-eq8">(3)</a> is difficult to evaluate numerically. One source of
+difficulties is the oscillatory nature of <span class="math">\(\sin\left(gx\right)\)</span>.
+For larger cells, where the maximum interesting <span class="math">\(x\)</span> is in the
+order of <span class="math">\(100\,a_0\)</span>, this oscillates so rapidly that the
+resolution of the recpot file (0.05 Å<span class="math">\(^{-1}\)</span>) is not enough and
+it becomes necessary to interpolate
+<span class="math">\({\tilde{v}^s_{loc}\left(g\right)}\)</span>, and the whole integrand,
+between the <span class="math">\(g\)</span>-points specified in the recpot file. The result of
+the interpolation is stored on a fine radial <span class="math">\(g\)</span>-grid, which is
+<span class="math">\(f\)</span> times as fine as the original radial <span class="math">\(g\)</span>-grid of the
+recpot file. <span class="math">\(f\)</span> is determined automatically so that every full
+period of <span class="math">\(\sin\left(gx\right)\)</span> is sampled by at least 50 points.
+For typical cells, this yields <span class="math">\(f\)</span> in the order of 5-50, depending
+on the cell size. Alternatively, <span class="math">\(f\)</span> may be specified manually by
+the <code class="docutils literal"><span class="pre">openbc_pspot_finetune_f</span></code> directive.</p>
+<p>Another difficulty is caused by the singularity in
+<span class="math">\({\tilde{v}^s_{loc}\left(g\right)}\)</span> as <span class="math">\(g\to0\)</span>, where the
+behaviour of <span class="math">\({\tilde{v}^s_{loc}\left(g\right)}\)</span> approaches that
+of <span class="math">\(-Z_s/g^2\)</span>. Although the integral is convergent, this
+singularity cannot be numerically integrated in an accurate fashion. The
+singularity also presents problems when interpolating between the
+<span class="math">\(g\)</span> points – the usual cubic interpolation of
+<code class="docutils literal"><span class="pre">services_1d_interpolation</span></code> becomes inaccurate at low <span class="math">\(g\)</span>’s.
+The second problem is solved by subtracting the Coulombic potential,
+<span class="math">\(-Z_s/g^2\)</span>, before interpolation to the fine radial <span class="math">\(g\)</span>-grid
+and then adding it back. The first problem is difficult to treat. An
+approach where at low <span class="math">\(g\)</span>’s
+<span class="math">\({\tilde{v}^s_{loc}\left(g\right)}\)</span> is assumed to be exactly equal
+to <span class="math">\(-Z_s/g^2\)</span> (which allows the low-<span class="math">\(g\)</span> part of integral
+(<a class="reference internal" href="#equation-eq8">(3)</a>) to be evaluated analytically) gives better results than
+attempting to numerically integrate the singularity, but is not accurate
+enough, leading to errors in the order of <span class="math">\(50-100\,\mu{}\)</span>Ha in
+the energy for a hydrogen atom test-case (with a total energy of ca.
+0.477Ha. Attempting to fit <span class="math">\(A/g^2+B/g+C\)</span> (which also allows
+analytical integration at low <span class="math">\(g\)</span>’s) gives similar results. The
+numerical inaccuracy presents itself as a near-constant shift of the
+obtained pseudopotential and clearly affects total energy.</p>
+<p>To solve this problem, we observe that the local pseudopotential can be
+split into a long-range part and a short-range part:</p>
+<div class="math">
+\[{v^s_{loc}\left(x\right)}= {v^{s (long)}_{loc}\left(x\right)}+ {v^{s (short)}_{loc}\left(x\right)},\]</div>
+<div class="math">
+\[{\tilde{v}^s_{loc}\left(g\right)}= {\tilde{v}^{s (long)}_{loc}\left(g\right)}+ {\tilde{v}^{s (short)}_{loc}\left(g\right)}.\]</div>
+<p>Following [Martyna1999], we observe that
+<span class="math">\({\tilde{v}^{s (long)}_{loc}\left(g\right)}=\frac{4\pi}{g^2}\exp{\left(\frac{-g^2}{4\alpha^2}\right)}\)</span>
+(where <span class="math">\(\alpha\)</span> is an adjustable parameter, controllable with
+<code class="docutils literal"><span class="pre">openbc_pspot_finetune_alpha</span></code>) which easily transforms to real space
+to give
+<span class="math">\({v^{s (long)}_{loc}\left(x\right)}=-\frac{\operatorname{erf}{\left(\alpha{}x\right)}}{x}\)</span>
+and is conveniently calculated in real space. The short-range part
+(corresponding to high <span class="math">\(g\)</span>’s) is
+<span class="math">\({\tilde{v}^{s (long)}_{loc}\left(g\right)}={\tilde{v}^s_{loc}\left(g\right)}\cdot\left[1-\exp{\left(\frac{-g^2}{4\alpha^2}\right)}\right]\)</span>.
+In this way, the integral (<a class="reference internal" href="#equation-eq8">(3)</a>) can be rewritten as</p>
+<div class="math" id="equation-eqsplit">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eqsplit" title="Permalink to this equation">¶</a></span>\[{v^s_{loc}\left(x\right)}=
+-\frac{\operatorname{erf}{\left(\alpha{}x\right)}}{x}+
+\frac{2}{\pi}
+\underbrace{
+\int\limits_0^{g_{cut}}
+{\tilde{v}^s_{loc}\left(g\right)}\cdot \left[ 1 - exp\left(\frac{-g^2}{4\alpha^2}\right) \right]
+\cdot \frac{\sin\left(gx\right)}{x}g\,dg}_{I_s(x)}
+.\]</div>
+<p>Owing to the
+<span class="math">\(\left[1-\exp{\left(\frac{-g^2}{4\alpha^2}\right)}\right]\)</span> factor,
+the integral <span class="math">\(I_s(x)\)</span> is no longer singular at <span class="math">\(g=0\)</span> and can
+be accurately evaluated numerically, if <span class="math">\(\alpha\)</span> is large enough.
+Small values of <span class="math">\(\alpha\)</span> make the numerical integration more
+difficult (requiring larger values for <span class="math">\(f\)</span>), because the
+oscillations at low <span class="math">\(g\)</span>’s are large in magnitude. Larger values
+of <span class="math">\(\alpha\)</span> allow for easy integration, but they cause the
+long-range behaviour to “kick in” earlier. As this long-range behaviour
+is calculated in real space, it lacks the oscillations that are present
+in standard ONETEP because of a finite value for <span class="math">\(g_{cut}\)</span>. Even
+though these oscillations are an artifact, obtaining a long-range
+behaviour that is physically more correct, but without the oscillations,
+leads to aliasing in reciprocal space and to a departure from the
+results of standard ONETEP. For this reason we want <span class="math">\(\alpha\)</span> to be
+as small as possible, without negatively impacting the numerical
+integration. The accuracy of the obtained method can be judged by
+comparing the real space tail of the obtained pseudopotential with the
+Coulombic potential. Since we expect the obtained pseudopotential to
+oscillate slightly around <span class="math">\(-Z_s/x\)</span>, a good measure of accuracy,
+which we will call <span class="math">\(b\)</span>, is the average value of
+<span class="math">\(\dfrac{{v^s_{loc}\left(x\right)}-(-Z_s/x)}{-Z_s/x}\)</span> over the tail
+of the pseudopotential, from, say, 5<span class="math">\(a_0\)</span> to the maximum
+<span class="math">\(x\)</span> for which <span class="math">\({v^s_{loc}\left(x\right)}\)</span> is evaluated.
+Ideally, <span class="math">\(b\)</span> should be zero. Numerical inaccuracies will cause a
+shift in <span class="math">\({v^s_{loc}\left(x\right)}\)</span> which will present itself as
+a finite, non-zero value of <span class="math">\(b\)</span>. Naïve numerical integration by a
+direct calculation of (<a class="reference internal" href="#equation-eq8">(3)</a>) led, for our test-case, to <span class="math">\(b\)</span> in
+the order of 0.01, which can be reduced by an order of magnitude by
+using a very fine radial <span class="math">\(g\)</span>-grid (high value of <span class="math">\(f\)</span>).
+Subtracting out the Coulombic potential and integrating only the
+difference between <span class="math">\({\tilde{v}^s_{loc}\left(g\right)}\)</span> and the
+Coulombic potential numerically, while integrating the remaining part
+analytically reduced b to about 0.0005. Application of the proposed
+formula (<a class="reference internal" href="#equation-eqsplit">(4)</a>) yielded <span class="math">\(b=5\cdot10^{-8}\)</span> for
+<span class="math">\(\alpha=0.5/l\)</span> and <span class="math">\(b=3\cdot10^{-9}\)</span> for
+<span class="math">\(\alpha=0.1/l\)</span> with a suitably large <span class="math">\(f\)</span> to ease the
+numerical integration at low <span class="math">\(g\)</span> (<span class="math">\(l\)</span> is the box length).
+With the default value for <span class="math">\(f\)</span>, the total energy is not sensitive
+(to more than 0.0001%) to the choice of <span class="math">\(\alpha\)</span>, provided it is
+in a resonable range of <span class="math">\(0.1/l - 2/l\)</span>. The value of <span class="math">\(0.3/l\)</span>
+was chosen as a default.</p>
+<p>The calculation of the realspace local pseudo is implemented in
+<code class="docutils literal"><span class="pre">norm_conserv_pseudo.F90</span></code> in the subroutine
+<code class="docutils literal"><span class="pre">pseudo_local_on_grid_openbc</span></code> and its internal subroutine
+<code class="docutils literal"><span class="pre">internal_Is_of_x</span></code>, which evaluates <span class="math">\(I_s(x)\)</span>. A typical
+calculation would use default values for all the parameters. The
+realspace local pseudo is off by default and is turned on automatically
+when smeared ions or implicit solvent is in use. It can also be forced
+to be on (for development tests) by using <code class="docutils literal"><span class="pre">openbc_pspot</span> <span class="pre">T</span></code>.</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Directives controlling the calculation of the realspace local pseudo</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="40%" />
+<col width="20%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Directive</th>
+<th class="head">Action</th>
+<th class="head">Rationale for use</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">openbc_pspot</span> <span class="pre">T</span></code></td>
+<td>Forces the realspace pseudo to be used</td>
+<td>Normally not needed, the realspace pseudo will be turned on when necessary. This directive allows turning it on even though the Hartree potential calculation and Ewald calculation proceed in reciprocal space, which might be useful for certain test calculations. A related directive, <code class="docutils literal"><span class="pre">openbc_ion_ion</span> <span class="pre">T</span></code> may be used in conjuction, to replace Ewald with a direct Coulombic sum.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">openbc_pspot_finetune_f</span></code> <span class="math">\(value\)</span> [<span class="math">\(value\)</span> is an integer.]</td>
+<td>Sets the fineness parameter, <span class="math">\(f\)</span>, to <span class="math">\(value\)</span>.</td>
+<td>Default value of -1 causes <span class="math">\(f\)</span> to be determined automatically. Positive values can be used to increase <span class="math">\(f\)</span> to obtain extra accuracy. Decreasing <span class="math">\(f\)</span> will reduce accuracy and is not recommended.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">openbc_pspot_finetune_nptsx</span></code> <span class="math">\(value\)</span> [<span class="math">\(value\)</span> is an integer.]</td>
+<td>Sets the number of radial grid points (distinct values of <span class="math">\(x\)</span>) to <span class="math">\(value\)</span>.</td>
+<td>The default of 100000 should be enough, unless huge boxes are used, where it might make sense to increase it. Decreasing this value is not recommended, as it will impact accuracy.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">openbc_pspot_finetune_alpha</span></code> <span class="math">\(value\)</span> [<span class="math">\(value\)</span> is a real.]</td>
+<td>Sets the short-range-long-range crossover parameter <span class="math">\(\alpha\)</span> to <span class="math">\(value/l\)</span>,  where <span class="math">\(l\)</span> is the maximum dimension of the cell.</td>
+<td>A default value of 0.3 should be OK for most applications. Increasing <span class="math">\(\alpha\)</span> will reduce the numerical inaccuracy in <span class="math">\(I_s(x)\)</span>, but will cause the long-range behaviour to lack the oscillations of usual ONETEP and thus increase aliasing. Decreasing <span class="math">\(\alpha\)</span> will make <span class="math">\(I_s(x)\)</span> inaccurate, which can be helped, to a certain extent, by increasing <span class="math">\(f\)</span>.</td>
+</tr>
+</tbody>
+</table>
+<p>[Martyna1999] G. J. Martyna and M. E. Tuckerman <em>J. Chem. Phys.</em> <strong>110</strong> (1999).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="VDW-DF.html" title="previous chapter">Using van der Waals Density Functionals</a></li>
+      <li>Next: <a href="implicit_solvation_v3.html" title="next chapter">Solvent and Electrolyte Model</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/realspace_local_pseudo.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,47 @@
+# -------------------------------------------------
+# A ONETEP configuration file for Young.
+# 2021.03 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+#                         University of Southampton
+# -------------------------------------------------
+# v2.00
+
+# -------------------------------------------------
+# Compiler: 	Intel ifort v19.1.0.166.
+# MPI: 		Intel MPI 2019 Update 6.
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the compiler.
+# ScaLAPACK:	Yes.
+# -------------------------------------------------
+
+# -------------------------------------------------
+# Make sure you have the following modules loaded:
+#
+# gcc-libs/4.9.2
+# compilers/intel/2020/release
+# mpi/intel/2019/update6/intel
+# rcps-core/1.0.0
+#
+# This can be achieved by adding the following
+# lines to the end of ~/.bashrc (drop the trailing '#'):
+#
+# module purge
+# module load rcps-core                    >/dev/null 2>/dev/null
+# module load userscripts                  >/dev/null 2>/dev/null
+# module load gcc-libs                     >/dev/null 2>/dev/null
+# module load compilers/intel/2020         >/dev/null 2>/dev/null
+# module load mpi/intel/2019/update6/intel >/dev/null 2>/dev/null
+#
+# -------------------------------------------------
+
+F90 = mpiifort -qopenmp -mkl
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DMPI -I$(MKLROOT)/include/fftw -diag-disable 8290,8291,7712,5462,8889 -warn all
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lmkl_blacs_intelmpi_lp64 -lpthread -lm
+OPTFLAGS = -g -O2
+DEBUGFLAGS = -ftrapuv -g -check all,noarg_temp_created -traceback
+COMPILER = INTEL-ifort-on-LINUX
+
+# Warnings disabled:
+# 8290, 8291 - suggest field widths
+# 7712 - unused variables
+# 5462 - global name too long (for linker, still within F2003 standard bounds)
+# 8889 - Explicit declaration of the EXTERNAL attribute is required

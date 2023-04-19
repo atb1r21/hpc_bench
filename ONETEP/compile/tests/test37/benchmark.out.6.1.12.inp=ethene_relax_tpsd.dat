@@ -1,0 +1,2843 @@
+==================================================================================
+It's Wed Sep 21 10:35:50 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 4294 4295 4296 4297)...
+    - ONETEP arguments: ethene_relax_tpsd.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test37
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test37/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test37/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack ethene_relax_tpsd.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:35 (+0100)
+ 
+Reading parameters from file "ethene_relax_tpsd.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "ethene_relax_tpsd.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                : GEOMETRYOPTIMIZATION                                      
+geom_method: TPSD                                                               
+geom_max_iter       : 4                                                         
+write_forces        : TRUE                                                      
+maxit_pen           : 3                                                         
+cutoff_energy       : 550 eV                                                    
+xc_functional       : LDA                                                       
+ngwf_threshold_orig : 1e-5                                                      
+timings_level       : 0                                                         
+print_qc            : TRUE                                                      
+%block  lattice_cart                                                            
+40.000    0.000    0.000                                                        
+0.000   40.000    0.000                                                         
+0.000    0.000   40.000                                                         
+%endblock  lattice_cart                                                         
+%block  positions_abs                                                           
+     Hash =   000003073891830956016749
+%endblock  positions_abs                                                        
+%block  species                                                                 
+H     H   1  1  5.50                                                            
+C     C   6  4  6.00                                                            
+%endblock  species                                                              
+%block  species_pot                                                             
+H     "../../pseudo/hydrogen.recpot"                                            
+C     "../../pseudo/carbon.recpot"                                              
+%endblock  species_pot                                                          
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+WARNING in pseudopotentials_read_species: string "GGA" found in pseudopotential
+file "../../pseudo/carbon.recpot", yet xc_functional = "LDA".
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C          2         8         2
+  H          4         4         0
+.......   ......    ......    ......
+Totals:      6        12         2
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   65 x  65 x  65
+                              FFT-box:   63 x  63 x  63
+                                  PPD:    5 x   5 x   1
+Grid space d1=  0.615384615385a0 (KE cutoff=  20.05907Eh = 545.83499eV)
+Grid space d2=  0.615384615385a0 (KE cutoff=  20.05907Eh = 545.83499eV)
+Grid space d3=  0.615384615385a0 (KE cutoff=  20.05907Eh = 545.83499eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     65    65    65
+          Real-space ('12') slabs/proc (min max mean):     16    17    16
+         Recip-space ('23') slabs/proc (min max mean):      8     9     8
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    130   130   130
+          Real-space ('12') slabs/proc (min max mean):     32    33    32
+         Recip-space ('23') slabs/proc (min max mean):     16    17    16
+********************************************************************************
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  39 iterations to a total energy of     -0.41130076
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  37 iterations to a total energy of     -5.30502903
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+================================================================================
+<<<<<<<<<<<<<<<<<<<< Starting ONETEP Geometry Optimisation >>>>>>>>>>>>>>>>>>>>>
+================================================================================
+
+ Geometry Optimisation: output file is "ethene_relax_tpsd.geom"
+ 
+ 
+                           -------------------------------
+                                     Cell Contents
+                           -------------------------------
+ 
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            x  Element    Atom      Absolute co-ordinates of atoms     x
+            x            Number        x           y           z       x
+            x----------------------------------------------------------x
+            x    C         1       21.131469   19.862216   20.048416   x
+            x    H         2       22.316684   21.381117   21.086741   x
+            x    H         3       22.305600   18.474510   19.097577   x
+            x    C         4       18.868395   20.137541   19.951432   x
+            x    H         5       17.694385   21.525477   20.902418   x
+            x    H         6       17.683467   18.617139   18.913416   x
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               14.949500 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+................................................................................
+<<<<<<<<<<<<<<<< Penalty functional density kernel optimisation >>>>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+iter|       energy      |   rms grad  |  commutator |LScoef|CGcoef|      Ne    |
+ 1    -13.40055058488439 0.24893442877 0.01291645337 0.0246  0.000   12.00000000
+ 2    -13.62003108422273 0.19529551121 0.01195341767 0.8210 -0.784   12.00000000
+WARNING: internal_polak_cg_coeff =  6.38985
+WARNING: setting internal_polak_cg_coeff to zero
+ 3    -13.62404492116282 0.19579660337 0.00945892297 0.0593  0.000   12.00000000
+
+======================== Penalty functional minimisation =======================
+   Final total energy     :     -14.037638856382
+   Final penalty energy   :       0.212644620297
+   RMS occupancy error    :       0.066559
+   Occupancy bounds       : [-0.117, 1.096]
+================================================================================
+
+Finished density kernel iterations (   3)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.340373151638E+01     7.2708E-03     7.2708E-03
+    2        -1.340521643558E+01     7.4367E-04     7.4367E-04    -1.4849E-03
+    3        -1.340524142643E+01     1.5781E-04     1.5781E-04    -2.4991E-05
+    4        -1.340524246445E+01     3.5512E-05     3.5512E-05    -1.0380E-06
+    5        -1.340524251509E+01     1.1707E-05     1.1707E-05    -5.0647E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.34052425150944E+01  Eh
+     Estimated bandgap           =   2.9477E-01  Eh
+     RMS occupancy error         =   6.0788E-15
+     [H,K] commutator            =   1.1707E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.5443E-03 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36277815009385E+01 Eh
+   Predicted gain in energy  =      -2.22538985844116E-01 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.362726095292E+01     6.8559E-03     6.8559E-03
+    2        -1.362864547189E+01     1.1677E-03     1.1677E-03    -1.3845E-03
+    3        -1.362870595895E+01     2.1053E-04     2.1053E-04    -6.0487E-05
+    4        -1.362870776453E+01     4.7510E-05     4.7510E-05    -1.8056E-06
+    5        -1.362870783946E+01     7.9606E-06     7.9606E-06    -7.4927E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36287078394606E+01  Eh
+     Estimated bandgap           =   2.9931E-01  Eh
+     RMS occupancy error         =   1.3120E-14
+     [H,K] commutator            =   7.9606E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.4757E-03 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36536146437430E+01 Eh
+   Predicted gain in energy  =      -2.49068042823311E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.365367819216E+01     2.5842E-03     2.5842E-03
+    2        -1.365389033670E+01     5.5176E-04     5.5176E-04    -2.1214E-04
+    3        -1.365390289320E+01     9.9471E-05     9.9471E-05    -1.2557E-05
+    4        -1.365390339553E+01     2.2828E-05     2.2828E-05    -5.0233E-07
+    5        -1.365390341387E+01     6.8273E-06     6.8273E-06    -1.8336E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36539034138659E+01  Eh
+     Estimated bandgap           =   2.9504E-01  Eh
+     RMS occupancy error         =   9.1146E-16
+     [H,K] commutator            =   6.8273E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  6.8813E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36607618966139E+01 Eh
+   Predicted gain in energy  =      -6.85848274805956E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.366075921366E+01     7.6976E-04     7.6976E-04
+    2        -1.366078353904E+01     2.0746E-04     2.0746E-04    -2.4325E-05
+    3        -1.366078518644E+01     5.0112E-05     5.0112E-05    -1.6474E-06
+    4        -1.366078530816E+01     8.8568E-06     8.8568E-06    -1.2172E-07
+    5        -1.366078531239E+01     2.2982E-06     2.2982E-06    -4.2319E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36607853123942E+01  Eh
+     Estimated bandgap           =   2.8935E-01  Eh
+     RMS occupancy error         =   1.1623E-16
+     [H,K] commutator            =   2.2982E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.5297E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36636948614312E+01 Eh
+   Predicted gain in energy  =      -2.90954903699969E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.366368776310E+01     5.9790E-04     5.9790E-04
+    2        -1.366370268586E+01     1.7180E-04     1.7180E-04    -1.4923E-05
+    3        -1.366370411085E+01     5.0412E-05     5.0412E-05    -1.4250E-06
+    4        -1.366370419812E+01     1.2362E-05     1.2362E-05    -8.7265E-08
+    5        -1.366370420579E+01     3.0298E-06     3.0298E-06    -7.6759E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36637042057947E+01  Eh
+     Estimated bandgap           =   2.8417E-01  Eh
+     RMS occupancy error         =   2.3951E-16
+     [H,K] commutator            =   3.0298E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.4076E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36644178018356E+01 Eh
+   Predicted gain in energy  =      -7.13596040906594E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.366441762141E+01     3.2252E-04     3.2252E-04
+    2        -1.366442126726E+01     9.5238E-05     9.5238E-05    -3.6458E-06
+    3        -1.366442177973E+01     2.2393E-05     2.2393E-05    -5.1246E-07
+    4        -1.366442179576E+01     5.1878E-06     5.1878E-06    -1.6033E-08
+    5        -1.366442179704E+01     1.5679E-06     1.5679E-06    -1.2796E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36644217970376E+01  Eh
+     Estimated bandgap           =   2.8153E-01  Eh
+     RMS occupancy error         =   8.3012E-17
+     [H,K] commutator            =   1.5679E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.4986E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36647525729837E+01 Eh
+   Predicted gain in energy  =      -3.30775946144612E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.366475274536E+01     3.7250E-04     3.7250E-04
+    2        -1.366475755843E+01     1.1255E-04     1.1255E-04    -4.8131E-06
+    3        -1.366475847280E+01     1.6968E-05     1.6968E-05    -9.1438E-07
+    4        -1.366475848503E+01     6.1381E-06     6.1381E-06    -1.2231E-08
+    5        -1.366475848670E+01     1.3557E-06     1.3557E-06    -1.6652E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36647584867002E+01  Eh
+     Estimated bandgap           =   2.7782E-01  Eh
+     RMS occupancy error         =   1.2945E-16
+     [H,K] commutator            =   1.3557E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  007 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.1727E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36647922161888E+01 Eh
+   Predicted gain in energy  =      -3.37294885923711E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.366479197312E+01     1.1165E-04     1.1165E-04
+    2        -1.366479254755E+01     3.3843E-05     3.3843E-05    -5.7443E-07
+    3        -1.366479259460E+01     6.3387E-06     6.3387E-06    -4.7056E-08
+    4        -1.366479259682E+01     1.5902E-06     1.5902E-06    -2.2145E-09
+    5        -1.366479259694E+01     4.4212E-07     4.4212E-07    -1.2800E-10
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36647925969440E+01  Eh
+     Estimated bandgap           =   2.7659E-01  Eh
+     RMS occupancy error         =   1.2618E-16
+     [H,K] commutator            =   4.4212E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  008 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.4907E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36647927679282E+01 Eh
+   Predicted gain in energy  =      -1.70984195690949E-07 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.366479276520E+01     9.6143E-06     9.6143E-06
+    2        -1.366479276935E+01     2.7664E-06     2.7664E-06    -4.1514E-09
+    3        -1.366479276967E+01     5.4768E-07     5.4768E-07    -3.2224E-10
+    4        -1.366479276969E+01     1.8897E-07     1.8897E-07    -1.6669E-11
+    5        -1.366479276969E+01     7.6253E-08     7.6253E-08    -7.7804E-13
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36647927696898E+01  Eh
+     Estimated bandgap           =   2.7669E-01  Eh
+     RMS occupancy error         =   9.6588E-17
+     [H,K] commutator            =   7.6253E-08
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  009 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00000622132874              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.45889158884397 |
+           | Pseudopotential (local)    :      -60.80585235680163 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.56705732261718 |
+           | Hartree                    :       24.96616627319172 |
+           | Exchange-correlation       :       -4.80055543697195 |
+           | Ewald                      :       14.94949983943091 |
+           | Total                      :      -13.66479276968980 |
+           --------------------------------------------------------
+           Integrated density           :       12.00000000000005
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00454429879071    -13.40524251509443   0.500982    -13.62778150093854        
+   1     0.00147569748043    -13.62870783946065   0.528348    -13.65361464374298        
+   2     0.00068813015966    -13.65390341386585   0.665064    -13.66076189661391        
+   3     0.00045297017088    -13.66078531239420   0.657586    -13.66369486143120        
+   4     0.00024075941255    -13.66370420579474   0.572315    -13.66441780183564        
+   5     0.00014985836666    -13.66442179703757   0.682248    -13.66475257298371        
+   6     0.00007172741026    -13.66475848670018   0.299652    -13.66479221618877        
+   7     0.00001490665185    -13.66479259694399   0.035772    -13.66479276792819        
+   8     0.00000622132874    -13.66479276968979  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      9
+<QC>           [total_energy]:       -13.664792769690
+<QC>           [rms_gradient]:         0.000006221329
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1      0.20395526   0.03182301   0.02657599 *
+*    H       2     -0.01220656  -0.02128278  -0.01171911 *
+*    H       3     -0.00206698  -0.00905679  -0.00366512 *
+*    C       4     -0.20401181  -0.03193168  -0.02659629 *
+*    H       5      0.00207531   0.00899291   0.00362843 *
+*    H       6      0.01225478   0.02145533   0.01177611 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000  -0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:         0.203955262748
+<QC>       [total_force(1,2)]:        -0.012206556799
+<QC>       [total_force(1,3)]:        -0.002066981122
+<QC>       [total_force(1,4)]:        -0.204011811998
+<QC>       [total_force(1,5)]:         0.002075308759
+<QC>       [total_force(1,6)]:         0.012254778411
+<QC>       [total_force(2,1)]:         0.031823010022
+<QC>       [total_force(2,2)]:        -0.021282781536
+<QC>       [total_force(2,3)]:        -0.009056785471
+<QC>       [total_force(2,4)]:        -0.031931684732
+<QC>       [total_force(2,5)]:         0.008992910483
+<QC>       [total_force(2,6)]:         0.021455331233
+<QC>       [total_force(3,1)]:         0.026575988176
+<QC>       [total_force(3,2)]:        -0.011719110857
+<QC>       [total_force(3,3)]:        -0.003665120969
+<QC>       [total_force(3,4)]:        -0.026596289358
+<QC>       [total_force(3,5)]:         0.003628426079
+<QC>       [total_force(3,6)]:         0.011776106929
+ Geometry Optimisation: read_denskern parameter over-ridden to T
+ Geometry Optimisation: read_tightbox_ngwfs parameter over-ridden to TRUE
+ 
+                           -------------------------------
+                                     Cell Contents
+                           -------------------------------
+ 
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            x  Element    Atom      Absolute co-ordinates of atoms     x
+            x            Number        x           y           z       x
+            x----------------------------------------------------------x
+            x    C         1       21.131469   19.862216   20.048416   x
+            x    H         2       22.316684   21.381117   21.086741   x
+            x    H         3       22.305600   18.474510   19.097577   x
+            x    C         4       18.868395   20.137541   19.951432   x
+            x    H         5       17.694385   21.525477   20.902418   x
+            x    H         6       17.683467   18.617139   18.913416   x
+            xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+
+================================================================================
+ Starting init TPSD iteration    0 (SD) ...
+================================================================================
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               13.629813 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "ethene_relax_tpsd.tightbox_ngwfs" ...  done
+
+Reading density kernel from file "ethene_relax_tpsd.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.339451599670E+01     1.9678E-02     1.9677E-02
+    2        -1.341115108602E+01     4.4939E-03     4.4939E-03    -1.6635E-02
+    3        -1.341195843945E+01     1.1204E-03     1.1204E-03    -8.0735E-04
+    4        -1.341203165805E+01     4.8900E-04     4.8900E-04    -7.3219E-05
+    5        -1.341204749898E+01     2.2003E-04     2.2003E-04    -1.5841E-05
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.34120474989750E+01  Eh
+     Estimated bandgap           =   1.1913E-01  Eh
+     RMS occupancy error         =   2.1835E-09
+     [H,K] commutator            =   2.2003E-04
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.4322E-03 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35734011784741E+01 Eh
+   Predicted gain in energy  =      -1.61353679499120E-01 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.357366122965E+01     5.5656E-03     5.5656E-03
+    2        -1.357473895527E+01     1.1784E-03     1.1784E-03    -1.0777E-03
+    3        -1.357481105996E+01     3.4038E-04     3.4038E-04    -7.2105E-05
+    4        -1.357481670451E+01     5.8659E-05     5.8659E-05    -5.6446E-06
+    5        -1.357481689046E+01     1.3214E-05     1.3214E-05    -1.8595E-07
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35748168904590E+01  Eh
+     Estimated bandgap           =   1.3240E-01  Eh
+     RMS occupancy error         =   2.0403E-13
+     [H,K] commutator            =   1.3214E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  9.9793E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35867603878109E+01 Eh
+   Predicted gain in energy  =      -1.19434973518704E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.358674746182E+01     1.9828E-03     1.9828E-03
+    2        -1.358688044608E+01     2.5647E-04     2.5647E-04    -1.3298E-04
+    3        -1.358688335307E+01     5.7219E-05     5.7219E-05    -2.9070E-06
+    4        -1.358688355375E+01     2.1360E-05     2.1360E-05    -2.0069E-07
+    5        -1.358688359735E+01     8.1871E-06     8.1871E-06    -4.3595E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35868835973480E+01  Eh
+     Estimated bandgap           =   1.3355E-01  Eh
+     RMS occupancy error         =   1.2858E-14
+     [H,K] commutator            =   8.1871E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.7826E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35903972503596E+01 Eh
+   Predicted gain in energy  =      -3.51365301158246E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.359038598853E+01     1.4175E-03     1.4175E-03
+    2        -1.359045259497E+01     1.2975E-04     1.2975E-04    -6.6606E-05
+    3        -1.359045342020E+01     2.0865E-05     2.0865E-05    -8.2524E-07
+    4        -1.359045344213E+01     4.7177E-06     4.7177E-06    -2.1924E-08
+    5        -1.359045344360E+01     1.3269E-06     1.3269E-06    -1.4711E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35904534435976E+01  Eh
+     Estimated bandgap           =   1.3315E-01  Eh
+     RMS occupancy error         =   1.1436E-16
+     [H,K] commutator            =   1.3269E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.8418E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35914886099287E+01 Eh
+   Predicted gain in energy  =      -1.03516633110878E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.359148349126E+01     6.7018E-04     6.7018E-04
+    2        -1.359149873005E+01     6.7426E-05     6.7426E-05    -1.5239E-05
+    3        -1.359149895988E+01     7.6975E-06     7.6975E-06    -2.2983E-07
+    4        -1.359149896283E+01     2.0183E-06     2.0183E-06    -2.9460E-09
+    5        -1.359149896317E+01     1.1210E-06     1.1210E-06    -3.4276E-10
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35914989631732E+01  Eh
+     Estimated bandgap           =   1.3262E-01  Eh
+     RMS occupancy error         =   1.3381E-16
+     [H,K] commutator            =   1.1210E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.1792E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35915992806185E+01 Eh
+   Predicted gain in energy  =      -1.00317445339115E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.359159924333E+01     1.0236E-04     1.0236E-04
+    2        -1.359159968818E+01     2.3528E-05     2.3528E-05    -4.4485E-07
+    3        -1.359159971353E+01     5.2010E-06     5.2010E-06    -2.5350E-08
+    4        -1.359159971508E+01     1.4018E-06     1.4018E-06    -1.5466E-09
+    5        -1.359159971517E+01     2.3089E-07     2.3089E-07    -9.3346E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35915997151749E+01  Eh
+     Estimated bandgap           =   1.3250E-01  Eh
+     RMS occupancy error         =   8.2231E-17
+     [H,K] commutator            =   2.3089E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.7057E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35916107713833E+01 Eh
+   Predicted gain in energy  =      -1.10562084554289E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.359161071516E+01     8.7082E-05     8.7082E-05
+    2        -1.359161101926E+01     1.8870E-05     1.8870E-05    -3.0411E-07
+    3        -1.359161103583E+01     3.4914E-06     3.4914E-06    -1.6563E-08
+    4        -1.359161103655E+01     9.5492E-07     9.5492E-07    -7.2164E-10
+    5        -1.359161103659E+01     1.3286E-07     1.3286E-07    -4.4677E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35916110365932E+01  Eh
+     Estimated bandgap           =   1.3241E-01  Eh
+     RMS occupancy error         =   7.9630E-17
+     [H,K] commutator            =   1.3286E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  007 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.7908E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35916114464118E+01 Eh
+   Predicted gain in energy  =      -4.09818589730548E-07 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.359161144102E+01     2.2820E-05     2.2820E-05
+    2        -1.359161146144E+01     4.7270E-06     4.7270E-06    -2.0421E-08
+    3        -1.359161146249E+01     7.9574E-07     7.9574E-07    -1.0441E-09
+    4        -1.359161146252E+01     2.2773E-07     2.2773E-07    -3.7922E-11
+    5        -1.359161146253E+01     6.2415E-08     6.2415E-08    -2.3697E-12
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35916114625256E+01  Eh
+     Estimated bandgap           =   1.3239E-01  Eh
+     RMS occupancy error         =   9.8471E-17
+     [H,K] commutator            =   6.2415E-08
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  008 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00000994647927              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.16294869921254 |
+           | Pseudopotential (local)    :      -57.81420205728828 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.55826089433009 |
+           | Hartree                    :       23.60141561503071 |
+           | Exchange-correlation       :       -4.72984782763104 |
+           | Ewald                      :       13.62981321382043 |
+           | Total                      :      -13.59161146252557 |
+           --------------------------------------------------------
+           Integrated density           :       11.99999999999999
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00443224643022    -13.41204749897503   0.381839    -13.57340117847415        
+   1     0.00099792907345    -13.57481689045904   0.552127    -13.58676038781091        
+   2     0.00047825860159    -13.58688359734803   0.707523    -13.59039725035962        
+   3     0.00028418499242    -13.59045344359759   0.586919    -13.59148860992869        
+   4     0.00011792436578    -13.59149896317318   0.335366    -13.59159928061852        
+   5     0.00004705690360    -13.59159971517486   0.231105    -13.59161077138331        
+   6     0.00001790755260    -13.59161103659320   0.058005    -13.59161144641179        
+   7     0.00000994647927    -13.59161146252558  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      8
+<QC>           [total_energy]:       -13.591611462526
+<QC>           [rms_gradient]:         0.000009946479
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1     -0.21162166  -0.02079370  -0.03648446 *
+*    H       2      0.04725344   0.06637741   0.04680261 *
+*    H       3      0.02929515  -0.03614923  -0.02290447 *
+*    C       4      0.21152520   0.02078024   0.03643745 *
+*    H       5     -0.02926405   0.03606048   0.02285118 *
+*    H       6     -0.04718808  -0.06627520  -0.04670231 *
+*                                                        *
+**********************************************************
+* TOTAL:           -0.00000000   0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:        -0.211621659481
+<QC>       [total_force(1,2)]:         0.047253435455
+<QC>       [total_force(1,3)]:         0.029295152562
+<QC>       [total_force(1,4)]:         0.211525200162
+<QC>       [total_force(1,5)]:        -0.029264051021
+<QC>       [total_force(1,6)]:        -0.047188077677
+<QC>       [total_force(2,1)]:        -0.020793704448
+<QC>       [total_force(2,2)]:         0.066377414231
+<QC>       [total_force(2,3)]:        -0.036149228197
+<QC>       [total_force(2,4)]:         0.020780236133
+<QC>       [total_force(2,5)]:         0.036060477936
+<QC>       [total_force(2,6)]:        -0.066275195655
+<QC>       [total_force(3,1)]:        -0.036484455352
+<QC>       [total_force(3,2)]:         0.046802605655
+<QC>       [total_force(3,3)]:        -0.022904469751
+<QC>       [total_force(3,4)]:         0.036437450753
+<QC>       [total_force(3,5)]:         0.022851179511
+<QC>       [total_force(3,6)]:        -0.046702310816
+ TPSD: finished iteration   0  with enthalpy= -1.359161146253E+001 Ha
+  
+ +-----------+-----------------+-----------------+------------+-----+ <-- TPSD
+ | Parameter |      value      |    tolerance    |    units   | OK? | <-- TPSD
+ +-----------+-----------------+-----------------+------------+-----+ <-- TPSD
+ |  dE/ion   |   0.000000E+000 |   1.000000E-006 |         Ha | No  | <-- TPSD
+ |  |F|max   |   2.157480E-001 |   2.000000E-003 |    Ha/Bohr | No  | <-- TPSD
+ |  |dR|max  |   4.229274E-001 |   5.000000E-003 |       Bohr | No  | <-- TPSD
+ +-----------+-----------------+-----------------+------------+-----+ <-- TPSD
+  
+
+================================================================================
+ Starting TPSD iteration    1 ...
+================================================================================
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               13.831682 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "ethene_relax_tpsd.tightbox_ngwfs" ...  done
+
+Reading density kernel from file "ethene_relax_tpsd.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.361359479590E+01     1.5180E-02     1.5180E-02
+    2        -1.362223588438E+01     2.9542E-03     2.9542E-03    -8.6411E-03
+    3        -1.362270106429E+01     5.0634E-04     5.0634E-04    -4.6518E-04
+    4        -1.362271236551E+01     9.8134E-05     9.8134E-05    -1.1301E-05
+    5        -1.362271290816E+01     3.1417E-05     3.1417E-05    -5.4265E-07
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36227129081616E+01  Eh
+     Estimated bandgap           =   1.9194E-01  Eh
+     RMS occupancy error         =   9.7592E-13
+     [H,K] commutator            =   3.1417E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.2933E-03 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36675027637385E+01 Eh
+   Predicted gain in energy  =      -4.47898555769015E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.366751469546E+01     1.2827E-03     1.2827E-03
+    2        -1.366758536823E+01     3.1278E-04     3.1278E-04    -7.0673E-05
+    3        -1.366759100732E+01     4.1547E-05     4.1547E-05    -5.6391E-06
+    4        -1.366759111020E+01     1.5914E-05     1.5914E-05    -1.0288E-07
+    5        -1.366759112382E+01     5.7567E-06     5.7567E-06    -1.3619E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36675911238176E+01  Eh
+     Estimated bandgap           =   1.8949E-01  Eh
+     RMS occupancy error         =   1.1344E-15
+     [H,K] commutator            =   5.7567E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.1580E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36705396456995E+01 Eh
+   Predicted gain in energy  =      -2.94852188190831E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367053489147E+01     5.7313E-04     5.7313E-04
+    2        -1.367054759946E+01     1.2919E-04     1.2919E-04    -1.2708E-05
+    3        -1.367054849051E+01     2.3072E-05     2.3072E-05    -8.9105E-07
+    4        -1.367054851574E+01     6.7931E-06     6.7931E-06    -2.5227E-08
+    5        -1.367054851853E+01     1.8915E-06     1.8915E-06    -2.7930E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36705485185340E+01  Eh
+     Estimated bandgap           =   1.8837E-01  Eh
+     RMS occupancy error         =   9.1909E-17
+     [H,K] commutator            =   1.8915E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.0294E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36710287818206E+01 Eh
+   Predicted gain in energy  =      -4.80263286608107E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367102700878E+01     2.5302E-04     2.5302E-04
+    2        -1.367103035105E+01     7.5471E-05     7.5471E-05    -3.3423E-06
+    3        -1.367103058632E+01     1.0516E-05     1.0516E-05    -2.3527E-07
+    4        -1.367103059316E+01     2.1401E-06     2.1401E-06    -6.8372E-09
+    5        -1.367103059341E+01     9.9062E-07     9.9062E-07    -2.5055E-10
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36710305934093E+01  Eh
+     Estimated bandgap           =   1.8776E-01  Eh
+     RMS occupancy error         =   6.1968E-17
+     [H,K] commutator            =   9.9062E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  9.3958E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36711235424205E+01 Eh
+   Predicted gain in energy  =      -9.29490111865050E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367112264195E+01     1.7415E-04     1.7415E-04
+    2        -1.367112414390E+01     3.7527E-05     3.7527E-05    -1.5020E-06
+    3        -1.367112421802E+01     7.3105E-06     7.3105E-06    -7.4123E-08
+    4        -1.367112422050E+01     1.7141E-06     1.7141E-06    -2.4756E-09
+    5        -1.367112422065E+01     5.4440E-07     5.4440E-07    -1.5067E-10
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36711242206508E+01  Eh
+     Estimated bandgap           =   1.8731E-01  Eh
+     RMS occupancy error         =   1.3568E-16
+     [H,K] commutator            =   5.4440E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.5107E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36711493673489E+01 Eh
+   Predicted gain in energy  =      -2.51466980909498E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367114813108E+01     1.6698E-04     1.6698E-04
+    2        -1.367114944411E+01     4.9954E-05     4.9954E-05    -1.3130E-06
+    3        -1.367114955571E+01     3.9731E-06     3.9731E-06    -1.1160E-07
+    4        -1.367114955660E+01     4.9889E-07     4.9889E-07    -8.9431E-10
+    5        -1.367114955662E+01     2.5887E-07     2.5887E-07    -1.1903E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36711495566153E+01  Eh
+     Estimated bandgap           =   1.8697E-01  Eh
+     RMS occupancy error         =   1.2727E-16
+     [H,K] commutator            =   2.5887E-07
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.1047E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36712325775877E+01 Eh
+   Predicted gain in energy  =      -8.30209723901021E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367122367094E+01     4.1542E-04     4.1542E-04
+    2        -1.367123160958E+01     1.2448E-04     1.2448E-04    -7.9386E-06
+    3        -1.367123243820E+01     5.0705E-05     5.0705E-05    -8.2861E-07
+    4        -1.367123252634E+01     2.0745E-05     2.0745E-05    -8.8141E-08
+    5        -1.367123255073E+01     3.6899E-06     3.6899E-06    -2.4393E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36712325507313E+01  Eh
+     Estimated bandgap           =   1.8779E-01  Eh
+     RMS occupancy error         =   5.5926E-15
+     [H,K] commutator            =   3.6899E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  007 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.3685E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36712526595635E+01 Eh
+   Predicted gain in energy  =      -2.01088322420162E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367125253715E+01     4.7278E-05     4.7278E-05
+    2        -1.367125265661E+01     1.2924E-05     1.2924E-05    -1.1946E-07
+    3        -1.367125266329E+01     1.5510E-06     1.5510E-06    -6.6758E-09
+    4        -1.367125266341E+01     5.2584E-07     5.2584E-07    -1.2291E-10
+    5        -1.367125266342E+01     1.8272E-07     1.8272E-07    -9.3259E-12
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36712526634205E+01  Eh
+     Estimated bandgap           =   1.8766E-01  Eh
+     RMS occupancy error         =   1.0782E-16
+     [H,K] commutator            =   1.8272E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  008 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.9754E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36712530738103E+01 Eh
+   Predicted gain in energy  =      -4.10389755955975E-07 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367125306934E+01     1.3336E-05     1.3336E-05
+    2        -1.367125307866E+01     3.7282E-06     3.7282E-06    -9.3130E-09
+    3        -1.367125307921E+01     3.9795E-07     3.9795E-07    -5.5652E-10
+    4        -1.367125307922E+01     1.1362E-07     1.1362E-07    -8.0540E-12
+    5        -1.367125307922E+01     3.6590E-08     3.6590E-08    -2.8777E-13
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36712530792213E+01  Eh
+     Estimated bandgap           =   1.8770E-01  Eh
+     RMS occupancy error         =   1.1317E-16
+     [H,K] commutator            =   3.6590E-08
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  009 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.0455E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36712530953290E+01 Eh
+   Predicted gain in energy  =      -1.61077409188692E-08 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367125309506E+01     2.4203E-06     2.4203E-06
+    2        -1.367125309537E+01     6.6782E-07     6.6782E-07    -3.0818E-10
+    3        -1.367125309538E+01     7.6258E-08     7.6258E-08    -1.8034E-11
+    4        -1.367125309539E+01     2.1141E-08     2.1141E-08    -1.9718E-13
+    5        -1.367125309538E+01     1.1707E-08     1.1707E-08     1.4388E-13
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36712530953849E+01  Eh
+     Estimated bandgap           =   1.8769E-01  Eh
+     RMS occupancy error         =   2.4562E-17
+     [H,K] commutator            =   1.1707E-08
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  010 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00000166906147              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.01875600104818 |
+           | Pseudopotential (local)    :      -58.23263366790241 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.52060025898470 |
+           | Hartree                    :       23.89165652079908 |
+           | Exchange-correlation       :       -4.70131402312185 |
+           | Ewald                      :       13.83168181480736 |
+           | Total                      :      -13.67125309538493 |
+           --------------------------------------------------------
+           Integrated density           :       11.99999999999994
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00229333992290    -13.62271290816158   0.395906    -13.66750276373848        
+   1     0.00051580428715    -13.66759112381763   0.513915    -13.67053964569954        
+   2     0.00020294164022    -13.67054851853401   0.540499    -13.67102878182062        
+   3     0.00009395758754    -13.67103059340928   0.488650    -13.67112354242046        
+   4     0.00004510688269    -13.67112422065082   0.574572    -13.67114936734891        
+   5     0.00005104680949    -13.67114955661534   1.481154    -13.67123257758773        
+   6     0.00007368471147    -13.67123255073129   0.172180    -13.67125265956354        
+   7     0.00001975388334    -13.67125266342050   0.048892    -13.67125307381026        
+   8     0.00001045530984    -13.67125307922131   0.006942    -13.67125309532905        
+   9     0.00000166906147    -13.67125309538493  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                     10
+<QC>           [total_energy]:       -13.671253095385
+<QC>           [rms_gradient]:         0.000001669061
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1     -0.11691352   0.02387164  -0.00098590 *
+*    H       2      0.00430954  -0.00390636  -0.00184666 *
+*    H       3      0.00578231  -0.00534018  -0.00214390 *
+*    C       4      0.11696741  -0.02385906   0.00102243 *
+*    H       5     -0.00579764   0.00530389   0.00212705 *
+*    H       6     -0.00434809   0.00393007   0.00182697 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000   0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:        -0.116913523899
+<QC>       [total_force(1,2)]:         0.004309538635
+<QC>       [total_force(1,3)]:         0.005782305784
+<QC>       [total_force(1,4)]:         0.116967412720
+<QC>       [total_force(1,5)]:        -0.005797642641
+<QC>       [total_force(1,6)]:        -0.004348090598
+<QC>       [total_force(2,1)]:         0.023871635660
+<QC>       [total_force(2,2)]:        -0.003906360235
+<QC>       [total_force(2,3)]:        -0.005340181947
+<QC>       [total_force(2,4)]:        -0.023859057001
+<QC>       [total_force(2,5)]:         0.005303889762
+<QC>       [total_force(2,6)]:         0.003930073761
+<QC>       [total_force(3,1)]:        -0.000985899568
+<QC>       [total_force(3,2)]:        -0.001846659888
+<QC>       [total_force(3,3)]:        -0.002143897513
+<QC>       [total_force(3,4)]:         0.001022433528
+<QC>       [total_force(3,5)]:         0.002127051884
+<QC>       [total_force(3,6)]:         0.001826971556
+  
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+ |  Step  |  lambda  | F.delta (Ha/a0)**2 |  enthalpy (Ha)  | <-- min TPSD
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+ |  TPSD  | 0.000590 |         185.676316 |      -13.671253 | <-- min TPSD
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+  
+
+ Writing continuation file "ethene_relax_tpsd.continuation" ...done
+
+================================================================================
+ Starting TPSD iteration    2 ...
+================================================================================
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               14.448930 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "ethene_relax_tpsd.tightbox_ngwfs" ...  done
+
+Reading density kernel from file "ethene_relax_tpsd.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.364421403555E+01     8.5065E-03     8.5065E-03
+    2        -1.364734104439E+01     2.8469E-03     2.8469E-03    -3.1270E-03
+    3        -1.364774813088E+01     2.3866E-04     2.3866E-04    -4.0709E-04
+    4        -1.364775083783E+01     5.0993E-05     5.0993E-05    -2.7070E-06
+    5        -1.364775100019E+01     2.0449E-05     2.0449E-05    -1.6235E-07
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36477510001853E+01  Eh
+     Estimated bandgap           =   2.5427E-01  Eh
+     RMS occupancy error         =   9.8398E-14
+     [H,K] commutator            =   2.0449E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.8387E-03 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36768985559426E+01 Eh
+   Predicted gain in energy  =      -2.91475557573566E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367687199652E+01     1.9071E-03     1.9071E-03
+    2        -1.367701691811E+01     4.6840E-04     4.6840E-04    -1.4492E-04
+    3        -1.367702718329E+01     9.1672E-05     9.1672E-05    -1.0265E-05
+    4        -1.367702762703E+01     1.2379E-05     1.2379E-05    -4.4374E-07
+    5        -1.367702763506E+01     4.4917E-06     4.4917E-06    -8.0302E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36770276350562E+01  Eh
+     Estimated bandgap           =   2.5076E-01  Eh
+     RMS occupancy error         =   2.3350E-16
+     [H,K] commutator            =   4.4917E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.5936E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36795174063986E+01 Eh
+   Predicted gain in energy  =      -2.48977134239858E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367951912686E+01     1.1461E-03     1.1461E-03
+    2        -1.367956789868E+01     2.3718E-04     2.3718E-04    -4.8772E-05
+    3        -1.367957093904E+01     3.7963E-05     3.7963E-05    -3.0404E-06
+    4        -1.367957096846E+01     2.9016E-05     2.9016E-05    -2.9414E-08
+    5        -1.367957097765E+01     2.5590E-05     2.5590E-05    -9.1919E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36795709776493E+01  Eh
+     Estimated bandgap           =   2.4901E-01  Eh
+     RMS occupancy error         =   1.2325E-16
+     [H,K] commutator            =   2.5590E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.0953E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36801560334886E+01 Eh
+   Predicted gain in energy  =      -5.85055839316340E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368015427726E+01     5.1669E-04     5.1669E-04
+    2        -1.368016597315E+01     1.6330E-04     1.6330E-04    -1.1696E-05
+    3        -1.368016707875E+01     1.6330E-05     1.6330E-05    -1.1056E-06
+    4        -1.368016709183E+01     3.7317E-06     3.7317E-06    -1.3083E-08
+    5        -1.368016709247E+01     1.0077E-06     1.0077E-06    -6.3815E-10
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36801670924697E+01  Eh
+     Estimated bandgap           =   2.4788E-01  Eh
+     RMS occupancy error         =   1.1608E-16
+     [H,K] commutator            =   1.0077E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.0380E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36802870375486E+01 Eh
+   Predicted gain in energy  =      -1.19945078878914E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368028456551E+01     2.3831E-04     2.3831E-04
+    2        -1.368028800997E+01     3.0954E-05     3.0954E-05    -3.4445E-06
+    3        -1.368028804686E+01     6.3260E-06     6.3260E-06    -3.6882E-08
+    4        -1.368028804895E+01     8.1947E-07     8.1947E-07    -2.0917E-09
+    5        -1.368028804898E+01     3.1795E-07     3.1795E-07    -3.3141E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36802880489799E+01  Eh
+     Estimated bandgap           =   2.4713E-01  Eh
+     RMS occupancy error         =   1.0716E-16
+     [H,K] commutator            =   3.1795E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.4003E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36803331846168E+01 Eh
+   Predicted gain in energy  =      -4.51356369097766E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368032979008E+01     2.5723E-04     2.5723E-04
+    2        -1.368033260083E+01     8.4454E-05     8.4454E-05    -2.8107E-06
+    3        -1.368033303157E+01     6.0388E-06     6.0388E-06    -4.3074E-07
+    4        -1.368033303333E+01     1.4440E-06     1.4440E-06    -1.7578E-09
+    5        -1.368033303343E+01     3.1130E-07     3.1130E-07    -9.4136E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36803330334260E+01  Eh
+     Estimated bandgap           =   2.4653E-01  Eh
+     RMS occupancy error         =   1.0732E-16
+     [H,K] commutator            =   3.1130E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.2826E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36803492974810E+01 Eh
+   Predicted gain in energy  =      -1.62640550023241E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368034834654E+01     1.4163E-04     1.4163E-04
+    2        -1.368034951685E+01     8.6068E-05     8.6068E-05    -1.1703E-06
+    3        -1.368034968664E+01     3.9696E-05     3.9696E-05    -1.6979E-07
+    4        -1.368034975280E+01     2.5632E-05     2.5632E-05    -6.6159E-08
+    5        -1.368034978063E+01     9.8996E-06     9.8996E-06    -2.7833E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36803497806295E+01  Eh
+     Estimated bandgap           =   2.4681E-01  Eh
+     RMS occupancy error         =   4.7869E-15
+     [H,K] commutator            =   9.8996E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  007 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.7211E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36803517897114E+01 Eh
+   Predicted gain in energy  =      -2.00908196568150E-06 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368035173027E+01     2.7317E-05     2.7317E-05
+    2        -1.368035177929E+01     4.0140E-06     4.0140E-06    -4.9016E-08
+    3        -1.368035177984E+01     3.2098E-07     3.2098E-07    -5.5751E-10
+    4        -1.368035177985E+01     7.2140E-08     7.2140E-08    -5.8833E-12
+    5        -1.368035177985E+01     2.8633E-08     2.8633E-08    -1.0658E-14
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36803517798495E+01  Eh
+     Estimated bandgap           =   2.4675E-01  Eh
+     RMS occupancy error         =   5.9985E-17
+     [H,K] commutator            =   2.8633E-08
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  008 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.5893E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36803518464945E+01 Eh
+   Predicted gain in energy  =      -6.66450201691760E-08 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368035184500E+01     5.1828E-06     5.1828E-06
+    2        -1.368035184656E+01     1.5791E-06     1.5791E-06    -1.5656E-09
+    3        -1.368035184666E+01     1.0757E-07     1.0757E-07    -9.6962E-11
+    4        -1.368035184666E+01     4.0422E-08     4.0422E-08    -8.5087E-13
+    5        -1.368035184666E+01     2.6551E-08     2.6551E-08     6.2172E-14
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36803518466620E+01  Eh
+     Estimated bandgap           =   2.4673E-01  Eh
+     RMS occupancy error         =   9.0390E-17
+     [H,K] commutator            =   2.6551E-08
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  009 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00000654673846              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.22459178277576 |
+           | Pseudopotential (local)    :      -59.63517138757555 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.54041770143086 |
+           | Hartree                    :       24.48236730939048 |
+           | Exchange-correlation       :       -4.74148770194883 |
+           | Ewald                      :       14.44893044926532 |
+           | Total                      :      -13.68035184666197 |
+           --------------------------------------------------------
+           Integrated density           :       11.99999999999997
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00183867989812    -13.64775100018525   0.400811    -13.67689855594261        
+   1     0.00045935761235    -13.67702763505619   0.546103    -13.67951740639858        
+   2     0.00020953014854    -13.67957097764933   0.606500    -13.68015603348864        
+   3     0.00010379840581    -13.68016709246975   0.507436    -13.68028703754863        
+   4     0.00005400299060    -13.68028804897994   0.719504    -13.68033318461685        
+   5     0.00004282608928    -13.68033303342596   0.412251    -13.68034929748096        
+   6     0.00004721104218    -13.68034978062946   0.042487    -13.68035178971142        
+   7     0.00001589303833    -13.68035177984951   0.012296    -13.68035184649453        
+   8     0.00000654673846    -13.68035184666197  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      9
+<QC>           [total_energy]:       -13.680351846662
+<QC>           [rms_gradient]:         0.000006546738
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1      0.09963722  -0.00297697  -0.00359023 *
+*    H       2     -0.00953704  -0.01190860  -0.00809111 *
+*    H       3     -0.01429874   0.01683753   0.01220185 *
+*    C       4     -0.09959468   0.00295260   0.00361401 *
+*    H       5      0.01428824  -0.01685400  -0.01220765 *
+*    H       6      0.00950500   0.01194944   0.00807314 *
+*                                                        *
+**********************************************************
+* TOTAL:           -0.00000000   0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:         0.099637218994
+<QC>       [total_force(1,2)]:        -0.009537037426
+<QC>       [total_force(1,3)]:        -0.014298739222
+<QC>       [total_force(1,4)]:        -0.099594680161
+<QC>       [total_force(1,5)]:         0.014288238156
+<QC>       [total_force(1,6)]:         0.009504999659
+<QC>       [total_force(2,1)]:        -0.002976970741
+<QC>       [total_force(2,2)]:        -0.011908598516
+<QC>       [total_force(2,3)]:         0.016837530633
+<QC>       [total_force(2,4)]:         0.002952603571
+<QC>       [total_force(2,5)]:        -0.016854000305
+<QC>       [total_force(2,6)]:         0.011949435359
+<QC>       [total_force(3,1)]:        -0.003590231057
+<QC>       [total_force(3,2)]:        -0.008091108783
+<QC>       [total_force(3,3)]:         0.012201846660
+<QC>       [total_force(3,4)]:         0.003614006261
+<QC>       [total_force(3,5)]:        -0.012207649400
+<QC>       [total_force(3,6)]:         0.008073136318
+  
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+ |  Step  |  lambda  | F.delta (Ha/a0)**2 |  enthalpy (Ha)  | <-- min TPSD
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+ |  TPSD  | 0.000849 |          45.918437 |      -13.680352 | <-- min TPSD
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+  
+
+ Writing continuation file "ethene_relax_tpsd.continuation" ...done
+
+================================================================================
+ Starting TPSD iteration    3 ...
+================================================================================
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               14.212363 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "ethene_relax_tpsd.tightbox_ngwfs" ...  done
+
+Reading density kernel from file "ethene_relax_tpsd.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.367381726816E+01     3.8217E-03     3.8217E-03
+    2        -1.367450375985E+01     1.2653E-03     1.2653E-03    -6.8649E-04
+    3        -1.367457881620E+01     6.5192E-05     6.5192E-05    -7.5056E-05
+    4        -1.367457910818E+01     2.7742E-05     2.7742E-05    -2.9198E-07
+    5        -1.367457915167E+01     8.8323E-06     8.8323E-06    -4.3488E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36745791516695E+01  Eh
+     Estimated bandgap           =   2.1295E-01  Eh
+     RMS occupancy error         =   9.8580E-15
+     [H,K] commutator            =   8.8323E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.0984E-03 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36847732756538E+01 Eh
+   Predicted gain in energy  =      -1.01941239843200E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368477922820E+01     1.2477E-03     1.2477E-03
+    2        -1.368483781898E+01     2.0765E-04     2.0765E-04    -5.8591E-05
+    3        -1.368484004725E+01     3.5606E-05     3.5606E-05    -2.2283E-06
+    4        -1.368484011000E+01     7.3166E-06     7.3166E-06    -6.2749E-08
+    5        -1.368484011243E+01     2.2023E-06     2.2023E-06    -2.4339E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36848401124290E+01  Eh
+     Estimated bandgap           =   2.1600E-01  Eh
+     RMS occupancy error         =   7.8308E-17
+     [H,K] commutator            =   2.2023E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.3811E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36854256047284E+01 Eh
+   Predicted gain in energy  =      -5.85492299457258E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368542398840E+01     4.5908E-04     4.5908E-04
+    2        -1.368543138190E+01     4.4205E-05     4.4205E-05    -7.3935E-06
+    3        -1.368543148460E+01     7.7316E-06     7.7316E-06    -1.0270E-07
+    4        -1.368543148819E+01     1.2008E-06     1.2008E-06    -3.5914E-09
+    5        -1.368543148828E+01     3.8927E-07     3.8927E-07    -8.8779E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36854314882780E+01  Eh
+     Estimated bandgap           =   2.1638E-01  Eh
+     RMS occupancy error         =   1.0154E-16
+     [H,K] commutator            =   3.8927E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.6058E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36854825410532E+01 Eh
+   Predicted gain in energy  =      -5.10527751274026E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368548120673E+01     2.2055E-04     2.2055E-04
+    2        -1.368548303910E+01     4.4940E-05     4.4940E-05    -1.8324E-06
+    3        -1.368548316018E+01     4.6788E-06     4.6788E-06    -1.2108E-07
+    4        -1.368548316121E+01     9.1298E-07     9.1298E-07    -1.0364E-09
+    5        -1.368548316125E+01     3.3189E-07     3.3189E-07    -3.9343E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36854831612520E+01  Eh
+     Estimated bandgap           =   2.1630E-01  Eh
+     RMS occupancy error         =   9.6685E-17
+     [H,K] commutator            =   3.3189E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.5761E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36854992871941E+01 Eh
+   Predicted gain in energy  =      -1.61259421567195E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368549714582E+01     2.3800E-04     2.3800E-04
+    2        -1.368549940935E+01     6.1092E-05     6.1092E-05    -2.2635E-06
+    3        -1.368549961977E+01     4.8412E-06     4.8412E-06    -2.1042E-07
+    4        -1.368549962088E+01     1.0392E-06     1.0392E-06    -1.1129E-09
+    5        -1.368549962094E+01     2.7430E-07     2.7430E-07    -5.5222E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36854996209371E+01  Eh
+     Estimated bandgap           =   2.1645E-01  Eh
+     RMS occupancy error         =   1.3463E-16
+     [H,K] commutator            =   2.7430E-07
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.0631E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36855160209017E+01 Eh
+   Predicted gain in energy  =      -1.63999646360935E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368551543580E+01     1.3014E-04     1.3014E-04
+    2        -1.368551610621E+01     3.2246E-05     3.2246E-05    -6.7041E-07
+    3        -1.368551616588E+01     2.8734E-06     2.8734E-06    -5.9674E-08
+    4        -1.368551616627E+01     6.4993E-07     6.4993E-07    -3.8497E-10
+    5        -1.368551616629E+01     2.0590E-07     2.0590E-07    -2.0689E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36855161662858E+01  Eh
+     Estimated bandgap           =   2.1637E-01  Eh
+     RMS occupancy error         =   1.3195E-16
+     [H,K] commutator            =   2.0590E-07
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.8105E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36855393434078E+01 Eh
+   Predicted gain in energy  =      -2.31771220278176E-05 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368553592398E+01     3.0397E-04     3.0397E-04
+    2        -1.368553959004E+01     7.7300E-05     7.7300E-05    -3.6661E-06
+    3        -1.368553992753E+01     6.1999E-06     6.1999E-06    -3.3748E-07
+    4        -1.368553992936E+01     1.3184E-06     1.3184E-06    -1.8367E-09
+    5        -1.368553992945E+01     3.9642E-07     3.9642E-07    -8.8074E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36855399294511E+01  Eh
+     Estimated bandgap           =   2.1657E-01  Eh
+     RMS occupancy error         =   1.2346E-16
+     [H,K] commutator            =   3.9642E-07
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  007 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.4173E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36855440631292E+01 Eh
+   Predicted gain in energy  =      -4.13367806650911E-06 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368554369763E+01     9.9804E-05     9.9804E-05
+    2        -1.368554409137E+01     2.4964E-05     2.4964E-05    -3.9374E-07
+    3        -1.368554412688E+01     2.1248E-06     2.1248E-06    -3.5515E-08
+    4        -1.368554412710E+01     4.5789E-07     4.5789E-07    -2.1509E-10
+    5        -1.368554412711E+01     1.1982E-07     1.1982E-07    -1.0857E-11
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36855441271090E+01  Eh
+     Estimated bandgap           =   2.1650E-01  Eh
+     RMS occupancy error         =   1.1071E-16
+     [H,K] commutator            =   1.1982E-07
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  008 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.3293E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36855442526059E+01 Eh
+   Predicted gain in energy  =      -1.25496855574170E-07 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368554424257E+01     1.6885E-05     1.6885E-05
+    2        -1.368554425380E+01     4.1760E-06     4.1760E-06    -1.1229E-08
+    3        -1.368554425480E+01     3.6939E-07     3.6939E-07    -9.9791E-10
+    4        -1.368554425481E+01     8.0234E-08     8.0234E-08    -6.4500E-12
+    5        -1.368554425481E+01     2.7655E-08     2.7655E-08    -3.1974E-13
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36855442548080E+01  Eh
+     Estimated bandgap           =   2.1649E-01  Eh
+     RMS occupancy error         =   8.6228E-17
+     [H,K] commutator            =   2.7655E-08
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  009 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00000921244441              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.15715687238593 |
+           | Pseudopotential (local)    :      -59.11751385317805 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.52231721005867 |
+           | Hartree                    :       24.27116428168532 |
+           | Exchange-correlation       :       -4.73103130006988 |
+           | Ewald                      :       14.21236253431003 |
+           | Total                      :      -13.68554425480799 |
+           --------------------------------------------------------
+           Integrated density           :       11.99999999999998
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00109835653316    -13.67457915166947   0.392837    -13.68477327565379        
+   1     0.00023810953798    -13.68484011242898   0.476734    -13.68542560472844        
+   2     0.00007605770757    -13.68543148827805   0.406071    -13.68548254105317        
+   3     0.00003576143847    -13.68548316125197   0.586198    -13.68549928719413        
+   4     0.00005063099528    -13.68549962093710   0.297413    -13.68551602090174        
+   5     0.00003810487194    -13.68551616628580   0.742075    -13.68553934340783        
+   6     0.00004417253984    -13.68553992945111   0.101015    -13.68554406312917        
+   7     0.00001329252874    -13.68554412710902   0.032526    -13.68554425260587        
+   8     0.00000921244441    -13.68554425480800  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      9
+<QC>           [total_energy]:       -13.685544254808
+<QC>           [rms_gradient]:         0.000009212444
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1     -0.03459916   0.00342975  -0.00699155 *
+*    H       2     -0.00032282  -0.00310143  -0.00210875 *
+*    H       3     -0.00411087   0.00637730   0.00504643 *
+*    C       4      0.03464114  -0.00344405   0.00700862 *
+*    H       5      0.00409131  -0.00639746  -0.00505074 *
+*    H       6      0.00030040   0.00313589   0.00209598 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000   0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:        -0.034599160982
+<QC>       [total_force(1,2)]:        -0.000322822193
+<QC>       [total_force(1,3)]:        -0.004110868994
+<QC>       [total_force(1,4)]:         0.034641138290
+<QC>       [total_force(1,5)]:         0.004091311888
+<QC>       [total_force(1,6)]:         0.000300401992
+<QC>       [total_force(2,1)]:         0.003429751867
+<QC>       [total_force(2,2)]:        -0.003101430514
+<QC>       [total_force(2,3)]:         0.006377297473
+<QC>       [total_force(2,4)]:        -0.003444047201
+<QC>       [total_force(2,5)]:        -0.006397459568
+<QC>       [total_force(2,6)]:         0.003135887943
+<QC>       [total_force(3,1)]:        -0.006991545217
+<QC>       [total_force(3,2)]:        -0.002108746027
+<QC>       [total_force(3,3)]:         0.005046433130
+<QC>       [total_force(3,4)]:         0.007008624720
+<QC>       [total_force(3,5)]:        -0.005050744800
+<QC>       [total_force(3,6)]:         0.002095978193
+  
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+ |  Step  |  lambda  | F.delta (Ha/a0)**2 |  enthalpy (Ha)  | <-- min TPSD
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+ |  TPSD  | 0.000454 |          34.817330 |      -13.685544 | <-- min TPSD
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+  
+
+ Writing continuation file "ethene_relax_tpsd.continuation" ...done
+
+================================================================================
+ Starting TPSD iteration    4 ...
+================================================================================
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               14.307887 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+
+Reading NGWFs from file "ethene_relax_tpsd.tightbox_ngwfs" ...  done
+
+Reading density kernel from file "ethene_relax_tpsd.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368584994675E+01     8.4663E-04     8.4663E-04
+    2        -1.368588609562E+01     2.6871E-04     2.6871E-04    -3.6149E-05
+    3        -1.368588935300E+01     2.8424E-05     2.8424E-05    -3.2574E-06
+    4        -1.368588939285E+01     6.2180E-06     6.2180E-06    -3.9852E-08
+    5        -1.368588939491E+01     2.0918E-06     2.0918E-06    -2.0592E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36858893949091E+01  Eh
+     Estimated bandgap           =   2.2474E-01  Eh
+     RMS occupancy error         =   8.6167E-17
+     [H,K] commutator            =   2.0918E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.5961E-04 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36864226614946E+01 Eh
+   Predicted gain in energy  =      -5.33266585527770E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368642091218E+01     2.4173E-04     2.4173E-04
+    2        -1.368642377060E+01     6.8867E-05     6.8867E-05    -2.8584E-06
+    3        -1.368642399078E+01     9.5878E-06     9.5878E-06    -2.2018E-07
+    4        -1.368642399533E+01     2.0740E-06     2.0740E-06    -4.5531E-09
+    5        -1.368642399555E+01     9.4609E-07     9.4609E-07    -2.1982E-10
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36864239955505E+01  Eh
+     Estimated bandgap           =   2.2406E-01  Eh
+     RMS occupancy error         =   1.0549E-16
+     [H,K] commutator            =   9.4609E-07
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.7137E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36864304488997E+01 Eh
+   Predicted gain in energy  =      -6.45334922388940E-06 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368643016749E+01     6.7202E-05     6.7202E-05
+    2        -1.368643042087E+01     2.0115E-05     2.0115E-05    -2.5338E-07
+    3        -1.368643043717E+01     1.4570E-06     1.4570E-06    -1.6296E-08
+    4        -1.368643043727E+01     4.8094E-07     4.8094E-07    -1.0414E-10
+    5        -1.368643043728E+01     1.2998E-07     1.2998E-07    -7.4589E-12
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36864304372798E+01  Eh
+     Estimated bandgap           =   2.2419E-01  Eh
+     RMS occupancy error         =   8.9662E-17
+     [H,K] commutator            =   1.2998E-07
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.9779E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36864316609163E+01 Eh
+   Predicted gain in energy  =      -1.22363653254354E-06 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368643162478E+01     2.3576E-05     2.3576E-05
+    2        -1.368643165726E+01     6.3309E-06     6.3309E-06    -3.2483E-08
+    3        -1.368643165883E+01     5.4722E-07     5.4722E-07    -1.5644E-09
+    4        -1.368643165884E+01     1.5489E-07     1.5489E-07    -1.5071E-11
+    5        -1.368643165884E+01     5.7063E-08     5.7063E-08    -1.0516E-12
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36864316588421E+01  Eh
+     Estimated bandgap           =   2.2414E-01  Eh
+     RMS occupancy error         =   8.5281E-17
+     [H,K] commutator            =   5.7063E-08
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.0113E-05 >  1.0000E-05  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.36864316758191E+01 Eh
+   Predicted gain in energy  =      -1.69769975855161E-08 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_relax_tpsd.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.368643167535E+01     2.6966E-06     2.6966E-06
+    2        -1.368643167578E+01     7.0565E-07     7.0565E-07    -4.2776E-10
+    3        -1.368643167580E+01     7.5921E-08     7.5921E-08    -1.9160E-11
+    4        -1.368643167580E+01     3.0610E-08     3.0610E-08    -2.3093E-13
+    5        -1.368643167580E+01     1.6395E-08     1.6395E-08    -1.4921E-13
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_relax_tpsd.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36864316758019E+01  Eh
+     Estimated bandgap           =   2.2413E-01  Eh
+     RMS occupancy error         =   1.3086E-16
+     [H,K] commutator            =   1.6395E-08
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00000738679295              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.18331235209150 |
+           | Pseudopotential (local)    :      -59.31734047924105 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.52577922667741 |
+           | Hartree                    :       24.35124577617843 |
+           | Exchange-correlation       :       -4.73731578454840 |
+           | Ewald                      :       14.30788723304022 |
+           | Total                      :      -13.68643167580189 |
+           --------------------------------------------------------
+           Integrated density           :       12.00000000000002
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00025960926331    -13.68588939490910   0.367835    -13.68642266149463        
+   1     0.00003713719875    -13.68642399555049   0.217529    -13.68643044889971        
+   2     0.00003977874532    -13.68643043727979   0.035876    -13.68643166091632        
+   3     0.00001011344895    -13.68643165884210   0.007729    -13.68643167581909        
+   4     0.00000738679295    -13.68643167580188  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      5
+<QC>           [total_energy]:       -13.686431675802
+<QC>           [rms_gradient]:         0.000007386793
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1     -0.00191513   0.00292354  -0.00398536 *
+*    H       2     -0.00256760  -0.00485182  -0.00359386 *
+*    H       3     -0.00552300   0.00710210   0.00526152 *
+*    C       4      0.00195811  -0.00292497   0.00399422 *
+*    H       5      0.00550369  -0.00713520  -0.00526599 *
+*    H       6      0.00254393   0.00488635   0.00358947 *
+*                                                        *
+**********************************************************
+* TOTAL:            0.00000000   0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:        -0.001915133222
+<QC>       [total_force(1,2)]:        -0.002567599500
+<QC>       [total_force(1,3)]:        -0.005523002677
+<QC>       [total_force(1,4)]:         0.001958114644
+<QC>       [total_force(1,5)]:         0.005503694699
+<QC>       [total_force(1,6)]:         0.002543926056
+<QC>       [total_force(2,1)]:         0.002923541091
+<QC>       [total_force(2,2)]:        -0.004851824574
+<QC>       [total_force(2,3)]:         0.007102098731
+<QC>       [total_force(2,4)]:        -0.002924970657
+<QC>       [total_force(2,5)]:        -0.007135197517
+<QC>       [total_force(2,6)]:         0.004886352926
+<QC>       [total_force(3,1)]:        -0.003985361565
+<QC>       [total_force(3,2)]:        -0.003593857117
+<QC>       [total_force(3,3)]:         0.005261521129
+<QC>       [total_force(3,4)]:         0.003994215676
+<QC>       [total_force(3,5)]:        -0.005265991553
+<QC>       [total_force(3,6)]:         0.003589473430
+  
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+ |  Step  |  lambda  | F.delta (Ha/a0)**2 |  enthalpy (Ha)  | <-- min TPSD
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+ |  TPSD  | 0.000344 |           4.341499 |      -13.686432 | <-- min TPSD
+ +--------+----------+--------------------+-----------------+ <-- min TPSD
+  
+
+ Writing continuation file "ethene_relax_tpsd.continuation" ...done
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:     138.070s on      4 proc(s)                                    
+TOTAL TIME:       138.070s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 10:38 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

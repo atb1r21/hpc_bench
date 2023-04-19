@@ -1,0 +1,90 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Distributed Multipole Analysis.                    !
+!                                                    !
+! Test system is acetonitrile.                       !
+! Electrostatic metric (default as of 4.1.3.0)       !
+! is used with 3-D Chebyshev (3Dc) metric matrix     !
+! evaluation scheme.                                 !
+!                                                    !
+! Created by Jacek Dziedzic in May 2014.             !
+! Updated by James C. Womack in June 2019 to         !
+! explicitly select the 3Dc V-matrix scheme          !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+print_qc T
+
+! Use a large number of parabolas rather than high-order polynomials
+! Use older 3-D Chebyshev (3Dc scheme) to evaluate V-matrix
+%block swri
+  for_dma 2 9 V 60 2 WE3
+%endblock swri
+
+%block species_swri-for_dma
+H
+C
+N
+%endblock species_swri-for_dma
+ 
+do_properties T 
+dma_calculate T 
+dma_use_ri for_dma
+dma_max_l 2
+dma_max_q 9
+dma_bessel_averaging F
+dma_scale_charge F
+ 
+charge 0 
+
+maxit_pen 0
+maxit_ngwf_cg 8                 ! Just a quick run
+minit_lnv 5
+maxit_lnv 5
+ 
+write_denskern F
+write_tightbox_ngwfs F
+ 
+output_detail VERBOSE 
+write_density_plot F
+dx_format F
+cube_format F
+ 
+xc_functional PBE 
+ 
+%block species
+ H   H   1 1 7.0
+ C   C   6 4 7.0
+ N   N   7 4 7.0
+%endblock species
+
+%block species_pot
+ H   "../../pseudo/hydrogen.recpot"
+ C   "../../pseudo/carbon.recpot"
+ N   "../../pseudo/nitrogen.recpot"
+%endblock species_pot
+
+psinc_spacing 0.5 0.5 0.5
+ 
+%block lattice_cart 
+ 31.50000000000000      0.000000000000000       0.000000000000000        
+ 0.000000000000000      31.50000000000000       0.000000000000000        
+ 0.000000000000000      0.000000000000000       31.50000000000000       
+%endblock lattice_cart 
+ 
+%block positions_abs 
+C      14.00000000      14.53351903      14.00000000
+C      13.99982048      11.77500345      14.00000000
+H      15.94190413      11.04495093      14.00000000
+H      13.02877865      11.04502463      15.68193440
+H      13.02877865      11.04502463      12.31806560
+N      14.00023055      16.71626696      14.00000000
+%endblock positions_abs

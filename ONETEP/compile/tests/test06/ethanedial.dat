@@ -1,0 +1,70 @@
+ !============================================================!
+ ! ~~~~~~~ Quality control test for the ONETEP program ~~~~~~ !
+ !------------------------------------------------------------!
+ ! Molecule: ethanedial (Glyoxal).                            !
+ ! no. of C   :            2                                  !
+ ! no. of O   :            2                                  !
+ ! no. of H   :            2                                  !
+ ! total atoms:            6                                  !
+ !------------------------------------------------------------!
+ ! Aim: test for spherical waves expansion of the NGWFs.      !
+ !------------------------------------------------------------!
+ ! Created by Alvaro Ruiz Serrano on 09/01/2012.              !
+ !============================================================!
+
+
+ cutoff_energy        : 200 eV
+ kernel_cutoff        : 1000
+ k_zero               : 3.5
+ minit_lnv            : 3
+ maxit_lnv            : 3
+ maxit_pen            : 0
+ xc_functional        : PBE
+ dispersion           : 1
+ maxit_ngwf_cg        : 50
+ ngwf_threshold_orig  : 1.0e-4
+ occ_mix              : 1.0
+ 
+ print_qc             : T
+
+! ars: read write
+ write_denskern       : F
+ write_tightbox_ngwfs : F
+ output_detail        : NORMAL
+
+! ars: spherical waves specific
+ write_sw_ngwfs       : F
+ read_sw_ngwfs        : T
+ write_max_l          : 4
+ extra_n_sw           : 2
+ read_max_l           : 3
+
+ %block lattice_cart
+   39.00    0.00    0.00
+    0.00   38.00    0.00
+    0.00    0.00   33.00
+ %endblock lattice_cart
+
+
+ %block positions_abs
+C      20.41248721    19.57912239    16.25889111
+O      22.44393207    18.50009446    16.39495068
+C      18.02955514    18.06168032    16.13605956
+O      16.00000000    19.14070824    16.00000000
+H      20.14981666    21.64269242    16.21731736
+H      18.29222569    16.00000000    16.17763332
+ %endblock positions_abs
+
+
+ %block species
+ C   C   6 4 7.0
+ O   O   8 4 7.0
+ H   H   1 1 7.0
+ %endblock species
+
+
+ %block species_pot
+ C   "../../pseudo/carbon.recpot"
+ O   "../../pseudo/oxygen.recpot"
+ H   "../../pseudo/hydrogen.recpot"
+ %endblock species_pot

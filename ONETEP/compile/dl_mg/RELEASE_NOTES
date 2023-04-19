@@ -1,0 +1,774 @@
+3.1.0-rc.17 (18/08/2021)
+
+  - fixed bug, wrong argument passed to mass term
+
+
+3.1.0-rc.16 (16/08/2021)
+
+ - fixed bug in multigrid residual computation when using full PBC
+   - the Laplacian was computed with wrong halo values because
+     zero mode removal was not applied to the halo value
+
+ - added a validity check for the values of the environment variable
+   DL_MG_USE_CG which must be only one of the following: T,t,F,f.
+
+
+3.1.0-rc.15 (12/08/2021)
+
+  - typo fixed
+
+
+3.1.0-rc.14 (11/08/2021)
+
+   - fixed missing/wrong make dependencies
+
+
+3.1.0-rc.13 (11/08/2021)
+  
+   - clean and optimized the CG and Newton routines 
+   - when CG is on:
+     - the preconditioner default is 1 MG V cycle
+     - tol_level_1_res_rel = 0.1
+   - envorionment variable that can be useful for preconditioner tuning
+     - DL_MG_USE_CG
+     - DL_MG_NITER_VCYC
+     - DL_MG_NITER_LEVEL1
+     - DL_MG_V_ITER
+     - DL_MG_OMEGA_SOR
+
+
+3.1.0-rc.12 (28/07/2021)
+
+  - fix to OpenMP mess fix :)
+  - slurm job template for testing added in utils
+ 
+
+3.1.0-rc.11 (25/07/2021)
+
+  - fixed the wrong expression for neutralisation in
+    PBE-lin with with ions and steric weight
+  - fixed OpenMP mess
+
+3.1.0-rc.9 (15/07/2021)
+
+ - Omega_sor is set to 1.0 only for CG with 1 level multigrid,
+   that is, when the preconditioner is the red-black smoother.
+
+3.1.0-rc.8  (11/07/2021)
+
+ - CG can be setup through the solver interface
+   added the following sover alguments
+   tol_cg_res_rel, tol_cg_res_abs,
+   max_iters_cg, use_cg
+ - the preconditioner is mg_solver, it can be switch off by
+   setting max_iters_vcycle==0
+ - DL_MG_USE_CG=[tTfF] can be used to switch the CG on/off 
+ 
+
+3.1.0-rc.7 (8/07/2021)
+
+ - better integration of the convergence test and ierr value in CG
+
+
+3.1.0-rc.6 (8/07/2021)
+
+ - CG max iters linked to max_iters_vcycle
+   which stands for "max iters linear second order solver"
+
+
+3.1.0-rc.5 (7/07/2021)
+
+  - CG implemented for all variations: PE, PBE-lin, PBE, full PBC
+  - added a multigrid preconditioner to CG
+  - details:
+    - the GC solver can be enabled with the environment variable
+      DL_MG_USE_CG=[yYtT]
+    - the multigrid preconditioner is enabled by default
+      DL_MG_USE_PRECON=[yYtT][,<integer>]
+      can be used to switch it off or to change the number of
+      preconditioner iterations
+    - N.B. when CG is on one must set omega_sor = 1.0_wp
+    - in this version the convergence data are tagged with MG
+      in DL_MG output
+  - made routines in kernel blocking by default
+  - some other small improvements
+
+
+3.1.0-rc.4 (1/07/2021)
+
+  - added a jacobi preconditioner
+  - varios code corrections and cleaning
+
+3.1.0-rc.3 (30/06/2021)
+
+   - added conjugate gradient module
+     it compiles but it's not used in this commit
+   - dropped `use dl_mg_nonlinear` at the top of kernels module
+     and corrected the accidental access to module variables via
+     kernels -> nonlinear path
+   - added nblks component to openmp related blk_t derived type
+
+
+3.1.0-rc.2 (29/06/2021)
+
+   moved exchange_full_halos in module *_utils.
+   would *_mpi module be a better choice?
+
+
+3.1.0-rc.1 (29/06/2021)
+
+   Code reorganisation in the middle layer:
+    - newton method got its own module
+    - wrapper for second order solver slotted in
+    - error codes moved in dl_mg_common_params.inc
+    - other small corrections
+
+
+3.0.0 (13/06/2021)
+
+   Significant extension of the solute neutralisation for PBC
+   (the first version was added in v2.1.0).
+   For a theoretical background see the section "Periodic boundary conditions (PBC) for PBE" in documentation
+   (.../docs/doxygen_doc/html/implementation.html).
+
+   A brief description of the new parameters for PBC neutralisation
+   added to dl_mg_solver:
+    - solute neutralisation is triggered only for full PBC
+    - the type of neutralisation is controlled by the argument
+      `neutralisation_method' (integer) which can take the following
+      values:
+      dl_mg_neutralise_none
+      dl_mg_neutralise_with_jellium_uniform
+      dl_mg_neutralise_with_jellium_vacc
+      dl_mg_neutralise_with_ions_fixed
+      dl_mg_neutralise_with_ions_auto
+      dl_mg_neutralise_with_ions_auto_linear
+    - if neutralisation method is set to dl_mg_neutralise_with_ions_fixed
+      the argument `neutralisation_ion_ratios' is needed
+      (otherwise is ignored).
+      This is a real array of size nions which contains the desired ratio
+      to be used for neutralisation by concentration shifting.
+      There is no need for the array elements to add up to 1, but they have
+      to be non-negative.
+    - the arguments:
+        betamu_electrostatic
+        steric_weight_average
+        used_ion_concentration
+        used_neutralisation_ratios
+      return values used internally when solving PBC with PBE.
+
+   A number of corrections, reorganisation and code improvements
+   were done along the way during this development.
+   Some notable changes are below:
+    - added a new API, dl_mg_solver_status, that could be used to check the
+      quality of partial solutions (only for Newton solver in this version)
+    - refactored the loop blocking subroutine
+    - Optimized the evaluation of the chemical potential
+    - improved error handling and testing
+
+
+3.0.0-rc.5 (30/05/2021)
+
+ - documentation updates
+
+
+3.0.0-rc.4 (11/04/2021)
+
+ - fixed a logical test and a typo
+
+3.0.0-rc.3 (8/04/2021)
+
+ - fixed dependecy in Makefile
+ - added default target in Makefile
+ - fixed the logic for error handling in 
+   pbe solver driver
+ - other minor changes
+
+
+3.0.0-rc.2 (1/04/2021)
+
+ - math expression corrected in one of the chemical pot computations 
+ - small correction in test
+ - added a generic parallel platform which covers at the moment 
+   GNU and Intel compilers 
+
+
+3.0.0-rc.1 (12/03/2021)
+
+ - merged in the development for the return on error
+ - the abort on error print the correct error message 
+   if error returns but the call of handle_error does not
+   have the ierror argument
+ - small improvement in test suite
+ - this is the base for v3.0.0
+
+
+2.2.0-rc.41 (17/02/2021)
+
+ - electrolyte info is returned even if an error occurs
+   in init_nonlinear
+
+2.2.0-rc.40 (15/01/2021)
+
+ - added explicit error code and enabled soft failure
+   for negative ion concentration
+ - improved error handling and testing
+ - reorganisation of the routine order in dl_mg_neutralisation_with_ions
+ - grid sizes can be set with a command line argument in the test suite
+ - tests can set errors_return flag in input file
+ - some other minor improvements and corrections
+
+
+2.2.0-rc.39 (26/11/2020)
+
+ - using the "end" component in OpenMP block computation 
+ 
+
+2.2.0-rc.38 (25/11/2020)
+
+ - correction to restrict kernel
+ - reduced the size of grid in the test suite to accomondate
+   the weaker laptop
+
+
+2.2.0-rc.37 (24/11/2020)
+
+ - rewrote the restrict kernel without pointers, test code
+
+
+2.2.0-rc.36 (19/07/2020)
+
+ - applied corrections to error messages send by Jacek 
+
+
+2.2.0-rc.35 (19/07/2020)
+
+ - added defect correction status, information extractable with dl_mg_solver_status
+ - arguments of dl_mg_solver_status are prefixed with nwt_ or defco_ for the info
+   from Newton or defect correction, respectively
+
+2.2.0-rc.34 (18/07/2020)
+
+ - sorted deallocation left behind in Newton solver 
+
+
+2.2.0-rc.33 (18/07/2020)
+
+ - added public attribute to dl_mg_solver_status and error codes meant to be visible
+
+2.2.0-rc.32 (16/07/2020)
+
+ - moved check_error_code in dl_mg_utils to avoid circular dependencies
+
+2.2.0-rc.31 (15/07/2020)
+
+ - added a new API, dl_mg_solver_status, that could be used to check the
+   quality of partial solutions (only for Newton solver in this version)
+ - in the case that solver returns with an error the returned error code is checked
+   at the top level in order to trap error code changes as the solver wrapps up
+   the computation. If this is detected an warning is printed in the log file. 
+
+2.2.0-rc.30 (12/07/2020)
+
+ - dropped rc.29 that capped the exponetial after the derivative
+   It is more mathematical sound to cap and derivate (think capping
+   the exp argument with a smooth function -> const for large argument)
+ - moved a bunch of error codes into dl_mg_common_params.F90 so that
+   the calling app can decide to continue if the error code is in that set
+ - reviewed and modified slightly the return on error in defect correction
+   and newton iterations
+
+
+2.2.0-rc.28 (25/05/2020)
+
+ - corrected the interface for blocked_dotproduct in compute_norm and
+   remove_zero_mode_source
+ - small correction in blocked_dotproduct_with_mg
+
+
+2.2.0-rc.27 (26/04/2020)
+
+ - use integer values for ion charges if possible in neutralisation routine 
+
+
+2.2.0-rc.26 (25/04/2020)
+
+ - reorder debye lenght compute in pbe init
+ - rho_sum and vsteric_sum done with blocked_dotproduct 
+
+
+2.2.0rc25 (25/04/2020)
+
+ - added the computation of the debye length
+   with shifted concentration
+   when neutralisation is done with ions
+ - reorganized the computation of concentrations shift in
+   PBE init
+ - capexp function gives an illegal arithm err or in mg_tests
+   needs to be investigated further
+
+
+2.2.0rc24 (19/04/2020)
+
+ - neutralisation with concentrations shift generalised to
+   arbitrary number of ions
+ - change in dl_mg_solver interface
+   used_ion_concentration -> used_ion_concentrations
+ - some code reorganisation
+
+
+2.2.0rc23 (16/04/2020)
+
+  - added free routine for module arrays declared in
+    the module dl_mg_neutralisation_with_ions
+
+
+2.2.0rc22 (15/04/2020)
+
+  - interface change for PBC neutralisation
+  - points:
+    - neutralisation is triggered only for full PBC
+    - the type of neutralisation is controlled by the argument
+      `neutralisation_method' (integer) which can take the following
+      values:
+      dl_mg_neutralise_none
+      dl_mg_neutralise_with_jellium_uniform
+      dl_mg_neutralise_with_jellium_vacc
+      dl_mg_neutralise_with_ions_fixed
+      dl_mg_neutralise_with_ions_auto
+      dl_mg_neutralise_with_ions_auto_linear
+    - if neutralisation method is set to dl_mg_neutralise_with_ions_fixed
+      the argument `neutralisation_ion_ratios' is needed
+      (otherwise is ignored).
+      This is a real array of size nions which contains the desired ratio
+      to be used for neutralisaiton by concentration shifting.
+      there is no need to array elem,ent to add up to 1, but they have
+      to be non-negative.
+    - the arguments:
+        betamu_electrostatic
+        steric_weight_average
+        used_ion_concentration
+        used_neutralisation_ratios
+      return values used for when solving PBC with PBE.
+
+
+2.2.0rc21 (9/04/2020)
+
+  - fixed neutralisation fraction for 1:1 electrolyte
+
+
+2.2.0rc20 (9/04/2020)
+
+  - debug print added for neutralisation fraction
+  - enabled with DL_MG_NEUTRALISE_DBG_PRINT=t
+
+
+2.2.0rc19 (9/04/2020)
+
+  - q_counterion printed id shifted concentrations < 0
+  - mixing fraction can be computed with from linearised
+    equation if the environment variable DL_MG_NEUTRALISE_LINEAR=t
+
+
+2.2.0rc18 (9/04/2020)
+
+  - corrected format error
+  
+
+2.2.0rc17 (8/04/2020)
+
+  - added feature to compute on flight the neutralisation fraction "on the flight" from
+    OBC correspondence equations
+  - this procedure is used if use_counterions = T is passed to dl_mg_solver but no q_counterions
+  - the final value of the neutralisation fracrtion is returned in the neutralisation_fraction array
+  - other chages:
+      - info message printed at start about the solute neutralisation method used 
+      - small correction in hadle_error message.
+
+
+2.2.0rc16 (22/03/2020)
+
+  - simplified potential shift and chemical potential in Newton and defect correction
+    sections
+  - there is quite a bit of overlap between the corresponding subroutines.
+    These subs should be collapse in one source code an put in utils.
+
+
+2.2.0rc15 (20/03/2020)
+
+  - compute_norm refactored with block_dotproduct and a better interface 
+
+
+2.2.0rc14 (20/03/2020)
+
+ - more cleaning in neutralisation subroutine, use jellium
+   for the inner calls with eqtype EQ_LINEAR_PBE (probable never used)
+
+
+2.2.0rc13 (18/03/2020)
+
+  - replaced the loops in source zero mode removal with  the new kernel functions
+  - added an warning to poisson_erf tests case when using smart jellium
+    the manufactured solution is not consistent with smart jellium becase SJ
+    depends on r.
+
+
+
+2.2.0rc12
+
+  - refactored the loop blocking subroutine
+  - the new version is logically more clear and save time in loops as the end indices
+    are computed in the setup subroutine
+  - improved loop blocking report in log
+  - change of variable name in the interface of dl_mg_init
+    for the optional min_block_size -> min_thread_chunk
+  - if one sets min_thread_chunk or block_size to <= 0 the default values are used
+    This could help the calling app
+  - the block_size should be set only if superoptimisation is pursued
+    compilers can do loop blocking as well
+
+
+2.2.0rc11
+
+ - fixed bug in dotproduct which manifests when at least one thread
+   is computing more that one grid block.
+
+
+2.2.0rc10
+
+ - fixed error in serial version
+
+
+2.2.0rc9
+
+ - the PBE solver returns the used ion concentration in the array
+   ion_concetration. Relevant for PBE + PBC using counter-ion solute
+   charge neutralisation.
+ - reordered some optional arguments in dl_mg_solver interface. The ones that
+   return parameters: betamu_elec, steric_weight_average, ion_concentration,
+   are the last before ierror.
+
+
+2.2.0rc8
+
+ - Changed the evaluation of the chemical potential
+   done after the potential shift in Newton and defect correction.
+ - Instead of recomputing the chemical potential with the new electrostatic
+   potential the new version does a shift of the chemical potential with
+   beta * q_i pot_average.
+ - These two methods are formally equivalent, the second one saves
+   a grid integration of the exponential function
+ - changes between them could appear because of the capped exponential
+   (and numerical round offs).
+
+
+2.2.0rc7
+
+  - use jellium background neutralisation in Newton and defect correction
+    loops, this should remove the regresssion observed in ONETEP
+  - when not using counter ions for background neutralisation
+    a smart jellium can be used for neutralisation.
+    If use_smart_jellium = T is passed to the solver the neutralisation
+    background will be spread only in the accessible volume
+
+
+2.2.0rc6
+
+  - remove contiguous atribute for _loc pointers, the input
+    res and rho could be non-contiguous
+
+
+2.2.0rc5
+
+   - removed pointer allocation in dl_mg_defco_mod
+   - added contiguous atribute to the auxiliary pointers
+
+
+2.2.0rc4
+
+  - linearisation of erf test
+  - with PBC it fails to converge if tol_rel_mg is to tight
+  - helps if one uses larger steric weight radius
+  - small bug corrected in debug write
+
+
+2.2.0.rc3
+
+ - added potetial shift at the end of Newton and Defco with PBC. 
+   This is needed in order to have the follwing condition  \int_V gamma(r) pot(r) = 0 
+   satisfied by the  solution.
+   In Newton and defco loops the approximations are shifted such that \int_V gamma(r) \sum_i ci qi (-beta qi) exp(-beta qi pot_old(r)) pot_err(r) =0
+    at each iteration but we don't now what condition the solution will satisfy.
+
+ - the chemical potential is recomputed after the shift.
+
+
+2.2.0rc2
+
+  - correction in array free subroutine
+  - charge neutrality test sums only the internal grid points, relevant for Dirichlet BC
+  - added energy computation test code for a Gaussian charge distribution
+
+
+2.2.0rc1
+
+ - option to neutralise fixed charge with ionic concentration shifts added (work for 2 species at tne moment) (PBC only)
+ - when solving the linearised PBE with PBC in defect correction or Newton the weighted average of the background is subrtracted
+   at each step, as the theory suggests.
+ - the weigthed average of the potential is subtracted in compute_mu (PBC only), to keep with the theory.
+ - the rhs shift needs to bedone in two ways, setup or inrternal lienarised version. Provided for that (this PBC business again).
+
+
+
+2.1.4 (3/02/2020, LA)
+
+ - PBE solver tests if steric_weight array has zero size
+   as an alternative for no steric weight case
+ - removed the potential scaling used in PBE for the sake of
+   a simpler, uniform set of equations
+ - a set of internal code improvements
+
+
+2.1.3 (7/01/2020, LA)
+
+ - minor change in pre-commit script
+
+
+2.1.2 (6/01/2020, LA)
+
+ - sorted out a minor bug, test script improved 
+
+
+2.1.1 (30/12/2019, LA)
+
+ - version string corrected in dl_mg_info
+
+
+2.1.0 (30/12/2019, LA)
+
+  - work centered around solving PBE with periodic boundary conditions
+  - for the nonlinear equation the removal of k=0 mode is nontrivial because
+    of the exponential term
+  - it came out that this can be done consistently if the conservation of
+    number of ions condition is added via a Lagrange multiplier
+    ( chemical potential shift)
+  - a new parameter was added to the solver interface, `conserve_ions_number`,
+    which triggers the computation of chemical potential correction when true.
+    - ion number conservation is set true by default when using
+      periodic boundary conditions
+  - a report on charge neutrality is produced at the end of computation
+  - NOTE: for periodic boundary conditions the input
+    average ion concentration needs to be computed with the ion
+    accessible volume (V_acc = \int_V steric_weight),
+    not the periodic cell volume. 
+  - the potential averages needed for k=0 mode uses
+    the steric weight (exponential of steric potential)
+  - subtraction of the k=0 mode was corrected in defect correction routine
+    (error spotted by James W)  
+  - changes in log file:
+     - added hooks for Newton and multigrid iterations, similar to DEFCO
+     - prints per iteration can be disabled by setting DL_MG_NO_ITER_INFO
+     - residual histogram is printed only if the environment variable
+       DL_MG_RES_HIST is defined
+     - only the tolerances used in the current computation are reported, e.g.,
+       the tolerance for Newton solver is not reported if the run is done with
+       Poisson solver
+  - correction to the tolerance setting scheme: if both generic relative and
+    absolute tolerances are provided together with a specific relative tolerance
+    then the specific absolute tolerance stays set to the default value instead
+    of resetting to the generic absolute tolerance
+  - test scripts and subroutines were updated
+  - input variable rename : mg_max_res_ratio -> mg_max_conv_rate
+  - PBE solver returns (beta * mu(:)) in the optional variable betamu_elec and
+    the volume average of steric weight in the optional variable
+    steric_weight_average
+  - for periodic boundary conditions the returned solution has zero average,
+    i.e. \int_V steric_weight * pot = 0 
+
+
+2.0.3 (13/10/2018, LA)
+
+ changes to adjust to the new bitbucket home
+
+
+2.0.3rc4 (22/05/2018, JCW)
+ 
+ Have DL_MG close report_unit when dl_mg_free is called, so calling program
+ can provide a different IO unit when calling dl_mg_init again.
+
+ By default DL_MG now opens an existing report_file with position='append'.
+ This changes the behaviour from before, where DL_MG would always replace
+ report_file on first initialization.
+
+2.0.3rc2 (10/05/2018, JCW)
+
+ Make workaround for GCC 7.x compiler bug 79929 permanent, since
+ it looks like the fix in GCC 8.x will not be backported. Thanks to
+ ONETEP developer jme52 for pointing this out and suggesting a change
+ to preprocessor directives in dl_mg_error_string.
+
+2.0.2 (17/01/2018)
+
+ minor bug fix, castep.inc platform updated
+
+
+2.0.1 (30/12/2017)
+
+ '!>>>' strings removed form some files as in interacts with doxygen
+
+2.0.0
+
+Version 2.0 release:
+
+Main changes:
+
+  - defect correction procedire for higher order derivatives was
+    transfered form ONETEP to DL_MG
+  - improved documentation
+  - improved management of the convergencve criteria
+  - check against accidental used of serial compiled code by MPI applications
+  - reorganisation of code base directories
+
+2.0.0.rc2 (22/06/2016, LA)
+
+Utility script update
+
+
+2.0.0.rc1 (20/06/2016, LA)
+
+Preparation for releasing version 2.0.0
+New change in release scheme, using rc for release candidates
+
+The develompent and release workflow model is as follow:
+
+1. master branch should contained only tested code.
+2. Any new development or bug fix should be done in a topic branch that is merged
+   in master after work is completed.
+
+3. Release candidates are pulled from master.
+
+4. Small correction done in release should be merged in master.
+
+5. 'rc' string in version tag is used to label these changes, i.e. non public commits in releases branch.
+
+6. the public releases will be marked with git tags atached to releases branch commits.
+
+
+1.8.5c1 (22/09/2016, JCW)
+
+Merged in experimental defect correction / high order finite differences code,
+which was adapted from ONETEP's code.
+
+This code is currently experimental and should not be used in production
+calculations, in particular:
+* Higher-order finite differences is restricted to a 1-D "slab" parallel data
+  decomposition.
+* Higher-order finite differences is restricted to Dirichlet BCs (no periodic
+  BCs, yet).
+
+These limitations will be addressed in future revisions.
+
+In addition, the new defect correction code needs to be documented (using
+Doxygen) and tests need to be added to DL_MG's test suite.
+
+1.8.5 (4/9/2016)
+
+moved test for inactive ranks in the top wrappers
+
+Licence updated by Chris Skylaris in agreement with NAG (previous un-versioned commit)
+
+1.8.4c3 (10/08/2016, JME)
+
+Added a variable initialisation in solver_driver (dl_mg_resrelpro) required by
+the OpenMP standard.
+
+1.8.4c2 (14/07/2016, JCW)
+
+Added new error messages in anticipation of incorporation of defect correction
+code.
+
+Added new "zeta" variable to dl_mg_nonlinear_model, in anticipation of
+incorporation of defect correction code.
+
+Converted steric_pot_ptr in dl_mg_common_data module to an allocatable array and
+changed code where steric_pot_ptr as assigned/modified, or association checked
+to corresponding operations for allocatable arrays.
+
+This avoids a potential issue where the optional steric_weight argument for
+the dl_mg_init_nonlin routines may not have the TARGET attribute. It seems that
+a dummy argument and actual argument must BOTH have the TARGET attribute
+for any pointer assigned to the dummy variable inside the subroutine to continue
+being defined after the subroutine is exited. Otherwise the pointer becomes
+undefined, and it is not clear that it will be well-behaved outside of the
+subroutine in which it is assigned.
+
+Since there appears to be no way to enforce an actual argument being a TARGET
+from within a subroutine, it seems safer to avoid this issue altogether by
+simply creating a local copy.
+
+1.8.4 (10/4/2015)
+
+Major documentation overhaul. Some updates in the testing system (script and fortran code used for testing).
+
+archer platform picks the compiler from the value of PE_ENV.
+
+
+1.8.3 (9/3/2015)
+
+ contiguous pointer attribute wrapped with HAVE_F2008 preprocessor.
+ DL_MG is Fortran 2003 compliant, F2008 should be added within
+ the proprocesor wrapper for better portability.
+
+
+1.8.2 (5/3/2015)
+
+Replaced 2 OpenMP workshare constructs with blocked loops.
+  This helps PGI compiler.
+
+Initialised intent out paramenter that was generating a warning message
+  in serial mode.
+
+Some minor changes in the test suite and mg_test.
+
+
+1.8.1 (5/3/2015)
+
+SOR enabled for Poisson solver (it may reduce the number of V cycles)
+
+
+1.8.0 (2/1/2015)
+
+Improved documentation
+
+Two types of documentation can be generated: one for users, the other
+for developers with'make doc' and 'make docdev' respectively.
+
+Added file RELEASE_NOTES and update README.  Dropped TODO file as this list
+is generated by doxygen.
+
+Added the task release which creates a tar ball with the source code
+and the pdf version of the doxygen documentation.
+
+
+1.7.0 (2/1/2015)
+
+New error reporting scheme
+
+    I have added a new module, dl_mg_errors, which contains
+    19 error codes and the subroutines needed for
+    error reporting and handling.
+
+    On error DL_MG can abort the computation (default) or
+    it can return to the caller with an error code if
+    the dl_mg_init variable 'errors_return' is true.
+
+    However there are a number of error tests
+    which will abort the computation even errors_return is true.
+    This is so because it seems difficult to return an error flag through
+    all call stack in those situation. OpenMP threading makes the problem even more difficult.
+
+    I have added a testing mechanism for error reporting. Using a environment variable
+    one can trigger an error code response during execution. It needs further refinement.
+
+    At next revision of the error handling I have to decide whether to use __FILE__ and __LINE__
+    macros. At the moment I'm not sure about their portability.

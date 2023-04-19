@@ -1,0 +1,604 @@
+==================================================================================
+It's Wed Sep 21 10:01:02 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 258253 258254 258255 258256)...
+    - ONETEP arguments: ethene_props.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test07
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test07/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test07/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack ethene_props.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:01 (+0100)
+ 
+Reading parameters from file "ethene_props.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "ethene_props.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+cutoff_energy        : 400 eV                                                   
+xc_functional        : LDA                                                      
+nnho                 : TRUE                                                     
+do_properties        : TRUE                                                     
+write_density_plot   : FALSE                                                    
+popn_calculate       : FALSE                                                    
+ngwf_analysis        : TRUE                                                     
+homo_plot            : 0                                                        
+lumo_plot            : 0                                                        
+homo_dens_plot       : 0                                                        
+lumo_dens_plot       : 0                                                        
+write_initial_radial_ngwfs : F                                                  
+ngwf_threshold_orig  : 1e-3                                                     
+print_qc             : TRUE                                                     
+timings_level        : 0                                                        
+write_denskern       : TRUE                                                     
+write_tightbox_ngwfs : TRUE                                                     
+%block  lattice_cart                                                            
+40.000    0.000    0.000                                                        
+0.000   40.000    0.000                                                         
+0.000    0.000   40.000                                                         
+%endblock  lattice_cart                                                         
+%block  positions_abs                                                           
+     Hash =   000003804036565042708289
+%endblock  positions_abs                                                        
+%block  species                                                                 
+H     H   1  1  5.50                                                            
+C     C   6  4  6.00                                                            
+%endblock  species                                                              
+%block species_ldos_groups                                                      
+C                                                                               
+H                                                                               
+%endblock species_ldos_groups                                                   
+pdos_max_l : 2                                                                  
+%block species_pdos_groups                                                      
+C                                                                               
+H                                                                               
+%endblock species_pdos_groups                                                   
+%block  species_pot                                                             
+H     "../../pseudo/hydrogen.recpot"                                            
+C     "../../pseudo/carbon.recpot"                                              
+%endblock  species_pot                                                          
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+WARNING in pseudopotentials_read_species: string "GGA" found in pseudopotential
+file "../../pseudo/carbon.recpot", yet xc_functional = "LDA".
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C          2         8         2
+  H          4         4         0
+.......   ......    ......    ......
+Totals:      6        12         2
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   56 x  56 x  56
+                              FFT-box:   55 x  55 x  55
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.714285714286a0 (KE cutoff=  14.88881Eh = 405.14521eV)
+Grid space d2=  0.714285714286a0 (KE cutoff=  14.88881Eh = 405.14521eV)
+Grid space d3=  0.714285714286a0 (KE cutoff=  14.88881Eh = 405.14521eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     56    56    56
+          Real-space ('12') slabs/proc (min max mean):     14    14    14
+         Recip-space ('23') slabs/proc (min max mean):      7     8     7
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:    112   112   112
+          Real-space ('12') slabs/proc (min max mean):     28    28    28
+         Recip-space ('23') slabs/proc (min max mean):     14    15    14
+********************************************************************************
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  39 iterations to a total energy of     -0.41130009
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  37 iterations to a total energy of     -5.30501233
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               14.524619 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+
+Writing density kernel to file "ethene_props.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.332408724074E+01     7.6547E-03     7.6547E-03
+    2        -1.332571312193E+01     6.6580E-04     6.6580E-04    -1.6259E-03
+    3        -1.332573332239E+01     1.0987E-04     1.0987E-04    -2.0200E-05
+    4        -1.332573383638E+01     1.6650E-05     1.6650E-05    -5.1398E-07
+    5        -1.332573384785E+01     1.2234E-05     1.2234E-05    -1.1475E-08
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_props.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.33257338478511E+01  Eh
+     Estimated bandgap           =   2.4595E-01  Eh
+     RMS occupancy error         =   3.6224E-16
+     [H,K] commutator            =   1.2234E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+Constructing Nonorthogonal Natural Hybrid Orbitals from current NGWFs....  done
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  7.4618E-03 >  1.0000E-03  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35557525344610E+01 Eh
+   Predicted gain in energy  =      -2.30018686609903E-01 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_props.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.355559336977E+01     3.5329E-03     3.5329E-03
+    2        -1.355595900297E+01     5.7559E-04     5.7559E-04    -3.6563E-04
+    3        -1.355597512455E+01     1.1581E-04     1.1581E-04    -1.6122E-05
+    4        -1.355597622090E+01     4.2666E-05     4.2666E-05    -1.0963E-06
+    5        -1.355597590295E+01     3.3911E-05     3.3911E-05     3.1795E-07
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_props.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35559759029468E+01  Eh
+     Estimated bandgap           =   2.5411E-01  Eh
+     RMS occupancy error         =   6.8411E-16
+     [H,K] commutator            =   3.3911E-05
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+Constructing Nonorthogonal Natural Hybrid Orbitals from current NGWFs....  done
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.4880E-03 >  1.0000E-03  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35843750987603E+01 Eh
+   Predicted gain in energy  =      -2.83991958134973E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_props.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.358443485554E+01     2.4829E-03     2.4829E-03
+    2        -1.358463965792E+01     5.8605E-04     5.8605E-04    -2.0480E-04
+    3        -1.358465427273E+01     1.0083E-04     1.0083E-04    -1.4615E-05
+    4        -1.358465473292E+01     1.1278E-05     1.1278E-05    -4.6020E-07
+    5        -1.358465473846E+01     3.7191E-06     3.7191E-06    -5.5403E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_props.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35846547384630E+01  Eh
+     Estimated bandgap           =   2.5109E-01  Eh
+     RMS occupancy error         =   1.5931E-16
+     [H,K] commutator            =   3.7191E-06
+     Occupancy bounds            = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+Constructing Nonorthogonal Natural Hybrid Orbitals from current NGWFs....  done
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.1298E-03 >  1.0000E-03  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -1.35929674893543E+01 Eh
+   Predicted gain in energy  =      -8.31275089134742E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "ethene_props.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -1.359296204651E+01     7.4576E-04     7.4576E-04
+    2        -1.359298606950E+01     1.5150E-04     1.5150E-04    -2.4023E-05
+    3        -1.359298693558E+01     3.8106E-05     3.8106E-05    -8.6608E-07
+    4        -1.359298700044E+01     6.1235E-06     6.1235E-06    -6.4856E-08
+    5        -1.359298700228E+01     1.6539E-06     1.6539E-06    -1.8433E-09
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "ethene_props.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.35929870022798E+01  Eh
+     Estimated bandgap           =   2.4667E-01  Eh
+     RMS occupancy error         =   1.0621E-16
+     [H,K] commutator            =   1.6539E-06
+     Occupancy bounds            = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+Constructing Nonorthogonal Natural Hybrid Orbitals from current NGWFs....  done
+
+>>> Checking for convergence of NGWFs: 
+           ........................................................
+           |         *** NGWF optimisation converged ***          |
+           | RMS NGWF gradient =    0.00077452881120              |
+           | Criteria satisfied:                                  |
+           | -> RMS NGWF gradient lower than set threshold.       |
+           ========================================================
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.14613933548703 |
+           | Pseudopotential (local)    :      -59.67005536294665 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.56783521870372 |
+           | Hartree                    :       24.61879018018970 |
+           | Exchange-correlation       :       -4.78031506581236 |
+           | Ewald                      :       14.52461869209874 |
+           | Total                      :      -13.59298700227982 |
+           --------------------------------------------------------
+           Integrated density           :       12.00000000000001
+================================================================================
+
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00746178107940    -13.32573384785114   0.300332    -13.55575253446104        
+   1     0.00248795065612    -13.55597590294680   0.332702    -13.58437509876030        
+   2     0.00112980972664    -13.58465473846297   0.468139    -13.59296748935432        
+   3     0.00077452881120    -13.59298700227982  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      4
+<QC>           [total_energy]:       -13.592987002280
+<QC>           [rms_gradient]:         0.000774528811
+
+************************ NGWF s/p/d/f Character Analysis *********** (n=09) ****
+|        Atom   NGWF    :         %s       %p       %d       %f     spilling   |
+|   C       1      1    :     34.334   65.180    0.114    0.372     0.24E-02   |
+|                  2    :      0.001   99.797    0.051    0.152    -0.54E-03   |
+|                  3    :     32.600   66.825    0.271    0.303     0.20E-02   |
+|                  4    :     32.624   66.794    0.274    0.307     0.21E-02   |
+|   H       2      1    :     99.557    0.186    0.153    0.103     0.40E-03   |
+|   H       3      1    :     99.556    0.189    0.151    0.104     0.40E-03   |
+|   C       4      1    :     32.623   66.797    0.274    0.307     0.21E-02   |
+|                  2    :     32.608   66.818    0.271    0.303     0.20E-02   |
+|                  3    :     34.330   65.185    0.114    0.371     0.24E-02   |
+|                  4    :      0.001   99.797    0.050    0.152    -0.50E-03   |
+|   H       5      1    :     99.556    0.189    0.151    0.104     0.40E-03   |
+|   H       6      1    :     99.558    0.186    0.153    0.103     0.39E-03   |
+********************************************************************************
+
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:      12
+   Number of occupied orbitals:       6.000000000
+   Occupancy sum (eigenvalues):       6.000000000
+                 HOMO-LUMO gap:       0.246665174 Eh
+                 Mid-gap level:      -0.110412477 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.690140649   1.0000000
+                            2    -0.505866099   1.0000000
+                            3    -0.405063762   1.0000000
+                            4    -0.361230283   1.0000000
+                            5    -0.287032950   1.0000000
+                            6    -0.233745064   1.0000000
+                        .......   --- gap ---   .........
+                            7     0.012920110   0.0000000
+                            8     0.177693857   0.0000000
+                            9     0.187356501   0.0000000
+                           10     0.212777536   0.0000000
+                           11     0.395555599   0.0000000
+                           12     0.561226419   0.0000000
+ 
+<QC>    [energy_eigenvalue_1]:        -0.690140649288
+<QC>    [energy_eigenvalue_n]:         0.561226419024
+<QC>            [occupancy_1]:         0.999999999993
+<QC>            [occupancy_n]:         0.000000000026
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO     -6.36052683  1.000000 | Writing "ethene_props_HOMO.cube" ... done
+| LUMO      0.35157409  1.000000 | Writing "ethene_props_LUMO.cube" ... done
+================================================================================
+
+============== Writing densities of canonical molecular orbitals ===============
+| Orbital  Energy (eV)  Norm     |
+| HOMO_d   -6.36052683  1.000000 | Writing "ethene_props_HOMO_density.cube" ... done
+| LUMO_d    0.35157409  1.000000 | Writing "ethene_props_LUMO_density.cube" ... done
+================================================================================
+
+================== Local Density of States (LDOS) calculation ==================
+Writing "ethene_props_LDOS.txt" ...  done
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "ethene_props_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "ethene_props.val_bands" ... done
+ 
+================ Projected Density of States (pDOS) calculation ================
+ 
+Constructing AM resolved functions  ...... done
+Writing NNHO plot files in formats: CUBE ...  done
+ 
+Performing overlap integrals ...  done
+ 
+Computing pDOS weights ...  done
+<QC>     [lcao_overlap_trace]:        11.969551610262
+<QC> [inv_lcao_overlap_trace]:        16.587737421155
+ 
+All bands spilling parameter =   1.52 %
+Occupancy-weighted spilling parameter =   1.19 %
+<QC>   [lcao_ngwf_lcao_trace]:        10.594516510733
+ 
+ => Outputting data for OptaDOS <=
+ 
+Writing pDOS weights to file "ethene_props.val_pdos_bin" ... done
+ 
+Writing band gradients to file "ethene_props.val_dome_bin" ... done
+ 
+Writing Castep output cell file to "ethene_props-out.cell" ... done
+ 
+ => Computing Gaussian smeared pDOS <= 
+Writing "ethene_props_PDOS.txt" ...  done
+<QC>   [pdoswts(l=0,eig_i=1)]:         0.670651760114
+<QC>   [pdoswts(l=1,eig_i=1)]:         0.099955148765
+<QC>   [pdoswts(l=2,eig_i=1)]:         0.220613140753
+<QC>   [pdoswts(l=0,eig_i=2)]:         0.313809783546
+<QC>   [pdoswts(l=1,eig_i=2)]:         0.246589519941
+<QC>   [pdoswts(l=2,eig_i=2)]:         0.429331632218
+<QC>   [pdoswts(l=0,eig_i=3)]:         0.000000000157
+<QC>   [pdoswts(l=1,eig_i=3)]:         0.627406895414
+<QC>   [pdoswts(l=2,eig_i=3)]:         0.358943642096
+<QC>   [pdoswts(l=0,eig_i=4)]:         0.002432818705
+<QC>   [pdoswts(l=1,eig_i=4)]:         0.736068868428
+<QC>   [pdoswts(l=2,eig_i=4)]:         0.245766265254
+<QC>   [pdoswts(l=0,eig_i=5)]:         0.000000007690
+<QC>   [pdoswts(l=1,eig_i=5)]:         0.442533344110
+<QC>   [pdoswts(l=2,eig_i=5)]:         0.545647532367
+<QC>   [pdoswts(l=0,eig_i=6)]:         0.000000675878
+<QC>   [pdoswts(l=1,eig_i=6)]:         0.988706776698
+<QC>   [pdoswts(l=2,eig_i=6)]:         0.000000360184
+<QC>   [pdoswts(l=0,eig_i=7)]:         0.000000377589
+<QC>   [pdoswts(l=1,eig_i=7)]:         0.994277459849
+<QC>   [pdoswts(l=2,eig_i=7)]:         0.000000232105
+<QC>   [pdoswts(l=0,eig_i=8)]:         0.000019984060
+<QC>   [pdoswts(l=1,eig_i=8)]:         0.358608688144
+<QC>   [pdoswts(l=2,eig_i=8)]:         0.626135826974
+<QC>   [pdoswts(l=0,eig_i=9)]:         0.312575339092
+<QC>   [pdoswts(l=1,eig_i=9)]:         0.148178714322
+<QC>   [pdoswts(l=2,eig_i=9)]:         0.520441658342
+<QC>  [pdoswts(l=0,eig_i=10)]:         0.388388745831
+<QC>  [pdoswts(l=1,eig_i=10)]:         0.064671234526
+<QC>  [pdoswts(l=2,eig_i=10)]:         0.531185082301
+<QC>  [pdoswts(l=0,eig_i=11)]:         0.000000939973
+<QC>  [pdoswts(l=1,eig_i=11)]:         0.535668907544
+<QC>  [pdoswts(l=2,eig_i=11)]:         0.443512235961
+<QC>  [pdoswts(l=0,eig_i=12)]:         0.277562254510
+<QC>  [pdoswts(l=1,eig_i=12)]:         0.660234897287
+<QC>  [pdoswts(l=2,eig_i=12)]:         0.028105522205
+ 
+ => Computing Occupancy-weighted Gaussian smeared pDOS <= 
+Writing "ethene_props_occ_PDOS.txt" ...  done
+  => Band centres: 
+<QC>           [band_centres]:       -14.158682330785
+ S band centre of group 1:  -14.158682 eV
+<QC>           [band_centres]:        -6.280770791571
+ P band centre of group 1:   -6.280771 eV
+<QC>           [band_centres]:        -8.486329409156
+ S band centre of group 2:   -8.486329 eV
+  Band centres done. <=
+  => Integrated number of electrons in each AM band: 
+ S num electrons of group 1:    1.973790
+ P num electrons of group 1:    6.282521
+ S num electrons of group 2:    3.600605
+  Integrated number of electrons done. <=
+================================================================================
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      15.735s on      4 proc(s)                                    
+TOTAL TIME:        15.736s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 10:01 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

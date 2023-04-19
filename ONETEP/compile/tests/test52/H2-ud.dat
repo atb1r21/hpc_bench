@@ -1,0 +1,98 @@
+!========================================================!
+! Input for calculation with the ONETEP program          !
+!                                                        !
+! Hydrogen molecule H2                                   !
+! Hup/Hdn configuration                                  !
+!                                                        !
+! Created by David Turban in July 2015                   !
+!                                                        !
+!========================================================!
+
+task                   : SINGLEPOINT
+
+print_qc : T
+
+spin_polarized         : T
+spin                   : 0 
+
+cutoff_energy          : 800.0 eV
+odd_psinc_grid         : T
+xc_functional          : LDA
+timings_level          : 0
+
+write_denskern         : T
+write_tightbox_ngwfs   : T
+write_forces           : F
+write_density_plot     : F
+
+do_properties          : T
+homo_plot : -1
+lumo_plot : -1
+
+initial_dens_realspace : T
+
+# problems with kernel degeneracy: diagonalise it if broken
+#maxit_palser_mano      : -1
+#kerfix                 : 2
+#maxit_pen              : 0
+minit_lnv              :  5
+maxit_lnv              :  10
+
+#maxit_ngwf_cg          : 3
+
+#lnv_check_trial_steps  : T
+#lnv_threshold_orig     : 1.0e-10
+
+
+%block species
+ H1   H   1   1   8.0
+ H2   H   1   1   8.0
+%endblock species
+
+## Initialise NGWF using (Castep) atomic solver
+%block species_atomic_set
+H1 SOLVE
+H2 SOLVE
+%endblock species_atomic_set
+
+%block species_pot
+ H1 "../../pseudo/hydrogen.recpot"
+ H2 "../../pseudo/hydrogen.recpot"
+%endblock species_pot
+
+%block lattice_cart
+ang
+   15.0000000    0.0000000   0.000000
+    0.0000000   10.0000000   0.000000
+    0.0000000    0.0000000  10.000000
+%endblock lattice_cart
+
+%block positions_abs
+ang
+ H1  	0.0	0.0	0.0
+ H2   	2.0	0.0	0.0 
+%endblock positions_abs
+########### CDFT-ZONE: START
+#### Species / l / Z (a.u) / U_occ(eV) / J_hund(eV) / U_q_up(eV) / U_q_down(eV) / U_spin(eV) / N_ele_up / N_ele_down /N_up-N_down
+%block constrained_dft
+#            Uhub  J_hund  Uq_up  Uq_down    Uspin  Nup   Ndown    DN
+H1  0  -1.1  0.0    0.0    -50.0    50.0       0.0    0.     0.      0.   
+H2  0  -1.1  0.0    0.0     50.0   -50.0       0.0    0.     0.      0.   
+%endblock constrained_dft
+
+cdft_guru : T
+
+hubbard_tensor_corr : 1
+# Allow projectors of different angular momentum on the same cDFT-site
+cdft_multi_proj : T         # default is .FALSE.
+
+cdft_max_grad     : 1.0E-5  # max cDFT-gradient component threshold
+cdft_cg_threshold : 1.0E-5  # RMS cDFT-gradient convergence threshold
+
+cdft_cg_max : 1             # perform steepest descent
+cdft_trial_length : 0.1     #default
+
+maxit_cdft_u_cg        : 0  # single-point cDFT run
+
+cdft_atom_charge : T
+########### CDFT-ZONE: END

@@ -1,0 +1,46 @@
+#
+# ONETEP configuration file
+# for the Iridis4 supercomputer
+# Created by Jacek Dziedzic, 30/09/2016
+# v1.01
+#
+# Compiler: 	Intel ifort v17.0.0.
+# MPI: 		Intel MPI, bundled with the above.
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the above.
+# ScaLAPACK:	Yes.
+#
+
+# It is crucial that you have the right set of modules loaded, both on the login node 
+# (where you compile) and on the compute nodes (where your executable is run). Preferably 
+# add the following lines to ~/.bashrc (without the #):
+#
+# module purge
+# module load torque
+# module load moab
+# module load intel/parallelxe/2017
+#
+# followed by any additional modules you might want. Subsequently ensure that the additional 
+# modules did not pull in anything Intel-related, and if so, unload them.
+#
+# With no additional modules loaded, I'm getting the following module list
+#  1) torque/current          3) intel/2017              5) intel/tbb/2017          7) intel/vtune/2017        9) intel/inspector/2017   11) intel/parallelxe/2017
+#  2) moab/current            4) intel/mkl/2017          6) intel/ipp/2017          8) intel/advisor/2017     10) intel/mpi/2017
+#
+# The following lines added to ~/.bashrc (without the #) will ensure other environment details
+# are set up correctly:
+# ulimit -s unlimited
+# ulimit -c unlimited
+# export OMP_STACKSIZE=64M
+#
+
+F90 = mpiifort -qopenmp -mkl
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DMPI -I$(MKLROOT)/include/fftw -diag-disable 8290,8291,7712,5462 -warn all
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -traceback -check all,noarg_temp_created -ftrapuv
+COMPILER = INTEL-ifort-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lmkl_blacs_intelmpi_lp64 -lpthread -lm
+
+# 8290, 8291 - suggest field widths
+# 7712 - unused variables
+# 5462 - global name too long (for linker, still within F2003 standard bounds)

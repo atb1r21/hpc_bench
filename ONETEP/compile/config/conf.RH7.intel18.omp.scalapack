@@ -1,0 +1,43 @@
+#
+# ONETEP configuration file
+# for Red Hat Linux 7 PCs in Southampton.
+# Created by Jacek Dziedzic, 10/05/2017.
+# Updated by James C. Womack, 20/11/2017 to support Intel Parallel Studio 2018.
+# v1.1
+#
+# Compiler: 	Intel ifort v18.0.5
+# MPI: 		    Intel MPI, bundled with the above.
+# OMP:        Yes.
+# FFTW3:	    MKL, bundled with the above.
+# ScaLAPACK:	Yes.
+#
+
+# This works with the default Intel module "intel/2018".
+
+F90 = mpiifort -qopenmp -mkl=parallel
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DSTACK_TRACE_IN_ABORT -DMPI -I${MKLROOT}/include/fftw -diag-disable 8290,8291,7712,5462 -warn all
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -traceback -check all,noarg_temp_created -ftrapuv
+COMPILER = INTEL-ifort-on-LINUX
+LIBS = -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -liomp5 -lpthread -lm -ldl
+
+# 8290, 8291 - suggest field widths
+# 7712 - unused variables
+# 5462 - global name too long (for linker, still within F2003 standard bounds)
+#
+# NB. Link line generated using the link line advisor (below) with the dynamic option.
+# https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
+# Options:
+#     Intel product:              Intel(R) Parallel Studio XE 2018
+#     OS:                         Linux*
+#     Xeon Phi Coprocessor:       None
+#     Compiler:                   Intel(R) Fortran
+#     Architecture:               Intel(R) 64
+#     Dynamic or static linking:  Dynamic
+#     Interface layer:            32-bit integer
+#     Threading layer:            OpenMP threading
+#     OpenMP library:             Intel(R) (libiomp5)
+#     Cluster library:            ScaLAPACK, BLACS
+#     MPI library:                Intel(R) MPI
+#     F95 interfaces:             [None selected]
+#     Link with Intel(R) MKL libraries explicitly: No

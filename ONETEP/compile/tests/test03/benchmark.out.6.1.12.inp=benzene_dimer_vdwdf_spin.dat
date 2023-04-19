@@ -1,0 +1,758 @@
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.11.2  |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 16:36 (+0100)
+ 
+Reading parameters from file "benzene_dimer_vdwdf_spin.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      WARNING: Error getting the value of the OMP_NUM_THREADS environment variable.
+      Not changing the default number of threads (risk of CPU oversubscription).
+      Default threads: 1
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+               1 threads for loops over batched FFT box operations.
+               1 threads in other parallel regions.
+... done
+
+Basic input checks...... done
+
+Reading geometry and species blocks from file "benzene_dimer_vdwdf_spin.dat" ...
+  <species_atomic_set> block not found: NGWF initialisation set to SOLVE
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                 : SINGLEPOINT                                              
+cutoff_energy        : 500 eV                                                   
+spin_polarized       : TRUE                                                     
+maxit_lnv            : 4                                                        
+maxit_ngwf_cg        : 6                                                        
+xc_functional        : VDWDF                                                    
+timings_level        : 0                                                        
+print_qc             : TRUE                                                     
+maxit_pen            : 3                                                        
+do_properties        : T                                                        
+write_density_plot   : F                                                        
+homo_plot            : -1                                                       
+lumo_plot            : -1                                                       
+%block lattice_cart                                                             
+30.0   0.0   0.0                                                                
+0.0  30.0   0.0                                                                 
+0.0   0.0  30.0                                                                 
+%endblock lattice_cart                                                          
+%block species                                                                  
+C C  6 4 7.0                                                                    
+H H  1 1 7.0                                                                    
+%endblock species                                                               
+%block species_pot                                                              
+C  "../../pseudo/carbon.recpot"                                                 
+H  "../../pseudo/hydrogen.recpot"                                               
+%endblock species_pot                                                           
+%block positions_abs                                                            
+     Hash =   000007924160102929446528
+%endblock positions_abs                                                         
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C         12        48        12
+  H         12        12         0
+.......   ......    ......    ......
+Totals:     24        60        12
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   49 x  49 x  49
+                              FFT-box:   49 x  49 x  49
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.612244897959a0 (KE cutoff=  20.26533Eh = 551.44765eV)
+Grid space d2=  0.612244897959a0 (KE cutoff=  20.26533Eh = 551.44765eV)
+Grid space d3=  0.612244897959a0 (KE cutoff=  20.26533Eh = 551.44765eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     49    49    49
+          Real-space ('12') slabs/proc (min max mean):     12    13    12
+         Recip-space ('23') slabs/proc (min max mean):      6     7     6
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:     98    98    98
+          Real-space ('12') slabs/proc (min max mean):     24    25    24
+         Recip-space ('23') slabs/proc (min max mean):     12    13    12
+********************************************************************************
+WARNING in internal_setup_spin (energy_and_force_init_cell):
+        even number of electrons in cell and zero spin
+        but continuing with spin-polarised calculation
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  21 iterations to a total energy of     -5.47971033
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  26 iterations to a total energy of     -0.48584382
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              165.112357 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+Down spin density kernel initialisation ...... done
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+................................................................................
+<<<<<<<<<<<<<<<< Penalty functional density kernel optimisation >>>>>>>>>>>>>>>>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+iter|       energy      |   rms grad  |  commutator |LScoef|CGcoef|      Ne    |
+ 1    -75.15035279299804 0.10835953321 0.00219359407 0.0291  0.000   60.00000000
+ 2    -76.37942967502396 0.08071696645 0.00187916585 0.4768 -0.745   60.00000000
+ 3    -76.38387159055492 0.08080087935 0.00176766543 0.0732  4.819   60.00000000
+
+======================== Penalty functional minimisation =======================
+   Final total energy     :     -78.687646412838
+   Final penalty energy   :       1.400331703074
+   RMS occupancy error    :       0.076385
+   Occupancy bounds spin 1: [-0.111, 1.114]
+   Occupancy bounds spin 2: [-0.110, 1.114]
+================================================================================
+
+Finished density kernel iterations (   3)
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.515222978491E+01     1.8863E-03     1.3338E-03
+    2        -7.515301284382E+01     5.1162E-04     3.6177E-04    -7.8306E-04
+    3        -7.515301636308E+01     3.0299E-04     2.1425E-04    -3.5193E-06
+    4        -7.515300989054E+01     2.2518E-04     1.5922E-04     6.4725E-06
+    5        -7.515300563004E+01     1.8912E-04     1.3373E-04     4.2605E-06
+Finished density kernel iterations (   5)
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.51530056300362E+01  Eh
+     Estimated bandgap (UP spin) =   1.6342E-01  Eh
+     Estimated bandgap (DN spin) =   1.6361E-01  Eh
+     RMS occupancy error         =   1.2426E-13
+     [H,K] commutator            =   1.3373E-04
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.2272E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.63744028745262E+01 Eh
+   Predicted gain in energy  =      -1.22139724449002E+00 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdwdf_spin.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.622481799659E+01     3.7872E-03     2.6780E-03
+    2        -7.622823789156E+01     1.9428E-03     1.3738E-03    -3.4199E-03
+    3        -7.622911940977E+01     8.8744E-04     6.2752E-04    -8.8152E-04
+    4        -7.622924629352E+01     5.2472E-04     3.7103E-04    -1.2688E-04
+Finished density kernel iterations (   4)
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.62292462935235E+01  Eh
+     Estimated bandgap (UP spin) =   1.6587E-01  Eh
+     Estimated bandgap (DN spin) =   1.6598E-01  Eh
+     RMS occupancy error         =   1.8358E-10
+     [H,K] commutator            =   3.7103E-04
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.4103E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.63958175803254E+01 Eh
+   Predicted gain in energy  =      -1.66571286801954E-01 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdwdf_spin.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.639156581036E+01     1.1106E-03     7.8528E-04
+    2        -7.639180602321E+01     7.5191E-04     5.3168E-04    -2.4021E-04
+    3        -7.639192193372E+01     4.6019E-04     3.2540E-04    -1.1591E-04
+    4        -7.639195680317E+01     3.0948E-04     2.1883E-04    -3.4869E-05
+Finished density kernel iterations (   4)
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.63919568031662E+01  Eh
+     Estimated bandgap (UP spin) =   1.6295E-01  Eh
+     Estimated bandgap (DN spin) =   1.6316E-01  Eh
+     RMS occupancy error         =   2.3141E-11
+     [H,K] commutator            =   2.1883E-04
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  5.1987E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.64153594373878E+01 Eh
+   Predicted gain in energy  =      -2.34026342216538E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdwdf_spin.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.641562477306E+01     4.7538E-04     3.3615E-04
+    2        -7.641575367758E+01     2.3646E-04     1.6720E-04    -1.2890E-04
+    3        -7.641580362818E+01     9.3171E-05     6.5882E-05    -4.9951E-05
+    4        -7.641580237829E+01     8.2810E-05     5.8555E-05     1.2499E-06
+Finished density kernel iterations (   4)
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.64158023782858E+01  Eh
+     Estimated bandgap (UP spin) =   1.6019E-01  Eh
+     Estimated bandgap (DN spin) =   1.6042E-01  Eh
+     RMS occupancy error         =   2.8256E-14
+     [H,K] commutator            =   5.8555E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  004 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.2679E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.64210536647889E+01 Eh
+   Predicted gain in energy  =      -5.25128650308204E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdwdf_spin.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.642115535490E+01     2.2494E-04     1.5906E-04
+    2        -7.642120798437E+01     1.0893E-04     7.7022E-05    -5.2629E-05
+    3        -7.642123725779E+01     5.3962E-05     3.8157E-05    -2.9273E-05
+    4        -7.642123672058E+01     5.1311E-05     3.6283E-05     5.3720E-07
+Finished density kernel iterations (   4)
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.64212367205849E+01  Eh
+     Estimated bandgap (UP spin) =   1.5761E-01  Eh
+     Estimated bandgap (DN spin) =   1.5764E-01  Eh
+     RMS occupancy error         =   8.4793E-16
+     [H,K] commutator            =   3.6283E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  005 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.2122E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.64231625656129E+01 Eh
+   Predicted gain in energy  =      -1.92584502796933E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdwdf_spin.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.642312414436E+01     1.8242E-04     1.2899E-04
+    2        -7.642315589671E+01     1.1075E-04     7.8309E-05    -3.1752E-05
+    3        -7.642318644070E+01     4.6484E-05     3.2869E-05    -3.0544E-05
+    4        -7.642318637798E+01     4.1406E-05     2.9279E-05     6.2714E-08
+Finished density kernel iterations (   4)
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.64231863779827E+01  Eh
+     Estimated bandgap (UP spin) =   1.5541E-01  Eh
+     Estimated bandgap (DN spin) =   1.5546E-01  Eh
+     RMS occupancy error         =   3.0338E-15
+     [H,K] commutator            =   2.9279E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  006 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  9.7251E-05 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -7.64245469612054E+01 Eh
+   Predicted gain in energy  =      -1.36058322274835E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "benzene_dimer_vdwdf_spin.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+    1        -7.642452290653E+01     2.8593E-04     2.0218E-04
+    2        -7.642459904830E+01     1.4105E-04     9.9734E-05    -7.6142E-05
+    3        -7.642464349708E+01     5.9587E-05     4.2135E-05    -4.4449E-05
+    4        -7.642464285021E+01     5.6662E-05     4.0066E-05     6.4687E-07
+Finished density kernel iterations (   4)
+
+Writing density kernel to file "benzene_dimer_vdwdf_spin.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -7.64246428502115E+01  Eh
+     Estimated bandgap (UP spin) =   1.5220E-01  Eh
+     Estimated bandgap (DN spin) =   1.5259E-01  Eh
+     RMS occupancy error         =   1.6169E-15
+     [H,K] commutator            =   4.0066E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       56.27612565755034 |
+           | Pseudopotential (local)    :     -503.70391413532201 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        8.95433085432094 |
+           | Hartree                    :      222.87617084458574 |
+           | Exchange-correlation       :      -25.93971266235985 |
+           | Ewald                      :      165.11235659101334 |
+           | Total                      :      -76.42464285021148 |
+           --------------------------------------------------------
+           Integrated density           :       59.99999999999868
+           Integrated spin density      :       -0.00000000000001
+           Integrated |spin density|    :        0.00000000000009
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   6) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00322723661081    -75.15300563003616   0.624406    -76.37440287452618        
+   1     0.00141033766134    -76.22924629352346   0.523033    -76.39581758032541        
+   2     0.00051986868793    -76.39195680316620   0.482831    -76.41535943738785        
+   3     0.00022678901878    -76.41580237828585   0.515192    -76.42105366478893        
+   4     0.00012121570711    -76.42123672058493   0.697872    -76.42316256561290        
+   5     0.00009725062118    -76.42464285021153  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      6
+<QC>           [total_energy]:       -76.424642850212
+<QC>           [rms_gradient]:         0.000097250621
+<QC>      [atom_1_population]:         4.206933010790
+<QC>          [atom_1_charge]:        -0.206933010790
+<QC>            [atom_1_spin]:         0.000000000000
+<QC>      [atom_2_population]:         4.206867246683
+<QC>          [atom_2_charge]:        -0.206867246683
+<QC>            [atom_2_spin]:         0.000000000000
+<QC>      [atom_3_population]:         4.225860906837
+<QC>          [atom_3_charge]:        -0.225860906837
+<QC>            [atom_3_spin]:        -0.000000000000
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)    Spin (hbar)
+=================================================
+  C      1       4.207     -0.207      0.00
+  C      2       4.207     -0.207      0.00
+  C      3       4.226     -0.226     -0.00
+  C      4       4.212     -0.212     -0.00
+  C      5       4.226     -0.226      0.00
+  C      6       4.207     -0.207     -0.00
+  H      7       0.787      0.213     -0.00
+  H      8       0.788      0.212     -0.00
+  H      9       0.786      0.214     -0.00
+  H     10       0.781      0.219      0.00
+  H     11       0.786      0.214      0.00
+  H     12       0.788      0.212     -0.00
+  C     13       4.207     -0.207     -0.00
+  C     14       4.207     -0.207      0.00
+  C     15       4.225     -0.225     -0.00
+  C     16       4.212     -0.212      0.00
+  C     17       4.225     -0.225     -0.00
+  C     18       4.207     -0.207      0.00
+  H     19       0.787      0.213      0.00
+  H     20       0.788      0.212     -0.00
+  H     21       0.786      0.214     -0.00
+  H     22       0.781      0.219     -0.00
+  H     23       0.786      0.214     -0.00
+  H     24       0.788      0.212     -0.00
+=================================================
+
+        Bond         Population      Spin       Length (bohr)
+=============================================================
+ C    16 -- H    22        0.86      0.00      2.04657
+ C     4 -- H    10        0.86     -0.00      2.04657
+ C    13 -- H    19        0.86     -0.00      2.04657
+ C     1 -- H     7        0.86     -0.00      2.04657
+ C    14 -- H    20        0.86      0.00      2.04720
+ C     2 -- H     8        0.86      0.00      2.04720
+ C     3 -- H     9        0.86      0.00      2.04720
+ C    15 -- H    21        0.86      0.00      2.04720
+ C     6 -- H    12        0.86      0.00      2.04720
+ C    18 -- H    24        0.86      0.00      2.04720
+ C     5 -- H    11        0.86     -0.00      2.04720
+ C    17 -- H    23        0.86      0.00      2.04720
+ C    14 -- C    15        1.09     -0.00      2.63806
+ C     5 -- C     6        1.08      0.00      2.63806
+ C     2 -- C     3        1.08      0.00      2.63806
+ C    17 -- C    18        1.09      0.00      2.63806
+ C    13 -- C    14        1.09     -0.00      2.63811
+ C     1 -- C     2        1.09      0.00      2.63811
+ C    15 -- C    16        1.08     -0.00      2.63811
+ C     1 -- C     6        1.09     -0.00      2.63811
+ C    13 -- C    18        1.09     -0.00      2.63811
+ C     3 -- C     4        1.08      0.00      2.63811
+ C    16 -- C    17        1.08      0.00      2.63811
+ C     4 -- C     5        1.08      0.00      2.63811
+ C    15 -- H    22       -0.10      0.00      4.06781
+ C     3 -- H    10       -0.10     -0.00      4.06781
+ C     5 -- H    10       -0.10      0.00      4.06781
+ C    17 -- H    22       -0.10     -0.00      4.06781
+ C    14 -- H    19       -0.10     -0.00      4.06781
+ C     2 -- H     7       -0.10     -0.00      4.06781
+ C     6 -- H     7       -0.10      0.00      4.06781
+ C    18 -- H    19       -0.10      0.00      4.06781
+ C     4 -- H     9       -0.10     -0.00      4.06794
+ C    13 -- H    20       -0.10     -0.00      4.06794
+ C     1 -- H     8       -0.10      0.00      4.06794
+ C    16 -- H    21       -0.10      0.00      4.06794
+ C     4 -- H    11       -0.10     -0.00      4.06794
+ C     1 -- H    12       -0.10      0.00      4.06794
+ C    13 -- H    24       -0.10      0.00      4.06794
+ C    16 -- H    23       -0.10      0.00      4.06794
+ C    15 -- H    20       -0.10     -0.00      4.06870
+ C     3 -- H     8       -0.10      0.00      4.06870
+ C     2 -- H     9       -0.10     -0.00      4.06870
+ C    14 -- H    21       -0.10     -0.00      4.06870
+ C     5 -- H    12       -0.10      0.00      4.06870
+ C    17 -- H    24       -0.10     -0.00      4.06870
+ C     6 -- H    11       -0.10      0.00      4.06870
+ C    18 -- H    23       -0.10     -0.00      4.06870
+ C    13 -- C    15       -0.13      0.00      4.56928
+ C     1 -- C     3       -0.13     -0.00      4.56928
+ C     1 -- C     5       -0.13     -0.00      4.56928
+ C    13 -- C    17       -0.13      0.00      4.56928
+ C    14 -- C    16       -0.13      0.00      4.56928
+ C     2 -- C     4       -0.13     -0.00      4.56928
+ C     4 -- C     6       -0.13      0.00      4.56928
+ C    16 -- C    18       -0.13      0.00      4.56928
+ C    15 -- C    17       -0.13     -0.00      4.56936
+ C    14 -- C    18       -0.13      0.00      4.56936
+ C     2 -- C     6       -0.13      0.00      4.56936
+ C     3 -- C     5       -0.13      0.00      4.56936
+ H    21 -- H    22       -0.02      0.00      4.68436
+ H     9 -- H    10       -0.02      0.00      4.68436
+ H    19 -- H    20       -0.02      0.00      4.68436
+ H     7 -- H     8       -0.02     -0.00      4.68436
+ H    22 -- H    23       -0.02      0.00      4.68436
+ H    10 -- H    11       -0.02     -0.00      4.68436
+ H    19 -- H    24       -0.02     -0.00      4.68436
+ H     7 -- H    12       -0.02     -0.00      4.68436
+ H    23 -- H    24       -0.02      0.00      4.68652
+ H    11 -- H    12       -0.02     -0.00      4.68652
+ H    20 -- H    21       -0.02      0.00      4.68652
+ H     8 -- H     9       -0.02      0.00      4.68652
+ C     1 -- C     4       -0.07      0.00      5.27612
+ C    13 -- C    16       -0.07     -0.00      5.27612
+ C    15 -- C    18       -0.07     -0.00      5.27621
+ C    14 -- C    17       -0.07      0.00      5.27621
+ C     2 -- C     5       -0.07      0.00      5.27621
+ C     3 -- C     6       -0.07     -0.00      5.27621
+=============================================================
+
+
+============== Orbital energy and occupancy information for spin 1 =============
+
+      Total number of orbitals:      60
+   Number of occupied orbitals:      30.000000000
+   Occupancy sum (eigenvalues):      30.000000000
+                 HOMO-LUMO gap:       0.152198062 Eh
+                 Mid-gap level:      -0.112802076 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.761709822   1.0000000
+                        .......   ...........   .........
+                           21    -0.331972357   1.0000000
+                           22    -0.291391770   0.9999999
+                           23    -0.291070940   0.9999999
+                           24    -0.287909359   1.0000000
+                           25    -0.287570027   1.0000000
+                           26    -0.286354385   1.0000000
+                           27    -0.231983672   1.0000000
+                           28    -0.231636196   1.0000000
+                           29    -0.189304363   0.9999997
+                           30    -0.188901107   0.9999997
+                        .......   --- gap ---   .........
+                           31    -0.036703045   0.0000000
+                           32    -0.036538263   0.0000000
+                           33     0.005231008   0.0000000
+                           34     0.005385750   0.0000000
+                           35     0.072585103   0.0000000
+                           36     0.100311965   0.0000000
+                           37     0.116719986   0.0000000
+                           38     0.137640197   0.0000007
+                           39     0.139786478   0.0000006
+                           40     0.151799238   0.0000000
+                        .......   ...........   .........
+                           60     0.625323678   0.0000000
+ 
+<QC>    [energy_eigenvalue_1]:        -0.761709822413
+<QC>    [energy_eigenvalue_n]:         0.625323678499
+<QC>            [occupancy_1]:         0.999999998098
+<QC>            [occupancy_n]:         0.000000002969
+
+================================================================================
+
+============== Orbital energy and occupancy information for spin 2 =============
+
+      Total number of orbitals:      60
+   Number of occupied orbitals:      30.000000000
+   Occupancy sum (eigenvalues):      30.000000000
+                 HOMO-LUMO gap:       0.152198062 Eh
+                 Mid-gap level:      -0.112802076 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.761709822   1.0000000
+                        .......   ...........   .........
+                           21    -0.331972357   1.0000000
+                           22    -0.291391770   0.9999999
+                           23    -0.291070940   0.9999999
+                           24    -0.287909359   1.0000000
+                           25    -0.287570027   1.0000000
+                           26    -0.286354385   1.0000000
+                           27    -0.231983672   1.0000000
+                           28    -0.231636196   1.0000000
+                           29    -0.189304363   0.9999997
+                           30    -0.188901107   0.9999997
+                        .......   --- gap ---   .........
+                           31    -0.036703045   0.0000000
+                           32    -0.036538263   0.0000000
+                           33     0.005231008   0.0000000
+                           34     0.005385750   0.0000000
+                           35     0.072585103   0.0000000
+                           36     0.100311965   0.0000000
+                           37     0.116719986   0.0000000
+                           38     0.137640197   0.0000007
+                           39     0.139786478   0.0000006
+                           40     0.151799238   0.0000000
+                        .......   ...........   .........
+                           60     0.625323678   0.0000000
+ 
+<QC>    [energy_eigenvalue_1]:        -0.761709822413
+<QC>    [energy_eigenvalue_n]:         0.625323678499
+<QC>            [occupancy_1]:         0.999999998098
+<QC>            [occupancy_n]:         0.000000002969
+
+================================================================================
+ 
+=============== Density of States (DOS) calculation for UP spin ================
+Writing "benzene_dimer_vdwdf_spin_UP_DOS.txt" ...  done
+================================================================================
+ 
+============== Density of States (DOS) calculation for DOWN spin ===============
+Writing "benzene_dimer_vdwdf_spin_DN_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "benzene_dimer_vdwdf_spin.val_bands" ... done
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:     167.882s on      4 proc(s)                                    
+TOTAL TIME:       167.883s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 16:39 (+0100)
+

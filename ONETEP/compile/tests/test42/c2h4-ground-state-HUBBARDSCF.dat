@@ -1,0 +1,126 @@
+#========================================================!
+! Input for calculation with the ONETEP program          !
+!                                                        !
+! Quality Control file for:                              !
+! HUBBARDSCF task to generate ground state NGWF          !
+! projectors for constrained-DFT                         !
+! (distorted) ethene molecule C2H4                       !
+! with tensorial correction 4 (CDFT subspace metric)     !
+!                                                        !
+! Adapted from test 30 by D. Turban in April 2014        !
+! Updated by D. Turban in July 2015                      !
+!                                                        !
+!========================================================!
+
+task                   : HUBBARDSCF
+hubbard_max_iter       : 3    # perform 3 Hubbard-SCF iterations
+
+# Quality Control flag
+print_qc               : T
+
+spin_polarized         : T
+spin                   : 0  # Nup-Ndown = 0
+
+kernel_cutoff          : 1000.0
+cutoff_energy          : 400 eV
+odd_psinc_grid         : T
+xc_functional          : PBE
+timings_level          : 0
+
+read_denskern          : F
+read_tightbox_ngwfs    : F
+write_denskern         : T
+write_tightbox_ngwfs   : T
+write_forces           : T
+do_properties          : F
+
+initial_dens_realspace : T
+
+# problems with kernel degeneracy: diagonalise it if broken
+maxit_palser_mano      : -1
+kerfix                 : 2
+maxit_pen              : 0
+minit_lnv              :  2
+maxit_lnv              :  2
+
+maxit_ngwf_cg          : 2
+
+lnv_check_trial_steps  : T
+lnv_threshold_orig     : 1.0e-10
+
+
+########### CDFT-ZONE: START
+#### Species / l / Z (a.u) / U_occ(eV) / J_hund(eV) / U_q_up(eV) / U_q_down(eV) / U_spin(eV) / N_ele_up / N_ele_down /N_up-N_down
+# MIND: no Z<0 to read projectors from file
+%block constrained_dft
+#            Uhub  Jhund   Uq_up  Uq_down    Uspin  Nup   Ndown    DN
+## donor: Us > 0
+C1  1   4.   0.0    0.0     0.0     0.0       1.0e-70    0.     0.      0.   
+H1  0   1.1  0.0    0.0     0.0     0.0       1.0e-70    0.     0.      0.   
+## acceptor: Us < 0
+C2  1   4.   0.0    0.0     0.0     0.0      -1.0e-70    0.     0.      0.   
+H2  0   1.1  0.0    0.0     0.0     0.0      -1.0e-70    0.     0.      0.   
+%endblock constrained_dft
+
+# Don't re-initialise potentials
+cdft_guru : T
+# Do not write cDFT-potentials into .cDFT file (mind the symb. link)
+cdft_write_potentials : F
+
+# New metric with projectors local to each CDFT species
+hubbard_tensor_corr : 4
+
+# Allow projectors of different angular momentum on the same cDFT-site
+cdft_multi_proj : T         # default is .FALSE.
+
+cdft_max_grad     : 1.0E-5  # max cDFT-gradient component threshold
+cdft_cg_threshold : 1.0E-5  # RMS cDFT-gradient convergence threshold
+
+cdft_cg_max : 1             # perform steepest descent
+cdft_trial_length : 0.1     #default
+
+#maxit_cdft_u_cg        : 5 # let the CG algorithm work a little...
+maxit_cdft_u_cg        : 0  # single-point cDFT run
+
+cdft_group_spin_diff        : T  # constrain difference between group_spin_moments
+cdft_group_spin_diff_target : 2.0
+########### CDFT-ZONE: END
+
+%block species
+ C1   C   6   4   8.0
+ C2   C   6   4   8.0
+ H1   H   1   1   8.0
+ H2   H   1   1   8.0
+%endblock species
+
+## Initialise NGWF using (Castep) atomic solver
+%block species_atomic_set
+C1 SOLVE
+C2 SOLVE
+H1 SOLVE
+H2 SOLVE
+%endblock species_atomic_set
+
+%block species_pot
+ C1 "../../pseudo/carbon.recpot"
+ C2 "../../pseudo/carbon.recpot"
+ H1 "../../pseudo/hydrogen.recpot"
+ H2 "../../pseudo/hydrogen.recpot"
+%endblock species_pot
+
+%block lattice_cart
+ang
+   12.0000000    0.0000000   0.000000
+    0.0000000   12.0000000   0.000000
+    0.0000000    0.0000000  12.000000
+%endblock lattice_cart
+
+%block positions_abs
+ang
+ C1      6.010000    6.010000    5.332500
+ H1      6.943102    6.010000    4.788000
+ H1      5.056898    6.010000    4.788000
+ C2      6.000000    6.000000    6.667500
+ H2      6.943102    6.000000    7.212000
+ H2      5.056898    6.000000    7.212000
+%endblock positions_abs

@@ -1,0 +1,50 @@
+# ONETEP configuration file for Red Hat Enterprise Linux 7
+# Created by James C Womack, 19/07/19
+# v1.0
+#
+# Compiler:     GNU Fortran v4.8.5 (RHEL 7 default GCC toolchain)
+# MPI:          RHEL 7 package openmpi3-devel (v3.0.2)
+# OMP:          enabled
+# FFTW:         RHEL 7 package fftw-devel (v3.3.3)
+# BLAS/LAPACK:  RHEL 7 package blas-devel (v3.4.2)
+#               RHEL 7 package lapack-devel (v3.4.2)
+#            
+# Load the mpi/openmpi3-x86_64 module before compilation
+#
+# Strict GFortran compilation flags (FFLAGS) and debug flags
+# (DEBUGFLAGS) inherited from configuration file
+# conf.RH7.gfortran492.intelmpi.omp.scalapack
+
+F90 = mpif90 -fopenmp
+### Uncomment to turn warnings into errors ###
+#FFLAGS = -DGFORTRAN -DMPI -DFFTW3 -DPOINTERFUN -Werror -Wall -Wno-unused -Wno-unused-dummy-argument -Wno-maybe-uninitialized -Wno-character-truncation -Wno-conversion -Wno-conversion-extra -Wno-target-lifetime
+##############################################
+FFLAGS = -DGFORTRAN -DMPI -DFFTW3 -DPOINTERFUN         -Wall -Wno-unused -Wno-unused-dummy-argument -Wno-maybe-uninitialized -Wno-character-truncation -Wno-conversion -Wno-conversion-extra -Wno-target-lifetime
+# -DGFORTRAN   : (seems to be unused)
+# -DMPI        : compile with MPI support
+# -DFFTW3      : use FFTW v3.x API
+# -DPOINTERFUN : replace some allocatable derived type components with pointers
+#                to avoid issue OpenMP specification 3.1 in GFortran 4.8.5,
+#                which does not officially support allocatable components
+#                (see e.g. https://gcc.gnu.org/bugzilla/attachment.cgi?id=17030)
+# -Wall        : enable commonly used warning options, with the following
+#                exceptions...
+#   -Wno-unused                 : unused dummy PARAMETERs (and dummy arguments?)
+#   -Wno-unused-dummy-argument  : unused dummy arguments
+#   -Wno-maybe-uninitialized    : local variables maybe uninitialised
+#   -Wno-character-truncation   : truncation of string in character assignment
+#   -Wno-conversion             : implicit conversions likely to change value of expression
+#   -Wno-conversion-extra       : implicit conversions between types and kinds
+#   -Wno-target-lifetime        : pointer in assignment might be longer than target
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -fcheck=all -finit-integer=-999999999 -finit-real=snan -ffpe-trap=invalid,zero,overflow
+# -g                            : produce information for debuggers
+# -fcheck=all                   : generate all run-time tests
+# -finit-integer=-999999999     : initialize local integers to -999999999
+# -finit-real=snan              : initialise local reals to signalling NaN
+# -ffpe-trap=invalid,zero,overflow : enable floating point exception traps for
+#                                 - invalid FP operations
+#                                 - division by zero
+#                                 - FP overflow
+COMPILER = GNU-gfortran-on-LINUX
+LIBS = -lfftw3_omp -lfftw3 -llapack -lblas

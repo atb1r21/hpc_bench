@@ -1,0 +1,105 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Distributed Multipole Analysis for a subsystem.    !
+!                                                    !
+! The test system is an ammonia dimer.               !
+! DMA is performed for one of the molecules,         !
+! and not for the other one.                         !
+!                                                    !
+! The two molecules are artificially spaced apart    !
+! to test the correctness of handling all scenarios  !
+! of NGWF overlaps (intraregion, region-with-outside,!
+! and both NGWFs outside).                           !
+!                                                    !
+! SW expansion filtering is also tested.             !
+!                                                    !
+! Created by Jacek Dziedzic in April 2015.           !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+print_qc T
+
+%block swri
+  for_dma 1 9 V 12 12 E
+%endblock swri
+
+%block species_swri-for_dma
+H1
+N1
+%endblock species_swri-for_dma
+ 
+do_properties T
+
+ppd_npoints 5 5 5
+
+dma_calculate T 
+dma_use_ri for_dma
+dma_max_l 1
+dma_max_q 8 ! test SW expansion filtering
+dma_metric ELECTROSTATIC
+dma_bessel_averaging F
+dma_scale_charge T
+dma_target_num_val_elec 8   ! expected n electrons in subsystem
+
+minit_lnv 5
+maxit_lnv 5
+
+write_forces T
+
+write_denskern F
+write_tightbox_ngwfs F
+
+xc_functional PBE
+
+maxit_ngwf_cg 20
+ngwf_threshold_orig : 0.00001
+
+charge 0
+
+write_density_plot F
+cube_format F
+dx_format F
+
+psinc_spacing 0.5 0.5 0.5
+
+! The NGWF radii are artificially small to make only some of the
+! atoms between the two molecules overlap.
+
+%block species
+ N   N   7 4 5.0
+ H   H   1 1 5.0
+ N1  N   7 4 5.0
+ H1  H   1 1 5.0
+%endblock species
+ 
+%block species_pot
+ H   "../../pseudo/hydrogen.recpot"
+ N   "../../pseudo/nitrogen.recpot"
+ H1  "../../pseudo/hydrogen.recpot"
+ N1  "../../pseudo/nitrogen.recpot"
+%endblock species_pot
+
+%block lattice_cart
+  55.00000000   0.00000000   0.00000000
+   0.00000000  55.00000000   0.00000000
+   0.00000000   0.00000000  55.00000000
+%endblock lattice_cart
+
+%block positions_abs
+N      32.53111486      29.58597259      29.63799794
+H      33.24165195      30.37020901      28.07330455
+H      33.67061983      28.12710388      30.04050964
+H      32.71441831      30.87287621      31.00615979
+N1     24.08714813      27.81840893      27.78539659
+H1     23.60904737      26.31985596      28.76805427
+H1     25.99010253      27.85431373      27.73248425
+H1     23.32936788      27.68234863      25.99393604
+%endblock positions_abs

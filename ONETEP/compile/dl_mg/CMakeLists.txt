@@ -1,0 +1,29 @@
+include_directories("${CMAKE_BINARY_DIR}/src")
+
+set(dlmg_SRCS
+    src/dl_mg_params.F90
+    src/dl_mg_types.F90
+    src/dl_mg_common_data.F90
+    src/dl_mg_mpi_header.F90
+    src/dl_mg_timer.F90
+    src/dl_mg_grids.F90
+    src/dl_mg_mpi.F90
+    src/dl_mg_info.F90
+    src/dl_mg_stencil_coefficients.F90
+    src/dl_mg_kernels.F90
+    src/dl_mg_multigrid_method.F90
+    src/dl_mg.F90
+    src/dl_mg_nonlinear_model.F90
+    src/dl_mg_errors.F90
+    src/dl_mg_defco_mod.F90
+    src/dl_mg_defco_fd_mod.F90
+    src/dl_mg_defco_utils_mod.F90
+    src/dl_mg_convergence_params.F90
+    src/dl_mg_utils.F90
+    src/dl_mg_neutralisation_with_ions.F90
+    src/dl_mg_newton_method.F90
+    src/dl_mg_second_order_solvers.F90
+    src/dl_mg_conjugate_gradient_method.F90
+    src/dl_mg_alloc.F90
+)
+add_library(dl_mg ${dlmg_SRCS})

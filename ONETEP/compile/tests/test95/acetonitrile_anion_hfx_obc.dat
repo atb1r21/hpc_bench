@@ -1,0 +1,92 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! Hartree-Fock exchange in open boundary conditions  !
+! for a spin-polarised system. This also tests PBE0. !
+!                                                    !
+! Test system is acetonitrile anion.                 !
+!                                                    !
+! Created by Jacek Dziedzic in July 2022.            !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+
+! Set-up OBCs for everything
+hfx_bc O O O
+ion_ion_bc O O O
+vdw_bc O O O
+pspot_bc O O O
+multigrid_bc O O O
+is_smeared_ion_rep T
+
+print_qc T
+
+%block swri
+  for_hfx 2 9 V 12 12 WE
+%endblock swri
+
+%block species_swri-for_hfx
+H
+C
+N
+%endblock species_swri-for_hfx
+ 
+do_properties T 
+
+hfx_use_ri for_hfx
+hfx_max_l 2
+hfx_max_q 9
+hfx_metric ELECTROSTATIC
+hfx_memory_limit 2000
+ 
+charge -1
+
+maxit_pen 0
+maxit_ngwf_cg 2
+minit_lnv 5
+maxit_lnv 5
+ 
+write_denskern F
+write_tightbox_ngwfs F
+ 
+output_detail VERBOSE 
+write_density_plot F
+dx_format F
+cube_format F
+ 
+xc_functional PBE0
+ 
+%block species
+ H   H   1 1 7.0
+ C   C   6 4 7.0
+ N   N   7 4 7.0
+%endblock species
+
+%block species_pot
+ H   "../../pseudo/hydrogen.recpot"
+ C   "../../pseudo/carbon.recpot"
+ N   "../../pseudo/nitrogen.recpot"
+%endblock species_pot
+
+psinc_spacing 0.5 0.5 0.5
+ 
+%block lattice_cart 
+ 31.50000000000000      0.000000000000000       0.000000000000000        
+ 0.000000000000000      31.50000000000000       0.000000000000000        
+ 0.000000000000000      0.000000000000000       31.50000000000000       
+%endblock lattice_cart 
+ 
+%block positions_abs 
+C      14.00000000      14.53351903      14.00000000
+C      13.99982048      11.77500345      14.00000000
+H      15.94190413      11.04495093      14.00000000
+H      13.02877865      11.04502463      15.68193440
+H      13.02877865      11.04502463      12.31806560
+N      14.00023055      16.71626696      14.00000000
+%endblock positions_abs

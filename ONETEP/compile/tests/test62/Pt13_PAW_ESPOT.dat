@@ -1,0 +1,81 @@
+! QC test for EDFT + PAW + ELECTROSTATIC POTENTIAL
+! Created by Jolyon Aarons 2017
+
+! JCW: 07/09/2017
+! JCW: This test has been disabled because it fails in when the tests are run
+! JCW: in serial. When the cause of this is located the test should be 
+! JCW: re-enabled (by renaming the directory from broken_test62 to test62) and 
+! JCW: removing this message.
+
+
+ ! read/write
+ print_qc T
+ read_denskern F
+ read_tightbox_ngwfs F
+ write_denskern F
+ write_tightbox_ngwfs F
+ write_hamiltonian T
+ write_xyz F
+ output_detail NORMAL
+ timings_level 0
+ do_properties T
+ write_density_plot T
+ CUBE_FORMAT T
+
+ ! task
+ task singlepoint
+ charge 0
+ cutoff_energy 400 eV
+ kernel_cutoff 1000 bohr
+ xc_functional RPBE
+ paw T
+
+ ! density kernel optimisation
+ maxit_palser_mano 100
+ maxit_pen 0
+ edft T
+ edft_smearing_width 0.1 eV
+ edft_maxit 3
+ edft_free_energy_thres 1.0e-3 Ha
+ edft_commutator_thres 1.0e-3 Ha
+
+ ! NGWF optimisation
+ maxit_ngwf_cg 3
+ occ_mix 1.0
+ elec_cg_max 0
+
+
+ %block species
+  Pt Pt 78 6 6.0
+ %endblock species
+
+ %block species_atomic_set
+ Pt "SOLVE"
+ %endblock species_atomic_set
+
+ %block species_pot
+ Pt "../../pseudo/platinum.paw"
+ %endblock species_pot
+
+
+ %block lattice_cart
+  35.034   0.000   0.000
+   0.000  35.032   0.000
+   0.000   0.000  35.032
+ %endblock lattice_cart
+
+ %block positions_abs
+Pt     13.99909253    17.51398347    13.99909253
+Pt     17.51587320    13.99909253    13.99909253
+Pt     21.03265386    17.51398347    13.99909253
+Pt     17.51587320    21.03076414    13.99909253
+Pt     13.99909253    13.99909253    17.51587320
+Pt     13.99909253    17.51398347    21.03076414
+Pt     17.51587320    13.99909253    21.03076414
+Pt     17.51587320    17.51398347    17.51587320
+Pt     21.03265386    13.99909253    17.51587320
+Pt     21.03265386    17.51398347    21.03076414
+Pt     13.99909253    21.03076414    17.51587320
+Pt     17.51587320    21.03076414    21.03076414
+Pt     21.03265386    21.03076414    17.51587320
+ %endblock positions_abs

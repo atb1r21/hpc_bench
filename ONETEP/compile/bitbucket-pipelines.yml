@@ -1,0 +1,47 @@
+# Bitbucket pipelines for the ONETEP project.
+
+# Written by Jose M. Escartin.
+# v0.3 (17th September 2018)
+
+# Info on how to configure this file available on
+# https://confluence.atlassian.com/bitbucket/configure-bitbucket-pipelines-yml-792298910.html
+
+# NOTE: If you make changes to this file, please make sure that the script at
+# ./utils/pull_request_checks is appropriately updated, so that developers can
+# run the same checks from their systems without having to push to bitbucket.
+
+# docker image repository from Docker Hub
+image: jme52/gfortran_mpi_scalapack_fftw:gfortran-6.3_OpenMPI-2.0.2_FFTW-3.3.5
+
+clone:
+  depth: 1            # argument to git clone --depth (number of commits to get)
+
+pipelines:
+#  default:
+
+  custom:                     # These pipelines only run when manually triggered
+    pull_request_concurrent_checks: # Name displayed in the list in the online GUI
+    - parallel:
+        - step:
+            name: dependencies
+            script:
+                - make checkdeps
+        - step:
+            name: esdf
+            script:
+                - make checkesdf
+        - step:
+            name: whitespace
+            script:
+                - ./utils/check_whitespace
+        - step:
+            name: compilation
+            script:
+                - make    clean  ARCH=gfortran.openmpi.omp.scalapack.noopt
+                - make -j onetep ARCH=gfortran.openmpi.omp.scalapack.noopt
+
+#    pull_request_sequential_checks:
+#     - step:
+#         name: all checks
+#         script:
+#           - ./utils/pull_request_checks

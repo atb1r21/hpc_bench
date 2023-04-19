@@ -1,0 +1,309 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Using van der Waals Density Functionals &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Realspace local pseudopotential in ONETEP" href="realspace_local_pseudo.html" />
+    <link rel="prev" title="Empirical Dispersion Correction" href="VDW-correction.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-van-der-waals-density-functionals">
+<h1>Using van der Waals Density Functionals<a class="headerlink" href="#using-van-der-waals-density-functionals" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Lampros Andrinopoulos, Imperial College London</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">November 2012</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="activating-vdw-df">
+<h2>Activating vdW-DF<a class="headerlink" href="#activating-vdw-df" title="Permalink to this headline">¶</a></h2>
+<p>The van der Waals energy is calculated in ONETEP using the van der Waals
+Density Functional method, developed by Dion <em>et al</em>
+[Dion2004].</p>
+<p>The only input variable needed to activate the vdW-DF functional is to
+set <code class="docutils literal"><span class="pre">xc_functional</span> <span class="pre">VDWDF</span></code>. If a <code class="docutils literal"><span class="pre">vdW_df_kernel</span></code> file is not present
+in the working directory, it will be automatically generated.</p>
+</div>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<p>The form for the exchange-correlation functional proposed by Dion <em>et
+al</em> is:</p>
+<div class="math" id="equation-e-xc">
+<span class="eqno">(1)<a class="headerlink" href="#equation-e-xc" title="Permalink to this equation">¶</a></span>\[E_{xc} = E_{x}^{\rm{revPBE}} + E_c^{\rm{PW92}} + E_c^{\rm{nl}}\]</div>
+<p>where the non-local exchange-correlation energy is given by:</p>
+<div class="math" id="equation-e-nl-dion">
+<span class="eqno">(2)<a class="headerlink" href="#equation-e-nl-dion" title="Permalink to this equation">¶</a></span>\[E_{c}^{\mathrm{nl}} = \frac{1}{2}\int\int d{\mathbf{r}}d{\mathbf{r}}'\rho({\mathbf{r}})\phi({\mathbf{r}},{\mathbf{r}}')\rho({\mathbf{r}}')\]</div>
+<p>where <span class="math">\(\rho({\mathbf{r}})\)</span> is the electron density at
+<span class="math">\({\mathbf{r}}\)</span> and <span class="math">\(\phi({\mathbf{r}},{\mathbf{r}}')\)</span> is the
+nonlocal exchange correlation kernel whose form is explained in
+[Dion2004].</p>
+<div class="section" id="non-local-correlation-energy">
+<h3>Non-local correlation energy<a class="headerlink" href="#non-local-correlation-energy" title="Permalink to this headline">¶</a></h3>
+<p>The direct calculation of the integral in the form of Eq. <a class="reference internal" href="#equation-e-nl-dion">(2)</a>
+is very computationally expensive, as it involves a six-dimensional
+spatial integral.</p>
+<p>The algorithm proposed later by Roman-Perez and Soler
+[Roman-Perez2009] improves the efficiency of the
+calculation. They observed that with the form used by Dion <em>et al</em> for
+<span class="math">\(\phi\)</span>, the above expression can be re-written as:</p>
+<div class="math">
+\[E_{c}^{\mathrm{nl}} = \frac{1}{2}\int\int d{\mathbf{r}}d{\mathbf{r}}'\rho({\mathbf{r}})\phi(q,q',r)\rho({\mathbf{r}}')\]</div>
+<p>where <span class="math">\(r=|{\mathbf{r}}-{\mathbf{r}}'|\)</span>, and <span class="math">\(q\)</span> and
+<span class="math">\(q'\)</span> are the values of a universal function
+<span class="math">\(q_0[\rho({\mathbf{r}}),|\nabla \rho({\mathbf{r}})|]\)</span> at
+<span class="math">\({\mathbf{r}}\)</span> and <span class="math">\({\mathbf{r}}'\)</span>. They thus proposed a way
+to expand the kernel <span class="math">\(\phi\)</span> using interpolating polynomials
+<span class="math">\(p_\alpha(q)\)</span> for chosen values <span class="math">\(q_\alpha\)</span> of <span class="math">\(q\)</span>, and
+tabulated functions <span class="math">\(\phi_{\alpha\beta}(r)\)</span> for the kernel
+corresponding to each pair of interpolating polynomials. The
+interpolating polynomials <span class="math">\(p_{\alpha}\)</span> are cubic splines that
+evaluate to a Kronecker delta on each respective interpolating point. A
+mesh of 20 interpolation points is used in Soler’s implementation. The
+Soler form of the nonlocal energy can be written as:</p>
+<div class="math" id="equation-kernel">
+<span class="eqno">(3)<a class="headerlink" href="#equation-kernel" title="Permalink to this equation">¶</a></span>\[\phi(q_1,q_2,r) = \sum_{\alpha\beta}\phi_{\alpha\beta}(r) p_{\alpha}(q_1) p_{\beta}(q_2)\]</div>
+<p>The universal function <span class="math">\(q_0({\mathbf{r}})\)</span> is in practice given
+by:</p>
+<div class="math" id="equation-q0">
+<span class="eqno">(4)<a class="headerlink" href="#equation-q0" title="Permalink to this equation">¶</a></span>\[q_0({\mathbf{r}}) = \Bigg(1 + \frac{\epsilon_c^{\rm{PW92}}}{\epsilon_x^{\rm{LDA}}} +
+\frac{0.8491}{9}\Big(\frac{\nabla\rho}{2\rho k_F}\Big)^2\Bigg) k_F\]</div>
+<p>with <span class="math">\(k_F=(3\pi^2\rho)^{1/3}\)</span>. The quantity <span class="math">\(q_0\)</span> is first
+“saturated” to limit its maximum value, according to:</p>
+<div class="math">
+\[q_0^{\text{sat}}(\rho,{|\nabla{\rho}|}) = q_c \Bigg(1-\exp\Big(-\sum_{m=1}^{m_c}\frac{(q/q_c)^m}{m}\Big)\Bigg)\]</div>
+<p>where <span class="math">\(q_c\)</span> is the maximum value of the mesh of
+<span class="math">\(q_{\alpha}\)</span>.</p>
+<p>To evaluate this, we first define a quantity
+<span class="math">\(\theta_{\alpha}({\mathbf{r}}) = \rho({\mathbf{r}}) p_{\alpha}(q(\rho({\mathbf{r}}),\nabla\rho({\mathbf{r}}))\)</span>
+in real space. In terms of this, Eq. <a class="reference internal" href="#equation-e-nl-dion">(2)</a> can be written as:</p>
+<div class="math" id="equation-e-nl-real">
+<span class="eqno">(5)<a class="headerlink" href="#equation-e-nl-real" title="Permalink to this equation">¶</a></span>\[E_c^{\mathrm{nl}} = \frac{1}{2} \sum_{\alpha\beta} \int \int d{\mathbf{r}}d{\mathbf{r}}'
+\theta_{\alpha}({\mathbf{r}}) \theta_{\beta}({\mathbf{r}}') \phi_{\alpha\beta}(r)\]</div>
+<p>It can be shown that this can be written as a reciprocal space integral:</p>
+<div class="math" id="equation-e-nl">
+<span class="eqno">(6)<a class="headerlink" href="#equation-e-nl" title="Permalink to this equation">¶</a></span>\[    E_c^{\mathrm{nl}} = \frac{1}{2} \sum_{\alpha\beta}\int d\mathbf{k}
+    \theta^{*}_{\alpha}(\mathbf{k})\theta_{\beta}(\mathbf{k})\phi_{\alpha\beta}(k)\]</div>
+<p>Since the kernel is radially dependent in real space, it is only
+dependent on the magnitude of the G-vectors, hence the kernel need only
+be evaluated as a 1-dimensional function <span class="math">\(\phi_{\alpha\beta}(k)\)</span>
+for each <span class="math">\(\alpha\)</span>, <span class="math">\(\beta\)</span>.</p>
+<p>The kernel <span class="math">\(\phi\)</span> and its second derivatives are tabulated for a
+specific set of radial points and transformed to reciprocal space. These
+values are then used to interpolate the kernel at every point
+<span class="math">\(\mathbf{k}\)</span> in reciprocal space required to calculate Eq.
+<a class="reference internal" href="#equation-e-nl">(6)</a>.</p>
+</div>
+<div class="section" id="kernel">
+<h3>Kernel<a class="headerlink" href="#kernel" title="Permalink to this headline">¶</a></h3>
+<p>This section details the evaluation of the NLXC kernel. The kernel
+<span class="math">\(\phi({\mathbf{r}},{\mathbf{r}}')\)</span> as specified by Dion <em>et al</em>
+[Dion2004] is given by (in atomic units):</p>
+<div class="math">
+\[\phi({\mathbf{r}},{\mathbf{r}}') = \frac{1}{\pi^2}\int_{0}^{\infty}a^2da
+    \int_0^{\infty}b^2db W(a,b) T(\nu(a),\nu(b),\nu'(a),\nu'(b))\]</div>
+<p>where</p>
+<div class="math">
+\[T(w,x,y,z) = \frac{1}{2}\Big[\frac{1}{w+x} + \frac{1}{y+z}\Big]\Big[\frac{1}{(w+y)(x+z)}+\frac{1}{(w+z)(y+x)}\Big],\]</div>
+<p>and</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+    W(a,b) = 2\Big[ &amp; (3-a^2)b\cos b \sin a \\
+                    + &amp; (3-b^2)a\cos a \sin b   \\
+                    + &amp; (a^2+b^2-3)\sin a\sin b \\
+                    - &amp; 3ab\cos a \cos b \Big]/(a^3b^3),\end{aligned}\end{split}\]</div>
+<p>and</p>
+<div class="math">
+\[\nu(y) = 1- e^{-\gamma y^2/d^2}; \quad \nu'(y) = 1- e^{-\gamma y^2/d'^2};\]</div>
+<p>where <span class="math">\(d=|{\mathbf{r}}-{\mathbf{r}}'|q_0({\mathbf{r}})\)</span>,
+<span class="math">\(d'=|{\mathbf{r}}-{\mathbf{r}}'|q_0(\mathbf{r'})\)</span></p>
+<p>Following this chain of logic, it is clear that this the kernel can in
+fact be considered as a function only of
+<span class="math">\(|{\mathbf{r}}-{\mathbf{r}}'|\)</span>, <span class="math">\(q_0({\mathbf{r}})\)</span> and
+<span class="math">\(q_0({\mathbf{r}}')\)</span>, since all other variables are dummy
+variables which are integrated over. The kernel can therefore be written
+as</p>
+<div class="math" id="equation-phi-tab">
+<span class="eqno">(7)<a class="headerlink" href="#equation-phi-tab" title="Permalink to this equation">¶</a></span>\[\phi(r,q_0({\mathbf{r}}),q_0({\mathbf{r}}'))\]</div>
+<p>This makes it possible to evaluate the integrals above so as to
+tabulate the kernel values numerically for a pre-chosen set of radial
+points and <span class="math">\(q_0\)</span> values.</p>
+</div>
+<div class="section" id="non-local-potential">
+<h3>Non-local potential<a class="headerlink" href="#non-local-potential" title="Permalink to this headline">¶</a></h3>
+<p>Starting from <a class="reference internal" href="#equation-e-nl">(6)</a>, one can evaluate the potential
+<span class="math">\(v^{\mathrm{nl}}({\mathbf{r}})\)</span> corresponding to this energy, by
+evaluating all terms in <span class="math">\(\partial E_{\mathrm{nl}} /
+\partial n({\mathbf{r}})\)</span>. The non-local potential
+<span class="math">\(v_i^{\mathrm{nl}}\)</span> at point <span class="math">\({\mathbf{r}}_i\)</span> on the grid is
+thus written explicitly in terms of the derivatives of the
+<span class="math">\(\theta_{\alpha}\)</span> quantities with respect to the values
+<span class="math">\(\rho_j\)</span> at all other points on the grid:</p>
+<div class="math" id="equation-v-nl">
+<span class="eqno">(8)<a class="headerlink" href="#equation-v-nl" title="Permalink to this equation">¶</a></span>\[v_i^{\mathrm{nl}} = \sum_{\alpha}(u_{\alpha i}{\frac{\partial{\theta_{\alpha i}}}{\partial{\rho_i}}}+\sum_j u_{\alpha j}
+{\frac{\partial{\theta_{\alpha j}}}{\partial{\nabla\rho_j}}}{\frac{\partial{\nabla\rho_j}}{\partial{\rho_i}}})\]</div>
+<p>This makes use of the quantities
+<span class="math">\(u_\alpha({\mathbf{r}})= \sum_{\beta}\mathcal{F}(\theta_{\beta}(\mathbf{k})\phi_{\alpha\beta}(k))\)</span>:
+which are already calculated in the evaluation of the energy.</p>
+<p>Using the White and Bird [White1994] approach, Eq.
+<a class="reference internal" href="#equation-v-nl">(8)</a> can be written as:</p>
+<div class="math" id="equation-v-nl-wnb">
+<span class="eqno">(9)<a class="headerlink" href="#equation-v-nl-wnb" title="Permalink to this equation">¶</a></span>\[v_{\mathrm{nl}}({\mathbf{r}}) = \sum_{\alpha} \Big(
+  u_{\alpha}({\mathbf{r}}){\frac{\partial{\theta_{\alpha}({\mathbf{r}})}}{\partial{\rho({\mathbf{r}})}}}
+  - \int\int i\mathbf{G}\cdot \frac{\nabla\rho({\mathbf{r}}')}{|\nabla\rho({\mathbf{r}}')|}
+  {\frac{\partial{\theta_{\alpha}({\mathbf{r}}')}}{\partial{|\nabla\rho({\mathbf{r}}')|}}}e^{i\mathbf{G}\cdot ({\mathbf{r}}-{\mathbf{r}}')} d{\mathbf{r}}d\mathbf{G}
+  \Big)\]</div>
+<p>For this we need to calculate
+<span class="math">\({\frac{\partial{\theta}}{\partial{\rho}}}\)</span> and
+<span class="math">\({\frac{\partial{\theta}}{\partial{{|\nabla{\rho}|}}}}\)</span>:</p>
+<div class="math" id="equation-dtheta-drho">
+<span class="eqno">(10)<a class="headerlink" href="#equation-dtheta-drho" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{aligned}
+    {\frac{\partial{\theta_\alpha}}{\partial{\rho}}} &amp;=p_\alpha + \rho {\frac{\partial{p_\alpha}}{\partial{\rho}}} \nonumber \\
+                                               &amp;=p_\alpha + \rho {\frac{\partial{p_\alpha}}{\partial{q}}}{\frac{\partial{q}}{\partial{\rho}}} \nonumber \\
+                                               &amp;=p_\alpha + \rho {\frac{\partial{p_\alpha}}{\partial{q}}} \frac{q}{k_F} {\frac{\partial{k_F}}{\partial{\rho}}} + \rho {\frac{\partial{p_\alpha}}{\partial{q}}} k_F ({\frac{\partial{{\varepsilon}_c}}{\partial{\rho}}}{\varepsilon}_x^{-1}-{\varepsilon}_c{\varepsilon}_x^{-2}{\frac{\partial{{\varepsilon}_x}}{\partial{\rho}}} - \frac{8}{3(3\pi^2)^{2/3}}\frac{Z}{4}(\nabla\rho)^2 \rho^{-11/3}) \nonumber \\
+                                               &amp;=p_\alpha + q/3{\frac{\partial{p_\alpha}}{\partial{q}}} + k_F\rho {\frac{\partial{p_\alpha}}{\partial{q}}} ({\frac{\partial{{\varepsilon}_c}}{\partial{\rho}}}{\varepsilon}_x^{-1}-{\varepsilon}_c{\varepsilon}_x^{-2}{\frac{\partial{{\varepsilon}_x}}{\partial{\rho}}}- \frac{2Z}{3(3\pi^2)^{2/3}} {|\nabla{\rho}|}^2\rho^{-11/3})\end{aligned}\end{split}\]</div>
+<div class="math" id="equation-dtheta-dgradrho">
+<span class="eqno">(11)<a class="headerlink" href="#equation-dtheta-dgradrho" title="Permalink to this equation">¶</a></span>\[    {\frac{\partial{\theta_\alpha}}{\partial{{|\nabla{\rho}|}}}} = \rho {\frac{\partial{p_\alpha}}{\partial{q}}} {\frac{\partial{q}}{\partial{{|\nabla{\rho}|}}}} = \frac{Z}{2\rho k_F} \rho {\frac{\partial{p_\alpha}}{\partial{q}}}{|\nabla{\rho}|}\]</div>
+<p>Combining Eqs. <a class="reference internal" href="#equation-v-nl-wnb">(9)</a>, <a class="reference internal" href="#equation-dtheta-drho">(10)</a> and <a class="reference internal" href="#equation-dtheta-dgradrho">(11)</a> gives
+us the final expression for the nonlocal potential.</p>
+</div>
+</div>
+<div class="section" id="overview-of-computational-algorithm">
+<h2>Overview of computational algorithm<a class="headerlink" href="#overview-of-computational-algorithm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-nlxc-mod">
+<h3>Module <code class="docutils literal"><span class="pre">nlxc_mod</span></code><a class="headerlink" href="#module-nlxc-mod" title="Permalink to this headline">¶</a></h3>
+<p>The main module for the calculation of the non-local energy and
+potential is <code class="docutils literal"><span class="pre">nlxc_mod</span></code>. The tabulation of the kernel <span class="math">\(\phi\)</span> is
+performed only if a kernel file is not found, by <code class="docutils literal"><span class="pre">vdwdf_kernel</span></code>.</p>
+<p>The input required to calculate the non-local energy and potential is
+essentially just the density and its gradient on the fine grid. The
+calculation of <span class="math">\(q\)</span> and the Fourier transformed
+<span class="math">\(\theta_\alpha\)</span> from Eq. <a class="reference internal" href="#equation-e-nl">(6)</a> is performed first, in the
+routine <code class="docutils literal"><span class="pre">nlxc_q0_theta</span></code>. The derivatives of the
+<span class="math">\(\theta_\alpha\)</span>s with respect to the density and the module of
+its gradient are calculated on-the-fly in the real-space loop for the
+calculation of the non-local potential <span class="math">\(v_{nl}\)</span> in Eq. <a class="reference internal" href="#equation-v-nl">(8)</a>. This
+is to avoid storing unnecessary arrays. From Eq. <a class="reference internal" href="#equation-v-nl-wnb">(9)</a> two
+transforms are required per <span class="math">\(\alpha\)</span> value, a forward FFT,
+followed by a backward FFT for calculating the non-local potential.</p>
+<p>Subroutines to interpolate the polynomials as well as the kernel using
+cubic splines are used (<code class="docutils literal"><span class="pre">spline_interp</span></code> and <code class="docutils literal"><span class="pre">interpolate</span></code>). The
+interpolating polynomials <span class="math">\(p_\alpha\)</span> used are Kronecker deltas, so
+they take the value 1 on the interpolating point and are zero at the
+other points.</p>
+</div>
+<div class="section" id="module-vdwdf-kernel">
+<h3>Module <code class="docutils literal"><span class="pre">vdwdf_kernel</span></code><a class="headerlink" href="#module-vdwdf-kernel" title="Permalink to this headline">¶</a></h3>
+<p>The kernel <span class="math">\(\phi_{\alpha\beta}(k)\)</span> is tabulated for 1024 radial
+reciprocal space points and 20 <span class="math">\(q_0\)</span> points. Gaussian quadrature
+is used to calculate Eq. <a class="reference internal" href="#equation-phi-tab">(7)</a> and then the result is Fourier
+transformed. The second derivatives of the kernel are calculated by
+interpolation, and also tabulated. The default name of the file is
+<code class="docutils literal"><span class="pre">vdw_df_kernel</span></code>. The program will first check if this file exists: if
+it does, it will be loaded in and need not be calculated. If it does
+not, it will be generated from scratch (which only takes a few minutes)
+and then it is written out for future re-use in the current working
+directory.</p>
+<div class="line-block">
+<div class="line">The format of the <code class="docutils literal"><span class="pre">vdw_df_kernel</span></code> file is:</div>
+</div>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><code class="docutils literal"><span class="pre">N_alpha</span></code>  <code class="docutils literal"><span class="pre">N_radial</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">max_radius</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">q_points(:)</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">kernel(0:N_radial,alpha,beta)</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">kernel2(0:N_radial,alpha,beta)</span></code></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">kernel2</span></code> is the array of second derivatives of the kernel.</p>
+<p>[Dion2004] M. Dion, H. Rydberg, E. Schröder, D. C. Langreth, and B. I. Lundqvist,
+Phys. Rev. Lett. <strong>92</strong>, 246401 (2004).</p>
+<p>[Roman-Perez2009] G. Román-Pérez and J. M. Soler, Phys. Rev. Lett. <strong>103</strong>, 096102 (2009).</p>
+<p>[White1994] J. A. White and D. M. Bird, Phys. Rev. B <strong>50</strong>, 4954 (1994).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_ground_state.html">Ground State Calculation Setup</a><ul>
+      <li>Previous: <a href="VDW-correction.html" title="previous chapter">Empirical Dispersion Correction</a></li>
+      <li>Next: <a href="realspace_local_pseudo.html" title="next chapter">Realspace local pseudopotential in ONETEP</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/VDW-DF.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

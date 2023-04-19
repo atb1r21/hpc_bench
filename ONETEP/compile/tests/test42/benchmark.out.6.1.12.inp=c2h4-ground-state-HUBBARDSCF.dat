@@ -1,0 +1,1419 @@
+==================================================================================
+It's Wed Sep 21 10:42:11 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 6672 6673 6674 6675)...
+    - ONETEP arguments: c2h4-ground-state-HUBBARDSCF.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test42
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test42/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test42/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack c2h4-ground-state-HUBBARDSCF.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 10:42 (+0100)
+ 
+Reading parameters from file "c2h4-ground-state-HUBBARDSCF.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "c2h4-ground-state-HUBBARDSCF.dat" ...WARNING in internal_cdft: turning spin-polarisation on for constrained-DFT run
+... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+task                   : HUBBARDSCF                                             
+hubbard_max_iter       : 3                                                      
+print_qc               : T                                                      
+spin_polarized         : T                                                      
+spin                   : 0                                                      
+kernel_cutoff          : 1000.0                                                 
+cutoff_energy          : 400 eV                                                 
+odd_psinc_grid         : T                                                      
+xc_functional          : PBE                                                    
+timings_level          : 0                                                      
+read_denskern          : F                                                      
+read_tightbox_ngwfs    : F                                                      
+write_denskern         : T                                                      
+write_tightbox_ngwfs   : T                                                      
+write_forces           : T                                                      
+do_properties          : F                                                      
+initial_dens_realspace : T                                                      
+maxit_palser_mano      : -1                                                     
+kerfix                 : 2                                                      
+maxit_pen              : 0                                                      
+minit_lnv              :  2                                                     
+maxit_lnv              :  2                                                     
+maxit_ngwf_cg          : 2                                                      
+lnv_check_trial_steps  : T                                                      
+lnv_threshold_orig     : 1.0e-10                                                
+%block constrained_dft                                                          
+C1  1   4.   0.0    0.0     0.0     0.0       1.0e-70    0.     0.      0.      
+H1  0   1.1  0.0    0.0     0.0     0.0       1.0e-70    0.     0.      0.      
+C2  1   4.   0.0    0.0     0.0     0.0      -1.0e-70    0.     0.      0.      
+H2  0   1.1  0.0    0.0     0.0     0.0      -1.0e-70    0.     0.      0.      
+%endblock constrained_dft                                                       
+cdft_guru : T                                                                   
+cdft_write_potentials : F                                                       
+hubbard_tensor_corr : 4                                                         
+cdft_multi_proj : T                                                             
+cdft_max_grad     : 1.0E-5                                                      
+cdft_cg_threshold : 1.0E-5                                                      
+cdft_cg_max : 1                                                                 
+cdft_trial_length : 0.1                                                         
+maxit_cdft_u_cg        : 0                                                      
+cdft_group_spin_diff        : T                                                 
+cdft_group_spin_diff_target : 2.0                                               
+%block species                                                                  
+C1   C   6   4   8.0                                                            
+C2   C   6   4   8.0                                                            
+H1   H   1   1   8.0                                                            
+H2   H   1   1   8.0                                                            
+%endblock species                                                               
+%block species_atomic_set                                                       
+C1 SOLVE                                                                        
+C2 SOLVE                                                                        
+H1 SOLVE                                                                        
+H2 SOLVE                                                                        
+%endblock species_atomic_set                                                    
+%block species_pot                                                              
+C1 "../../pseudo/carbon.recpot"                                                 
+C2 "../../pseudo/carbon.recpot"                                                 
+H1 "../../pseudo/hydrogen.recpot"                                               
+H2 "../../pseudo/hydrogen.recpot"                                               
+%endblock species_pot                                                           
+%block lattice_cart                                                             
+ang                                                                             
+12.0000000    0.0000000   0.000000                                              
+0.0000000   12.0000000   0.000000                                               
+0.0000000    0.0000000  12.000000                                               
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =   000003338820974686655605
+%endblock positions_abs                                                         
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+ ESDF WARNING(1): "kernelcutoff" (esdf_physical) has no units. Assume "bohr".
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<< Pseudopotential information >>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/carbon.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  6;  ionic charge:  4.000000
+    Shell 1: l = 0; rc = 1.48 bohr
+File: ../../pseudo/hydrogen.recpot [ 2001 points up to Gmax=  52.9 (1/bohr)]
+  Atomic number:  1;  ionic charge:  1.000000
+    Local potential
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  C          2         8         2
+  H          4         4         0
+.......   ......    ......    ......
+Totals:      6        12         2
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   33 x  33 x  33
+                              FFT-box:   33 x  33 x  33
+                                  PPD:   11 x  11 x   1
+Grid space d1=  0.687173139849a0 (KE cutoff=  16.08687Eh = 437.74611eV)
+Grid space d2=  0.687173139849a0 (KE cutoff=  16.08687Eh = 437.74611eV)
+Grid space d3=  0.687173139849a0 (KE cutoff=  16.08687Eh = 437.74611eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     33    33    33
+          Real-space ('12') slabs/proc (min max mean):      8     9     8
+         Recip-space ('23') slabs/proc (min max mean):      4     5     4
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:     66    66    66
+          Real-space ('12') slabs/proc (min max mean):     16    17    16
+         Recip-space ('23') slabs/proc (min max mean):      8     9     8
+********************************************************************************
+WARNING in internal_setup_spin (energy_and_force_init_cell):
+        even number of electrons in cell and zero spin
+        but continuing with spin-polarised calculation
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  19 iterations to a total energy of     -5.39728629
+
+Atom SCF Calculation for C  : Z (AE atom) =   6 : Z (PS atom) =   4
+Config String:
+Orbitals (num,occ):  2     2.00 2.00
+Orbitals   (num,l):  2        0    1
+Atom SCF converged after  19 iterations to a total energy of     -5.39728629
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  18 iterations to a total energy of     -0.45733041
+
+Atom SCF Calculation for H  : Z (AE atom) =   1 : Z (PS atom) =   1
+Config String:
+Orbitals (num,occ):  1     1.00
+Orbitals   (num,l):  1        0
+Atom SCF converged after  18 iterations to a total energy of     -0.45733041
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...               10.578121 Hartree
+Basis initialisation ...... done
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+Up spin density kernel initialisation ...... done
+Down spin density kernel initialisation ...... done
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+################################################################################
+
+HUBBARD PROJECTOR SCF ITERATION     1
+
+################################################################################
+
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:          0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:          0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.342443121008E+01     1.6602E-02     1.1740E-02
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:            -0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.342814592866E+01     1.1744E-03     8.3041E-04    -3.7147E-03
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.34281459286619E+01  Eh
+     Estimated bandgap (UP spin) =   2.3730E-01  Eh
+     Estimated bandgap (DN spin) =   2.3730E-01  Eh
+     RMS occupancy error         =   1.9098E-08
+     [H,K] commutator            =   8.3041E-04
+     UP spin occupancy bounds    = [ -0.000:  1.000]
+     DN spin occupancy bounds    = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.1390E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:          0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+  ========================================================================
+   Predicted total energy    =      -1.36781706075297E+01 Eh
+   Predicted gain in energy  =      -2.50024678867753E-01 Eh
+  ========================================================================
+
+Writing NGWFs to file "c2h4-ground-state-HUBBARDSCF.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:            -0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:            -0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.367739358685E+01     4.7584E-03     3.3647E-03
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:          0.00000000 mu_B
+Total DONOR magnetic-moment:            -0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.367774136942E+01     8.5455E-04     6.0426E-04    -3.4778E-04
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.36777413694238E+01  Eh
+     Estimated bandgap (UP spin) =   2.4301E-01  Eh
+     Estimated bandgap (DN spin) =   2.4301E-01  Eh
+     RMS occupancy error         =   2.9047E-09
+     [H,K] commutator            =   6.0426E-04
+     UP spin occupancy bounds    = [ -0.000:  1.000]
+     DN spin occupancy bounds    = [ -0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.6723E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+  ========================================================================
+   Predicted total energy    =      -1.37251115480489E+01 Eh
+   Predicted gain in energy  =      -4.73701786251688E-02 Eh
+  ========================================================================
+
+Writing NGWFs to file "c2h4-ground-state-HUBBARDSCF.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:            -0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.372531776637E+01     1.6917E-03     1.1962E-03
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:            -0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.372538100620E+01     5.3050E-04     3.7512E-04    -6.3240E-05
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.37253810061980E+01  Eh
+     Estimated bandgap (UP spin) =   2.3716E-01  Eh
+     Estimated bandgap (DN spin) =   2.3716E-01  Eh
+     RMS occupancy error         =   3.9386E-10
+     [H,K] commutator            =   3.7512E-04
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:            -0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.14968900395319 |
+           | Pseudopotential (local)    :      -51.76733831821599 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.56503301053874 |
+           | Hartree                    :       20.59041089676489 |
+           | Exchange-correlation       :       -4.84129656715506 |
+           | cDFT [+(DFT+U)] correction :        0.00000000000000 |
+           | Ewald                      :       10.57812096791621 |
+           | Total                      :      -13.72538100619801 |
+           --------------------------------------------------------
+           Integrated density           :       11.99999999999998
+           Integrated spin density      :        0.00000000000000
+           Integrated |spin density|    :        0.00000000000000
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00413897588863    -13.42814592866195   0.368034    -13.67817060752970        
+   1     0.00167228672373    -13.72538100619801  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -13.725381006198
+<QC>           [rms_gradient]:         0.001672286724
+
+################################################################################
+cDFT information on atom      1 of constrained species C1  
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      1 is 
+  0.12504192 -0.00021521  0.00590992  0.00106454
+ -0.00021521  0.51916644 -0.00114514  0.00000160
+  0.00590992 -0.00114514  0.75253827 -0.00322992
+  0.00106454  0.00000160 -0.00322992  0.71712338
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      2 is 
+  0.12504192 -0.00021521  0.00590992  0.00106454
+ -0.00021521  0.51916644 -0.00114514  0.00000160
+  0.00590992 -0.00114514  0.75253827 -0.00322992
+  0.00106454  0.00000160 -0.00322992  0.71712338
+################################################################################
+Total occupancy of cDFT site            1 is   4.22774002 e
+UP occupancy of cDFT site               1 is   2.11387001 e
+DOWN occupancy of cDFT site             1 is   2.11387001 e
+Local magnetic moment of cDFT site      1 is  -0.00000000 mu_B
+cDFT energy of cDFT site                1 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species H1  
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      1 is 
+  0.81750200
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      2 is 
+  0.81750200
+################################################################################
+Total occupancy of cDFT site            2 is   1.63500399 e
+UP occupancy of cDFT site               2 is   0.81750200 e
+DOWN occupancy of cDFT site             2 is   0.81750200 e
+Local magnetic moment of cDFT site      2 is  -0.00000000 mu_B
+cDFT energy of cDFT site                2 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species H1  
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      1 is 
+  0.81330678
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      2 is 
+  0.81330678
+################################################################################
+Total occupancy of cDFT site            3 is   1.62661356 e
+UP occupancy of cDFT site               3 is   0.81330678 e
+DOWN occupancy of cDFT site             3 is   0.81330678 e
+Local magnetic moment of cDFT site      3 is   0.00000000 mu_B
+cDFT energy of cDFT site                3 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species C2  
+################################################################################
+Occupancy matrix of cDFT site      4 and spin      1 is 
+  0.12504076  0.00006345 -0.00591902  0.00006589
+  0.00006345  0.51915850 -0.00116331  0.00000234
+ -0.00591902 -0.00116331  0.75253819 -0.00065823
+  0.00006589  0.00000234 -0.00065823  0.71715271
+################################################################################
+Occupancy matrix of cDFT site      4 and spin      2 is 
+  0.12504076  0.00006345 -0.00591902  0.00006589
+  0.00006345  0.51915850 -0.00116331  0.00000234
+ -0.00591902 -0.00116331  0.75253819 -0.00065823
+  0.00006589  0.00000234 -0.00065823  0.71715271
+################################################################################
+Total occupancy of cDFT site            4 is   4.22778032 e
+UP occupancy of cDFT site               4 is   2.11389016 e
+DOWN occupancy of cDFT site             4 is   2.11389016 e
+Local magnetic moment of cDFT site      4 is   0.00000000 mu_B
+cDFT energy of cDFT site                4 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species H2  
+################################################################################
+Occupancy matrix of cDFT site      5 and spin      1 is 
+  0.81549430
+################################################################################
+Occupancy matrix of cDFT site      5 and spin      2 is 
+  0.81549430
+################################################################################
+Total occupancy of cDFT site            5 is   1.63098859 e
+UP occupancy of cDFT site               5 is   0.81549430 e
+DOWN occupancy of cDFT site             5 is   0.81549430 e
+Local magnetic moment of cDFT site      5 is   0.00000000 mu_B
+cDFT energy of cDFT site                5 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species H2  
+################################################################################
+Occupancy matrix of cDFT site      6 and spin      1 is 
+  0.81530733
+################################################################################
+Occupancy matrix of cDFT site      6 and spin      2 is 
+  0.81530733
+################################################################################
+Total occupancy of cDFT site            6 is   1.63061465 e
+UP occupancy of cDFT site               6 is   0.81530733 e
+DOWN occupancy of cDFT site             6 is   0.81530733 e
+Local magnetic moment of cDFT site      6 is  -0.00000000 mu_B
+cDFT energy of cDFT site                6 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+
+HUBBARD PROJECTOR SCF ITERATION     2
+
+################################################################################
+
+Writing HUBBARD PROJs to file "c2h4-ground-state-HUBBARDSCF.tightbox_hub_projs"....
+  done
+======= Calculation of HUBBARD PROJECTOR S^-1 using Hotelling algorithm ======== 
+In hubbard_tensorial_correction.
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.28115329E+01     0.84365997E+00
+               2       0.25134357E+01     0.71176215E+00
+               3       0.22034352E+01     0.55722475E+00
+               4       0.19426688E+01     0.50056902E+00
+               5       0.17553537E+01     0.46002499E+00
+               6       0.15317381E+01     0.40351773E+00
+               7       0.11739686E+01     0.31088104E+00
+               8       0.69120790E+00     0.18473840E+00
+               9       0.24175749E+00     0.67335263E-01
+              10       0.30542564E-01     0.92686970E-02
+              11       0.53387179E-03     0.17708106E-03
+              12       0.18738117E-06     0.65723885E-07
+              13       0.25197069E-13     0.97699626E-14
+================================================================================
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:            -0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:          0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.372538100620E+01     5.3050E-04     3.7512E-04
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:          0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:    0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.372538616909E+01     1.5696E-04     1.1098E-04    -5.1629E-06
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.37253861690920E+01  Eh
+     Estimated bandgap (UP spin) =   2.3723E-01  Eh
+     Estimated bandgap (DN spin) =   2.3723E-01  Eh
+     RMS occupancy error         =   3.2640E-12
+     [H,K] commutator            =   1.1098E-04
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  6.7810E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:          0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+  ========================================================================
+   Predicted total energy    =      -1.37319011869888E+01 Eh
+   Predicted gain in energy  =      -6.51501789682207E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "c2h4-ground-state-HUBBARDSCF.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.373189813593E+01     7.3547E-04     5.2005E-04
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.373190694296E+01     1.3369E-04     9.4531E-05    -8.8070E-06
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.37319069429614E+01  Eh
+     Estimated bandgap (UP spin) =   2.3325E-01  Eh
+     Estimated bandgap (DN spin) =   2.3325E-01  Eh
+     RMS occupancy error         =   4.7668E-12
+     [H,K] commutator            =   9.4531E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.7365E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+  ========================================================================
+   Predicted total energy    =      -1.37346661649959E+01 Eh
+   Predicted gain in energy  =      -2.75922203455892E-03 Eh
+  ========================================================================
+
+Writing NGWFs to file "c2h4-ground-state-HUBBARDSCF.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.373466691181E+01     1.0000E-03     7.0714E-04
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.373468225752E+01     1.1207E-04     7.9247E-05    -1.5346E-05
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.37346822575173E+01  Eh
+     Estimated bandgap (UP spin) =   2.2818E-01  Eh
+     Estimated bandgap (DN spin) =   2.2818E-01  Eh
+     RMS occupancy error         =   8.2904E-12
+     [H,K] commutator            =   7.9247E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.13888441653470 |
+           | Pseudopotential (local)    :      -51.78787840579550 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.54501146690436 |
+           | Hartree                    :       20.63942010641204 |
+           | Exchange-correlation       :       -4.84824080948910 |
+           | cDFT [+(DFT+U)] correction :        0.00000000000000 |
+           | Ewald                      :       10.57812096791621 |
+           | Total                      :      -13.73468225751729 |
+           --------------------------------------------------------
+           Integrated density           :       12.00000000000001
+           Integrated spin density      :       -0.00000000000000
+           Integrated |spin density|    :        0.00000000000000
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00067809938413    -13.72538616909200   0.357289    -13.73190118698883        
+   1     0.00037364661869    -13.73468225751730  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -13.734682257517
+<QC>           [rms_gradient]:         0.000373646619
+
+################################################################################
+cDFT information on atom      1 of constrained species C1  
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      1 is 
+  0.76104840 -0.00077762  0.17333766  0.00151574
+ -0.00038066  0.67655070 -0.00094716 -0.00000217
+  0.06914236 -0.00080863  0.80755450 -0.00202061
+ -0.00049885  0.00001218 -0.00455454  0.62916343
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      2 is 
+  0.76104840 -0.00077762  0.17333766  0.00151574
+ -0.00038066  0.67655070 -0.00094716 -0.00000217
+  0.06914236 -0.00080863  0.80755450 -0.00202061
+ -0.00049885  0.00001218 -0.00455454  0.62916343
+################################################################################
+Total occupancy of cDFT site            1 is   5.74863406 e
+UP occupancy of cDFT site               1 is   2.87431703 e
+DOWN occupancy of cDFT site             1 is   2.87431703 e
+Local magnetic moment of cDFT site      1 is   0.00000000 mu_B
+cDFT energy of cDFT site                1 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species H1  
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      1 is 
+  0.37377163
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      2 is 
+  0.37377163
+################################################################################
+Total occupancy of cDFT site            2 is   0.74754326 e
+UP occupancy of cDFT site               2 is   0.37377163 e
+DOWN occupancy of cDFT site             2 is   0.37377163 e
+Local magnetic moment of cDFT site      2 is   0.00000000 mu_B
+cDFT energy of cDFT site                2 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species H1  
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      1 is 
+  0.37859817
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      2 is 
+  0.37859817
+################################################################################
+Total occupancy of cDFT site            3 is   0.75719635 e
+UP occupancy of cDFT site               3 is   0.37859817 e
+DOWN occupancy of cDFT site             3 is   0.37859817 e
+Local magnetic moment of cDFT site      3 is   0.00000000 mu_B
+cDFT energy of cDFT site                3 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species C2  
+################################################################################
+Occupancy matrix of cDFT site      4 and spin      1 is 
+  0.76106011  0.00093710 -0.17337949  0.00017290
+  0.00038612  0.67648689 -0.00098972  0.00000403
+ -0.06914155 -0.00077159  0.80755356 -0.00059014
+  0.00126384  0.00001745 -0.00244357  0.62906578
+################################################################################
+Occupancy matrix of cDFT site      4 and spin      2 is 
+  0.76106011  0.00093710 -0.17337949  0.00017290
+  0.00038612  0.67648689 -0.00098972  0.00000403
+ -0.06914155 -0.00077159  0.80755356 -0.00059014
+  0.00126384  0.00001745 -0.00244357  0.62906578
+################################################################################
+Total occupancy of cDFT site            4 is   5.74833268 e
+UP occupancy of cDFT site               4 is   2.87416634 e
+DOWN occupancy of cDFT site             4 is   2.87416634 e
+Local magnetic moment of cDFT site      4 is  -0.00000000 mu_B
+cDFT energy of cDFT site                4 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species H2  
+################################################################################
+Occupancy matrix of cDFT site      5 and spin      1 is 
+  0.37655845
+################################################################################
+Occupancy matrix of cDFT site      5 and spin      2 is 
+  0.37655845
+################################################################################
+Total occupancy of cDFT site            5 is   0.75311690 e
+UP occupancy of cDFT site               5 is   0.37655845 e
+DOWN occupancy of cDFT site             5 is   0.37655845 e
+Local magnetic moment of cDFT site      5 is  -0.00000000 mu_B
+cDFT energy of cDFT site                5 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species H2  
+################################################################################
+Occupancy matrix of cDFT site      6 and spin      1 is 
+  0.37589399
+################################################################################
+Occupancy matrix of cDFT site      6 and spin      2 is 
+  0.37589399
+################################################################################
+Total occupancy of cDFT site            6 is   0.75178799 e
+UP occupancy of cDFT site               6 is   0.37589399 e
+DOWN occupancy of cDFT site             6 is   0.37589399 e
+Local magnetic moment of cDFT site      6 is   0.00000000 mu_B
+cDFT energy of cDFT site                6 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+
+HUBBARD PROJECTOR SCF ITERATION     3
+
+################################################################################
+
+Writing HUBBARD PROJs to file "c2h4-ground-state-HUBBARDSCF.tightbox_hub_projs"....
+  done
+======= Calculation of HUBBARD PROJECTOR S^-1 using Hotelling algorithm ======== 
+In hubbard_tensorial_correction.
+         Iteration  |  Frobenius norm and Maximum abs value    (of I-S*S_n^-1)   
+               1       0.28097185E+01     0.84277110E+00
+               2       0.25106044E+01     0.71026313E+00
+               3       0.21994628E+01     0.55746213E+00
+               4       0.19377981E+01     0.50085158E+00
+               5       0.17483546E+01     0.45814845E+00
+               6       0.15199321E+01     0.40019589E+00
+               7       0.11562753E+01     0.30578952E+00
+               8       0.67128956E+00     0.17921662E+00
+               9       0.22900927E+00     0.65249752E-01
+              10       0.27800457E-01     0.86735574E-02
+              11       0.45610453E-03     0.15440783E-03
+              12       0.14014813E-06     0.49596901E-07
+              13       0.13982400E-13     0.46629367E-14
+================================================================================
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.373468225752E+01     1.1207E-04     7.9247E-05
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.373468259314E+01     3.6415E-05     2.5749E-05    -3.3562E-07
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.37346825931375E+01  Eh
+     Estimated bandgap (UP spin) =   2.2816E-01  Eh
+     Estimated bandgap (DN spin) =   2.2816E-01  Eh
+     RMS occupancy error         =   6.5616E-14
+     [H,K] commutator            =   2.5749E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.2402E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+  ========================================================================
+   Predicted total energy    =      -1.37354123188756E+01 Eh
+   Predicted gain in energy  =      -7.29725738157327E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "c2h4-ground-state-HUBBARDSCF.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.373541224161E+01     2.2060E-04     1.5599E-04
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.373541299979E+01     2.1632E-05     1.5296E-05    -7.5818E-07
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.37354129997866E+01  Eh
+     Estimated bandgap (UP spin) =   2.2635E-01  Eh
+     Estimated bandgap (DN spin) =   2.2635E-01  Eh
+     RMS occupancy error         =   2.3959E-14
+     [H,K] commutator            =   1.5296E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  1.2343E-04 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+  ========================================================================
+   Predicted total energy    =      -1.37356877871395E+01 Eh
+   Predicted gain in energy  =      -2.74787352873673E-04 Eh
+  ========================================================================
+
+Writing NGWFs to file "c2h4-ground-state-HUBBARDSCF.tightbox_ngwfs"....  done
+
+>>> Optimising kernel for current NGWFs:
+   iter  |      energy (Eh)       | rms gradient |  commutator  |   dE (Eh)
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    1        -1.373568771063E+01     2.7484E-04     1.9434E-04
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+    2        -1.373568894771E+01     3.4835E-05     2.4632E-05    -1.2371E-06
+Finished density kernel iterations (   2)
+
+Writing density kernel to file "c2h4-ground-state-HUBBARDSCF.dkn" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total energy                =  -1.37356889477116E+01  Eh
+     Estimated bandgap (UP spin) =   2.2380E-01  Eh
+     Estimated bandgap (DN spin) =   2.2380E-01  Eh
+     RMS occupancy error         =   1.1188E-13
+     [H,K] commutator            =   2.4632E-05
+     UP spin occupancy bounds    = [  0.000:  1.000]
+     DN spin occupancy bounds    = [  0.000:  1.000]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+################################################################################
+MIND: UP+DOWN-populations 
+Total ACCEPTOR magnetic-moment:         -0.00000000 mu_B
+Total DONOR magnetic-moment:             0.00000000 mu_B
+ACCEPTOR-DONOR magnetic-moment diff.:   -0.00000000 mu_B / Target:    2.00000000
+################################################################################
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :       10.18569559466281 |
+           | Pseudopotential (local)    :      -51.86625133362507 |
+           | Pseudo (non-coul chg cor)  :        0.00000000000000
+           | Pseudopotential (non-local):        1.54615772678290 |
+           | Hartree                    :       20.68148334970915 |
+           | Exchange-correlation       :       -4.86089525315766 |
+           | cDFT [+(DFT+U)] correction :        0.00000000000000 |
+           | Ewald                      :       10.57812096791621 |
+           | Total                      :      -13.73568894771165 |
+           --------------------------------------------------------
+           Integrated density           :       11.99999999999999
+           Integrated spin density      :        0.00000000000000
+           Integrated |spin density|    :        0.00000000000001
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   2) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00022401598083    -13.73468259313746   0.366685    -13.73541231887562        
+   1     0.00012343359735    -13.73568894771165  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      2
+<QC>           [total_energy]:       -13.735688947712
+<QC>           [rms_gradient]:         0.000123433597
+
+################################################################################
+cDFT information on atom      1 of constrained species C1  
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      1 is 
+  0.76273635 -0.00077814  0.17378868  0.00156185
+ -0.00037564  0.67477035 -0.00094240 -0.00000208
+  0.06720616 -0.00080545  0.80553643 -0.00207142
+ -0.00042219  0.00001197 -0.00452385  0.63135168
+################################################################################
+Occupancy matrix of cDFT site      1 and spin      2 is 
+  0.76273635 -0.00077814  0.17378868  0.00156185
+ -0.00037564  0.67477035 -0.00094240 -0.00000208
+  0.06720616 -0.00080545  0.80553643 -0.00207142
+ -0.00042219  0.00001197 -0.00452385  0.63135168
+################################################################################
+Total occupancy of cDFT site            1 is   5.74878963 e
+UP occupancy of cDFT site               1 is   2.87439481 e
+DOWN occupancy of cDFT site             1 is   2.87439481 e
+Local magnetic moment of cDFT site      1 is   0.00000000 mu_B
+cDFT energy of cDFT site                1 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species H1  
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      1 is 
+  0.37197731
+################################################################################
+Occupancy matrix of cDFT site      2 and spin      2 is 
+  0.37197731
+################################################################################
+Total occupancy of cDFT site            2 is   0.74395462 e
+UP occupancy of cDFT site               2 is   0.37197731 e
+DOWN occupancy of cDFT site             2 is   0.37197731 e
+Local magnetic moment of cDFT site      2 is   0.00000000 mu_B
+cDFT energy of cDFT site                2 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species H1  
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      1 is 
+  0.37694645
+################################################################################
+Occupancy matrix of cDFT site      3 and spin      2 is 
+  0.37694645
+################################################################################
+Total occupancy of cDFT site            3 is   0.75389290 e
+UP occupancy of cDFT site               3 is   0.37694645 e
+DOWN occupancy of cDFT site             3 is   0.37694645 e
+Local magnetic moment of cDFT site      3 is  -0.00000000 mu_B
+cDFT energy of cDFT site                3 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species C2  
+################################################################################
+Occupancy matrix of cDFT site      4 and spin      1 is 
+  0.76273853  0.00093178 -0.17382505  0.00018056
+  0.00037898  0.67471705 -0.00099074  0.00000403
+ -0.06720712 -0.00077636  0.80553197 -0.00058967
+  0.00122243  0.00001681 -0.00239547  0.63125910
+################################################################################
+Occupancy matrix of cDFT site      4 and spin      2 is 
+  0.76273853  0.00093178 -0.17382505  0.00018056
+  0.00037898  0.67471705 -0.00099074  0.00000403
+ -0.06720712 -0.00077636  0.80553197 -0.00058967
+  0.00122243  0.00001681 -0.00239547  0.63125910
+################################################################################
+Total occupancy of cDFT site            4 is   5.74849330 e
+UP occupancy of cDFT site               4 is   2.87424665 e
+DOWN occupancy of cDFT site             4 is   2.87424665 e
+Local magnetic moment of cDFT site      4 is  -0.00000000 mu_B
+cDFT energy of cDFT site                4 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      1 of constrained species H2  
+################################################################################
+Occupancy matrix of cDFT site      5 and spin      1 is 
+  0.37484221
+################################################################################
+Occupancy matrix of cDFT site      5 and spin      2 is 
+  0.37484221
+################################################################################
+Total occupancy of cDFT site            5 is   0.74968442 e
+UP occupancy of cDFT site               5 is   0.37484221 e
+DOWN occupancy of cDFT site             5 is   0.37484221 e
+Local magnetic moment of cDFT site      5 is   0.00000000 mu_B
+cDFT energy of cDFT site                5 is   0.00000000 Ha
+################################################################################
+
+
+################################################################################
+cDFT information on atom      2 of constrained species H2  
+################################################################################
+Occupancy matrix of cDFT site      6 and spin      1 is 
+  0.37416360
+################################################################################
+Occupancy matrix of cDFT site      6 and spin      2 is 
+  0.37416360
+################################################################################
+Total occupancy of cDFT site            6 is   0.74832719 e
+UP occupancy of cDFT site               6 is   0.37416360 e
+DOWN occupancy of cDFT site             6 is   0.37416360 e
+Local magnetic moment of cDFT site      6 is  -0.00000000 mu_B
+cDFT energy of cDFT site                6 is   0.00000000 Ha
+################################################################################
+
+
+********************* Unconstrained **********************
+************************* Forces *************************
+*                                                        *
+* Element  Atom         Cartesian components (Eh/a)      *
+* ------------------------------------------------------ *
+*                       x            y            z      *
+*                                                        *
+*    C       1     -0.01223093  -0.00107256   0.00593349 *
+*    H       2      0.01055757   0.00023955  -0.00842771 *
+*    H       3     -0.00067211   0.00024289  -0.00353771 *
+*    C       4      0.00238751   0.00093735  -0.00577362 *
+*    H       5      0.00549557  -0.00017818   0.00644049 *
+*    H       6     -0.00553762  -0.00016907   0.00536507 *
+*                                                        *
+**********************************************************
+* TOTAL:           -0.00000000   0.00000000   0.00000000 *
+**********************************************************
+<QC>       [total_force(1,1)]:        -0.012230925590
+<QC>       [total_force(1,2)]:         0.010557574001
+<QC>       [total_force(1,3)]:        -0.000672108948
+<QC>       [total_force(1,4)]:         0.002387511219
+<QC>       [total_force(1,5)]:         0.005495573392
+<QC>       [total_force(1,6)]:        -0.005537624074
+<QC>       [total_force(2,1)]:        -0.001072556302
+<QC>       [total_force(2,2)]:         0.000239554751
+<QC>       [total_force(2,3)]:         0.000242894964
+<QC>       [total_force(2,4)]:         0.000937353974
+<QC>       [total_force(2,5)]:        -0.000178179015
+<QC>       [total_force(2,6)]:        -0.000169068372
+<QC>       [total_force(3,1)]:         0.005933488167
+<QC>       [total_force(3,2)]:        -0.008427713752
+<QC>       [total_force(3,3)]:        -0.003537709165
+<QC>       [total_force(3,4)]:        -0.005773624603
+<QC>       [total_force(3,5)]:         0.006440490142
+<QC>       [total_force(3,6)]:         0.005365069211
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:       5.904s on      4 proc(s)                                    
+TOTAL TIME:         5.904s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 10:42 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

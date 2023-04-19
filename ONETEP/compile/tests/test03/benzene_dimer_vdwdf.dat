@@ -1,0 +1,72 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for:                          !
+! vdW-DF method (non-self consistent)                !
+! Benzene dimer                                      !   
+!                                                    !
+! Created by Lampros Andrinopoulos on 28 March 2012  !
+! Modified to add eigenstates printing in 2019       !
+!                                                    !
+! Lampros Andrinopoulos                              !
+! Thomas Young Centre                                !
+! Imperial College London                            !
+! London SW7 2AZ                                     !
+! UK                                                 !
+!====================================================!
+
+task                 : SINGLEPOINT
+cutoff_energy        : 500 eV
+maxit_lnv            : 4
+maxit_ngwf_cg        : 6
+xc_functional        : VDWDF
+timings_level        : 0
+print_qc             : TRUE
+maxit_pen            : 3
+do_properties        : T
+write_density_plot   : F
+homo_plot            : -1
+lumo_plot            : -1
+
+%block lattice_cart
+ 30.0   0.0   0.0    
+  0.0  30.0   0.0    
+  0.0   0.0  30.0   
+%endblock lattice_cart
+
+%block species
+C C  6 4 7.0
+H H  1 1 7.0
+%endblock species
+
+%block species_pot
+C  "../../pseudo/carbon.recpot"
+H  "../../pseudo/hydrogen.recpot"
+%endblock species_pot
+
+%block positions_abs
+C     15.628439779     15.000000000  15.00
+C     14.309410418     17.284679795  15.00
+C     11.671351697     17.284679795  15.00
+C     10.352322336     15.000000000  15.00
+C     11.671351697     12.715320205  15.00
+C     14.309410418     12.715320205  15.00
+H     17.675013988     15.000000000  15.00
+H     15.333642386     19.057243606  15.00
+H     10.647119729     19.057243606  15.00
+H      8.305748128     15.000000000  15.00
+H     10.647119729     10.942756393  15.00
+H     15.333642386     10.942756393  15.00
+C     15.628439779     15.000000000  21.00
+C     14.309410418     17.284679795  21.00
+C     11.671351697     17.284679795  21.00
+C     10.352322336     15.000000000  21.00
+C     11.671351697     12.715320205  21.00
+C     14.309410418     12.715320205  21.00
+H     17.675013988     15.000000000  21.00
+H     15.333642386     19.057243606  21.00
+H     10.647119729     19.057243606  21.00
+H      8.305748128     15.000000000  21.00
+H     10.647119729     10.942756393  21.00
+H     15.333642386     10.942756393  21.00
+%endblock positions_abs

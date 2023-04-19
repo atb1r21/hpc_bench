@@ -1,0 +1,315 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Nudged Elastic Band Transition State Searching and the Image-Parallel Running Mode &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Spectroscopy and Transport" href="index_spectroscopy.html" />
+    <link rel="prev" title="Transition States and NEB" href="index_transition_states.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="nudged-elastic-band-transition-state-searching-and-the-image-parallel-running-mode">
+<h1>Nudged Elastic Band Transition State Searching and the Image-Parallel Running Mode<a class="headerlink" href="#nudged-elastic-band-transition-state-searching-and-the-image-parallel-running-mode" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Kevin Duff, University of Cambridge</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Date:</th><td class="field-body">2018</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="neb-method">
+<h2>NEB Method<a class="headerlink" href="#neb-method" title="Permalink to this headline">¶</a></h2>
+<p>The Nudged Elastic Band (NEB) method is a systematic approach to
+transition state searching. A brief overview will be provided here; for
+a more detailed description see [Jonsson1998].</p>
+<div class="section" id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>Tools such as geometry optimization make determining the properties and
+relative energies of products and reactants relatively straightforward.
+Of equal importance to understanding a reaction or diffusion problem is
+the transition state (TS) - the highest-energy point on the minimum
+energy path (MEP) connecting the reactant and product in configuration
+space. Unfortunately determining the TS is not a simple local
+minimization problem, but instead it requires a determination of the MEP
+from the set of paths that connect the reactant and product. Several
+approaches that attempt to approximate the TS given a set of assumptions
+about the energy landscape exist, such as LST/QST. NEB attempts to offer
+a systematic determination of the TS through a local optimization of the
+MEP from an initial guess.</p>
+</div>
+<div class="section" id="theory">
+<h3>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h3>
+<p>An elastic band method connects the reactant and product with a chain of
+beads in configuration space connected to their immediate neighbors with
+springs of natural length <span class="math">\(0\)</span>. This chain is then relaxed with the
+reactant and product held fixed and each bead on the chain feeling the
+forces from the potential energy surface as well as the springs.</p>
+<p>Unfortunately, this approach runs into two immediate issues. The spring
+force perpendicular to the path works to pull the chain away from the
+correct MEP, leading to a poor approximation of the TS, and the force
+from the potential energy surface tangent to the path pushes beads to
+lower energy areas, whereas the goal is to sample the highest-energy
+point on the path. Varying the spring constant can reduce one issue
+while exacerbating the other and there is no systematic way to sample
+the highest point of the correct MEP.</p>
+<p>The nudged elastic band approach is to project out the problematic
+components of the spring and PES force, ‘nudging’ the chain back onto
+the MEP. That is, each bead feels only the component of the force due to
+the potential energy surface perpendicular to the path tangent and that
+of the spring force parallel to the path tangent. The former relaxes the
+chain onto the MEP and the latter evenly distributes the images along
+the path. Using this approach the beads will lie strictly on the MEP
+regardless of bead count assuming an accurate approximation to the path
+tangent at each point.</p>
+<p>As with any local minimization, the final path depends on the initial
+guess and is not guaranteed to be the global MEP. Care should be taken
+in complicated reactions or diffusions - in particular a reaction
+passing through several stable intermediates might be broken into a
+number of separate NEB calculations. More control over the initial path
+guess may be implemented in the future.</p>
+<div class="figure" id="id5">
+<span id="neb-example"></span><img alt="Cartoon of a NEB path initialization by linear interpolation and final sampling of the MEP. Each image only feels the component of the spring force parallel to the path tangent and the real force perpendicular to the path tangent. Image source &amp; copyright [Cordier2018]_." src="_images/NEB_example.jpg" />
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Cartoon of a NEB path initialization by linear interpolation and final sampling of the MEP. Each image only feels the component of the spring force parallel to the path tangent and the real force perpendicular to the path tangent. Image source &amp; copyright [Cordier2018].</span></p>
+</div>
+</div>
+<div class="section" id="tangent-approximation">
+<h3>Tangent Approximation<a class="headerlink" href="#tangent-approximation" title="Permalink to this headline">¶</a></h3>
+<p>Because the MEP is approximated by a series of beads, the path tangent
+must be approximated. A number of valid approximations exist - ONETEP
+uses an improved-stability approximation described
+in [Henkelman2000]. This approach reduces kinks
+in the path that arise in some systems and is generally stable.
+Equation <a class="reference internal" href="#equation-improved-tangent-1">(1)</a> describes the tangent
+<span class="math">\(\boldsymbol{\tau}_i\)</span> approximated at bead <span class="math">\(i\)</span> with energy
+<span class="math">\(E_i\)</span>, where
+<span class="math">\(\boldsymbol{\tau}_i^+=\mathbf{R}_{i+1}-\mathbf{R}_{i}\)</span> and
+<span class="math">\(\boldsymbol{\tau}_i^-=\mathbf{R}_{i}-\mathbf{R}_{i-1}\)</span>, in cases
+where the neighboring beads’ energies make a strictly increasing or
+decreasing series. If that’s not the case,
+Equation <a class="reference internal" href="#equation-improved-tangent-2">(2)</a> gives the tangent approximation,
+where
+<span class="math">\(\Delta V_i^\mathrm{max}=\max{\left(\left|V_{i+1}-V_i\right|,\left|V_{i}-V_{i-1}\right|\right)}\)</span>
+and
+<span class="math">\(\Delta V_i^\mathrm{min}=\min{\left(\left|V_{i+1}-V_i\right|,\left|V_{i}-V_{i-1}\right|\right)}\)</span>.</p>
+<div class="math" id="equation-improved-tangent-1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-improved-tangent-1" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{\tau}_i=
+\begin{cases}
+\boldsymbol{\tau}_i^+, &amp; V_{i+1} &gt; V_i &gt; V_{i-1} \\
+\boldsymbol{\tau}_i^-, &amp; V_{i-1} &gt; V_i &gt; V_{i+1} \\
+\end{cases}\end{split}\]</div>
+<div class="math" id="equation-improved-tangent-2">
+<span class="eqno">(2)<a class="headerlink" href="#equation-improved-tangent-2" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{\tau}_i=
+\begin{cases}
+\boldsymbol{\tau}_i^+ V_i^\mathrm{max} + \boldsymbol{\tau}_i^- V_i^\mathrm{min}, &amp; V_{i+1} &gt; V_{i-1} \\
+\boldsymbol{\tau}_i^+ V_i^\mathrm{min} + \boldsymbol{\tau}_i^- V_i^\mathrm{max}, &amp; V_{i-1} &gt; V_{i+1}
+\end{cases}\end{split}\]</div>
+</div>
+<div class="section" id="climbing-image-neb">
+<h3>Climbing-Image NEB<a class="headerlink" href="#climbing-image-neb" title="Permalink to this headline">¶</a></h3>
+<p>NEB tries to ensure that the beads are equally spaced along the path.
+This doesn’t guarantee good sampling of the transition state, which is
+the most important part of the path. The TS energy can be interpolated
+if there are enough beads on the path, but the climbing image addition
+to NEB (CI-NEB) works to move a selected bead near the TS to exactly
+sample the TS. Once enabled, the highest-energy bead doesn’t feel the
+NEB spring force and moves in a modified potential energy surface, where
+the components perpendicular to the path are essentially mirrored. This
+transforms a saddle point region of the PES into a basin with a minimum
+at the transition state. That bead is then minimized in this potential
+and the rest of the chain in the normal way. This is generally useful
+when the MEP is being sampled well, though it does make assumptions
+about the shape of the PES near the saddle point. More details can be
+found in [Henkelman2000-2].</p>
+</div>
+</div>
+<div class="section" id="image-parallel-implementation-in-onetep">
+<h2>Image-Parallel Implementation in ONETEP<a class="headerlink" href="#image-parallel-implementation-in-onetep" title="Permalink to this headline">¶</a></h2>
+<p>Each NEB iteration each bead requires a local energy and force
+calculation, as well as knowledge of the locations and relative energies
+of its neighbors for spring force calculation and tangent approximation.
+For this reason, and for other simulations that involve multiple
+communicating but largely independent subsystems, an alternate running
+mode was developed for Onetep that allows multiple simulations to exist
+in the same MPI world. Each simulation, or image, can progress
+independently but special communicators have been set up to allow
+communication between them. In the case of NEB, each Onetep image
+controls one bead in the chain.</p>
+<p>Important to note is that when running in image-parallel mode the
+default communicator for things like comms operations is changed from
+<code class="docutils literal"><span class="pre">mpi_comm_world</span></code> to <code class="docutils literal"><span class="pre">comms</span></code> mod’s <code class="docutils literal"><span class="pre">pub_image_comm</span></code>, a communicator
+between all processes in one Onetep image. <code class="docutils literal"><span class="pre">comms</span></code> mod’s
+<code class="docutils literal"><span class="pre">pub_imroots_comm</span></code> is a communicator between the root processes of
+each image, allowing images to communicate and allowing tasks to give
+each image something different to do. Additionally, each image opens its
+own new file <code class="docutils literal"><span class="pre">{rootname}{image_num}.onetep</span></code> to write <code class="docutils literal"><span class="pre">stdout</span></code> to,
+with the original <code class="docutils literal"><span class="pre">stdout</span></code> being available through <code class="docutils literal"><span class="pre">image_comms</span></code>
+mod’s <code class="docutils literal"><span class="pre">orig_stdout</span></code>. Each image similarly maintains its own set of
+restart files, properties files, etc, and nothing special has to be done
+to restart image-parallel calculations.</p>
+<p>Normally the number of MPI processes specified at runtime must be
+divisible by the number of images requested. Advanced configuration
+allows images to be different sizes, in case a task needs to be able to
+perform calculations that aren’t necessarily comparable in cost.</p>
+</div>
+<div class="section" id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="neb-keywords">
+<h3>NEB Keywords<a class="headerlink" href="#neb-keywords" title="Permalink to this headline">¶</a></h3>
+<p>NEB can be enabled by setting <code class="docutils literal"><span class="pre">task&nbsp;:&nbsp;tssearch</span></code> and
+<code class="docutils literal"><span class="pre">tssearch_method&nbsp;:&nbsp;neb</span></code> in the ONETEP input file. ONETEP must be
+executed with enough MPI processes to support the number of images
+requested. Several geometry optimization keywords will apply to NEB as
+the chain optimization is threaded through the geometry optimizer.</p>
+<p>The reactant is taken from the atomic positions specified in the input
+file. A product section must also be provided through e.g.
+<code class="docutils literal"><span class="pre">%block&nbsp;positions_abs_product</span></code>. A guess intermediate can also be
+provided, in which case the NEB chain will place beads on the linear
+interpolation from reactant to intermediate and intermediate to product.
+This can be specified with e.g. <code class="docutils literal"><span class="pre">%block&nbsp;positions_abs_intermediate</span></code>.</p>
+</div>
+<div class="section" id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">num_images:</span> <span class="pre">n</span></code> [Intermediate integer, default <code class="docutils literal"><span class="pre">1</span></code>]. Defines the
+number of Onetep instances that should run in the simulation and
+enables image-parallel mode. In NEB, this is also the number of beads
+in the chain.</li>
+<li><code class="docutils literal"><span class="pre">{reactant,product}_energy</span></code> [Intermediate real physical, default
+<code class="docutils literal"><span class="pre">N/A</span></code>] and <code class="docutils literal"><span class="pre">{reactant,product}_rootname</span></code> [Intermediate string,
+default <code class="docutils literal"><span class="pre">NONE</span></code>]. Both the reactant and product energies must be
+known at the start of the calculation. The energy can be specified
+either as a raw total energy or as a rootname from which Onetep can
+read the tightbox NGWF and density kernel (and, in EDFT, Hamiltonian)
+files from a previous calculation, or they can be calculated from
+scratch if neither is specified. The reactant and product energies
+needn’t be specified in the same way.</li>
+</ul>
+</div>
+<div class="section" id="additional-controls">
+<h3>Additional Controls<a class="headerlink" href="#additional-controls" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">neb_ci_delay:</span> <span class="pre">n</span></code> [Intermediate integer, default <code class="docutils literal"><span class="pre">-1</span></code>]. Defines
+the number of BFGS steps the chain should take before enabling a
+climbing image. Negative numbers disable the climbing image entirely.</li>
+<li><code class="docutils literal"><span class="pre">neb_print_summary</span></code> [Intermediate boolean, default <code class="docutils literal"><span class="pre">.true.</span></code>]. If
+<code class="docutils literal"><span class="pre">.true.</span></code>, Onetep will print NEB convergence information as well as
+a summary of the reduced reaction coordinate and relative energy of
+each bead after each NEB step to the original stdout.</li>
+</ul>
+<div class="section" id="convergence">
+<h4>Convergence<a class="headerlink" href="#convergence" title="Permalink to this headline">¶</a></h4>
+<p>Currently the calculation is considered converged when each bead is
+individually converged. These tolerances are used instead of the geomopt
+ones.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">tssearch_energy_tol</span></code> [Expert real physical, default
+<code class="docutils literal"><span class="pre">1.0e-5</span> <span class="pre">Ha</span></code>]. Convergence tolerance on change in bead energy in one
+NEB step.</li>
+<li><code class="docutils literal"><span class="pre">tssearch_force_tol</span></code> [Expert real physical, default
+<code class="docutils literal"><span class="pre">0.005</span> <span class="pre">Ha/bohr</span></code>]. Convergence tolerance on max force on any atom.</li>
+<li><code class="docutils literal"><span class="pre">tssearch_disp_tol</span></code> [Expert real physical, default
+<code class="docutils literal"><span class="pre">0.01</span> <span class="pre">bohr</span></code>]. Convergence tolerance on displacement of any atom in
+one NEB step.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="other-image-parallel-keywords">
+<h3>Other Image-Parallel Keywords<a class="headerlink" href="#other-image-parallel-keywords" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">image_sizes</span></code> [Expert string, default <code class="docutils literal"><span class="pre">DEFAULT</span></code>]. If specified
+in the input file, a string of the format <code class="docutils literal"><span class="pre">i|j|k|l|m|...</span></code> can be
+used to individually size the images in an image-parallel run. The
+number of sections specified should be equal the number of images in
+the run and the sum of the image sizes should be equal the number of
+MPI processes specified at runtime.</li>
+</ul>
+<p>[Jonsson1998] H. Jónsson, G. Mills, and K. W. Jacobsen. <em>Chapter 16: Nudged elastic band method for finding minimum energy paths of transitions</em>, Classical and Quantum Dynamics in Condensed Phase Simulations Part II.</p>
+<p>[Henkelman2000] G. Henkelman, and H. Jónsson. <em>Improved tangent estimate in the nudged elastic band method for finding minimum energy paths and saddle points</em>. J. Chem. Phys. <strong>113</strong>, 9978 (2000).</p>
+<p>[Henkelman2000-2] G. Henkelman, B. P. Uberuaga, and H. Jónsson. <em>A climbing image nudged elastic band method for finding saddle points and minimum energy paths</em>. J. Chem. Phys. <strong>113</strong>, 9901 (2000).</p>
+<p>[Cordier2018] Copyright P. Cordier <a class="reference external" href="http://umet.univ-lille.fr/Projets/RheoMan/en/to-learn-more-about/nudged-elastic-band.php">http://umet.univ-lille.fr/Projets/RheoMan/en/to-learn-more-about/nudged-elastic-band.php</a> Accessed 21 April 2018.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_transition_states.html">Transition States and NEB</a><ul>
+      <li>Previous: <a href="index_transition_states.html" title="previous chapter">Transition States and NEB</a></li>
+      <li>Next: <a href="index_spectroscopy.html" title="next chapter">Spectroscopy and Transport</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/nudged-elastic-band.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

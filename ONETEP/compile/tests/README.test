@@ -1,0 +1,100 @@
+=============================================================
+
+                        O N E T E P
+
+      - Linear-Scaling Ab Inito Total Energy Program -
+
+=============================================================
+
+TESTS 
+=====
+
+The tests directory contains a number of input files and 
+corresponding reference output files for checking correct 
+operation of the ONETEP code.  Tests are run using testcode
+(https://github.com:jsspencer/testcode), which is included in the ONETEP
+repository for convenience.
+
+Benchmarks
+----------
+
+The currently available benchmarks can be found in
+test*/benchmark.out.3.4.inp=* and were generated using the version of ONETEP
+specified in each benchmark file (typically version 3.4, though some tests,
+despite the filename, rely upon a more recent version).
+
+Running
+-------
+
+The following commands all should be executed from inside the tests
+subdirectory.
+
+To run all tests on four cores, run:
+
+$ make ARCH=xxx
+
+or
+
+$ testcode/bin/testcode.py -e ../bin/onetep.xxx
+
+where conf.xxx is the config file used to compile the ONETEP binary to be
+tested.
+
+To run on N processors, run:
+
+$ testcode/bin/testcode.py -e ../bin/onetep.xxx -p N
+
+The TC variable is passed through to testcode, so this can also be performed using
+
+$ make ARCH=xxx TC='-p N'
+
+For convenience, the makefile has a target for running a serial binary:
+
+$ make serial_tests
+
+To remove all files created by running the test suite, run:
+
+$ make clean
+
+testcode is fairly flexible and versatile.  For more information on using it,
+please see its documentation (testcode/README.rst and testcode/docs).
+
+Adding tests
+------------
+
+To add a new test:
+
+* read testcode/docs/jobconfig.rst.
+* create a new directory (if appropriate) and place the *.dat input file in the test directory.
+* create a new benchmark file.  This can be done by hand or (easier) by running testcode:
+
+    $ testcode/bin/testcode.py make-benchmarks -c testXX
+
+  where testXX is the directory containing the new test input file.  When asked
+  for the revision ID of the benchmark, enter the current ID of the benchmarks
+  (i.e. 3.4 currently).
+
+Periodically all benchmarks should be updated by running the same executable.
+This allows for performance regressions to be monitored and makes it easier to
+compare benchmark and test outputs, as the ONETEP output format changes.
+
+Notes
+-----
+
+* Some test directories contain multiple tests.
+* Some tests (i.e. test07/ethene_cond.dat and test30/c2h4-group_spin_diff-HUBBARDSCF.dat) 
+  depend upon the results of previous tests.  testcode will, by default, run
+  the tests in the correct order.  Some symbolic links have been set up so that
+  the latter tests access the .dkn, .tightbox_ngwfs and (for
+  test30/c2h4-group_spin_diff-HUBBARDSCF.dat) .tightbox_hub_projs and .cdft
+  files of the earlier test.  If your system is not set up in the standard way,
+  then you may need to set up these symlinks yourself in order for the tests to
+  work correctly.
+* More pseudopotentials in the .recpot format can be found at
+
+    http://cmt.dur.ac.uk/pseudopotentials/index.html
+
+  The OPIUM code can generate pseudopotentials in .recpot format. For more
+  details, see
+
+    http://opium.sourceforge.net/

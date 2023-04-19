@@ -1,0 +1,199 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for                           !
+! LR-TDDFT calculation with a hybrid functional.     !
+! Calculation includes valence & conduction NGWF     !
+! optimisation followed by LR-TDDFT calculation in   !
+! Tamm-Dancoff approximation (TDA), all with B3LYP   !
+! XC functional.                                     !
+!                                                    !
+! Structure:      Ethanol 2+ cation                  !
+! Method:         LR-TDDFT (TDA) / B3LYP             !
+! Other details:  Closed-shell (non-spin-polarized)  !
+!                 Norm-conserving pseudopotentials   !
+!                 Periodic boundary conditions       !
+!                                                    !
+! The test system is ethanol 2+ cation, with         ! 
+! structure taken from test69                        !
+!                                                    !
+! A 2+ cation is used in order to produce a          !
+! reasonable number of bound conduction states (for  !
+! which the localized NGWF representation is         !
+! well-suited to represent).                         !
+!                                                    !
+! Created by James C. Womack in September 2019       !
+!                                                    !
+! Switched to explicit OBCs after PBCs are now       !
+! the default in HFx, JD: 19/09/2021.                !
+!                                                    !
+! School of Chemistry                                !
+! University of Southampton                          !
+! Highfield                                          !
+! Southampton SO17 1BJ                               !
+! UK                                                 !
+!                                                    !
+!====================================================!
+! Note on test benchmarks 05/09/19                   !
+! This test has been created to test the initial     !
+! implementation of support for Hartree-Fock         !
+! exchange in LR-TDDFT, where contributions to the   !
+! valence and conduction Hamiltonian matrices and    !
+! to the SCF response potential matrix are included  !
+! in the evaluation of the action of the LR-TDDFT    !
+! operator on trial response density kernel(s).      !
+!                                                    !
+! At the time of creation, this functionality is     !
+! experimental and relatively untested. Results may  !
+! change as the functionality is developed further,  !
+! requiring the re-creation of benchmarks.           !
+!                                                    !
+! This test is intended to ensure that the LR-TDDFT  !
+! + HFX functionality is regularly run and that new  !
+! developments in other parts of ONETEP do not       !
+! unintentionally introduce regressions.             !
+!                                                    !
+! Initial testing indicates that singlet excitation  !
+! energies and oscillator strengths obtained in an   !
+! LR-TDDFT(TDA)/B3LYP calculation in ONETEP agree    !
+! with those from a comparable NWChem calculation    !
+! to the same extent as for LR-TDDFT(TDA)/PBE        !
+! with identical setup.                              !
+!====================================================!
+
+! jd: Switch to OBCs, but only for HFx
+hfx_bc O O O
+
+spin_polarised F
+
+print_qc T
+output_detail VERBOSE
+timings_level 3
+
+task                : SINGLEPOINT COND LR_TDDFT
+cutoff_energy       : 900.0 eV
+xc_functional       : B3LYP
+! Setting maxit_palser_mano < 1 causes the initial guess density kernel to be
+! obtained by diagonalization rather than Palser-Manolopoulos method
+maxit_palser_mano   : -1
+!do_properties: T
+
+! Use an artificially charged ethanol 2+ cation in order to cause conduction 
+! states to be bound (and therefore better represented by the localized NGWF 
+! basis)
+charge: +2
+
+! --- HFX options ---
+! Build electrostatic metric matrix using new 2Dn-1Da scheme
+%block swri
+! myname  lmax qmax metric Ni No flags
+  for_hfx   2   10    V    14 14 E2
+%endblock swri
+
+%block species_swri-for_hfx
+C
+H
+O
+%endblock species_swri-for_hfx
+
+hfx_use_ri : for_hfx
+hfx_max_l  : 2
+hfx_max_q  : 10
+hfx_metric : ELECTROSTATIC
+! -------------------
+
+! Set ppd_npoints to all zeroes, to make ONETEP determine an optimal
+! PPD size along each lattice direction
+ppd_npoints 0 0 0
+
+write_denskern            : T
+write_tightbox_ngwfs      : T
+
+maxit_ngwf_cg             : 5
+
+! jd: Force 9 'occupied' orbitals because the default (0) chooses
+!     9 (usually) or 8 (rarely) depending on numerical noise in preceding
+!     valence stage. See build cmth_gnu #1377 for when that happened.
+cond_num_states           : 19
+
+! Set cond_max_eigen to true to automatically update the shift used in 
+! projecting the cond Hamiltonian (if the shift is less than the maximum 
+! eigenvalue of the conduction NGWF basis at the start of an NGWF iteration, 
+! then it is updated to be max. eigenvalue + cond_shift_buffer)
+cond_calc_max_eigen       : T
+
+! Don't output valence, conduction or joint orbitals following conduction calc
+cond_plot_joint_orbitals  : F
+cond_plot_vc_orbitals     : F
+
+! Default number of valence LNV iterations
+minit_lnv                 : 5
+maxit_lnv                 : 5
+
+! Number of conduction LNV iterations from test69 (hybrid conduction)
+cond_maxit_lnv            : 15
+cond_minit_lnv            : 15
+
+! LR-TDDFT settings 
+lr_tddft_rpa              : F      ! <-- TDA
+lr_tddft_maxit_cg         : 10     ! <-- only perform 10 LR-TDDFT iterations for testing
+lr_tddft_xc_finite_diff   : T      ! <-- use FD to evaluate fxc
+lr_tddft_write_kernels    : F      ! <-- don't write response density kernels at each CG iteration
+lr_tddft_num_states       : 2      ! <-- only converge 2 states for testing
+lr_tddft_check_conv_iter  : 5      ! <-- check for convergence of states every 5 CG iterations
+lr_tddft_cg_threshold     : 1.0E-6 ! <-- default is 1.0e-6
+lr_tddft_precond          : T      ! <-- use the preconditioner
+lr_tddft_precond_iter     : 50     ! <-- default is 20
+lr_tddft_precond_tol      : 1.0E-4 ! <-- default is 1e-6 (see Zuehlsdorff et al, JCP, 2015 
+                                   !     section IV.A for discussion of preconditioner tolerance)
+lr_tddft_preopt           : F      ! <-- don't use preoptimization for LR-TDDFT CG search
+lr_tddft_analysis         : T      ! <-- perform N^3 decomposition of excitations into KS transitions
+lr_tddft_reset_cg         : 100    ! <-- default is 100 iterations before resetting CG
+lr_tddft_restart          : F      ! <-- not a restart
+lr_tddft_triplet          : FALSE  ! <-- compute singlet states (not triplet)
+lr_tddft_projector        : T      ! <-- make conduction density kernel projector onto full 
+                                   !     unoccupied subspace
+lr_tddft_joint_set        : T      ! <-- use joint NGWF set for conduction space in projector to
+                                   !     avoid loss of idempotency (see T. Zuehlsdorff's PhD 
+                                   !     thesis, section 6.5.1)
+lr_tddft_write_densities  : F      ! <-- don't write the electron, hole and response densities
+
+! NGWF radii are from test69 (hybrid conduction)
+! 
+! When using Hartree-Fock exchange, all NGWFs must have the same radii.
+%BLOCK SPECIES
+C   C   6   4  8.0
+H   H   1   1  8.0
+O   O   8   4  8.0
+%ENDBLOCK SPECIES
+
+%BLOCK SPECIES_COND
+C   C   6   4  8.0
+H   H   1   1  8.0
+O   O   8   4  8.0
+%ENDBLOCK SPECIES_COND
+
+%BLOCK SPECIES_POT
+C "../../pseudo/carbon.recpot"
+H "../../pseudo/hydrogen.recpot"
+O "../../pseudo/oxygen.recpot"
+%ENDBLOCK SPECIES_POT
+
+! Lattice vectors and atomic positions taken from ONETEP QC test69
+ %block lattice_cart
+  30.00000000   0.00000000   0.00000000
+   0.00000000  30.00000000   0.00000000
+   0.00000000   0.00000000  30.00000000
+ %endblock lattice_cart
+
+ %block positions_abs
+C      13.46742914      14.31214396      15.05196333
+C      16.34359259      14.36505630      14.97826400
+H      12.74177424      12.36950531      15.24093596
+H      12.67185436      15.10582901      13.29451785
+H      12.76067150      15.44031057      16.65067179
+H      17.05979886      13.17830817      13.40601171
+H      17.14672627      13.59593769      16.73948892
+O      17.32814000      16.88406147      14.79685027
+H      16.63083099      17.63050336      13.26050278
+ %endblock positions_abs

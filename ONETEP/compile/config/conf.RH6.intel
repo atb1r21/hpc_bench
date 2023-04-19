@@ -1,0 +1,39 @@
+# ONETEP configuration file for Intel compilers on Southampton RHEL6 Desktops
+# Created by Karl Wilkinson on 01/08/2013
+# Minor modifications (removed -C, added -diag-disable) by Jacek Dziedzic, 22/09/2013
+
+# General notes:
+#       COMPILER variable is used to prevent cascading compilations when module interfaces are unchanged.
+#       Changes to the version of MKL or OpenMPI should only require changes to MPIROOT and/or MKLROOT
+#       Use of FFTW3 instead of MKL would require significant changes, please ask about these if interested.
+#       Use of the PGI compiler will require more changes than simply the compiler/OpenMPI library, please ask.
+
+# Critical notes:
+#       The introduction of OpenMP into ONETEP and the multigrid has made the code require a larger amount of stack memory. As such,
+#       the use of "ulimit -s unlimited" in your .bashrc is recommended.
+#       Modules: module load intel/compiler/13.1 intel/mkl/13.1 openmpi/1.6.4/intel
+
+
+COMPILER = INTEL-ifort-on-LINUX
+
+MPIROOT = /local/software/openmpi/1.6.4/intel
+#MKLROOT = /opt/intel/composer_xe_2013.2.146/mkl/
+
+
+# ===== MPI information ==== #
+MPIINC = -I$(MPIROOT)/include
+MPILIBS= -L$(MPIROOT)/lib -lmpi_f90 -lmpi_f77 -lmpi -lopen-rte -lopen-pal -ldl -Wl,--export-dynamic -lnsl -lutil -ldl
+
+
+# ===== MKL information ===== #
+MKLINC = -I$(MKLROOT)/include/fftw
+#MKLINC = $(MKLINC) -I$(MKLROOT)/include/
+#MKLLIBS = -Wl,--start-group $(MKLROOT)/libmkl_intel_lp64.a $(MKLROOT)/libmkl_intel_thread.a $(MKLROOT)/libmkl_core.a -Wl,--end-group
+
+
+# ===== Flags needed by the ONETEP Makefile ===== #
+F90 = mpif90 -openmp -mkl -diag-disable 8290,8291
+FFLAGS = -DParallelFFT -DMKL_FFTW3 -DMPI $(MPIINC) $(MKLINC)
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -check all,noarg_temp_created
+LIBS = $(MPILIBS) $(MKLLIBS) -lm -lpthread

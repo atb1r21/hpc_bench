@@ -1,0 +1,13 @@
+# Environment for compilation on the Avon supercomputer at the Centre
+# for Scientific Computing, University of Warwick.
+# Tested & confirmed to work on 05/05/21 for the following environment:
+# module load intel impi imkl
+# which currently loads ifort 20 
+
+F90 = mpiifort -qopenmp
+FFLAGS = -DMKL_FFTW3 -DMPI -DSCALAPACK  -I$(MKLROOT)/include/intel64/lp64/
+#LIBS =  ${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_core.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a -Wl,--end-group ${MKLROOT}/lib/intel64/libmkl_blacs_intelmpi_lp64.a -lpthread -lm
+LIBS =  ${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a ${MKLROOT}/lib/intel64/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -liomp5 -lpthread -lm -ldl
+OPTFLAGS = -O2
+DEBUGFLAGS = -ftrapuv -g -CB -debug full -check all -traceback -DDEBUG_ARRAYS
+COMPILER = INTEL-ifort-on-LINUX

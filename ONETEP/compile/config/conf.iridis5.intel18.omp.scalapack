@@ -1,0 +1,45 @@
+#
+# ONETEP configuration file
+# for the Iridis5 supercomputer
+# Created by Jacek Dziedzic, 16/01/2018
+# v1.01
+#
+# Compiler: 	Intel ifort v18.0.1.
+# MPI: 		Intel MPI, bundled with the above.
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the above.
+# ScaLAPACK:	Yes.
+#
+
+# Module set-up:
+# I loaded the modules for the compiler, Intel MPI and MKL:
+#
+# module load ifort
+# module load iimpi
+# module load imkl
+#
+# Some of these pull in other modules, like gcccore, and so 'module list' prints this for me:
+#
+# Currently Loaded Modules:
+# 1) GCCcore/6.4.0                     4) icc/2018.1.163-GCC-6.4.0-2.28                        7) iimpi/2018.01
+# 2) binutils/2.28-GCCcore-6.4.0       5) iccifort/2018.1.163-GCC-6.4.0-2.28                   8) imkl/2018.1.163-iimpi-2018.01
+# 3) ifort/2018.1.163-GCC-6.4.0-2.28   6) impi/2018.1.163-iccifort-2018.1.163-GCC-6.4.0-2.28
+      
+
+# The following lines added to ~/.bashrc (without the #) will ensure other environment details
+# are set up correctly:
+# ulimit -s unlimited
+# ulimit -c unlimited
+# export OMP_STACKSIZE=64M
+# ... or just use onetep_launcher to set this up for you.
+
+F90 = mpiifort -qopenmp -mkl
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DMPI -I$(MKLROOT)/include/fftw -diag-disable 8290,8291,7712,5462 -warn all
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -traceback -check all,noarg_temp_created -ftrapuv
+COMPILER = INTEL-ifort-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lmkl_blacs_intelmpi_lp64 -lpthread -lm
+
+# 8290, 8291 - suggest field widths
+# 7712 - unused variables
+# 5462 - global name too long (for linker, still within F2003 standard bounds)

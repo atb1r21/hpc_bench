@@ -1,0 +1,41 @@
+# global grid sizes
+128 128 128
+
+# MPI grid
+1 1 1
+
+# periodicity
+  T T T
+
+# aggregation level
+0
+
+# number of iterations (defect  correction, multigrid)
+ 30 30
+
+# write a plane in a given section
+-1 -1
+
+# test name (laplace poisson ...), model
+poisson pbe_sphere_hardcore_steric
+
+# tol (defect correction: residual {abs,rel}, pot (abs,rel}; newton rel; mg_rel )
+1.e-5 1.e-5 1.e-2 1.e-2 1.e-5 1.e-5
+
+# finite diference order for defect correction; use_damping
+4 F
+
+# PBE temp n fixed_nions
+300.0 2 T
+
+# PBE concetration in Mol/l
+0.1 0.1
+
+# PBE charges (in electron charge)
+1.0 -1.0
+
+# PBE lambda,  take second value only first is T (for F use default)
+F 0.0
+
+# PBE linearized, use steric, use full approx scheme
+T T F

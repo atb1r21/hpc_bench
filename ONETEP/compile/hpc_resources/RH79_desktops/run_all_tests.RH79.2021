@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------
+# A simple script for running ONETEP QC-tests on desktop machines.
+# Supports hybrid (MPI/OMP) parallelism.
+# 2021.03 Jacek Dziedzic, J.Dziedzic@soton.ac.uk
+# ------------------------------------------------------------------
+# v1.00 (2021.03.17) Initial version
+#
+# QC-tests will be run on the default number of MPI processes
+# (which is 4 for the vast majority of tests). Each MPI process will
+# spawn the following number of OMP threads. 4 is a good value 
+# if you have 16 CPU cores. Adjust up or down if needed.
+omp_num_threads=4
+
+# =================================================================
+# You should not need to edit anything below this line.
+# =================================================================
+
+workdir=`pwd`
+
+# Ensure we are started from ONETEP's 'tests' directory.
+if [ `echo $workdir | grep -E "/tests$"` ]; then
+  onetepdir=`echo $workdir | sed -r "s%/tests$%%"`
+else
+  echo "!!! This script must be run from the ONETEP installation's tests directory. Aborting!" >&2
+  exit 1
+fi
+
+# Clean up any previous launcher logs.
+rm -f onetep_launcher.*log
+
+# Ensure onetep_launcher is there and is indeed executable.
+onetep_launcher="$onetepdir""/utils/onetep_launcher"
+if [ ! -x "$onetep_launcher" ]; then
+  echo "!!! $onetep_launcher does not exist or is not executable. Aborting!" >&2
+  exit 2
+fi
+
+# Do a dummy run to see if ONETEP executable is found correctly.
+"$onetep_launcher" dummy.dat >/dev/null 2>\$stderr
+result=$?
+if [ "$result" == 104 ]; then
+  # Could not find the executable.
+  echo "*** Could not find a suitable ONETEP executable in the 'bin' directory. ***" >&2
+  cat \$stderr 2>/dev/null
+  rm -f \$stderr
+  exit 3
+elif [ "$result" == 1 ]; then
+  # Executable found and dummy run completed (with 'dummy.dat not found', error code 1).
+  rm -f \$stderr
+  rm -f dummy.error_message
+else
+  # Something else. Perhaps missing libraries or other failure.
+  echo "*** Error running ONETEP (exit code #$result). See the information below for more details. ***" >&2
+  cat \$stderr 2>/dev/null
+  cat dummy.error_message 2>/dev/null
+  rm -f \$stderr
+  rm -f dummy.error_message
+  exit 4
+fi
+
+# Tidy any previous runs.
+echo "y" | ./testcode/bin/testcode.py --older-than=0 tidy >/dev/null
+
+# Run testcode
+./testcode/bin/testcode.py -v -e ../utils/onetep_launcher --user-option onetep run_cmd_template "tc.program tc.args -t $omp_num_threads tc.input >tc.output 2>tc.error"
+
+echo "--- Finished running QC tests at `date`. Examine the output above to see if they passed."

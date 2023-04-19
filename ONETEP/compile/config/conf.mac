@@ -1,0 +1,33 @@
+#
+# ONETEP configuration file for OS X on Macbook.
+# Created by Robert Charlton, 7th November 2018.
+#
+# Instructions for installing ONETEP on Mac:
+#
+# 1. Download and install Homebrew, either by going to https://brew.sh, or running the terminal command:
+# 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#    This is a software package that greatly simplifies the installation process 
+#    on a Mac and makes installing from terminal more like Linux.
+#
+# 2. Run 'brew install gcc openmpi fftw'
+#	 This will download and install all the libraries you need to compile and run ONETEP
+#    with this .config file.
+#
+# 3. Run 'make onetep ARCH=mac'. All going well this will create an executable 'bin/onetep.mac'.
+#
+# 4. Enjoy!
+#
+# Compiler:     GNU-gfortran-on-linux, installed as part of gcc package.	
+# MPI: 		    Open-mpi, installed with gcc.
+# OMP:          Yes.
+# FFTW3:	    FFTW.3.3.8 downloaded + installed with Homebrew.
+# ScaLAPACK:	No.
+#
+# This works on Mac OS X 10.12 and 10.13 -- can't guarantee success for other versions.
+
+F90 = mpif90 -fopenmp
+FFLAGS = -DFFTW3 -DGFORTRAN -DMPI -DFFTW3_NO_OMP
+OPTFLAGS = -O3
+DEBUGFLAGS = -g -Wall -Wextra -Warray-temporaries -Wconversion -fimplicit-none -fbacktrace -ffree-line-length-0 -fcheck=all -ffpe-trap=zero,overflow,underflow -finit-real=nan -DDEBUG_ARRAYS
+LIBS = -lblas -llapack -lfftw3
+COMPILER = GNU-gfortran-on-LINUX

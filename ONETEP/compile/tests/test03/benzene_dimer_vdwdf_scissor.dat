@@ -1,0 +1,81 @@
+!====================================================!
+! Input for calculation with the ONETEP program      !
+!                                                    !
+! Quality Control file for:                          !
+! vdW-DF method + Scissor Operator                   !
+! Benzene dimer                                      !   
+!                                                    !
+! vdW-DF input originally created by Lampros         !
+! Andrinopoulos on 28 March 2012                     !
+! Adapted for Scissor operator by Nelson Yeung and   !
+! Nicholas Hine on 9 April 2019                      !
+!                                                    !
+!====================================================!
+
+task                 : SINGLEPOINT
+cutoff_energy        : 500 eV
+maxit_lnv            : 4
+maxit_ngwf_cg        : 6
+xc_functional        : VDWDF
+timings_level        : 0
+print_qc             : TRUE
+maxit_pen            : 3
+do_properties        : T
+write_density_plot   : F
+homo_plot            : -1
+lumo_plot            : -1
+
+%block lattice_cart
+ 30.0   0.0   0.0    
+  0.0  30.0   0.0    
+  0.0   0.0  30.0   
+%endblock lattice_cart
+
+%block species
+C1 C  6 4 7.0
+H1 H  1 1 7.0
+C2 C  6 4 7.0
+H2 H  1 1 7.0
+%endblock species
+
+# Shift valence band down by 0.05 Ha for both benzenes
+# Shift conduction band of benzene 1 up by 1 eV
+# Shift conduction band of benzene 2 up by 2 eV
+%block species_scissor
+C1 H1 -1.3606 1.0
+C2 H2 -1.3606 2.0
+%endblock species_scissor
+
+%block species_pot
+C1  "../../pseudo/carbon.recpot"
+H1  "../../pseudo/hydrogen.recpot"
+C2  "../../pseudo/carbon.recpot"
+H2  "../../pseudo/hydrogen.recpot"
+%endblock species_pot
+
+%block positions_abs
+C1     15.628439779     15.000000000  15.00
+C1     14.309410418     17.284679795  15.00
+C1     11.671351697     17.284679795  15.00
+C1     10.352322336     15.000000000  15.00
+C1     11.671351697     12.715320205  15.00
+C1     14.309410418     12.715320205  15.00
+H1     17.675013988     15.000000000  15.00
+H1     15.333642386     19.057243606  15.00
+H1     10.647119729     19.057243606  15.00
+H1      8.305748128     15.000000000  15.00
+H1     10.647119729     10.942756393  15.00
+H1     15.333642386     10.942756393  15.00
+C2     15.628439779     15.000000000  21.00
+C2     14.309410418     17.284679795  21.00
+C2     11.671351697     17.284679795  21.00
+C2     10.352322336     15.000000000  21.00
+C2     11.671351697     12.715320205  21.00
+C2     14.309410418     12.715320205  21.00
+H2     17.675013988     15.000000000  21.00
+H2     15.333642386     19.057243606  21.00
+H2     10.647119729     19.057243606  21.00
+H2      8.305748128     15.000000000  21.00
+H2     10.647119729     10.942756393  21.00
+H2     15.333642386     10.942756393  21.00
+%endblock positions_abs

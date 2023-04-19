@@ -1,0 +1,369 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Configuration Interaction (CI) &#8212; ONETEP Documentation 6.2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '6.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Population Analysis" href="index_population.html" />
+    <link rel="prev" title="Bandstructure (spectral-function) unfolding" href="spectral_function_unfolding.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="configuration-interaction-ci">
+<h1>Configuration Interaction (CI)<a class="headerlink" href="#configuration-interaction-ci" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">David Turban, University of Cambridge</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The aim of the CI functionality is to evaluate the electronic
+Hamiltonian with respect to a set of reference configurations obtained
+from constrained DFT (cDFT) and LR-TDDFT. This makes it possible to
+obtain transition rates between different electronic states using
+Fermi’s Golden Rule (e.g. rate of charge transfer at
+donor/acceptor-interface in an organic solar cell). Also, CI can help to
+construct eigenstates of a system in situations where the basic ground-
+and excited state methods fail due to deficiencies of the approximate
+exchange-correlation functional.</p>
+<p>A classic example for such a case is the binding curve of
+<span class="math">\(\text{H}_{2}^{+}\)</span>. The LDA functional gives an incorrect
+dissociation limit with a binding energy that is significantly too
+small. The reason is that there is a spurious self-interaction of the
+single electron with itself, such that a delocalisation of the electron
+over both atoms will always yield a lower energy, even at infinite
+separation. Even more advanced hybrid functionals (like B3LYP) do not
+solve this problem since they only include part of the exact
+Hartree-Fock exchange which would cancel the self-interaction. In this
+scenario CI offers a way forward. By choosing the two states with the
+electron fully localised on either atom as references one ensures the
+correct long-range limit. Finally, CI is used to evaluate the
+Hamiltonian in the reference basis and obtain approximate eigenstates.
+This gives a very good match with LDA at short range and also retains
+the physical dissociation limit.</p>
+</div>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<p>As a first step we assume that one intends to find the Hamiltonian
+matrix element <span class="math">\(\langle\Psi_{B}|\hat{H}|\Psi_{A}\rangle\)</span> between
+two cDFT states. In cDFT the constrained solutions are obtained as
+ground states of the electronic Hamiltonian augmented with a
+constraining potential that pushes charge (and/or spin) around the
+system:</p>
+<div class="math">
+\[(\hat{H}+\hat{V}_{c})|\Psi_{c}\rangle=(\hat{H}+V_{c}\hat{w}_{c})|\Psi_{c}\rangle=F|\Psi_{c}\rangle.\]</div>
+<p>Here the potential is written as the product of its magnitude
+<span class="math">\(V_{c}\)</span> and a weighting operator <span class="math">\(\hat{w}_{c}\)</span> which
+specifically acts on the donor and acceptor regions of the system with
+appropriate signs. In ONETEP the weighting operator is built from local
+orbitals (like PAOs or NGWFs) that define the donor and acceptor
+regions. The eigenvalue <span class="math">\(F\)</span> is the energy <span class="math">\(E\)</span> of the
+constrained solution plus a correction due to the (unphysical)
+constraining potential:</p>
+<div class="math">
+\[F=\langle\Psi_{c}|\hat{H}+V_{c}\hat{w}_{c}|\Psi_{c}\rangle=E[\rho_{c}]+V_{c}\int d\mathbf{r}w_{c}(\mathbf{r})\rho_{c}(\mathbf{r})=E+V_{c}N_{c}.\]</div>
+<p>The magnitude of the potential <span class="math">\(V_{c}\)</span> takes the role of a
+Lagrange multiplier that is chosen such that the amount of displaced
+charge/spin matches the population target <span class="math">\(N_{c}\)</span>. It should be
+noted that cDFT states are generally not eigenstates of the electronic
+Hamiltonian <span class="math">\(\hat{H}\)</span>.</p>
+<p>Using the cDFT potentials we now obtain</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+\langle\Psi_{B}|\hat{H}|\Psi_{A}\rangle &amp; = &amp; \langle\Psi_{B}|\hat{H}+\hat{V}_{A}-\hat{V}_{A}|\Psi_{A}\rangle\nonumber \\
+ &amp; = &amp; F_{A}\langle\Psi_{B}|\Psi_{A}\rangle-\langle\Psi_{B}|\hat{V}_{A}|\Psi_{A}\rangle,\end{aligned}\end{split}\]</div>
+<p>which reduces the problem to calculating overlaps of states and matrix
+elements of the cDFT potentials. At this point the expression still
+contain the full many-body wave functions <span class="math">\(\Psi\)</span>. To obtain a
+practical computational scheme we replace them with Kohn-Sham (KS)
+determinants <span class="math">\(\Phi\)</span> and approximate</p>
+<div class="math">
+\[\langle\Psi_{B}|\Psi_{A}\rangle\approx\langle\Phi_{B}|\Phi_{A}\rangle,\;\;\langle\Psi_{B}|\hat{V}|\Psi_{A}\rangle\approx\langle\Phi_{B}|\hat{V}|\Phi_{A}\rangle.\]</div>
+<p>We will assume that all orbitals are chosen to be real functions, and
+not worry about complex conjugation in inner products. The standard
+result for the overlap of two Slater determinants is given by</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+\langle\Phi_{B}|\Phi_{A}\rangle &amp; = &amp; \int d\mathbf{r}_{1}\ldots d\mathbf{r}_{N}\frac{1}{\sqrt{N!}}\left|\begin{array}{ccc}
+\psi_{1}^{B}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{1}^{B}(\mathbf{r}_{N})\\
+\vdots &amp;  &amp; \vdots\\
+\psi_{N}^{B}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{N}^{B}(\mathbf{r}_{N})
+\end{array}\right|\times\frac{1}{\sqrt{N!}}\left|\begin{array}{ccc}
+\psi_{1}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{1}^{A}(\mathbf{r}_{N})\\
+\vdots &amp;  &amp; \vdots\\
+\psi_{N}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{N}^{A}(\mathbf{r}_{N})
+\end{array}\right|\nonumber \\
+ &amp; = &amp; \int d\mathbf{r}_{1}\ldots d\mathbf{r}_{N}\psi_{1}^{B}(\mathbf{r}_{1})\ldots\psi_{N}^{B}(\mathbf{r}_{N})\left|\begin{array}{ccc}
+\psi_{1}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{1}^{A}(\mathbf{r}_{N})\\
+\vdots &amp;  &amp; \vdots\\
+\psi_{N}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{N}^{A}(\mathbf{r}_{N})
+\end{array}\right|\nonumber \\
+ &amp; = &amp; \left|\begin{array}{ccc}
+\langle\psi_{1}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\psi_{N}^{B}\rangle\\
+\vdots &amp;  &amp; \vdots\\
+\langle\psi_{N}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\psi_{N}^{B}\rangle
+\end{array}\right|\;\;\;=\;\;\;\det\left(S_{AB}\right),\end{aligned}\end{split}\]</div>
+<p>where the functions <span class="math">\(\psi\)</span> denote KS orbitals. The result is
+simply the determinant of the matrix <span class="math">\(S_{AB}\)</span> of overlaps between
+KS orbitals of states A and B. In a similar fashion we can evaluate
+matrix elements of a potential operator:</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+\langle\Phi_{B}|\hat{V}|\Phi_{A}\rangle &amp; = &amp; \int d\mathbf{r}_{1}\ldots d\mathbf{r}_{N}\psi_{1}^{B}(\mathbf{r}_{1})\ldots\psi_{N}^{B}(\mathbf{r}_{N})\left[\sum_{i}V(\mathbf{r}_{i})\right]\times\left|\begin{array}{ccc}
+\psi_{1}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{1}^{A}(\mathbf{r}_{N})\\
+\vdots &amp;  &amp; \vdots\\
+\psi_{N}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{N}^{A}(\mathbf{r}_{N})
+\end{array}\right|\nonumber \\
+ &amp; = &amp; \sum_{i}\left|\begin{array}{ccccc}
+\langle\psi_{1}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\hat{V}|\psi_{i}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\psi_{N}^{B}\rangle\\
+\vdots &amp;  &amp; \vdots &amp;  &amp; \vdots\\
+\langle\psi_{N}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\hat{V}|\psi_{i}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\psi_{N}^{B}\rangle
+\end{array}\right|\nonumber \\
+ &amp; = &amp; \sum_{ij}\langle\psi_{j}^{A}|\hat{V}|\psi_{i}^{B}\rangle\cdot C_{j,i}\nonumber \\
+ &amp; = &amp; \det\left(S_{AB}\right)\times\text{tr}\left(V_{AB}\cdot S_{AB}^{-1}\right).\end{aligned}\end{split}\]</div>
+<p>In the third line the determinant is expanded along the <span class="math">\(i\)</span>-th
+column. <span class="math">\(C_{j,i}\)</span> denotes cofactors of <span class="math">\(S_{AB}\)</span> which are
+sign-adapted determinants of the submatrices formed by deleting the
+<span class="math">\(j\)</span>-th row and <span class="math">\(i\)</span>-th column of <span class="math">\(S_{AB}\)</span>. A well-known
+theorem in linear algebra states that the matrix of cofactors of an
+invertible matrix is equal to the transpose of the inverse of the matrix
+times its determinant.</p>
+<p>Next, we discuss how a constrained reference state can be coupled to an
+excited state from LR-TDDFT. In LR-TDDFT the excited states are
+represented as superpositions of single-particle excitations from an
+occupied to an unoccupied orbital. This information is contained in the
+response density matrix <span class="math">\(R_{jb}\)</span>. A particular non-zero entry
+indicates that a transition from valence orbital <span class="math">\(\psi_{j}\)</span> to
+conduction orbital <span class="math">\(\psi_{b}\)</span> contributes to the excited state. In
+the following indices <span class="math">\(i,j,k,\ldots\)</span> will denote valence orbitals
+and indices <span class="math">\(b,c,d,\ldots\)</span> conduction orbitals. A natural choice
+for a DFT wave function of such an excitation that retains the response
+density by construction is</p>
+<div class="math">
+\[|\Phi\rangle=\sum_{jb}R_{jb}|\Phi_{j}^{b}\rangle.\]</div>
+<p><span class="math">\(|\Phi_{j}^{b}\rangle\)</span> denotes a Slater determinant constructed
+from the valence orbitals, except for the single valence orbital
+<span class="math">\(j\)</span> replaced with conduction orbital <span class="math">\(b\)</span>. For the following
+we assume that state B was obtained as a LR-TDDFT excitation, and A is a
+(constrained) ground state as before. For the overlap we calculate</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+\langle\Phi_{B}|\Phi_{A}\rangle &amp; = &amp; \int d\mathbf{r}_{1}\ldots d\mathbf{r}_{N}\sum_{jb}R_{jb}\psi_{1}^{B}(\mathbf{r}_{1})\ldots\psi_{b}^{B}(\mathbf{r}_{j})\ldots\psi_{N}^{B}(\mathbf{r}_{N})\times\left|\begin{array}{ccc}
+\psi_{1}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{1}^{A}(\mathbf{r}_{N})\\
+\vdots &amp;  &amp; \vdots\\
+\psi_{N}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{N}^{A}(\mathbf{r}_{N})
+\end{array}\right|\nonumber \\
+ &amp; = &amp; \sum_{jb}R_{jb}\underset{\uparrow j}{\left|\begin{array}{ccccc}
+\langle\psi_{1}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\psi_{b}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\psi_{N}^{B}\rangle\\
+\vdots &amp;  &amp; \vdots &amp;  &amp; \vdots\\
+\langle\psi_{N}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\psi_{b}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\psi_{N}^{B}\rangle
+\end{array}\right|}\nonumber \\
+ &amp; = &amp; \sum_{ijb}R_{jb}\langle\psi_{i}^{A}|\psi_{b}^{B}\rangle\cdot C_{i,j}\nonumber \\
+ &amp; = &amp; \det\left(S_{AB}\right)\times\text{tr}\left(T_{AB}^{vc}\cdot R^{\top}\cdot S_{AB}^{-1}\right).\end{aligned}\end{split}\]</div>
+<p>The matrix <span class="math">\(T_{AB}^{vc}\)</span> represents the overlap of the valence
+orbitals of state A with the conduction orbitals of state B. The
+derivation of the overlap with a potential operator is a bit more
+involved but proceeds along similar lines:</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+\langle\Phi_{B}|\hat{V}|\Phi_{A}\rangle &amp; = &amp; \int d\mathbf{r}_{1}\ldots d\mathbf{r}_{N}\sum_{jb}R_{jb}\psi_{1}^{B}(\mathbf{r}_{1})\ldots\psi_{b}^{B}(\mathbf{r}_{j})\ldots\psi_{N}^{B}(\mathbf{r}_{N})\left[\sum_{i}V(\mathbf{r}_{i})\right]\left|\begin{array}{ccc}
+\psi_{1}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{1}^{A}(\mathbf{r}_{N})\\
+\vdots &amp;  &amp; \vdots\\
+\psi_{N}^{A}(\mathbf{r}_{1}) &amp; \cdots &amp; \psi_{N}^{A}(\mathbf{r}_{N})
+\end{array}\right|\nonumber \\
+\nonumber \\
+ &amp; = &amp; \sum_{i\ne j}\sum_{b}R_{jb}\left|\begin{array}{ccccccc}
+\langle\psi_{1}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\hat{V}|\psi_{i}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\psi_{b}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\psi_{N}^{B}\rangle\\
+\vdots &amp;  &amp; \vdots &amp;  &amp; \vdots &amp;  &amp; \vdots\\
+\langle\psi_{N}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\hat{V}|\psi_{i}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\psi_{b}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\psi_{N}^{B}\rangle
+\end{array}\right|\nonumber \\
+ &amp;  &amp; +\sum_{jb}R_{jb}\left|\begin{array}{ccccc}
+\langle\psi_{1}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\hat{V}|\psi_{b}^{B}\rangle &amp; \cdots &amp; \langle\psi_{1}^{A}|\psi_{N}^{B}\rangle\\
+\vdots &amp;  &amp; \vdots &amp;  &amp; \vdots\\
+\langle\psi_{N}^{A}|\psi_{1}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\hat{V}|\psi_{b}^{B}\rangle &amp; \cdots &amp; \langle\psi_{N}^{A}|\psi_{N}^{B}\rangle
+\end{array}\right|\nonumber \\
+\nonumber \\
+ &amp; = &amp; \sum_{ijb}R_{jb}\sum_{kl}\langle\psi_{k}^{A}|\hat{V}|\psi_{i}^{B}\rangle\langle\psi_{l}^{A}|\psi_{b}^{B}\rangle\cdot\epsilon_{kl}\epsilon_{ij}C_{kl,ij}\;\;+\;\;\sum_{ijb}R_{jb}\langle\psi_{i}^{A}|\hat{V}|\psi_{b}^{B}\rangle\cdot C_{i,j}.\end{aligned}\end{split}\]</div>
+<p>In the first determinant two columns are distinct from the overlap
+<span class="math">\(S_{AB}\)</span>, we therefore expand along both. This leads to an
+expression including the second cofactors <span class="math">\(C_{kl,ij}\)</span>. It follows
+from Jacobi’s theorem that</p>
+<div class="math">
+\[\begin{aligned}
+\epsilon_{kl}\epsilon_{ij}C_{kl,ij} &amp; = &amp; \det\left(S_{AB}\right)\times\left[\left(S_{AB}^{-1}\right)_{ik}\left(S_{AB}^{-1}\right)_{jl}-\left(S_{AB}^{-1}\right)_{il}\left(S_{AB}^{-1}\right)_{jk}\right].\end{aligned}\]</div>
+<p>Putting everything together we finally obtain</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+\langle\Phi_{B}|\hat{V}|\Phi_{A}\rangle &amp; = &amp; \det\left(S_{AB}\right)\times\left[\text{tr}\left(V_{AB}\cdot S_{AB}^{-1}\right)\text{tr}\left(T_{AB}^{vc}\cdot R^{\top}\cdot S_{AB}^{-1}\right)-\text{tr}\left(V_{AB}\cdot S_{AB}^{-1}\cdot T_{AB}^{vc}\cdot R^{\top}\cdot S_{AB}^{-1}\right)\right]\nonumber \\
+ &amp;  &amp; +\det\left(S_{AB}\right)\times\text{tr}\left(W_{AB}^{vc}\cdot R^{\top}\cdot S_{AB}^{-1}\right),\end{aligned}\end{split}\]</div>
+<p>where <span class="math">\(W_{AB}^{vc}\)</span> refers to matrix elements of <span class="math">\(\hat{V}\)</span>
+between valence orbitals of state A and conduction orbitals of state B.</p>
+<p>We note that in general the Hamiltonian matrix obtained in the way shown
+is not symmetric due to the approximations inherent in the DFT
+formalism. Hence, the Hamiltonian must be symmetrised before eigenstates
+can be obtained.</p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>The CI functionality is implemented in <code class="docutils literal"><span class="pre">couplings_mod</span></code>. For each
+reference state the density kernel and NGWFs are read from the
+corresponding files. Additionally, the cDFT-potentials are read from
+file for a cDFT reference state. For an excited state from LR-TDDFT,
+conduction kernel, conduction NGWFs and the response kernel are read. A
+set of orthonormal orbitals representing the valence space is obtained
+from the NGWF representation by solving the eigenvalue problem</p>
+<div class="math">
+\[\sum_{\beta\gamma}K^{\alpha\beta}S_{\beta\gamma}x^{\gamma}=n\cdot x^{\alpha},\]</div>
+<p>and restricting to the occupied subspace. Here <span class="math">\(K^{\alpha\beta}\)</span>
+is the valence density kernel and <span class="math">\(S_{\beta\gamma}\)</span> the overlap
+matrix of valence NGWFs. Orthonormal conduction orbitals are obtained in
+an equivalent manner. The actual CI calculations then proceeds in this
+basis as outlined in the theory section. It should be noted that the
+orbitals obtained in this way generally do not correspond to the KS
+orbitals (they do not result from a diagonalisation of the Hamiltonian).
+However, both are related through an orthogonal transformation. Hence,
+the determinants are identical, therefore all results are unaffected by
+this choice of basis.</p>
+<p>The transformation to a orthonormal basis comes with an inherent
+<span class="math">\(N^{3}\)</span> scaling of the method. The computational effort is
+expected to be comparable with a properties calculation (which involves
+a diagonalisation of the Hamiltonian).</p>
+</div>
+<div class="section" id="performing-a-calculation">
+<h2>Performing a calculation<a class="headerlink" href="#performing-a-calculation" title="Permalink to this headline">¶</a></h2>
+<p>This section explains how to set up a CI calculation, and points out a
+couple of important things to look out for.</p>
+<ul class="simple">
+<li>First perform calculations for desired reference states. For each
+state the density kernel and NGWFs have to be written to files
+(<code class="docutils literal"><span class="pre">.dkn</span></code> and <code class="docutils literal"><span class="pre">.tightbox_ngwfs</span></code>). For cDFT reference states the
+potentials and projectors are required (<code class="docutils literal"><span class="pre">.cdft</span></code> and
+<code class="docutils literal"><span class="pre">.tightbox_hub_projs</span></code>). For LR-TDDFT states conduction kernel and
+NGWFs are required (<code class="docutils literal"><span class="pre">.dkn_cond</span></code> and <code class="docutils literal"><span class="pre">.tightbox_ngwfs_cond</span></code>), as
+well as the response density matrix.</li>
+<li>It is currently required that all reference states use the same unit
+cell, grid, geometry and identical atomic species with the same
+number of NGWFs and the same pseudopotentials. <strong>NOTE:</strong> The current
+implementation is not compatible with PAW!</li>
+<li>Now set up a new input file for the CI calculation. It is recommended
+to copy the input file of one of the cDFT reference calculations.
+This ensures that the setup of the CI run is consistent with the
+reference calculations (in particular with the correct projectors).
+If a LR-TDDFT reference state is used, also copy the conduction
+species block into the file. Set <code class="docutils literal"><span class="pre">TASK</span></code> to <code class="docutils literal"><span class="pre">COUPLINGS</span></code>.</li>
+<li>Add the block <code class="docutils literal"><span class="pre">couplings_states</span></code>. This tells the CI calculation
+which reference states to use. Here is an example:Each line
+corresponds to one reference state. The first column is short
+identifier for the state (currently unused). The second column
+indicates whether it is a cDFT or LR-TDDFT state, the third column
+contains the root name (i.e. name of original input file without
+extension). For a LR-TDDFT state, the fourth column determines the
+index of the excitation to be used (set to 0 for cDFT states).
+Finally, the fifth column is the energy in Hartree. It should be made
+sure that all energies are referenced to the same zero point.</li>
+<li>The output is written to matrix files (using <code class="docutils literal"><span class="pre">dense_write</span></code>). The
+names of these files consist of the root name of the CI run with
+extensions <code class="docutils literal"><span class="pre">_ci_ham</span></code> and <code class="docutils literal"><span class="pre">_ci_ham_sym</span></code> for the CI Hamiltonian and
+its symmetrised version, respectively. Eigenvalues and -states of the
+(symmetrised) CI Hamiltonian are written to files with extensions
+<code class="docutils literal"><span class="pre">_ci_eigvals</span></code> and <code class="docutils literal"><span class="pre">_ci_eigstates</span></code> (column-wise). If
+<code class="docutils literal"><span class="pre">output_detail</span> <span class="pre">:</span> <span class="pre">VERBOSE</span></code> is chosen, the results are also written
+to standard output.</li>
+</ul>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Extracting electron transfer coupling elements from constrained
+density functional theory, Q. Wu and T. Van Voorhis, J. Chem. Phys.
+<strong>125</strong>, 164105 (2006)</li>
+<li>Exciton/Charge-Transfer Electronic Couplings in Organic
+Semiconductors, S. Difley and T. Van Voorhis, JCTC <strong>7</strong>, 594 (2011)</li>
+<li>Determinants and matrices, A.C. Aitken, University mathematical texts
+vol. 20, Oliver and Boyd (1958)</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="index_spectroscopy.html">Spectroscopy and Transport</a><ul>
+      <li>Previous: <a href="spectral_function_unfolding.html" title="previous chapter">Bandstructure (spectral-function) unfolding</a></li>
+      <li>Next: <a href="index_population.html" title="next chapter">Population Analysis</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joseph Prentice.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/ci.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

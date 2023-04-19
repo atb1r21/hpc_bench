@@ -1,0 +1,26 @@
+#
+# ONETEP configuration file
+# for Red Hat Linux 7 PCs in Southampton.
+# Created by Jacek Dziedzic, 10/05/2017.
+# v1.01
+#
+# Compiler: 	Intel ifort v17.0.2
+# MPI: 		Intel MPI, bundled with the above.
+# OMP:          Yes.
+# FFTW3:	MKL, bundled with the above.
+# ScaLAPACK:	Yes.
+#
+
+# This works with the default Intel module "intel/2017u2".
+
+F90 = mpiifort -qopenmp -mkl
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DSTACK_TRACE_IN_ABORT -DMPI -I$(MKLROOT)/include/fftw -diag-disable 8290,8291,7712,5462 -diag-enable 5183 -warn all -warn interface
+OPTFLAGS = -O2 -g
+DEBUGFLAGS = -g -traceback -check all,noarg_temp_created -ftrapuv
+COMPILER = INTEL-ifort-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lmkl_blacs_intelmpi_lp64 -lpthread -lm
+
+# 8290, 8291 - suggest field widths
+# 7712 - unused variables
+# 5462 - global name too long (for linker, still within F2003 standard bounds)
+# 5183 - Missing ampersand in continued character constant (we want this one, otherwise we only learn about this issue when someone tries gfortran).

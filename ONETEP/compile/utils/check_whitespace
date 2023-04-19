@@ -1,0 +1,146 @@
+#!/bin/bash
+
+########################################################################################
+#                                                                                      #
+# check_whitespace: Checks if whitespace conventions are followed in ONETEP and helps  #
+#                   fix them. Checks if the source does not contain characters         #
+#                   outside the F2003 charset.                                         #
+#                                                                                      #
+# Written on 2016.09.12 by Jacek Dziedzic (jd12g09@soton.ac.uk)                        #
+# v1.01 2016.09.12                                                                     #
+#                                                                                      #
+########################################################################################
+
+# Revision history:
+#       1.00 jd, original version
+#       1.01 jd, more informative message when fixing
+
+srcdir="../src" # default
+
+warnon() {
+  if [ $fancy_terminal -eq 1 ]; then
+    setterm -bold on
+    setterm -reverse on
+  fi
+}
+
+warnoff() {
+  if [ $fancy_terminal -eq 1 ]; then
+    setterm -bold off
+    setterm -reverse off
+  fi
+}
+
+abort() {
+  echo "Aborting!" >&2
+  echo >&2
+  exit $errcode
+}
+
+syntax_help() {
+  echo -e "\nThe correct syntax is: check_whitespace [-x] [-h]" >&2
+  echo "-x toggles the fancy terminal bold/reverse, which might be useful " >&2
+  echo "   when redirecting output to a file.  Fancy terminal bold/reverse is on by" >&2
+  echo "   default if output is sent to STDOUT and off by default otherwise." >&2
+  echo "-f fixes whitespace issues automatically:" >&2
+  echo "   - TABs are converted into spaces," >&2
+  echo "   - trailing whitespace is stripped." >&2
+  echo "-h shows this help message and exits." >&2 
+}
+
+
+##########################################################################################
+# Turn fancy_terminal on by default only if writing to STDOUT.
+test -t 1 && fancy_terminal=1 || fancy_terminal=0
+fix=0
+not_fixed=0
+
+# Introduce myself
+tail -n +3 $0 2>/dev/null | head -n 10 2>/dev/null
+
+# Parse options, if any
+while getopts "o:xfh" flag; do
+  if [ "$flag" == "?" ] || [ "$flag" == "h" ] ; then
+    [ "$flag" == "h" ] || echo "Improper invocation." >&2
+    syntax_help
+    errcode=1; abort
+  fi
+  if [ "$flag" == "x" ]; then [[ $fancy_terminal -eq 0 ]] && fancy_terminal=1 || fancy_terminal=0; fi
+  if [ "$flag" == "f" ]; then fix=1; fi
+done
+
+echo 
+
+# Allow operation from the top-level directory
+if [ -d "src" ]; then
+  srcdir="./src"
+fi
+
+# Go!
+at_least_one_broken=0
+for f in $srcdir/*.F90; do
+  if [ ! -r $f ]; then
+    echo "! No readable *.F90 files found in $srcdir, nothing to do!" >&2
+    exit
+  fi
+  echo "$f:" | awk '{printf("%-40s\t",$0)}'
+
+  # If no problems, assume everything is fine
+  is_ok=1
+
+
+  # Check for careless trailing whitespace.
+  whitespace_issues=`cat $f | grep -nE "( |"$'\t'")$" | tr ":" " " | awk '{print $1}' | tr "\n" " "`
+  if [ ! -z "$whitespace_issues" ]; then # Funky $'\t' syntax lets grep tabs.
+    echo -e "BROKEN: Trailing whitespace.\n\t\t\t\t\t\tOffending line(s): $whitespace_issues"
+    is_ok=0
+  fi
+
+  # Check for stray TABs.
+  tabchar_issues=`cat $f | grep -nE $'\t' | tr ":" " " | awk '{print $1}' | tr "\n" " "`
+  if [ ! -z "$tabchar_issues" ]; then # Funky $'\t' syntax lets grep tabs.
+    if [ $is_ok == 0 ]; then
+      echo -en "\t\t\t\t\t\t"
+    fi
+    echo -e "BROKEN: Use of TAB character.\n\t\t\t\t\t\tOffending line(s): $tabchar_issues"
+    is_ok=0
+  fi
+
+  # Check for stray characters not in F2003 charset, except TABs.
+  weirdchar_issues=`cat $f | tr "\t" " " | grep -nE "[^]a-zA-Z0-9 _\.,~\[\{\}\|@^\#=+\*\/\\\(\)\\\`:\!\"%&<>\?\';\$\-]"`
+  if [ ! -z "$weirdchar_issues" ]; then
+    echo -e "BROKEN: Character not in F2003 charset.\n\t\t\t\t\t\tOffending line(s):\n$weirdchar_issues"
+    is_ok=0
+    not_fixed=1
+  fi
+
+  if [ $is_ok -eq 1 ]; then 
+    verdict="OK"
+  else
+    verdict=""
+    at_least_one_broken=1
+
+    # If in fixing mode, fix.
+    if [ $fix == 1 ]; then
+      echo "Fixing..."
+      sed -ri "s/"$'\t'"/ /g" $f # Change each TAB to a space
+      sed -ri "s/ +$//" $f       # Remove trailing spaces
+    fi
+  fi
+  echo -e "$verdict"
+
+done
+
+echo
+echo "Done!"
+if [ $at_least_one_broken == 1 ]; then
+  if [ $fix == 1 ] && [ $not_fixed == 0 ]; then
+    echo "Some problems detected, but hopefully fixed."
+  else
+    echo "Some problems remain. No cookie."
+  fi
+else
+  echo "Hurray, your codebase is whitespace-compliant. Have a cookie."
+fi
+
+exit $at_least_one_broken

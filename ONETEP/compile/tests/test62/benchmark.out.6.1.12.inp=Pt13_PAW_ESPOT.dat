@@ -1,0 +1,659 @@
+==================================================================================
+It's Wed Sep 21 11:10:06 BST 2022.
+*** Starting onetep_launcher (node red470.cluster.local, PIDs 19650 19651 19652 19653)...
+    - ONETEP arguments: Pt13_PAW_ESPOT.dat
+    - Current directory: /mainfs/home/ab2g19/onetep_ab/tests/test62
+    - Launcher executable directory: /mainfs/home/ab2g19/onetep_ab/utils
+    - (-e) ONETEP executable has NOT been specified through command-line
+      ... ARCH environment variable has not been set either
+      ... resolving onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack -> /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test62/onetep.* -> no matches
+      ... resolving /mainfs/home/ab2g19/onetep_ab/tests/test62/../bin/onetep.* -> no matches
+      ... trying /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack
+          -> looks OK
+*** Setting up environment...
+    - (-s) Process stack size: unlimited
+    - (-t) OMP_NUM_THREADS: 10
+    - (-o) OMP_STACKSIZE: 64M
+    - (-c) Maximum core file size: 2048000
+    - (-d) decfort_dump_flag: n
+    - (-m) I_MPI_OFA_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_TRANSLATION_CACHE: 0
+    - (-m) I_MPI_DAPL_UD_TRANSLATION_CACHE: 0
+*** Starting ONETEP...
+    - /mainfs/home/ab2g19/onetep_ab/utils/../bin/onetep.iridis5.intel21.omp.scalapack Pt13_PAW_ESPOT.dat
+=================================================================================
+_________________________________________________________________________________
+[0] MPI startup(): I_MPI_DAPL_UD_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_OFA_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+[0] MPI startup(): I_MPI_DAPL_TRANSLATION_CACHE variable has been removed from the product, its value is ignored
+
+ +---------------------------------------------------------------+
+ |                                                               |
+ |        ####### #     # ####### ####### ####### ######         |
+ |        #     # ##    # #          #    #       #     #        |
+ |        #     # # #   # #          #    #       #     #        |
+ |        #     # #  #  # #####      #    #####   ######         |
+ |        #     # #   # # #          #    #       #              |
+ |        #     # #    ## #          #    #       #              |
+ |        ####### #     # #######    #    ####### #              |
+ |                                                               |
+ |        Linear-Scaling Ab Initio Total Energy Program          |
+ |                                                               |
+ |          Release for academic collaborators of ODG            |
+ |                                             Version 6.1.12    |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |  Authors:                                                     |
+ |  Jacek Dziedzic, Peter D. Haynes, Nicholas D. M. Hine,        |
+ |  Arash A. Mostofi, Mike C. Payne and Chris-Kriton Skylaris    |
+ |                                                               |
+ |  Contributors:                                                |
+ |  J. Aarons, L. Andrinopoulos, P. W. Avraam, R. A. Bell,       |
+ |  A. Bhandari, G. A. Bramley, R. J. Charlton, S. J. Clark,     |
+ |  R. J. Clements, G. C. Constantinescu, F. Corsetti,           |
+ |  N. Corsini, O. Dieguez, S. M. M. Dubois, K. K. B. Duff,      |
+ |  J. M. Escartin, A. Greco, H. Helal, Q. O. Hill, L. P. Lee,   |
+ |  J.-H. Li, E. B. Linscott, G. Moynihan, D. D. O`Regan,        |
+ |  O. K. Okan, M. J. S. Phipps, C. J. Pickard,                  |
+ |  J. C. A. Prentice, M. I. J. Probert, L. E. Ratcliff,         |
+ |  M. Robinson, A. Ruiz Serrano, J. S. Spencer, E. W. Tait,     |
+ |  G. Teobaldi, D. Turban, V. Vitale, K. A. Wilkinson,          |
+ |  C. Weber, J. C. Womack, N. Yeung and T. J. Zuehlsdorff       |
+ |                                                               |
+ |                                   Copyright (c) 2004-2022     |
+ |                                                               |
+ |  Please cite:                                                 |
+ |  "The ONETEP linear-scaling density functional theory program"|
+ |   J. Chem. Phys. 152(17) 174111 (2020)                        |
+ |                                                               |
+ |          in all publications arising from your use of ONETEP. |
+ |                                                               |
+ +---------------------------------------------------------------+
+ |                                                               |
+ |   ONETEP is based on developments described in the following  |
+ |   publications:                                               |
+ |                                                               |
+ |  "Nonorthogonal generalized Wannier function pseudopotential  |
+ |   plane-wave method".                                         |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, O. Dieguez,    |
+ |   M. C. Payne.                                                |
+ |   Phys. Rev. B 66 035119 (2002).                              |
+ |                                                               |
+ |  "Preconditioned iterative minimization for linear-scaling    |
+ |   electronic structure calculations".                         |
+ |   A. A. Mostofi, P. D. Haynes, C.-K. Skylaris, M. C. Payne.   |
+ |   J. Chem. Phys. 119(17), pp.8842-8848 (2003).                |
+ |                                                               |
+ |  "Total-energy calculations on a real space grid with         |
+ |   localized functions and a plane-wave basis".                |
+ |   A. A. Mostofi, C.-K. Skylaris, P. D. Haynes, M. C. Payne.   |
+ |   Comput. Phys. Commun. 147, pp.788-802 (2002).               |
+ |                                                               |
+ |  "Accurate kinetic energy evaluation in electronic structure  |
+ |   calculations with localized functions on real space grids"  |
+ |   C.-K. Skylaris, A. A. Mostofi, P. D. Haynes, C. J. Pickard, |
+ |   M. C. Payne.                                                |
+ |   Comput. Phys. Commun. 140, pp.315-322 (2001).               |
+ |                                                               |
+ |  "Accurate ionic forces and geometry optimization in linear-  |
+ |   scaling density-functional theory with local orbitals"      |
+ |   N. D. M. Hine, M. Robinson, P. D. Haynes, C.-K. Skylaris,   |
+ |   M. C. Payne, and A. A. Mostofi.                             |
+ |   Phys. Rev. B 83 195102 (2011).                              |
+ |                                                               |
+ +---------------------------------------------------------------+
+
+Job started: 21-09-2022 11:10 (+0100)
+ 
+Reading parameters from file "Pt13_PAW_ESPOT.dat" ...... done
+
+If your calculation crashes here, before "Checking processes and threads..."
+is displayed, then your stack size is insufficient.
+If so, use "ulimit -s unlimited" at runtime.
+You can disable this check with "check_stack_size F".
+
+Checking processes and threads...
+      Default threads: 10
+   Running with 4 MPI processes.
+   There are 4 MPI processes running on the same node as the root process.
+   Each MPI process is using: 
+               1 threads for simulation cell FFTs.
+               1 threads for parallel FFT box operations.
+              10 threads for loops over batched FFT box operations.
+              10 threads in other parallel regions.
+... done
+
+Basic input checks...
+Resetting ngwf_cg_rotate to TRUE for EDFT calculations
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+... done
+
+Reading geometry and species blocks from file "Pt13_PAW_ESPOT.dat" ...... done
+
+
+--------------------------------------------------------------------------------
+---------------------------------- INPUT FILE ----------------------------------
+--------------------------------------------------------------------------------
+
+print_qc T                                                                      
+read_denskern F                                                                 
+read_tightbox_ngwfs F                                                           
+write_denskern F                                                                
+write_tightbox_ngwfs F                                                          
+write_hamiltonian T                                                             
+write_xyz F                                                                     
+output_detail NORMAL                                                            
+timings_level 0                                                                 
+do_properties T                                                                 
+write_density_plot T                                                            
+CUBE_FORMAT T                                                                   
+task singlepoint                                                                
+charge 0                                                                        
+cutoff_energy 400 eV                                                            
+kernel_cutoff 1000 bohr                                                         
+xc_functional RPBE                                                              
+paw T                                                                           
+maxit_palser_mano 100                                                           
+maxit_pen 0                                                                     
+edft T                                                                          
+edft_smearing_width 0.1 eV                                                      
+edft_maxit 3                                                                    
+edft_free_energy_thres 1.0e-3 Ha                                                
+edft_commutator_thres 1.0e-3 Ha                                                 
+maxit_ngwf_cg 3                                                                 
+occ_mix 1.0                                                                     
+elec_cg_max 0                                                                   
+%block species                                                                  
+Pt Pt 78 6 6.0                                                                  
+%endblock species                                                               
+%block species_atomic_set                                                       
+Pt "SOLVE"                                                                      
+%endblock species_atomic_set                                                    
+%block species_pot                                                              
+Pt "../../pseudo/platinum.paw"                                                  
+%endblock species_pot                                                           
+%block lattice_cart                                                             
+35.034   0.000   0.000                                                          
+0.000  35.032   0.000                                                           
+0.000   0.000  35.032                                                           
+%endblock lattice_cart                                                          
+%block positions_abs                                                            
+     Hash =  -000004982809696306553296
+%endblock positions_abs                                                         
+
+--------------------------------------------------------------------------------
+-------------------------------- END INPUT FILE --------------------------------
+--------------------------------------------------------------------------------
+
+
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Full system >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+<<<<<<<<<<<<<<<<<<<<<<<<<<< PAW Dataset information >>>>>>>>>>>>>>>>>>>>>>>>>>>
+File: ../../pseudo/platinum.paw; rc = 2.50 bohr; shape type =  2; rshape = 2.26 bohr;
+  Atomic number: 78;  ionic charge: 10.000000
+    Partial Wave 1: l = 0
+    Partial Wave 2: l = 0
+    Partial Wave 3: l = 1
+    Partial Wave 4: l = 1
+    Partial Wave 5: l = 2
+    Partial Wave 6: l = 2
+  Core charge supplied for Nonlinear Core Corrections
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------- Atom counting information ---------------------------
+Symbol    Natoms    Nngwfs    Nprojs
+  Pt        13        78       234
+.......   ......    ......    ......
+Totals:     13        78       234
+--------------------------------------------------------------------------------
+
+=============================== PSINC grid sizes ===============================
+                      Simulation cell:   49 x  49 x  49
+                              FFT-box:   49 x  49 x  49
+                                  PPD:    7 x   7 x   1
+Grid space d1=  0.714979591837a0 (KE cutoff=  14.85993Eh = 404.35922eV)
+Grid space d2=  0.714938775510a0 (KE cutoff=  14.86162Eh = 404.40539eV)
+Grid space d3=  0.714938775510a0 (KE cutoff=  14.86162Eh = 404.40539eV)
+================================================================================
+
+********************* Fourier parallelisation information **********************
+       Coarse grid (whole simulation cell) dimensions:     49    49    49
+          Real-space ('12') slabs/proc (min max mean):     12    13    12
+         Recip-space ('23') slabs/proc (min max mean):      6     7     6
+********************************************************************************
+
+********************* Fourier parallelisation information **********************
+       Double grid (whole simulation cell) dimensions:     98    98    98
+          Real-space ('12') slabs/proc (min max mean):     24    25    24
+         Recip-space ('23') slabs/proc (min max mean):     12    13    12
+********************************************************************************
+
+Atom SCF Calculation for Pt : Z (AE atom) =  78 : Z (PS atom) =  10
+Config String:
+Orbitals (num,occ):  2     9.00 1.00
+Orbitals   (num,l):  2        2    0
+Atom SCF converged after  39 iterations to a total energy of    -26.54395152
+
+WARNING: The number of FFT boxes in a batch is not a multiple of the number of
+OpenMP threads. Consider changing fftbox_batch_size.
+
+Determining parallel strategy ...... done
+Calculating Ewald energy ...              567.877612 Hartree
+Basis initialisation ...... done
+
+============================= Charge Augmentation ==============================
+                           Aug box size:   15 x  15 x  15
+================================================================================
+Sparse matrix initialisation ... done
+NGWF initialisation ...... done
+
+================================= Core Density =================================
+               Core den box size:   33 x  33 x  33
+================================================================================
+Up spin density kernel initialisation ...... done
+
+>>> Optimising kernel for current NGWFs:
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter                              Commutator    Free_energy(A=E-TS)     DeltaA
+#    0                          0.016427196395    -346.75026607246247  -3.47E+02
+#    1                          0.005211030044    -347.40510685777122  -6.55E-01
+#    2                          0.001448988673    -347.73781564312952  -3.33E-01
+#    3                          0.000401608985    -347.74940138831022  -1.16E-02
+Finished EDFT density kernel iterations (   3)
+
+<QC>             [commutator]:         0.000401608985
+<QC>       [delta_lagrangian]:        -0.011585745181
+<QC>           [delta_energy]:        -0.011451190074
+<QC>          [delta_entropy]:        -0.000134555107
+<QC>                   [iter]:                      3
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -347.749401388310
+<QC>            [edft%energy]:      -347.692026255307
+<QC>           [edft%entropy]:        -0.057375133004
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:         0.005573010079
+<QC>       [integrated_ne(1)]:        64.999999999986
+
+Writing Hamiltonian to file "Pt13_PAW_ESPOT.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.47749401388310E+02  Eh
+     [H,K] commutator            =   4.0161E-04
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  001 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  4.4752E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -3.48526925981234E+02 Eh
+   Predicted gain in energy  =      -7.77524592923442E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter                              Commutator    Free_energy(A=E-TS)     DeltaA
+#    0                          0.000691553648    -348.52883256432648  -7.79E-01
+#    1                          0.000711251061    -348.53947877014474  -1.06E-02
+#    2                          0.000488744934    -348.54159489582281  -2.12E-03
+#    3                          0.000525380955    -348.54303754688306  -1.44E-03
+Finished EDFT density kernel iterations (   3)
+
+<QC>             [commutator]:         0.000525380955
+<QC>       [delta_lagrangian]:        -0.001442651060
+<QC>           [delta_energy]:        -0.001554067865
+<QC>          [delta_entropy]:         0.000111416805
+<QC>                   [iter]:                      3
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -348.543037546883
+<QC>            [edft%energy]:      -348.486175882550
+<QC>           [edft%entropy]:        -0.056861664333
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:        -0.004328402661
+<QC>       [integrated_ne(1)]:        64.999999999998
+
+Writing Hamiltonian to file "Pt13_PAW_ESPOT.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.48543037546883E+02  Eh
+     [H,K] commutator            =   5.2538E-04
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  002 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  3.1388E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -3.48828530060378E+02 Eh
+   Predicted gain in energy  =      -2.85492513495171E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter                              Commutator    Free_energy(A=E-TS)     DeltaA
+#    0                          0.000567544223    -348.82962602589930  -2.87E-01
+#    1                          0.000672485878    -348.83480781861351  -5.18E-03
+#    2                          0.000399371616    -348.83709275904278  -2.28E-03
+#    3                          0.000505214567    -348.83874459662775  -1.65E-03
+Finished EDFT density kernel iterations (   3)
+
+<QC>             [commutator]:         0.000505214567
+<QC>       [delta_lagrangian]:        -0.001651837585
+<QC>           [delta_energy]:        -0.002018142880
+<QC>          [delta_entropy]:         0.000366305293
+<QC>                   [iter]:                      3
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -348.838744596628
+<QC>            [edft%energy]:      -348.782880544162
+<QC>           [edft%entropy]:        -0.055864052467
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:        -0.019905762587
+<QC>       [integrated_ne(1)]:        65.000000000042
+
+Writing Hamiltonian to file "Pt13_PAW_ESPOT.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.48838744596628E+02  Eh
+     [H,K] commutator            =   5.0521E-04
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+################################################################################
+########################### NGWF CG iteration  003 #############################
+################################################################################
+
+>>> Checking for convergence of NGWFs:   NOT CONVERGED
+  ========================================================================
+         NGWF RMS gradient =  2.1557E-03 >  2.0000E-06  | above tolerance
+  ========================================================================
+
+>>> Improving NGWFs using line search:
+  ========================================================================
+   Predicted total energy    =      -3.49022042411262E+02 Eh
+   Predicted gain in energy  =      -1.83297814634329E-01 Eh
+  ========================================================================
+
+
+>>> Optimising kernel for current NGWFs:
+
+--------------------------- Ensemble-DFT optimisation --------------------------
+Running ScaLAPACK on    4 processor(s).
+
+--------------------------------------------------------------------------------
+  Iter                              Commutator    Free_energy(A=E-TS)     DeltaA
+#    0                          0.000508865154    -349.02280537943579  -1.84E-01
+#    1                          0.000636168797    -349.02596405739075  -3.16E-03
+#    2                          0.000413385165    -349.02784893167609  -1.88E-03
+#    3                          0.000510794804    -349.02938806475487  -1.54E-03
+Finished EDFT density kernel iterations (   3)
+
+<QC>             [commutator]:         0.000510794804
+<QC>       [delta_lagrangian]:        -0.001539133079
+<QC>           [delta_energy]:        -0.002028700538
+<QC>          [delta_entropy]:         0.000489567464
+<QC>                   [iter]:                      3
+<QC>               [edft%num]:                     78
+<QC>            [edft%nbands]:                     78
+<QC>       [edft%free_energy]:      -349.029388064755
+<QC>            [edft%energy]:      -348.974582044149
+<QC>           [edft%entropy]:        -0.054806020605
+<QC>        [orth_residue(1)]:         0.000000000000
+<QC>               [fermi(1)]:        -0.039530799592
+<QC>       [integrated_ne(1)]:        64.999999999981
+
+Writing Hamiltonian to file "Pt13_PAW_ESPOT.ham" ... done
+
+
+>>> Density kernel optimised for the current NGWF basis:
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     Total free energy           =  -3.49029388064755E+02  Eh
+     [H,K] commutator            =   5.1079E-04
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+================================================================================
+           ---------------- ENERGY COMPONENTS (Eh) ----------------
+           | Kinetic                    :      107.89593682013000 |
+           | Core Hartree               :    -1925.17556284909915 |
+           | CoreHart (non-coul chg cor):        0.00000000000000
+           | Hartree                    :      902.78927092868810 |
+           | Exchange-correlation       :      -36.66049337080533 |
+           | Ewald                      :      567.87761249606910 |
+           | Dij0                       :       97.14965431624640 |
+           | Dijhartree                 :        1.35833150435823 |
+           | Exc [AE core]              :    -4608.81707185660252 |
+           | Exc DC [AE core]           :     -105.84352991713526 |
+           | Exc [PS core]              :      -31.55980177626553 |
+           | Exc DC [PS core]           :      -36.19703664787509 |
+           | Exc [Core]                 :    -4513.04793819060433 |
+           | Total [Sphere]             :       34.29865393087221 |
+           | Total                      :     -348.97458204414511 |
+           |------------------------------------------------------|
+           | Entropic contribution      :       -0.05480602060976 |
+           | Total free energy          :     -349.02938806475487 |
+           --------------------------------------------------------
+           Integrated compensation chrg.:       43.55202766738170
+           Integrated density           :      129.99999999996271
+================================================================================
+
+WARNING: maximum number of NGWF CG iterations (   3) exceeded!
+
+                        <<<<< CALCULATION SUMMARY >>>>>                         
+|ITER|    RMS GRADIENT   |     TOTAL ENERGY    |   step   |     Epredicted              
+   0     0.00447521861135   -347.74940138831022   0.402079   -348.52692598123366        
+   1     0.00313882353959   -348.54303754688306   0.300114   -348.82853006037823        
+   2     0.00215569160703   -349.02938806475487  <-- CG                                 
+ 
+<QC>        [NGWF iterations]:                      3
+<QC>           [total_energy]:      -349.029388064755
+<QC>           [rms_gradient]:         0.002155691607
+
+======================== Writing density and potential =========================
+Writing "Pt13_PAW_ESPOT_ps_density.cube" ... done
+Writing "Pt13_PAW_ESPOT_ae_density.cube" ... done
+Writing "Pt13_PAW_ESPOT_potential.cube" ... done
+<QC>           [props_ES_ld1]:                    100
+<QC>           [props_ES_ld2]:                     98
+<QC>            [props_ES_n3]:                     98
+<QC>     [props_ES_num_spins]:                      1
+<QC>            [props_ES_n1]:        -1.256269600823
+<QC>            [props_ES_n2]:        -1.913900035584
+<QC>            [props_ES_n3]:        -1.257800323862
+<QC>            [props_ES_n4]:        -2.493009488841
+<QC>            [props_ES_n5]:        -1.543013956435
+<QC>            [props_ES_n6]:        -1.199538582095
+<QC>            [props_ES_n7]:        -0.779801137171
+<QC>            [props_ES_n8]:        -1.068760781591
+<QC>            [props_ES_n9]:        -1.881811681431
+<QC>           [props_ES_n10]:        -0.512432766906
+Writing "Pt13_PAW_ESPOT_electrostatic_potential.cube" ... done
+================================================================================
+<QC>      [atom_1_population]:        10.014681274664
+<QC>          [atom_1_charge]:        -0.014681274664
+<QC>      [atom_2_population]:        10.019939312669
+<QC>          [atom_2_charge]:        -0.019939312669
+<QC>      [atom_3_population]:        10.015160075374
+<QC>          [atom_3_charge]:        -0.015160075374
+
+    Mulliken Atomic Populations
+    ---------------------------
+Species  Ion    Total   Charge (e)
+==================================
+  Pt     1      10.015     -0.015
+  Pt     2      10.020     -0.020
+  Pt     3      10.015     -0.015
+  Pt     4      10.008     -0.008
+  Pt     5      10.028     -0.028
+  Pt     6      10.028     -0.028
+  Pt     7      10.035     -0.035
+  Pt     8       9.743      0.257
+  Pt     9      10.028     -0.028
+  Pt    10      10.029     -0.029
+  Pt    11      10.015     -0.015
+  Pt    12      10.021     -0.021
+  Pt    13      10.016     -0.016
+==================================
+
+        Bond         Population      Length (bohr)
+==================================================
+ Pt    5 -- Pt    6        0.00      4.97081
+ Pt    9 -- Pt   10        0.00      4.97081
+ Pt    7 -- Pt    8       -0.02      4.97081
+ Pt    7 -- Pt   10        0.00      4.97214
+ Pt    8 -- Pt    9       -0.02      4.97214
+ Pt    2 -- Pt    3        0.01      4.97214
+ Pt    7 -- Pt    9        0.00      4.97214
+ Pt   12 -- Pt   13        0.01      4.97214
+ Pt    8 -- Pt   10       -0.02      4.97214
+ Pt    2 -- Pt    8       -0.02      4.97214
+ Pt    1 -- Pt    5        0.01      4.97214
+ Pt    3 -- Pt    9        0.01      4.97214
+ Pt    5 -- Pt    8       -0.02      4.97214
+ Pt    1 -- Pt    2        0.01      4.97214
+ Pt    6 -- Pt   11        0.01      4.97214
+ Pt    8 -- Pt   12       -0.02      4.97214
+ Pt   10 -- Pt   13        0.01      4.97214
+ Pt    6 -- Pt    7        0.00      4.97214
+ Pt    6 -- Pt    8       -0.02      4.97214
+ Pt    5 -- Pt    7        0.00      4.97214
+ Pt   11 -- Pt   12        0.01      4.97214
+ Pt    3 -- Pt    8       -0.01      4.97348
+ Pt    2 -- Pt    9        0.00      4.97348
+ Pt    4 -- Pt   13        0.01      4.97348
+ Pt    8 -- Pt   13       -0.01      4.97348
+ Pt    3 -- Pt    4        0.01      4.97348
+ Pt   10 -- Pt   12        0.00      4.97348
+ Pt    4 -- Pt    8       -0.01      4.97348
+ Pt    3 -- Pt   13        0.01      4.97348
+ Pt    1 -- Pt   11        0.01      4.97348
+ Pt    4 -- Pt   11        0.01      4.97348
+ Pt    1 -- Pt    8       -0.01      4.97348
+ Pt    2 -- Pt    5        0.00      4.97348
+ Pt    8 -- Pt   11       -0.01      4.97348
+ Pt    6 -- Pt   12        0.00      4.97348
+ Pt    1 -- Pt    4        0.01      4.97348
+==================================================
+
+
+=================== Orbital energy and occupancy information ===================
+
+      Total number of orbitals:      78
+        Occupancy sum (kernel):      65.000000000
+   Occupancy sum (eigenvalues):      65.000000000
+                 HOMO-LUMO gap:      -0.000447188 Eh
+                 Mid-gap level:      -0.087397351 Eh
+
+                        Orbital | Energy (Eh) | Occupancy
+                            1    -0.393797417   0.9998660
+                        .......   ...........   .........
+                           56    -0.096871850   0.9333883
+                           57    -0.095324357   0.8786892
+                           58    -0.095055330   0.8313763
+                           59    -0.094599290   0.8425416
+                           60    -0.094482037   0.8032080
+                           61    -0.093356735   0.8349752
+                           62    -0.092075691   0.8240937
+                           63    -0.091900687   0.8275204
+                           64    -0.090016869   0.8211633
+                           65    -0.087620945   0.7118202
+                        ....... -- gap at 0K -- .........
+                           66    -0.087173757   0.7172969
+                           67    -0.084334575   0.7812251
+                           68    -0.083308433   0.7413065
+                           69    -0.047918313   0.0095355
+                           70    -0.047683496   0.0106506
+                           71    -0.047664278   0.0124848
+                           72    -0.038914092   0.0184456
+                           73    -0.013801432   0.0053093
+                           74    -0.013468813   0.0049682
+                           75     0.058996809   0.0007383
+                        .......   ...........   .........
+                           78     0.067457041   0.0010890
+ 
+<QC>    [energy_eigenvalue_1]:        -0.393797417449
+<QC>    [energy_eigenvalue_n]:         0.067457041240
+<QC>            [occupancy_1]:         0.999865994981
+<QC>            [occupancy_n]:         0.001088969564
+
+================================================================================
+
+===================== Writing canonical molecular orbitals =====================
+| Orbital  Energy (eV)  Norm     |
+| HOMO-5   -2.57098706  1.000000 | Writing "Pt13_PAW_ESPOT_HOMO-5.cube" ... done
+| HOMO-4   -2.54036602  1.000000 | Writing "Pt13_PAW_ESPOT_HOMO-4.cube" ... done
+| HOMO-3   -2.50550703  1.000000 | Writing "Pt13_PAW_ESPOT_HOMO-3.cube" ... done
+| HOMO-2   -2.50074493  1.000000 | Writing "Pt13_PAW_ESPOT_HOMO-2.cube" ... done
+| HOMO-1   -2.44948365  1.000000 | Writing "Pt13_PAW_ESPOT_HOMO-1.cube" ... done
+| HOMO     -2.38428724  1.000000 | Writing "Pt13_PAW_ESPOT_HOMO.cube" ... done
+| LUMO     -2.37211864  1.000000 | Writing "Pt13_PAW_ESPOT_LUMO.cube" ... done
+| LUMO+1   -2.29486057  1.000000 | Writing "Pt13_PAW_ESPOT_LUMO+1.cube" ... done
+| LUMO+2   -2.26693782  1.000000 | Writing "Pt13_PAW_ESPOT_LUMO+2.cube" ... done
+| LUMO+3   -1.30392364  1.000000 | Writing "Pt13_PAW_ESPOT_LUMO+3.cube" ... done
+| LUMO+4   -1.29753396  1.000000 | Writing "Pt13_PAW_ESPOT_LUMO+4.cube" ... done
+| LUMO+5   -1.29701100  1.000000 | Writing "Pt13_PAW_ESPOT_LUMO+5.cube" ... done
+================================================================================
+ 
+===================== Density of States (DOS) calculation ======================
+Writing "Pt13_PAW_ESPOT_DOS.txt" ...  done
+================================================================================
+ 
+Writing bands to file "Pt13_PAW_ESPOT.val_bands" ... done
+
+------------------------------ TIMING INFORMATION ------------------------------
+AVERAGE TIME:      48.051s on      4 proc(s)                                    
+TOTAL TIME:        48.051s on      4 proc(s)                                    
+
+Job completed: 21-09-2022 11:10 (+0100)
+
+onetep_launcher: ONETEP seems to have finished correctly (zero exit code).

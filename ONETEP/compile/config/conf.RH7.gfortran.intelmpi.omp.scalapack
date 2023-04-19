@@ -1,0 +1,40 @@
+#
+# ONETEP configuration file
+# for Red Hat Linux 7 PCs in Southampton.
+# Created by Jacek Dziedzic, 06/11/2017.
+# v1.01
+#
+# Compiler: 	GNU fortran v7.1.0 (built from source). Pointed to by gfortran71.
+# MPI: 		Intel MPI, provided with Intel Parallel Studio XE 2017.
+# OMP:          Yes.
+# FFTW3:	MKL interface, provided with Intel Parallel Studio XE 2017.
+# ScaLAPACK:	Yes, provided with Intel Parallel Studio XE 2017.
+#
+# This config file instructs gfortran to default-initialise variables with garbage,
+# which could be useful for detecting uninitialised data.
+#
+# It is crucial that you have the right Software Collection enabled.
+# To do this, issue 'scl enable devtoolset-6 bash' (without the quotes) from the command line.
+# Also, you will need the module 'intel/2017u2' for MKL and Intel MPI.
+#
+# One last thing. The MKL bundled with Intel Parallel Studio does not provide an mkl_service.mod
+# that would be ABI-compatible with gfortran, so we need to compile one on our own. This only
+# needs to be done once. Remove the '#' from the lines below and issue them as bash commands.
+#
+# cd your_onetep_directory/devel
+# mkdir lib/mkl_mod_gfortran_710
+# cd lib/mkl_mod_gfortran_710
+# cp /local/software/intel/2017u2/compilers_and_libraries_2017.2.174/linux/mkl/include/mkl_service.f90 .
+# gfortran71 -c mkl_service.f90
+# stat mkl_service.mod >/dev/null && echo "SUCCESS" || echo "It did not work."
+# cd -
+#
+
+F90 = mpif90 -f90=gfortran -fopenmp
+# MKLMODPATH = ${ROOTDIR}/lib/mkl_mod_gfortran_710
+MKLMODPATH = .
+FFLAGS = -DMKL_FFTW3 -DParallelFFT -DSCALAPACK -DMPI -DGFORTRAN -DGFORTRAN_79929_WORKAROUND -I$(MKLROOT)/include/fftw -I$(MKLMODPATH) -Werror -Wall -Wno-unused -Wno-unused-dummy-argument -Wno-maybe-uninitialized -Wno-character-truncation -Wno-conversion -Wno-conversion-extra -Wno-target-lifetime -Wno-uninitialized
+OPTFLAGS = -O2
+DEBUGFLAGS = -g -fcheck=all -finit-integer=-999999999 -finit-real=snan -ffpe-trap=invalid,zero,overflow
+COMPILER = GNU-gfortran-on-LINUX
+LIBS = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_gnu_thread -lmkl_blacs_intelmpi_lp64 -lpthread -lm

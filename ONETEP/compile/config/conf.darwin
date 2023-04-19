@@ -1,0 +1,6 @@
+F90 = mpif90 -openmp -mt_mpi -vec-report0  -diag-disable 8290,8291
+FFLAGS = -DFFTW3 -DMPI -DSCALAPACK
+LIBS = -lfftw3_omp -lfftw3 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64
+OPTFLAGS = -xHOST -O3 -ip -no-prec-div -traceback
+DEBUGFLAGS = -ftrapuv -g -CB -debug full -check all -traceback -DDEBUG_ARRAYS
+COMPILER = INTEL-ifort-on-LINUX
